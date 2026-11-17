@@ -1,5 +1,10 @@
 # Changelog
 
+## Release 0.9.8
+- Fixed reward items not being draggable to character sheets: the drag data was set after an `await`, when the browser has already locked the DataTransfer. It is now set synchronously.
+- Restored the visible dashed borders of all drag & drop zones in the quest edit window (quest giver, rewards, splash art); the border now follows the text color so it is visible on dark and light windows.
+- Quest Log and Quest windows can be minimized again by double clicking the title: the minimum size no longer applies while minimized.
+
 ## Release 0.9.7
 - Quest Log and Quest windows: the tabs are now a horizontal bar at the top of the window, right under the window header, using the window background. The active tab is highlighted with an accent underline.
 - Removed the bookmark tab style and its settings (`navStyle`, `dynamicBookmarkBackground`).

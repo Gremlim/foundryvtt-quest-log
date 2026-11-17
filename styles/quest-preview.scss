@@ -2,8 +2,11 @@
 @use 'global-mixin' as *;
 
 .application.ql-quest-preview {
-  min-width: 1000px;
-  min-height: 640px;
+  // Minimum size only applies when not minimized, otherwise the window can't collapse (double click on the title).
+  &:not(.minimized) {
+    min-width: 1000px;
+    min-height: 640px;
+  }
 
   .tab.active {
     display: flex;
@@ -51,7 +54,7 @@
           align-items: center;
           cursor: pointer;
           height: 100%;
-          border: 2px dashed rgba(0,0,0,.5);
+          border: 2px dashed $primary-color-border-drop;
           border-radius: 5px;
         }
 

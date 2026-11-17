@@ -2,8 +2,11 @@
 @use 'global-mixin' as *;
 
 #ql-quest-log {
-  min-width: 500px;
-  min-height: 640px;
+  // Minimum size only applies when not minimized, otherwise the window can't collapse (double click on the title).
+  &:not(.minimized) {
+    min-width: 500px;
+    min-height: 640px;
+  }
 
   // Some game systems and UI theming modules override `overflow`, so we must visible, but then handle very long
   // list of quests / `.table` below manually based on the Application / setPosition.

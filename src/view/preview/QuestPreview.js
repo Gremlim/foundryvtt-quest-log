@@ -267,8 +267,8 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
       // This registers for any element and prevents the circle / slash icon displaying for not being a drag target.
       html.on(jquery.dragenter, (event) => event.preventDefault());
 
-      on(jquery.dragstart, '.item-reward .editable-container', async (event) =>
-       await HandlerDetails.rewardDragStartItem(event, this.#quest));
+      on(jquery.dragstart, '.item-reward .editable-container', (event) =>
+       HandlerDetails.rewardDragStartItem(event, this.#quest));
 
       on(jquery.dragstart, '.quest-rewards .fa-sort', (event) => HandlerDetails.rewardDragStartSort(event));
 

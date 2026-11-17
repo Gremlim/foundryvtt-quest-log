@@ -463,36 +463,35 @@ export class HandlerDetails
     *
     * @param {Quest}                   quest - The current quest being manipulated.
     */
-   static async rewardDragStartItem(event, quest)
+   static rewardDragStartItem(event, quest)
    {
-      const data = $(event.target).data('transfer');
+      // The drag data must be set synchronously; after an `await` the browser has already locked the DataTransfer.
+      let data = $(event.currentTarget).data('transfer');
+      if (typeof data === 'string') { try { data = JSON.parse(data); } catch (err) { data = void 0; } }
+      if (!data || typeof data.uuid !== 'string') { return; }
 
-      const document = await Utils.getDocumentFromUUID(data, { permissionCheck: false });
-      if (document)
-      {
-         const uuidData = Utils.getDataFromUUID(data);
+      const uuidData = Utils.getDataFromUUID(data);
 
-         /**
-          * @type {RewardDropData}
-          */
-         const dataTransfer = {
-            _fqlData: {
-               type: 'reward',
-               questId: quest.id,
-               uuidv4: data.uuidv4,
-               itemName: data.name,
-               userName: game.user.name,
-            },
-            type: 'Item',
-            uuid: data.uuid,
-            id: document.id
-         };
+      /**
+       * @type {RewardDropData}
+       */
+      const dataTransfer = {
+         _fqlData: {
+            type: 'reward',
+            questId: quest.id,
+            uuidv4: data.uuidv4,
+            itemName: data.name,
+            userName: game.user.name,
+         },
+         type: 'Item',
+         uuid: data.uuid,
+         id: uuidData?.id
+      };
 
-         // Add compendium pack info if applicable.
-         if (uuidData && uuidData.pack) { dataTransfer.pack = uuidData.pack; }
+      // Add compendium pack info if applicable.
+      if (uuidData && uuidData.pack) { dataTransfer.pack = uuidData.pack; }
 
-         event.originalEvent.dataTransfer.setData('text/plain', JSON.stringify(dataTransfer));
-      }
+      event.originalEvent.dataTransfer.setData('text/plain', JSON.stringify(dataTransfer));
    }
 
    /**

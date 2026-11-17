@@ -8,7 +8,8 @@ $primary-color-borderheader: var(--palette-primary, var(--default-primary-accent
 
 $primary-color-bg-buttonspan: var(--default-secondary-accent, rgba(255, 255, 255, .75));
 
-$primary-color-border-drop: rgba(0, 0, 0, .5);
+// Uses the current text color so the dashed drop zone borders are visible on both light and dark window backgrounds.
+$primary-color-border-drop: color-mix(in srgb, currentColor 60%, transparent);
 $primary-color-bg-drop: rgba(0, 0, 0, .1);
 $primary-color-hover-drop: rgba(0, 0, 0, .075);
 
