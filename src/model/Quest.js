@@ -601,6 +601,14 @@ export class Quest
       this.group = typeof data.group === 'string' ? data.group.trim() : '';
 
       /**
+       * A subquest can be an optional (bonus) objective of its parent quest: it does not count in the completed /
+       * total objectives of the parent.
+       *
+       * @type {boolean}
+       */
+      this.optional = data.optional === true;
+
+      /**
        * Who created the quest: `{ id, name, gm }`. Quests without this data (created before the creator was stored)
        * are considered created by a GM.
        *
@@ -1111,6 +1119,105 @@ export class Quest
    }
 
    /**
+    * Changes the counter of an objective. Reaching the target completes the objective and going below the target
+    * makes a completed objective pending again. The change is logged in the history. The quest must be saved
+    * afterward.
+    *
+    * @param {string}   uuidv4 - The UUIDv4 of the task.
+    *
+    * @param {object}   options - Options.
+    *
+    * @param {number}   [options.delta] - Amount to add to the current count.
+    *
+    * @param {number}   [options.value] - New count (instead of `delta`).
+    *
+    * @param {string}   [options.userName] - The name of the user; defaults to the current user.
+    *
+    * @returns {Task|null} The task or null when not found or without a counter.
+    */
+   setTaskCount(uuidv4, { delta = 0, value = void 0, userName } = {})
+   {
+      const task = this.getTask(uuidv4);
+      if (!task || !(task.target > 0)) { return null; }
+
+      const next = Math.min(task.target, Math.max(0, Math.floor(value !== void 0 ? Number(value) : task.count + delta)));
+      if (!Number.isFinite(next) || next === task.count) { return task; }
+
+      task.count = next;
+
+      this.#syncCounterState(task, { userName });
+
+      this.addHistory({
+         type: 'counter',
+         uuidv4,
+         task: String(task.name ?? '').replace(/<[^>]*>/g, '').trim(),
+         count: task.count,
+         target: task.target
+      }, { userName });
+
+      return task;
+   }
+
+   /**
+    * Sets the target (and the current count) of the counter of an objective. A target of 0 removes the counter. The
+    * quest must be saved afterward.
+    *
+    * @param {string}   uuidv4 - The UUIDv4 of the task.
+    *
+    * @param {object}   options - Options.
+    *
+    * @param {number}   options.target - The number to reach (0 = no counter).
+    *
+    * @param {number}   [options.count] - The current count.
+    *
+    * @returns {Task|null} The task or null when not found.
+    */
+   setTaskCounter(uuidv4, { target, count = 0 } = {})
+   {
+      const task = this.getTask(uuidv4);
+      if (!task) { return null; }
+
+      const targetValue = Math.max(0, Math.floor(Number(target)) || 0);
+      task.target = targetValue;
+      task.count = targetValue > 0 ? Math.min(targetValue, Math.max(0, Math.floor(Number(count)) || 0)) : 0;
+
+      if (targetValue > 0) { this.#syncCounterState(task); }
+
+      return task;
+   }
+
+   /**
+    * Completes the task when the counter reached the target and makes a completed task pending when it didn't.
+    *
+    * @param {Task}     task - The task.
+    *
+    * @param {object}   [options] - Options.
+    *
+    * @param {string}   [options.userName] - The name of the user.
+    */
+   #syncCounterState(task, { userName } = {})
+   {
+      const wasCompleted = task.completed;
+
+      if (task.count >= task.target)
+      {
+         task.completed = true;
+         task.failed = false;
+      }
+      else if (task.completed) { task.completed = false; }
+
+      if (task.completed !== wasCompleted)
+      {
+         this.addHistory({
+            type: 'task',
+            uuidv4: task.uuidv4,
+            task: String(task.name ?? '').replace(/<[^>]*>/g, '').trim(),
+            state: task.completed ? 'completed' : 'pending'
+         }, { userName });
+      }
+   }
+
+   /**
     * Resolves the display order of the objectives (tasks and subquests). Entries in `order` that no longer exist are
     * ignored and any missing entries are added at the end. Without a custom order subquests come first.
     *
@@ -1218,6 +1325,7 @@ export class Quest
          creator: this.creator,
          allowPlayerEdit: this.allowPlayerEdit,
          group: this.group,
+         optional: this.optional,
          tasks: this.tasks,
          rewards: this.rewards,
          date: this.date
@@ -1423,6 +1531,21 @@ export class Task
       this.optional = data.optional || false;
 
       /**
+       * Counter of the objective (for example "find 3 pumpkins"): `target` is the number to reach (0 = no counter)
+       * and `count` the current number. Reaching the target completes the objective.
+       *
+       * @type {number}
+       */
+      this.target = Number.isFinite(Number(data.target)) ? Math.max(0, Math.floor(Number(data.target))) : 0;
+
+      /**
+       * @type {number}
+       */
+      this.count = Number.isFinite(Number(data.count)) ? Math.max(0, Math.floor(Number(data.count))) : 0;
+
+      if (this.target > 0) { this.count = Math.min(this.count, this.target); }
+
+      /**
        * @type {string}
        */
       this.uuidv4 = data.uuidv4 || Utils.uuidv4();
@@ -1459,6 +1582,8 @@ export class Task
          failed: this.failed,
          hidden: this.hidden,
          optional: this.optional,
+         target: this.target,
+         count: this.count,
          state: this.state,
          uuidv4: this.uuidv4
       }));
@@ -1472,6 +1597,7 @@ export class Task
       if (this.completed === false && this.failed === false)
       {
          this.completed = true;
+         if (this.target > 0) { this.count = this.target; }
       }
       else if (this.completed === true)
       {
@@ -1537,6 +1663,8 @@ export class Task
  * @property {object[]}          [history] - Activity log entries (`t`, `user`, `type` and details).
  *
  * @property {object[]}          [rumors] - Rumors of the quest: `uuidv4`, `text`, `heard` and `visible`.
+ *
+ * @property {boolean}           [optional] - A subquest that is an optional (bonus) objective of its parent.
  * @property {object|null}       [creator] - Who created the quest (`id`, `name`, `gm`).
  * @property {boolean}           [allowPlayerEdit] - Owners can edit a quest created by a GM.
  *

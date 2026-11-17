@@ -283,6 +283,10 @@ export class QuestTracker extends HandlebarsApplicationMixin(ApplicationV2)
       // Collapses / expands a group of quests.
       Utils.on(html, domEvents.click, '.quest-tracker-group', (event) => HandlerTracker.groupToggle(event, this));
 
+      // Counter buttons of the objectives.
+      Utils.on(html, domEvents.click, '.quest-tracker-task .counter-btn', async (event) =>
+       await HandlerTracker.questTaskCounter(event));
+
       Utils.on(html, domEvents.click, '.quest-tracker-task', async (event) =>
        await HandlerTracker.questTaskToggle(event));
 

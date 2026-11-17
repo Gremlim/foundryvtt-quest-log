@@ -136,6 +136,22 @@ export class HandlerLog
    }
 
    /**
+    * Toggles a subquest between optional (bonus) and required objective of its parent quest.
+    *
+    * @param {MouseEvent} event - MouseEvent
+    *
+    * @returns {Promise<void>}
+    */
+   static async questToggleOptional(event)
+   {
+      const quest = QuestDB.getQuest(Utils.data(event.target, 'quest-id'));
+      if (!quest) { return; }
+
+      quest.optional = !quest.optional;
+      await quest.save();
+   }
+
+   /**
     * Handles changing the quest status via {@link Socket.setQuestStatus}.
     *
     * @param {MouseEvent} event - MouseEvent

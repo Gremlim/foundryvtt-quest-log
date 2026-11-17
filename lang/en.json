@@ -219,10 +219,17 @@
         "RewardTaken": "{user} took the reward {item}{amount}.",
         "RewardTakenBy": "{user} took the reward {item}{amount} for {actor}.",
         "Status": "{user} changed the status of the quest from {from} to {to}.",
+        "CounterChanged": "{user} set the counter of \"{task}\" to {count}/{target}.",
         "TaskCompleted": "{user} marked the objective \"{task}\" as completed.",
         "TaskFailed": "{user} marked the objective \"{task}\" as failed.",
         "TaskPending": "{user} reset the objective \"{task}\" to pending.",
         "Title": "Quest History"
+      },
+      "Counter": {
+        "Current": "Current number",
+        "Target": "Number to reach",
+        "TargetHint": "0 removes the counter. When the counter reaches this number the objective is completed.",
+        "Title": "Objective counter"
       },
       "Rumors": {
         "Add": "Add rumor",
@@ -260,6 +267,9 @@
         "TakeAll": "Take all",
         "TakeAmount": "Take an amount",
         "AddObjective": "Add Objective",
+        "CounterMinus": "Subtract 1",
+        "CounterPlus": "Add 1",
+        "TaskCounter": "Set the counter of the objective",
         "SortObjective": "Drag to reorder",
         "ChangeSplashPos": "Change splash art alignment.",
         "DeleteQuestGiver": "Delete quest giver.",

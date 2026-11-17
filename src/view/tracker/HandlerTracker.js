@@ -231,6 +231,28 @@ export class HandlerTracker
    }
 
    /**
+    * Handles the + / - buttons of the counter of an objective in the tracker (GM or owner of the quest).
+    *
+    * @param {MouseEvent} event - MouseEvent
+    */
+   static async questTaskCounter(event)
+   {
+      // `questTaskToggle` ignores the clicks on the counter buttons.
+      const li = event.target.closest('.quest-tracker-task');
+      const quest = QuestDB.getQuest(li?.dataset.questId);
+      if (!quest) { return; }
+
+      const delta = Number(event.currentTarget.dataset.delta) || 0;
+
+      if (quest.setTaskCount(li.dataset.uuidv4, { delta }))
+      {
+         await quest.save();
+
+         Socket.refreshQuestPreview({ questId: quest.id, focus: false });
+      }
+   }
+
+   /**
     * Handles toggling {@link Quest} tasks when clicked on by a user that is the GM or owner of quest.
     *
     * @param {MouseEvent} event - MouseEvent
@@ -238,7 +260,7 @@ export class HandlerTracker
    static async questTaskToggle(event)
    {
       // Don't handle any clicks of internal anchor elements such as entity content links.
-      if (event.target.matches('.quest-tracker-task a')) { return; }
+      if (event.target.matches('.quest-tracker-task a, .quest-tracker-task .counter-btn')) { return; }
 
       const questId = event.currentTarget.dataset.questId;
       const uuidv4 = event.currentTarget.dataset.uuidv4;

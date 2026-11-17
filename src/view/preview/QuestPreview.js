@@ -404,6 +404,15 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
       on(domEvents.click, '.quest-rewards .unlock-all-rewards', async () =>
        await HandlerDetails.rewardsUnlockAll(this.#quest, this), edit);
 
+      on(domEvents.click, '.quest-tasks .counter-btn', async (event) =>
+       await HandlerDetails.taskCounterAdjust(event, this.#quest, this), editOrPlayerEdit);
+
+      on(domEvents.click, '.actions.tasks .editCounter', async (event) =>
+       await HandlerDetails.taskEditCounter(event, this.#quest, this), edit);
+
+      on(domEvents.click, '.actions.quest-status .toggleSubquestOptional', async (event) =>
+       await HandlerDetails.subquestToggleOptional(event, this), edit);
+
       on(domEvents.click, '.actions.tasks .toggleOptional', async (event) =>
        await HandlerDetails.taskToggleOptional(event, this.#quest, this), edit);
 

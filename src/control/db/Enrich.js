@@ -117,6 +117,16 @@ export class Enrich
             addedAction = true;
          }
 
+         // A subquest can be an optional (bonus) objective of its parent quest.
+         if (canEdit && typeof quest.parent === 'string')
+         {
+            items += `<i class="toggleSubquestOptional ${quest.optional ? 'fas' : 'far'} fa-star" title="${
+             game.i18n.localize(quest.optional ? 'ForienQuestLog.QuestPreview.Tooltips.TaskOptional' :
+              'ForienQuestLog.QuestPreview.Tooltips.TaskRequired')}" data-quest-id="${quest.id}"></i>\n`;
+
+            addedAction = true;
+         }
+
          if (canEdit)
          {
             items += `<i class="delete fas fa-trash" title="${game.i18n.localize(
@@ -195,6 +205,15 @@ export class Enrich
                const key = entry.state === 'completed' ? 'TaskCompleted' : (entry.state === 'failed' ? 'TaskFailed' :
                 'TaskPending');
                text = i18n(key, { user, task: entry.task });
+               break;
+            }
+
+            case 'counter':
+            {
+               if (!isGM && quest.getTask(entry.uuidv4)?.hidden) { continue; }
+
+               icon = 'fa-hashtag';
+               text = i18n('CounterChanged', { user, task: entry.task, count: entry.count, target: entry.target });
                break;
             }
 
@@ -362,7 +381,8 @@ export class Enrich
                   personalActors: game.user.isGM ?
                    subPersonalActors.map((a) => a.name).sort((a, b) => a.localeCompare(b)).join('&#013;') :
                     game.i18n.localize('ForienQuestLog.Tooltips.PersonalQuest'),
-                  isPrimary: subIsPrimary
+                  isPrimary: subIsPrimary,
+                  optional: subquest.optional
                });
             }
          }
@@ -376,19 +396,21 @@ export class Enrich
 
          data.checkedTasks += finishedSubquests;
 
-         data.totalTasks = data.tasks.filter((t) => !t.optional).length + data.subquests.length;
+         // Optional subquests (bonus objectives) don't count.
+         data.totalTasks = data.tasks.filter((t) => !t.optional).length + data.subquests.length -
+          data.data_subquest.filter((s) => s.optional).length;
       }
       else
       {
          data.checkedTasks = data.tasks.filter((t) => !t.hidden && !t.optional && t.completed).length;
 
          const finishedSubquests = data.data_subquest.filter(
-          (s) => !s.isObservable && !s.isInactive && questStatus.completed === s.status).length;
+          (s) => !s.optional && !s.isObservable && !s.isInactive && questStatus.completed === s.status).length;
 
          data.checkedTasks += finishedSubquests;
 
          data.totalTasks = data.tasks.filter((t) => !t.hidden && !t.optional).length +
-          data.data_subquest.filter((s) => !s.isObservable && !s.isInactive).length;
+          data.data_subquest.filter((s) => !s.optional && !s.isObservable && !s.isInactive).length;
       }
 
       switch (game.settings.get(constants.moduleName, settings.showTasks))
@@ -410,7 +432,9 @@ export class Enrich
       {
          return {
             ...task,
-            name: await TextEditor.enrichHTML(DOMPurify.sanitize(task.name))
+            name: await TextEditor.enrichHTML(DOMPurify.sanitize(task.name)),
+            hasCounter: task.target > 0,
+            counterLabel: task.target > 0 ? `[${task.count}/${task.target}]` : ''
          };
       }));
 

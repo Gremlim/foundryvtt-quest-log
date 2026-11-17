@@ -131,6 +131,13 @@ export class QuestLog extends HandlebarsApplicationMixin(ApplicationV2)
 
       Utils.on(html, domEvents.click, '.actions.quest-status i.move', HandlerLog.questStatusSet);
 
+      // A subquest as an optional (bonus) objective of its parent quest.
+      Utils.on(html, domEvents.click, '.actions.quest-status i.toggleSubquestOptional', async (event) =>
+      {
+         await HandlerLog.questToggleOptional(event);
+         this.render();
+      });
+
       // The GM marks a rumor as heard / not heard directly in the rumors tab (#82).
       Utils.on(html, domEvents.click, '.rumors-list .rumor-heard', async (event) =>
       {

@@ -331,6 +331,31 @@
         opacity: .75;
       }
 
+      // Counter of an objective: "[0/3]" and the + / - buttons for who can edit.
+      .task-counter-label {
+        font-variant-numeric: tabular-nums;
+        opacity: .9;
+      }
+
+      .task-counter-btns {
+        display: inline-flex;
+        gap: 6px;
+        margin-left: 6px;
+        font-size: 10px;
+        vertical-align: middle;
+
+        i.counter-btn {
+          cursor: pointer;
+          opacity: .65;
+          transition: opacity .2s ease, color .2s ease;
+
+          &:hover {
+            opacity: 1;
+            color: $primary-color-accent;
+          }
+        }
+      }
+
       .quest-tracker-task {
         cursor: pointer;
         width: fit-content;

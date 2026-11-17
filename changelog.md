@@ -1,5 +1,9 @@
 # Changelog
 
+## Release 0.24.0
+- Objective counters: an objective can have a counter (for example "Find the pumpkins [0/3]"). The 3 dots menu of an objective has a new entry "Set the counter of the objective" (number to reach and current number; 0 removes the counter). The objective shows "[count/target]" in the quest and in the Quest Tracker, with [-] / [+] buttons for the GM and the users who can edit the quest (in the quest and in the tracker). Reaching the target completes the objective and going below it makes it pending again; changes are logged in the history of the quest.
+- Optional subquests: a subquest can be marked as an optional (bonus) objective with the star entry of its 3 dots menu (in the list of objectives and in the Quest Log). It shows "(optional)" in the quest and in the Quest Tracker and does not count in the completed / total objectives of its parent quest.
+
 ## Release 0.23.1
 - Rumors tab of the Quest Log: the GM has a search box to filter the rumors by their text or by the name of their quest.
 - The players are now told in the chat (a whisper to all the players) when a new quest is available because enough rumors were heard, instead of a notification.

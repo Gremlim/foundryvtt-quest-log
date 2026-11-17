@@ -205,10 +205,17 @@
         "RewardTaken": "{user} cogió la recompensa {item}{amount}.",
         "RewardTakenBy": "{user} cogió la recompensa {item}{amount} para {actor}.",
         "Status": "{user} cambió el estado de la misión de {from} a {to}.",
+        "CounterChanged": "{user} fijó el contador del objetivo \"{task}\" en {count}/{target}.",
         "TaskCompleted": "{user} marcó el objetivo \"{task}\" como completado.",
         "TaskFailed": "{user} marcó el objetivo \"{task}\" como fallido.",
         "TaskPending": "{user} devolvió el objetivo \"{task}\" a pendiente.",
         "Title": "Historial de la misión"
+      },
+      "Counter": {
+        "Current": "Número actual",
+        "Target": "Número a alcanzar",
+        "TargetHint": "0 quita el contador. Al llegar a este número el objetivo se completa.",
+        "Title": "Contador del objetivo"
       },
       "Rumors": {
         "Add": "Añadir rumor",
@@ -246,6 +253,9 @@
         "TakeAll": "Coger todo",
         "TakeAmount": "Coger cantidad",
         "AddObjective": "Añadir Objetivo",
+        "CounterMinus": "Restar 1",
+        "CounterPlus": "Sumar 1",
+        "TaskCounter": "Establecer el contador del objetivo",
         "SortObjective": "Arrastrar para reordenar",
         "ChangeSplashPos": "Cambiar la alineación de la imagen de misión.",
         "DeleteQuestGiver": "Eliminar dador de misiones.",

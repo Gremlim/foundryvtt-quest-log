@@ -1379,6 +1379,88 @@ export class HandlerDetails
     *
     * @returns {Promise<void>}
     */
+   static async taskCounterAdjust(event, quest, questPreview)
+   {
+      const uuidv4 = event.currentTarget.dataset.uuidv4;
+      const delta = Number(event.currentTarget.dataset.delta) || 0;
+
+      if (quest.setTaskCount(uuidv4, { delta })) { await questPreview.saveQuest(); }
+   }
+
+   /**
+    * Shows a dialog to set the counter of an objective (target and current count). A target of 0 removes it.
+    *
+    * @param {MouseEvent} event - The click event.
+    *
+    * @param {Quest}             quest - The current quest being manipulated.
+    *
+    * @param {QuestPreview}      questPreview - The QuestPreview being manipulated.
+    *
+    * @returns {Promise<void>}
+    */
+   static async taskEditCounter(event, quest, questPreview)
+   {
+      const uuidv4 = event.currentTarget.dataset.uuidv4;
+      const task = quest.getTask(uuidv4);
+      if (!task) { return; }
+
+      const i18n = (key) => game.i18n.localize(`ForienQuestLog.QuestPreview.Counter.${key}`);
+
+      const result = await foundry.applications.api.DialogV2.prompt({
+         window: { title: i18n('Title') },
+         content: `<div class="form-group"><label>${i18n('Target')}</label><div class="form-fields">` +
+          `<input type="number" name="target" min="0" step="1" value="${task.target}" autofocus></div>` +
+          `<p class="hint">${i18n('TargetHint')}</p></div>` +
+          `<div class="form-group"><label>${i18n('Current')}</label><div class="form-fields">` +
+          `<input type="number" name="count" min="0" step="1" value="${task.count}"></div></div>`,
+         ok: {
+            label: game.i18n.localize('ForienQuestLog.QuestPreview.Buttons.Accept'),
+            callback: (ev, button) => ({
+               target: Number(button.form.elements.target.value),
+               count: Number(button.form.elements.count.value)
+            })
+         },
+         rejectClose: false,
+         modal: true
+      });
+
+      if (!result) { return; }
+
+      quest.setTaskCounter(uuidv4, result);
+      await questPreview.saveQuest();
+   }
+
+   /**
+    * Toggles a subquest between optional (bonus) and required objective of its parent quest.
+    *
+    * @param {MouseEvent} event - The click event.
+    *
+    * @param {QuestPreview}      questPreview - The QuestPreview being manipulated.
+    *
+    * @returns {Promise<void>}
+    */
+   static async subquestToggleOptional(event, questPreview)
+   {
+      const subquest = QuestDB.getQuest(event.currentTarget.dataset.questId);
+      if (!subquest) { return; }
+
+      subquest.optional = !subquest.optional;
+      await subquest.save();
+
+      questPreview.refresh();
+   }
+
+   /**
+    * Toggles the state of a task (pending, completed, failed).
+    *
+    * @param {MouseEvent} event - The click event.
+    *
+    * @param {Quest}             quest - The current quest being manipulated.
+    *
+    * @param {QuestPreview}      questPreview - The QuestPreview being manipulated.
+    *
+    * @returns {Promise<void>}
+    */
    static async taskToggleState(event, quest, questPreview)
    {
       const uuidv4 = Utils.data(event.target, 'uuidv4');
