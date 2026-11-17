@@ -8,11 +8,88 @@ import { FQLDialog } from '../internal/index.js';
 
 import {
    constants,
-   jquery,
    settings }        from '../../model/constants.js';
 
 /**
- * Provides all {@link JQuery} callbacks for the `details` tab.
+ * Creates an inline editing `<input>` element.
+ *
+ * @param {object}   [opts] - Options.
+ *
+ * @param {string}   [opts.value] - Initial value.
+ *
+ * @param {string}   [opts.target] - Value for the `data-target` attribute.
+ *
+ * @param {string}   [opts.uuidv4] - Value for the `data-uuidv4` attribute.
+ *
+ * @param {number}   [opts.maxlength] - Maximum input length.
+ *
+ * @returns {HTMLInputElement} The input element.
+ */
+function createInput({ value = '', target, uuidv4, maxlength } = {})
+{
+   const input = document.createElement('input');
+   input.type = 'text';
+   input.className = 'editable-input';
+   input.value = value;
+
+   if (target !== void 0) { input.dataset.target = target; }
+   if (uuidv4 !== void 0) { input.dataset.uuidv4 = uuidv4; }
+   if (typeof maxlength === 'number') { input.maxLength = maxlength; }
+
+   return input;
+}
+
+/**
+ * Replaces the content of `parent` with the input, focuses it and puts the cursor at the end.
+ *
+ * @param {HTMLInputElement}  input - Input element.
+ *
+ * @param {Element}           parent - Parent element to show the input in.
+ */
+function showInput(input, parent)
+{
+   parent.replaceChildren(input);
+   input.focus();
+   input.setSelectionRange(input.value.length, input.value.length);
+}
+
+/**
+ * Gets the previous sibling element of `element` if it matches `selector`.
+ *
+ * @param {Element|null}   element - An element.
+ *
+ * @param {string}         selector - CSS selector the sibling must match.
+ *
+ * @returns {Element|null} The previous sibling or null.
+ */
+function prevSibling(element, selector)
+{
+   const sibling = element?.previousElementSibling;
+   return sibling && sibling.matches(selector) ? sibling : null;
+}
+
+/**
+ * Handles the `Esc` key of an inline edit input; `callback` is invoked and the key event is consumed.
+ *
+ * @param {HTMLInputElement}  input - Input element.
+ *
+ * @param {Function}          callback - Invoked on `Esc` key down.
+ */
+function onEscape(input, callback)
+{
+   input.addEventListener('keydown', (event) =>
+   {
+      if (event.key === 'Escape')
+      {
+         callback();
+         event.preventDefault();
+         event.stopPropagation();
+      }
+   });
+}
+
+/**
+ * Provides all delegated DOM event callbacks for the `details` tab.
  */
 export class HandlerDetails
 {
@@ -25,7 +102,7 @@ export class HandlerDetails
    }
 
    /**
-    * @param {JQuery.ClickEvent} event - JQuery.ClickEvent.
+    * @param {MouseEvent} event - The click event.
     *
     * @param {Quest}             quest - The current quest being manipulated.
     *
@@ -33,30 +110,18 @@ export class HandlerDetails
     */
    static questEditName(event, quest, questPreview)
    {
-      const target = $(event.target).data('target');
+      const target = Utils.data(event.target, 'target');
 
-      let value = quest[target];
+      const input = createInput({ value: quest[target], target, maxlength: 48 });
 
-      value = value.replace(/"/g, '&quot;');
-
-      const input = $(`<input type="text" class="editable-input" value="${value}" data-target="${
-       target}" maxlength="48"/>`);
-
-      const parent = $(event.target).closest('.actions-single').prev('.editable-container');
-
-      parent.html('');
-      parent.append(input);
-      input.trigger(jquery.focus);
-
-      // If the HTMLElement has setSelectionRange then set cursor to the end.
-      if (input[0]?.setSelectionRange) { input[0].setSelectionRange(value.length, value.length); }
+      showInput(input, prevSibling(event.target.closest('.actions-single'), '.editable-container'));
 
       /**
        * Store the input focus callback in the associated QuestPreview instance so that it can be invoked if the app is
        * closed in {@link QuestPreview.close} while the input field is focused / being edited allowing any edits to be
        * saved. Otherwise the callback is invoked normally below as part of the input focus out event.
        *
-       * @param {JQuery.FocusOutEvent|void}  event - JQuery.FocusOutEvent
+       * @param {FocusEvent|void}  event - The focusout event.
        *
        * @param {object}      saveOptions - Options to pass to `saveQuest`; used in {@link QuestPreview.close}.
        *
@@ -68,7 +133,7 @@ export class HandlerDetails
        */
       questPreview._activeFocusOutFunction = async (event, saveOptions = void 0) =>
       {
-         const valueOut = input.val();
+         const valueOut = input.value;
          questPreview._activeFocusOutFunction = void 0;
 
          switch (target)
@@ -80,21 +145,18 @@ export class HandlerDetails
          await questPreview.saveQuest(saveOptions);
       };
 
-      input.on(jquery.focusout, questPreview._activeFocusOutFunction);
-      input.on(jquery.keydown, (event) =>
+      input.addEventListener('focusout', questPreview._activeFocusOutFunction);
+
+      // Handle `Esc` key down to cancel editing.
+      onEscape(input, () =>
       {
-         // Handle `Esc` key down to cancel editing.
-         if (event.which === 27)
-         {
-            questPreview._activeFocusOutFunction = void 0;
-            questPreview.render({ force: true, focus: true });
-            return false;
-         }
+         questPreview._activeFocusOutFunction = void 0;
+         questPreview.render({ force: true, focus: true });
       });
    }
 
    /**
-    * @param {JQuery.ClickEvent} event - JQuery.ClickEvent
+    * @param {MouseEvent} event - The click event.
     *
     * @param {Quest}             quest - The current quest being manipulated.
     *
@@ -102,31 +164,21 @@ export class HandlerDetails
     */
    static questGiverCustomEditName(event, quest, questPreview)
    {
-      const target = $(event.target).data('target');
+      const target = Utils.data(event.target, 'target');
 
-      let value = quest[target];
+      const input = createInput({ value: quest[target], target, maxlength: 36 });
 
-      value = value.replace(/"/g, '&quot;');
+      const parent = prevSibling(event.target.closest('.actions-single'), '.editable-container');
+      parent.style.flex = '0 0 230px';
 
-      const input = $(`<input type="text" class="editable-input" value="${value}" data-target="${
-       target}" maxlength="36"/>`);
-
-      const parent = $(event.target).closest('.actions-single').prev('.editable-container');
-
-      parent.css('flex', '0 0 230px');
-      parent.html('');
-      parent.append(input);
-      input.trigger(jquery.focus);
-
-      // If the HTMLElement has setSelectionRange then set cursor to the end.
-      if (input[0]?.setSelectionRange) { input[0].setSelectionRange(value.length, value.length); }
+      showInput(input, parent);
 
       /**
        * Store the input focus callback in the associated QuestPreview instance so that it can be invoked if the app is
        * closed in {@link QuestPreview.close} while the input field is focused / being edited allowing any edits to be
        * saved. Otherwise the callback is invoked normally below as part of the input focus out event.
        *
-       * @param {JQuery.FocusOutEvent|void}  event - JQuery.FocusOutEvent
+       * @param {FocusEvent|void}  event - The focusout event.
        *
        * @param {object}      saveOptions - Options to pass to `saveQuest`; used in {@link QuestPreview.close}.
        *
@@ -138,7 +190,7 @@ export class HandlerDetails
        */
       questPreview._activeFocusOutFunction = async (event, saveOptions = void 0) =>
       {
-         const valueOut = input.val();
+         const valueOut = input.value;
          questPreview._activeFocusOutFunction = void 0;
 
          switch (target)
@@ -151,16 +203,13 @@ export class HandlerDetails
          }
       };
 
-      input.on(jquery.focusout, questPreview._activeFocusOutFunction);
-      input.on(jquery.keydown, (event) =>
+      input.addEventListener('focusout', questPreview._activeFocusOutFunction);
+
+      // Handle `Esc` key down to cancel editing.
+      onEscape(input, () =>
       {
-         // Handle `Esc` key down to cancel editing.
-         if (event.which === 27)
-         {
-            questPreview._activeFocusOutFunction = void 0;
-            questPreview.render({ force: true, focus: true });
-            return false;
-         }
+         questPreview._activeFocusOutFunction = void 0;
+         questPreview.render({ force: true, focus: true });
       });
    }
 
@@ -203,7 +252,7 @@ export class HandlerDetails
    }
 
    /**
-    * @param {JQuery.DropEvent}  event - JQuery.DropEvent
+    * @param {DragEvent}  event - The drop event.
     *
     * @param {Quest}             quest - The current quest being manipulated.
     *
@@ -219,7 +268,7 @@ export class HandlerDetails
 
       try
       {
-         data = JSON.parse(event.originalEvent.dataTransfer.getData('text/plain'));
+         data = JSON.parse(event.dataTransfer.getData('text/plain'));
       }
       catch (err)
       {
@@ -254,7 +303,7 @@ export class HandlerDetails
    }
 
    /**
-    * @param {JQuery.ClickEvent} event - JQuery.ClickEvent.
+    * @param {MouseEvent} event - The click event.
     *
     * @param {QuestPreview}      questPreview - The QuestPreview being manipulated.
     *
@@ -262,7 +311,7 @@ export class HandlerDetails
     */
    static async questGiverShowActorSheet(event, questPreview)
    {
-      const uuid = $(event.target).data('actor-uuid');
+      const uuid = Utils.data(event.target, 'actor-uuid');
 
       if (typeof uuid === 'string' && uuid.length)
       {
@@ -293,7 +342,7 @@ export class HandlerDetails
    }
 
    /**
-    * @param {JQuery.ClickEvent} event - JQuery.ClickEvent
+    * @param {MouseEvent} event - The click event.
     *
     * @param {Quest}             quest - The current quest being manipulated.
     *
@@ -301,14 +350,14 @@ export class HandlerDetails
     */
    static rewardAbstractEditName(event, quest, questPreview)
    {
-      const target = $(event.target).data('target');
+      const target = Utils.data(event.target, 'target');
 
       let value = quest[target];
       let uuidv4;
 
       if (target === 'reward.name')
       {
-         uuidv4 = $(event.target).data('uuidv4');
+         uuidv4 = Utils.data(event.target, 'uuidv4');
 
          const reward = quest.getReward(uuidv4);
          if (!reward) { return; }
@@ -316,30 +365,20 @@ export class HandlerDetails
          value = reward.name;
       }
 
-      value = value.replace(/"/g, '&quot;');
-
-      const input = $(`<input type="text" class="editable-input" value="${value}" data-target="${target}" ${
-       uuidv4 !== void 0 ? `data-uuidv4="${uuidv4}"` : ``} maxlength="96"/>`);
+      const input = createInput({ value, target, uuidv4, maxlength: 96 });
 
       // This consumes any clicks on the input element preventing the abstract reward image popup from showing when
       // clicking on the input element.
-      input.on(jquery.click, (event) => { event.stopImmediatePropagation(); });
+      input.addEventListener('click', (event) => { event.stopImmediatePropagation(); });
 
-      const parent = $(event.target).closest('.actions').prev('.editable-container');
-
-      parent.html('');
-      parent.append(input);
-      input.trigger(jquery.focus);
-
-      // If the HTMLElement has setSelectionRange then set cursor to the end.
-      if (input[0]?.setSelectionRange) { input[0].setSelectionRange(value.length, value.length); }
+      showInput(input, prevSibling(event.target.closest('.actions'), '.editable-container'));
 
       /**
        * Store the input focus callback in the associated QuestPreview instance so that it can be invoked if the app is
        * closed in {@link QuestPreview.close} while the input field is focused / being edited allowing any edits to be
        * saved. Otherwise the callback is invoked normally below as part of the input focus out event.
        *
-       * @param {JQuery.FocusOutEvent|void}  event - JQuery.FocusOutEvent
+       * @param {FocusEvent|void}  event - The focusout event.
        *
        * @param {object}      saveOptions - Options to pass to `saveQuest`; used in {@link QuestPreview.close}.
        *
@@ -351,14 +390,14 @@ export class HandlerDetails
        */
       questPreview._activeFocusOutFunction = async (event, saveOptions = void 0) =>
       {
-         const valueOut = input.val();
+         const valueOut = input.value;
          questPreview._activeFocusOutFunction = void 0;
 
          switch (target)
          {
             case 'reward.name':
             {
-               uuidv4 = input.data('uuidv4');
+               uuidv4 = Utils.data(input, 'uuidv4');
                const reward = quest.getReward(uuidv4);
                if (!reward) { return; }
 
@@ -369,16 +408,13 @@ export class HandlerDetails
          }
       };
 
-      input.on(jquery.focusout, questPreview._activeFocusOutFunction);
-      input.on(jquery.keydown, (event) =>
+      input.addEventListener('focusout', questPreview._activeFocusOutFunction);
+
+      // Handle `Esc` key down to cancel editing.
+      onEscape(input, () =>
       {
-         // Handle `Esc` key down to cancel editing.
-         if (event.which === 27)
-         {
-            questPreview._activeFocusOutFunction = void 0;
-            questPreview.render({ force: true, focus: true });
-            return false;
-         }
+         questPreview._activeFocusOutFunction = void 0;
+         questPreview.render({ force: true, focus: true });
       });
    }
 
@@ -387,7 +423,7 @@ export class HandlerDetails
     *
     * The module setting: {@link FQLSettings.defaultAbstractRewardImage} stores the default abstract reward image.
     *
-    * @param {JQuery.ClickEvent} event - JQuery.ClickEvent
+    * @param {MouseEvent} event - The click event.
     *
     * @param {Quest}             quest - The current quest being manipulated.
     *
@@ -395,20 +431,21 @@ export class HandlerDetails
     */
    static rewardAddAbstract(event, quest, questPreview)
    {
-      const li = $('<li class="reward"></li>');
+      const li = document.createElement('li');
+      li.className = 'reward';
 
-      const input = $(`<input type="text" class="editable-input" value="" placeholder="" maxlength="96"/>`);
+      const input = createInput({ maxlength: 96 });
 
-      const box = $(event.target).closest('.quest-rewards').find('.rewards-box ul');
+      const box = event.target.closest('.quest-rewards')?.querySelector('.rewards-box ul');
 
       li.append(input);
-      box.append(li);
+      box?.append(li);
 
-      input.trigger(jquery.focus);
+      input.focus();
 
-      input.on(jquery.focusout, async (event) =>
+      input.addEventListener('focusout', async (event) =>
       {
-         const value = $(event.target).val();
+         const value = event.target.value;
          if (value !== void 0 && value.length)
          {
             quest.addReward({
@@ -422,19 +459,13 @@ export class HandlerDetails
          }
          await questPreview.saveQuest();
       });
-      input.on(jquery.keydown, (event) =>
-      {
-         // Handle `Esc` key down to cancel editing.
-         if (event.which === 27)
-         {
-            questPreview.render({ force: true, focus: true });
-            return false;
-         }
-      });
+
+      // Handle `Esc` key down to cancel editing.
+      onEscape(input, () => questPreview.render({ force: true, focus: true }));
    }
 
    /**
-    * @param {JQuery.ClickEvent} event - JQuery.ClickEvent
+    * @param {MouseEvent} event - The click event.
     *
     * @param {Quest}             quest - The current quest being manipulated.
     *
@@ -444,9 +475,8 @@ export class HandlerDetails
     */
    static async rewardDelete(event, quest, questPreview)
    {
-      const target = $(event.target);
-      const uuidv4 = target.data('uuidv4');
-      const name = target.data('reward-name');
+      const uuidv4 = Utils.data(event.target, 'uuidv4');
+      const name = Utils.data(event.target, 'reward-name');
 
       // Await a semi-modal dialog.
       const result = await FQLDialog.confirmDeleteReward({ name, result: uuidv4, questId: quest.id });
@@ -459,14 +489,14 @@ export class HandlerDetails
    }
 
    /**
-    * @param {JQuery.DragStartEvent}   event - JQuery.DragStartEvent
+    * @param {DragEvent}   event - The dragstart event.
     *
     * @param {Quest}                   quest - The current quest being manipulated.
     */
    static rewardDragStartItem(event, quest)
    {
       // The drag data must be set synchronously; after an `await` the browser has already locked the DataTransfer.
-      let data = $(event.currentTarget).data('transfer');
+      let data = Utils.data(event.currentTarget, 'transfer');
       if (typeof data === 'string') { try { data = JSON.parse(data); } catch (err) { data = void 0; } }
       if (!data || typeof data.uuid !== 'string') { return; }
 
@@ -491,11 +521,11 @@ export class HandlerDetails
       // Add compendium pack info if applicable.
       if (uuidData && uuidData.pack) { dataTransfer.pack = uuidData.pack; }
 
-      event.originalEvent.dataTransfer.setData('text/plain', JSON.stringify(dataTransfer));
+      event.dataTransfer.setData('text/plain', JSON.stringify(dataTransfer));
    }
 
    /**
-    * @param {JQuery.DragStartEvent}   event - JQuery.DragStartEvent
+    * @param {DragEvent}   event - The dragstart event.
     */
    static rewardDragStartSort(event)
    {
@@ -507,15 +537,15 @@ export class HandlerDetails
       const dataTransfer = {
          type: 'Reward',
          mode: 'Sort',
-         uuidv4: $(li).data('uuidv4')
+         uuidv4: Utils.data(li, 'uuidv4')
       };
-      event.originalEvent.dataTransfer.setData('text/plain', JSON.stringify(dataTransfer));
+      event.dataTransfer.setData('text/plain', JSON.stringify(dataTransfer));
    }
 
    /**
     * Handles an external item reward drop. Also handles the sort reward item drop.
     *
-    * @param {JQuery.DropEvent}  event - JQuery.DropEvent
+    * @param {DragEvent}  event - The drop event.
     *
     * @param {Quest}             quest - The current quest being manipulated.
     *
@@ -530,7 +560,7 @@ export class HandlerDetails
       let data;
       try
       {
-         data = JSON.parse(event.originalEvent.dataTransfer.getData('text/plain'));
+         data = JSON.parse(event.dataTransfer.getData('text/plain'));
       }
       catch (e)
       {
@@ -621,7 +651,7 @@ export class HandlerDetails
    }
 
    /**
-    * @param {JQuery.ClickEvent} event - JQuery.ClickEvent
+    * @param {MouseEvent} event - The click event.
     *
     * @param {Quest}             quest - The current quest being manipulated.
     *
@@ -631,7 +661,7 @@ export class HandlerDetails
     */
    static async rewardSelectImage(event, quest, questPreview)
    {
-      const uuidv4 = $(event.target).data('uuidv4');
+      const uuidv4 = Utils.data(event.target, 'uuidv4');
 
       let reward = quest.getReward(uuidv4);
       if (!reward) { return; }
@@ -668,7 +698,7 @@ export class HandlerDetails
    /**
     * If an abstract reward has an image set then show an image popout.
     *
-    * @param {JQuery.ClickEvent} event - JQuery.ClickEvent.
+    * @param {MouseEvent} event - The click event.
     *
     * @param {Quest}             quest - The current quest being manipulated.
     *
@@ -679,11 +709,11 @@ export class HandlerDetails
    static async rewardShowImagePopout(event, quest, questPreview)
    {
       // Check the event target and make sure it is `p.reward-name` otherwise early out.
-      if (event.target && !$(event.target).is('p.reward-name')) { return; }
+      if (event.target && !event.target.matches('p.reward-name')) { return; }
 
       event.stopPropagation();
 
-      const uuidv4 = $(event.currentTarget).data('uuidv4');
+      const uuidv4 = Utils.data(event.currentTarget, 'uuidv4');
 
       const reward = quest.getReward(uuidv4);
 
@@ -705,7 +735,7 @@ export class HandlerDetails
    }
 
    /**
-    * @param {JQuery.ClickEvent} event - JQuery.ClickEvent.
+    * @param {MouseEvent} event - The click event.
     *
     * @param {Quest}             quest - The current quest being manipulated.
     *
@@ -716,8 +746,8 @@ export class HandlerDetails
    static async rewardShowSheet(event, quest, questPreview)
    {
       event.stopPropagation();
-      const data = $(event.currentTarget).data('transfer');
-      const uuidv4 = $(event.currentTarget).data('uuidv4');
+      const data = Utils.data(event.currentTarget, 'transfer');
+      const uuidv4 = Utils.data(event.currentTarget, 'uuidv4');
 
       const reward = quest.getReward(uuidv4);
 
@@ -731,7 +761,7 @@ export class HandlerDetails
    }
 
    /**
-    * @param {JQuery.ClickEvent} event - JQuery.ClickEvent
+    * @param {MouseEvent} event - The click event.
     *
     * @param {Quest}             quest - The current quest being manipulated.
     *
@@ -741,7 +771,7 @@ export class HandlerDetails
     */
    static async rewardToggleHidden(event, quest, questPreview)
    {
-      const uuidv4 = $(event.target).data('uuidv4');
+      const uuidv4 = Utils.data(event.target, 'uuidv4');
       const reward = quest.getReward(uuidv4);
       if (reward)
       {
@@ -751,7 +781,7 @@ export class HandlerDetails
    }
 
    /**
-    * @param {JQuery.ClickEvent} event - JQuery.ClickEvent
+    * @param {MouseEvent} event - The click event.
     *
     * @param {Quest}             quest - The current quest being manipulated.
     *
@@ -761,7 +791,7 @@ export class HandlerDetails
     */
    static async rewardToggleLocked(event, quest, questPreview)
    {
-      const uuidv4 = $(event.target).data('uuidv4');
+      const uuidv4 = Utils.data(event.target, 'uuidv4');
       const reward = quest.getReward(uuidv4);
       if (reward)
       {
@@ -806,7 +836,7 @@ export class HandlerDetails
    }
 
    /**
-    * @param {JQuery.ClickEvent} event - JQuery.ClickEvent
+    * @param {MouseEvent} event - The click event.
     *
     * @param {Quest}             quest - The current quest being manipulated.
     *
@@ -816,42 +846,37 @@ export class HandlerDetails
    {
       event.preventDefault();
 
-      const li = $('<li class="task"></li>');
+      const li = document.createElement('li');
+      li.className = 'task';
 
-      const placeholder = $('<span><i class="fas fa-check hidden"></i></span>');
+      const placeholder = document.createElement('span');
+      placeholder.innerHTML = '<i class="fas fa-check hidden"></i>';
 
-      const input = $(`<input type="text" class="editable-input" value="" placeholder="" />`);
+      const input = createInput();
 
-      const box = $(event.target).closest('.quest-tasks').find('.tasks-box ul');
+      const box = event.target.closest('.quest-tasks')?.querySelector('.tasks-box ul');
 
-      li.append(placeholder);
-      li.append(input);
-      box.append(li);
+      li.append(placeholder, input);
+      box?.append(li);
 
-      input.trigger(jquery.focus);
+      input.focus();
 
-      input.on(jquery.focusout, async (event) =>
+      input.addEventListener('focusout', async (event) =>
       {
-         const value = $(event.target).val();
+         const value = event.target.value;
          if (value !== void 0 && value.length)
          {
             quest.addTask({ name: value, hidden: questPreview.canEdit });
          }
          await questPreview.saveQuest();
       });
-      input.on(jquery.keydown, (event) =>
-      {
-         // Handle `Esc` key down to cancel editing.
-         if (event.which === 27)
-         {
-            questPreview.render({ force: true, focus: true });
-            return false;
-         }
-      });
+
+      // Handle `Esc` key down to cancel editing.
+      onEscape(input, () => questPreview.render({ force: true, focus: true }));
    }
 
    /**
-    * @param {JQuery.ClickEvent} event - JQuery.ClickEvent
+    * @param {MouseEvent} event - The click event.
     *
     * @param {Quest}             quest - The current quest being manipulated.
     *
@@ -861,9 +886,8 @@ export class HandlerDetails
     */
    static async taskDelete(event, quest, questPreview)
    {
-      const target = $(event.target);
-      const uuidv4 = target.data('uuidv4');
-      const name = target.data('task-name');
+      const uuidv4 = Utils.data(event.target, 'uuidv4');
+      const name = Utils.data(event.target, 'task-name');
 
       const result = await FQLDialog.confirmDeleteTask({ name, result: uuidv4, questId: quest.id });
       if (result)
@@ -875,7 +899,7 @@ export class HandlerDetails
    }
 
    /**
-    * @param {JQuery.DragStartEvent}   event - JQuery.DragStartEvent
+    * @param {DragEvent}   event - The dragstart event.
     */
    static taskDragStartSort(event)
    {
@@ -887,14 +911,14 @@ export class HandlerDetails
       const dataTransfer = {
          type: 'Task',
          mode: 'Sort',
-         uuidv4: $(li).data('uuidv4')
+         uuidv4: Utils.data(li, 'uuidv4')
       };
 
-      event.originalEvent.dataTransfer.setData('text/plain', JSON.stringify(dataTransfer));
+      event.dataTransfer.setData('text/plain', JSON.stringify(dataTransfer));
    }
 
    /**
-    * @param {JQuery.DropEvent}  event - JQuery.DropEvent
+    * @param {DragEvent}  event - The drop event.
     *
     * @param {Quest}             quest - The current quest being manipulated.
     *
@@ -907,7 +931,7 @@ export class HandlerDetails
       let data;
       try
       {
-         data = JSON.parse(event.originalEvent.dataTransfer.getData('text/plain'));
+         data = JSON.parse(event.dataTransfer.getData('text/plain'));
       }
       catch (e)
       {
@@ -924,7 +948,7 @@ export class HandlerDetails
    }
 
    /**
-    * @param {JQuery.ClickEvent} event - JQuery.ClickEvent
+    * @param {MouseEvent} event - The click event.
     *
     * @param {Quest}             quest - The current quest being manipulated.
     *
@@ -932,8 +956,8 @@ export class HandlerDetails
     */
    static taskEditName(event, quest, questPreview)
    {
-      const target = $(event.target).data('target');
-      let uuidv4 = $(event.target).data('uuidv4');
+      const target = Utils.data(event.target, 'target');
+      let uuidv4 = Utils.data(event.target, 'uuidv4');
       let task = quest.getTask(uuidv4);
 
       // Early out conditional if the target isn't `task.name` or the task doesn't exist.
@@ -941,26 +965,16 @@ export class HandlerDetails
 
       let value = task.name;
 
-      value = value.replace(/"/g, '&quot;');
+      const input = createInput({ value, target, uuidv4 });
 
-      const input = $(`<input type="text" class="editable-input" value="${value}" data-target="${target}" ${
-       uuidv4 !== void 0 ? `data-uuidv4="${uuidv4}"` : ``}/>`);
-
-      const parent = $(event.target).closest('.actions').prev('.editable-container');
-
-      parent.html('');
-      parent.append(input);
-      input.trigger(jquery.focus);
-
-      // If the HTMLElement has setSelectionRange then set cursor to the end.
-      if (input[0]?.setSelectionRange) { input[0].setSelectionRange(value.length, value.length); }
+      showInput(input, prevSibling(event.target.closest('.actions'), '.editable-container'));
 
       /**
        * Store the input focus callback in the associated QuestPreview instance so that it can be invoked if the app is
        * closed in {@link QuestPreview.close} while the input field is focused / being edited allowing any edits to be
        * saved. Otherwise the callback is invoked normally below as part of the input focus out event.
        *
-       * @param {JQuery.FocusOutEvent|void}  event -JQuery.FocusOutEvent
+       * @param {FocusEvent|void}  event -The focusout event.
        *
        * @param {object}      saveOptions - Options to pass to `saveQuest`; used in {@link QuestPreview.close}.
        *
@@ -971,14 +985,14 @@ export class HandlerDetails
        */
       questPreview._activeFocusOutFunction = async (event, saveOptions = void 0) =>
       {
-         const valueOut = input.val();
+         const valueOut = input.value;
          questPreview._activeFocusOutFunction = void 0;
 
          switch (target)
          {
             case 'task.name':
             {
-               uuidv4 = input.data('uuidv4');
+               uuidv4 = Utils.data(input, 'uuidv4');
                task = quest.getTask(uuidv4);
                if (task)
                {
@@ -990,21 +1004,18 @@ export class HandlerDetails
          }
       };
 
-      input.on(jquery.focusout, questPreview._activeFocusOutFunction);
-      input.on(jquery.keydown, (event) =>
+      input.addEventListener('focusout', questPreview._activeFocusOutFunction);
+
+      // Handle `Esc` key down to cancel editing.
+      onEscape(input, () =>
       {
-         // Handle `Esc` key down to cancel editing.
-         if (event.which === 27)
-         {
-            questPreview._activeFocusOutFunction = void 0;
-            questPreview.render({ force: true, focus: true });
-            return false;
-         }
+         questPreview._activeFocusOutFunction = void 0;
+         questPreview.render({ force: true, focus: true });
       });
    }
 
    /**
-    * @param {JQuery.ClickEvent} event - JQuery.ClickEvent
+    * @param {MouseEvent} event - The click event.
     *
     * @param {Quest}             quest - The current quest being manipulated.
     *
@@ -1014,7 +1025,7 @@ export class HandlerDetails
     */
    static async taskToggleHidden(event, quest, questPreview)
    {
-      const uuidv4 = $(event.target).data('uuidv4');
+      const uuidv4 = Utils.data(event.target, 'uuidv4');
       const task = quest.getTask(uuidv4);
       if (task)
       {
@@ -1024,7 +1035,7 @@ export class HandlerDetails
    }
 
    /**
-    * @param {JQuery.ClickEvent} event - JQuery.ClickEvent
+    * @param {MouseEvent} event - The click event.
     *
     * @param {Quest}             quest - The current quest being manipulated.
     *
@@ -1034,7 +1045,7 @@ export class HandlerDetails
     */
    static async taskToggleState(event, quest, questPreview)
    {
-      const uuidv4 = $(event.target).data('uuidv4');
+      const uuidv4 = Utils.data(event.target, 'uuidv4');
 
       const task = quest.getTask(uuidv4);
       if (task)

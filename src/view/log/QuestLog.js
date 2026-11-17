@@ -11,7 +11,7 @@ import { HandlerLog }   from './HandlerLog.js';
 
 import {
    constants,
-   jquery,
+   domEvents,
    questStatus,
    questStatusI18n,
    settings }           from '../../model/constants.js';
@@ -98,20 +98,20 @@ export class QuestLog extends HandlebarsApplicationMixin(ApplicationV2)
    {
       await super._onFirstRender(context, options);
 
-      const html = $(this.element);
+      const html = this.element;
 
-      html.on(jquery.click, '.new-quest-btn', HandlerLog.questAdd);
+      Utils.on(html, domEvents.click, '.new-quest-btn', HandlerLog.questAdd);
 
-      html.on(jquery.click, '.actions.quest-status i.delete', HandlerLog.questDelete);
+      Utils.on(html, domEvents.click, '.actions.quest-status i.delete', HandlerLog.questDelete);
 
       // This registers for any element and prevents the circle / slash icon displaying for not being a drag target.
-      html.on(jquery.dragenter, (event) => event.preventDefault());
+      html.addEventListener(domEvents.dragenter, (event) => event.preventDefault());
 
-      html.on(jquery.dragstart, '.drag-quest', void 0, HandlerLog.questDragStart);
+      Utils.on(html, domEvents.dragstart, '.drag-quest', HandlerLog.questDragStart);
 
-      html.on(jquery.click, '.open-quest', void 0, HandlerLog.questOpen);
+      Utils.on(html, domEvents.click, '.open-quest', HandlerLog.questOpen);
 
-      html.on(jquery.click, '.actions.quest-status i.move', HandlerLog.questStatusSet);
+      Utils.on(html, domEvents.click, '.actions.quest-status i.move', HandlerLog.questStatusSet);
 
       this.#contextMenu();
    }

@@ -12,7 +12,7 @@ import { collect }         from '../../../external/index.js';
 
 import {
    constants,
-   jquery,
+   domEvents,
    questStatus,
    sessionConstants,
    settings }              from '../../model/constants.js';
@@ -246,16 +246,16 @@ export class QuestTracker extends HandlebarsApplicationMixin(ApplicationV2)
       header.addEventListener('pointerup', async (event) =>
        HandlerTracker.headerPointerUp(event, header, this));
 
-      const html = $(this.element);
+      const html = this.element;
 
-      html.on(jquery.click, '.quest-tracker-link', void 0, HandlerTracker.questOpen);
+      Utils.on(html, domEvents.click, '.quest-tracker-link', HandlerTracker.questOpen);
 
-      html.on(jquery.click, '.quest-tracker-task', void 0, async (event) =>
+      Utils.on(html, domEvents.click, '.quest-tracker-task', async (event) =>
        await HandlerTracker.questTaskToggle(event));
 
       // Single click toggles the quest objectives; double click opens the quest.
-      Utils.createJQueryDblClick({
-         root: this.element,
+      Utils.createDblClick({
+         root: html,
          selector: '.quest-tracker-header',
          singleCallback: (event) => HandlerTracker.questClick(event, this),
          doubleCallback: HandlerTracker.questOpen,

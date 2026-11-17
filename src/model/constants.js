@@ -10,11 +10,11 @@ const constants = {
 };
 
 /**
- * Defines the {@link JQuery} events that are used in FQL.
+ * Defines the DOM event events that are used in FQL.
  *
  * @type {{click: string, dblclick: string, dragstart: string, drop: string, focus: string, focusout: string, mousedown: string}}
  */
-const jquery = {
+const domEvents = {
    click: 'click',
    dblclick: 'dblclick',
    dragenter: 'dragenter',
@@ -111,7 +111,7 @@ const keybindings = {
    toggleQuestTracker: 'toggleQuestTracker',
 };
 
-export { constants, jquery, questStatus, questStatusI18n, questTabIndex, sessionConstants, settings, keybindings };
+export { constants, domEvents, questStatus, questStatusI18n, questTabIndex, sessionConstants, settings, keybindings };
 
 /**
  * @typedef {object} FQLSessionConstants

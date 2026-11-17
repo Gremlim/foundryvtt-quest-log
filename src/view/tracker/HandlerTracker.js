@@ -11,7 +11,7 @@ import {
    settings }        from '../../model/constants.js';
 
 /**
- * Provides all {@link JQuery} and {@link PointerEvent} callbacks for the {@link QuestTracker}.
+ * Provides all DOM event and {@link PointerEvent} callbacks for the {@link QuestTracker}.
  */
 export class HandlerTracker
 {
@@ -73,7 +73,7 @@ export class HandlerTracker
    /**
     * Handles the quest open click via {@link QuestAPI.open}.
     *
-    * @param {JQuery.ClickEvent} event - JQuery.ClickEvent
+    * @param {MouseEvent} event - MouseEvent
     */
    static questOpen(event)
    {
@@ -84,7 +84,7 @@ export class HandlerTracker
    /**
     * Data for the quest folder open / close state is saved in {@link sessionStorage}.
     *
-    * @param {JQuery.ClickEvent} event - JQuery.ClickEvent
+    * @param {MouseEvent} event - MouseEvent
     *
     * @param {QuestTracker} questTracker - The QuestTracker.
     */
@@ -120,12 +120,12 @@ export class HandlerTracker
    /**
     * Handles toggling {@link Quest} tasks when clicked on by a user that is the GM or owner of quest.
     *
-    * @param {JQuery.ClickEvent} event - JQuery.ClickEvent
+    * @param {MouseEvent} event - MouseEvent
     */
    static async questTaskToggle(event)
    {
       // Don't handle any clicks of internal anchor elements such as entity content links.
-      if ($(event.target).is('.quest-tracker-task a')) { return; }
+      if (event.target.matches('.quest-tracker-task a')) { return; }
 
       const questId = event.currentTarget.dataset.questId;
       const uuidv4 = event.currentTarget.dataset.uuidv4;

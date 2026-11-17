@@ -1,6 +1,7 @@
 import {
    QuestDB,
    Socket,
+   Utils,
    ViewManager }     from '../../control/index.js';
 
 import { QuestAPI }  from '../../control/public/index.js';
@@ -10,7 +11,7 @@ import { Quest }     from '../../model/index.js';
 import { FQLDialog } from '../internal/index.js';
 
 /**
- * Provides all {@link JQuery} callbacks for the {@link QuestLog}.
+ * Provides all DOM event callbacks for the {@link QuestLog}.
  */
 export class HandlerLog
 {
@@ -32,21 +33,21 @@ export class HandlerLog
       if (ViewManager.verifyQuestCanAdd())
       {
          const quest = await QuestDB.createQuest();
-         ViewManager.questAdded({ quest });
+         if (quest) { ViewManager.questAdded({ quest }); }
       }
    }
 
    /**
     * Handles deleting a quest. The trashcan icon.
     *
-    * @param {JQuery.ClickEvent} event - JQuery.ClickEvent
+    * @param {MouseEvent} event - MouseEvent
     *
     * @returns {Promise<void>}
     */
    static async questDelete(event)
    {
-      const questId = $(event.target).data('quest-id');
-      const name = $(event.target).data('quest-name');
+      const questId = Utils.data(event.target, 'quest-id');
+      const name = Utils.data(event.target, 'quest-name');
 
       const result = await FQLDialog.confirmDeleteQuest({ name, result: questId, questId, isQuestLog: true });
       if (result)
@@ -58,40 +59,40 @@ export class HandlerLog
    /**
     * Prepares the data transfer when a quest is dragged from the {@link QuestLog}.
     *
-    * @param {JQuery.DragStartEvent} event - JQuery.DragStartEvent
+    * @param {DragEvent} event - DragEvent
     */
    static questDragStart(event)
    {
       const dataTransfer = {
          type: Quest.documentName,
-         id: $(event.target).data('quest-id')
+         id: Utils.data(event.target, 'quest-id')
       };
 
-      event.originalEvent.dataTransfer.setData('text/plain', JSON.stringify(dataTransfer));
+      event.dataTransfer.setData('text/plain', JSON.stringify(dataTransfer));
    }
 
    /**
     * Handles the quest open click via {@link QuestAPI.open}.
     *
-    * @param {JQuery.ClickEvent} event - JQuery.ClickEvent
+    * @param {MouseEvent} event - MouseEvent
     */
    static questOpen(event)
    {
-      const questId = $(event.target)?.closest('.drag-quest')?.data('quest-id');
+      const questId = Utils.data(event.target?.closest('.drag-quest'), 'quest-id');
       QuestAPI.open({ questId });
    }
 
    /**
     * Handles changing the quest status via {@link Socket.setQuestStatus}.
     *
-    * @param {JQuery.ClickEvent} event - JQuery.ClickEvent
+    * @param {MouseEvent} event - MouseEvent
     *
     * @returns {Promise<void>}
     */
    static async questStatusSet(event)
    {
-      const target = $(event.target).data('target');
-      const questId = $(event.target).data('quest-id');
+      const target = Utils.data(event.target, 'target');
+      const questId = Utils.data(event.target, 'quest-id');
 
       const quest = QuestDB.getQuest(questId);
       if (quest) { await Socket.setQuestStatus({ quest, target }); }

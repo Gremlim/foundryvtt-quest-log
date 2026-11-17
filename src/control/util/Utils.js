@@ -2,7 +2,7 @@ import { FVTTCompat }   from './index.js';
 
 import {
    constants,
-   jquery,
+   domEvents,
    settings }           from '../../model/constants.js';
 
 /**
@@ -96,56 +96,124 @@ export class Utils
    }
 
    /**
-    * Creates a double click handler with a default delay of 400ms
+    * Registers a delegated native event listener on a persistent root element. The handler is invoked when the event
+    * target is (inside of) an element matching `selector` that is a descendant of `root`. The handler receives an
+    * event that behaves like the native event, except that `currentTarget` is the matched element (like delegated
+    * jQuery handlers) and `originalEvent` is the native event.
     *
-    * @param {object}   [opts] - Optional parameters.
+    * @param {HTMLElement}    root - The persistent element to listen on.
     *
-    * @param {string}   [opts.selector] - CSS selector of the clickable elements.
+    * @param {string}         type - Event type. `focus` / `blur` are mapped to the bubbling `focusin` / `focusout`.
     *
-    * @param {HTMLElement} [opts.root] - When provided the click handlers are delegated from this persistent element
-    *        to `selector` (use this for elements inside of ApplicationV2 parts that are replaced on render).
+    * @param {string|null}    selector - CSS selector of the elements to handle; when falsy all events are handled.
     *
-    * @param {Function} [opts.singleCallback] - Single click callback.
+    * @param {Function}       handler - Event handler.
     *
-    * @param {Function} [opts.doubleCallback] - Double click callback.
+    * @param {object}         [options] - Optional `addEventListener` options.
     *
-    * @param {number}   [opts.delay=400] - Double click delay.
-    *
-    * @param {number}   [opts._clicks] - Private data to track clicks.
-    *
-    * @param {number}   [opts._timer] - Private data to track timer.
-    *
-    * @returns {JQuery} The JQuery element.
+    * @returns {Function} A function that removes the listener.
     */
-   static createJQueryDblClick({ selector, root, singleCallback, doubleCallback, delay = 400, _clicks = 0,
-    _timer = void 0 } = {})
+   static on(root, type, selector, handler, options = void 0)
    {
-      const elem = root ? $(root) : $(selector);
+      const mapped = type === 'focus' ? 'focusin' : type === 'blur' ? 'focusout' : type;
 
-      // Delegate from `root` when provided otherwise bind directly to the selected elements.
-      const delegate = root ? [selector] : [];
-
-      elem.on(jquery.click, ...delegate, (event) =>
+      const listener = (event) =>
       {
-         _clicks++;
+         let matched = root;
 
-         if (_clicks === 1)
+         if (selector)
          {
-            _timer = setTimeout(() =>
+            matched = event.target instanceof Element ? event.target.closest(selector) : null;
+            if (!matched || !root.contains(matched)) { return; }
+         }
+
+         const proxy = new Proxy(event, {
+            get: (target, key) =>
+            {
+               if (key === 'currentTarget') { return matched; }
+               if (key === 'originalEvent') { return target; }
+
+               const value = Reflect.get(target, key, target);
+               return typeof value === 'function' ? value.bind(target) : value;
+            }
+         });
+
+         return handler(proxy);
+      };
+
+      root.addEventListener(mapped, listener, options);
+
+      return () => root.removeEventListener(mapped, listener, options);
+   }
+
+   /**
+    * Reads a `data-*` attribute from an element like jQuery `.data()` did: the key may be kebab or camel case and
+    * values that are valid JSON (numbers, booleans, objects) are parsed.
+    *
+    * @param {Element}  element - Target element.
+    *
+    * @param {string}   key - Data key without the `data-` prefix; for example `quest-id`.
+    *
+    * @returns {*} The parsed value or undefined if not present.
+    */
+   static data(element, key)
+   {
+      const camel = key.replace(/-([a-z])/g, (m, c) => c.toUpperCase());
+      const value = element?.dataset?.[camel];
+
+      if (value === void 0) { return void 0; }
+      if (value === 'null') { return null; }
+
+      // Only parse numbers, booleans and JSON objects / arrays; everything else (including strings like `01`) is kept.
+      if (/^(true|false)$/.test(value) || /^-?(0|[1-9]\d*)(\.\d+)?$/.test(value) || /^[[{]/.test(value))
+      {
+         try { return JSON.parse(value); } catch (err) { /* Not JSON; use the string. */ }
+      }
+
+      return value;
+   }
+
+   /**
+    * Creates a delegated single / double click handler with a default delay of 400ms.
+    *
+    * @param {object}      opts - Options.
+    *
+    * @param {HTMLElement} opts.root - Persistent element the click handlers are delegated from.
+    *
+    * @param {string}      opts.selector - CSS selector of the clickable elements.
+    *
+    * @param {Function}    [opts.singleCallback] - Single click callback.
+    *
+    * @param {Function}    [opts.doubleCallback] - Double click callback.
+    *
+    * @param {number}      [opts.delay=400] - Double click delay.
+    */
+   static createDblClick({ root, selector, singleCallback, doubleCallback, delay = 400 } = {})
+   {
+      let clicks = 0;
+      let timer;
+
+      Utils.on(root, domEvents.click, selector, (event) =>
+      {
+         clicks++;
+
+         if (clicks === 1)
+         {
+            timer = setTimeout(() =>
             {
                if (typeof singleCallback === 'function') { singleCallback(event); }
-               _clicks = 0;
+               clicks = 0;
             }, delay);
          }
          else
          {
-            clearTimeout(_timer);
+            clearTimeout(timer);
             if (typeof doubleCallback === 'function') { doubleCallback(event); }
-            _clicks = 0;
+            clicks = 0;
          }
-      }).on(jquery.dblclick, ...delegate, (event) => event.preventDefault());
+      });
 
-      return elem;
+      Utils.on(root, domEvents.dblclick, selector, (event) => event.preventDefault());
    }
 
    /**

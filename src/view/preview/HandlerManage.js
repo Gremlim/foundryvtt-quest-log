@@ -5,7 +5,7 @@ import {
 import { FQLDocumentOwnershipConfig }  from '../internal/index.js';
 
 /**
- * Provides all {@link JQuery} callbacks for the `management` tab.
+ * Provides all DOM event callbacks for the `management` tab.
  */
 export class HandlerManage
 {
@@ -36,7 +36,7 @@ export class HandlerManage
       if (ViewManager.verifyQuestCanAdd())
       {
          const subquest = await QuestDB.createQuest({ parentId: quest.id });
-         ViewManager.questAdded({ quest: subquest });
+         if (subquest) { ViewManager.questAdded({ quest: subquest }); }
       }
    }
 
@@ -80,7 +80,7 @@ export class HandlerManage
    }
 
    /**
-    * @param {JQuery.ClickEvent} event - JQuery.ClickEvent
+    * @param {MouseEvent} event - MouseEvent
     *
     * @param {Quest}             quest - The current quest being manipulated.
     *
@@ -90,7 +90,7 @@ export class HandlerManage
     */
    static async setSplashAsIcon(event, quest, questPreview)
    {
-      quest.splashAsIcon = $(event.target).is(':checked');
+      quest.splashAsIcon = event.target.checked;
       await questPreview.saveQuest();
    }
 

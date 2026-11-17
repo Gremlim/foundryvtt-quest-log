@@ -12,7 +12,7 @@ import { HandlerManage }      from './HandlerManage.js';
 
 import {
    constants,
-   jquery,
+   domEvents,
    settings }                 from '../../model/constants.js';
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
@@ -247,7 +247,7 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
       // Store any changed `<prose-mirror>` content. The event is captured as it may not bubble.
       this.element.addEventListener('change', (event) => this.#onEditorChange(event), { capture: true });
 
-      const html = $(this.element);
+      const html = this.element;
 
       const always = () => true;
       const editOrPlayerEdit = () => this.canEdit || this.playerEdit;
@@ -256,70 +256,70 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
 
       const on = (type, selector, handler, allowed = always) =>
       {
-         html.on(type, selector, (event) => (allowed() ? handler(event) : void 0));
+         Utils.on(html, type, selector, (event) => (allowed() ? handler(event) : void 0));
       };
 
-      on(jquery.click, '.quest-giver-name .open-actor-sheet', async (event) =>
+      on(domEvents.click, '.quest-giver-name .open-actor-sheet', async (event) =>
        await HandlerDetails.questGiverShowActorSheet(event, this));
 
-      on(jquery.click, '.quest-name-link', (event) => HandlerAny.questOpen(event));
+      on(domEvents.click, '.quest-name-link', (event) => HandlerAny.questOpen(event));
 
       // This registers for any element and prevents the circle / slash icon displaying for not being a drag target.
-      html.on(jquery.dragenter, (event) => event.preventDefault());
+      html.addEventListener(domEvents.dragenter, (event) => event.preventDefault());
 
-      on(jquery.dragstart, '.item-reward .editable-container', (event) =>
+      on(domEvents.dragstart, '.item-reward .editable-container', (event) =>
        HandlerDetails.rewardDragStartItem(event, this.#quest));
 
-      on(jquery.dragstart, '.quest-rewards .fa-sort', (event) => HandlerDetails.rewardDragStartSort(event));
+      on(domEvents.dragstart, '.quest-rewards .fa-sort', (event) => HandlerDetails.rewardDragStartSort(event));
 
-      on(jquery.click, '.abstract-reward .editable-container', async (event) =>
+      on(domEvents.click, '.abstract-reward .editable-container', async (event) =>
        await HandlerDetails.rewardShowImagePopout(event, this.#quest, this));
 
-      on(jquery.click, '.actor-reward .editable-container', async (event) =>
+      on(domEvents.click, '.actor-reward .editable-container', async (event) =>
        await HandlerDetails.rewardShowSheet(event, this.#quest, this));
 
-      on(jquery.click, '.item-reward .editable-container', async (event) =>
+      on(domEvents.click, '.item-reward .editable-container', async (event) =>
        await HandlerDetails.rewardShowSheet(event, this.#quest, this));
 
-      on(jquery.click, '.splash-image-link', () => HandlerDetails.splashImagePopupShow(this.#quest, this));
+      on(domEvents.click, '.splash-image-link', () => HandlerDetails.splashImagePopupShow(this.#quest, this));
 
-      on(jquery.dragstart, '.quest-tasks .fa-sort', (event) => HandlerDetails.taskDragStartSort(event));
+      on(domEvents.dragstart, '.quest-tasks .fa-sort', (event) => HandlerDetails.taskDragStartSort(event));
 
       // GM / trusted player w/ edit / quest owner -----------------------------------------------------------------
 
-      on(jquery.click, '.actions-single.quest-name .editable', (event) =>
+      on(domEvents.click, '.actions-single.quest-name .editable', (event) =>
        HandlerDetails.questEditName(event, this.#quest, this), editOrPlayerEdit);
 
-      on(jquery.drop, '.quest-giver-gc', async (event) =>
+      on(domEvents.drop, '.quest-giver-gc', async (event) =>
        await HandlerDetails.questGiverDropDocument(event, this.#quest, this), editOrPlayerEdit);
 
-      on(jquery.click, '.quest-giver-gc .toggleImage', async () =>
+      on(domEvents.click, '.quest-giver-gc .toggleImage', async () =>
        await HandlerDetails.questGiverToggleImage(this.#quest, this), editOrPlayerEdit);
 
-      on(jquery.click, '.quest-giver-gc .deleteQuestGiver', async () =>
+      on(domEvents.click, '.quest-giver-gc .deleteQuestGiver', async () =>
        await HandlerDetails.questGiverDelete(this.#quest, this), editOrPlayerEdit);
 
-      on(jquery.click, '.quest-tasks .add-new-task',
+      on(domEvents.click, '.quest-tasks .add-new-task',
        (event) => HandlerDetails.taskAdd(event, this.#quest, this), editOrPlayerEdit);
 
-      on(jquery.click, '.actions.tasks .delete', async (event) =>
+      on(domEvents.click, '.actions.tasks .delete', async (event) =>
        await HandlerDetails.taskDelete(event, this.#quest, this), editOrPlayerEdit);
 
-      on(jquery.drop, '.tasks-box', async (event) =>
+      on(domEvents.drop, '.tasks-box', async (event) =>
        await HandlerDetails.taskDropItem(event, this.#quest), editOrPlayerEdit);
 
-      on(jquery.click, '.actions.tasks .editable',
+      on(domEvents.click, '.actions.tasks .editable',
        (event) => HandlerDetails.taskEditName(event, this.#quest, this), editOrPlayerEdit);
 
-      on(jquery.click, 'li.task .toggleState', async (event) =>
+      on(domEvents.click, 'li.task .toggleState', async (event) =>
        await HandlerDetails.taskToggleState(event, this.#quest, this), editOrPlayerEdit);
 
       // GM / trusted player w/ edit / players that can accept quests -------------------------------------------------
 
-      on(jquery.click, '.actions.quest-status i.delete', async (event) =>
+      on(domEvents.click, '.actions.quest-status i.delete', async (event) =>
        await HandlerAny.questDelete(event, this.#quest), editOrAccept);
 
-      on(jquery.click, '.actions.quest-status i.move', async (event) =>
+      on(domEvents.click, '.actions.quest-status i.move', async (event) =>
       {
          await this.saveQuest({ refresh: false });
          await HandlerAny.questStatusSet(event);
@@ -327,63 +327,63 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
 
       // GM / trusted player w/ edit ----------------------------------------------------------------------------------
 
-      on(jquery.click, '.quest-giver-name .actions-single .editable', (event) =>
+      on(domEvents.click, '.quest-giver-name .actions-single .editable', (event) =>
        HandlerDetails.questGiverCustomEditName(event, this.#quest, this), edit);
 
-      on(jquery.click, '.quest-giver-gc .drop-info', () =>
+      on(domEvents.click, '.quest-giver-gc .drop-info', () =>
        HandlerDetails.questGiverCustomSelectImage(this.#quest, this), edit);
 
-      on(jquery.click, '.quest-tabs .is-primary', () => Socket.setQuestPrimary({ quest: this.#quest }), edit);
+      on(domEvents.click, '.quest-tabs .is-primary', () => Socket.setQuestPrimary({ quest: this.#quest }), edit);
 
-      on(jquery.click, '.quest-rewards .add-abstract', (event) =>
+      on(domEvents.click, '.quest-rewards .add-abstract', (event) =>
        HandlerDetails.rewardAddAbstract(event, this.#quest, this), edit);
 
-      on(jquery.click, '.actions.rewards .editable', (event) =>
+      on(domEvents.click, '.actions.rewards .editable', (event) =>
        HandlerDetails.rewardAbstractEditName(event, this.#quest, this), edit);
 
-      on(jquery.click, '.actions.rewards .delete', async (event) =>
+      on(domEvents.click, '.actions.rewards .delete', async (event) =>
        await HandlerDetails.rewardDelete(event, this.#quest, this), edit);
 
-      on(jquery.drop, '.rewards-box', async (event) =>
+      on(domEvents.drop, '.rewards-box', async (event) =>
        await HandlerDetails.rewardDropItem(event, this.#quest, this), edit);
 
-      on(jquery.click, '.quest-rewards .hide-all-rewards', async () =>
+      on(domEvents.click, '.quest-rewards .hide-all-rewards', async () =>
        await HandlerDetails.rewardsHideAll(this.#quest, this), edit);
 
-      on(jquery.click, '.quest-rewards .lock-all-rewards', async () =>
+      on(domEvents.click, '.quest-rewards .lock-all-rewards', async () =>
        await HandlerDetails.rewardsLockAll(this.#quest, this), edit);
 
-      on(jquery.click, '.reward-image', async (event) =>
+      on(domEvents.click, '.reward-image', async (event) =>
        await HandlerDetails.rewardSelectImage(event, this.#quest, this), edit);
 
-      on(jquery.click, '.quest-rewards .show-all-rewards', async () =>
+      on(domEvents.click, '.quest-rewards .show-all-rewards', async () =>
        await HandlerDetails.rewardsShowAll(this.#quest, this), edit);
 
-      on(jquery.click, '.actions.rewards .toggleHidden', async (event) =>
+      on(domEvents.click, '.actions.rewards .toggleHidden', async (event) =>
        await HandlerDetails.rewardToggleHidden(event, this.#quest, this), edit);
 
-      on(jquery.click, '.actions.rewards .toggleLocked', async (event) =>
+      on(domEvents.click, '.actions.rewards .toggleLocked', async (event) =>
        await HandlerDetails.rewardToggleLocked(event, this.#quest, this), edit);
 
-      on(jquery.click, '.quest-rewards .unlock-all-rewards', async () =>
+      on(domEvents.click, '.quest-rewards .unlock-all-rewards', async () =>
        await HandlerDetails.rewardsUnlockAll(this.#quest, this), edit);
 
-      on(jquery.click, '.actions.tasks .toggleHidden', async (event) =>
+      on(domEvents.click, '.actions.tasks .toggleHidden', async (event) =>
        await HandlerDetails.taskToggleHidden(event, this.#quest, this), edit);
 
-      on(jquery.click, '.add-subquest-btn', async () => await HandlerManage.addSubquest(this.#quest, this), edit);
+      on(domEvents.click, '.add-subquest-btn', async () => await HandlerManage.addSubquest(this.#quest, this), edit);
 
-      on(jquery.click, '.configure-perm-btn', () => HandlerManage.configurePermissions(this.#quest, this), edit);
+      on(domEvents.click, '.configure-perm-btn', () => HandlerManage.configurePermissions(this.#quest, this), edit);
 
-      on(jquery.click, '.delete-splash', async () => await HandlerManage.deleteSplashImage(this.#quest, this), edit);
+      on(domEvents.click, '.delete-splash', async () => await HandlerManage.deleteSplashImage(this.#quest, this), edit);
 
-      on(jquery.click, '.quest-splash input[name="splash-as-icon"]', async (event) =>
+      on(domEvents.click, '.quest-splash input[name="splash-as-icon"]', async (event) =>
        await HandlerManage.setSplashAsIcon(event, this.#quest, this), edit);
 
-      on(jquery.click, '.quest-splash .drop-info',
+      on(domEvents.click, '.quest-splash .drop-info',
        async () => await HandlerManage.setSplashImage(this.#quest, this), edit);
 
-      on(jquery.click, '.change-splash-pos', async () => await HandlerManage.setSplashPos(this.#quest, this), edit);
+      on(domEvents.click, '.change-splash-pos', async () => await HandlerManage.setSplashPos(this.#quest, this), edit);
    }
 
    /**

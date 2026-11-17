@@ -1,5 +1,11 @@
 # Changelog
 
+## Release 0.9.10
+- Removed the remaining jQuery usage (technical debt). All event handling now uses native DOM events: delegated listeners (`Utils.on`), `data-*` reading (`Utils.data`) and a native single / double click helper (`Utils.createDblClick`), replacing `Utils.createJQueryDblClick`.
+- Inline editing fields (quest name, quest giver name, objectives, rewards) are created with the DOM API; this also fixes names containing quotes being cut when editing.
+- The Esc key now cancels inline editing with the standard `event.key` instead of the deprecated `event.which`.
+- Renamed the internal `jquery` event name constants to `domEvents`.
+
 ## Release 0.9.9
 - Fixed the quest text not adapting to the window size when resizing it (#151): removed the fixed maximum widths of the objective, reward and quest name texts.
 - The macro compendiums (FQL Macros GM / Player) now use the `quest-log` module id (settings keys and icon paths); they still pointed to `forien-quest-log`.

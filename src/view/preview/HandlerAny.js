@@ -1,13 +1,14 @@
 import {
    QuestDB,
-   Socket }          from '../../control/index.js';
+   Socket,
+   Utils }           from '../../control/index.js';
 
 import { QuestAPI }  from '../../control/public/index.js';
 
 import { FQLDialog } from '../internal/index.js';
 
 /**
- * These handler {@link JQuery} callbacks can be called on any tab.
+ * These handler DOM event callbacks can be called on any tab.
  */
 export class HandlerAny
 {
@@ -22,7 +23,7 @@ export class HandlerAny
    /**
     * Confirms deleting a quest with {@link FQLDialog.confirmDeleteQuest} before invoking {@link QuestDB.deleteQuest}.
     *
-    * @param {JQuery.ClickEvent} event - JQuery.ClickEvent
+    * @param {MouseEvent} event - MouseEvent
     *
     * @param {Quest}             quest - The current quest being manipulated.
     *
@@ -30,8 +31,8 @@ export class HandlerAny
     */
    static async questDelete(event, quest)
    {
-      const questId = $(event.target).data('quest-id');
-      const name = $(event.target).data('quest-name');
+      const questId = Utils.data(event.target, 'quest-id');
+      const name = Utils.data(event.target, 'quest-name');
 
       const result = await FQLDialog.confirmDeleteQuest({ name, result: questId, questId: quest.id });
       if (result)
@@ -43,11 +44,11 @@ export class HandlerAny
    /**
     * Opens a {@link QuestPreview} via {@link QuestAPI.open}.
     *
-    * @param {JQuery.ClickEvent} event - JQuery.ClickEvent.
+    * @param {MouseEvent} event - MouseEvent.
     */
    static questOpen(event)
    {
-      const questId = $(event.currentTarget).data('quest-id');
+      const questId = Utils.data(event.currentTarget, 'quest-id');
       QuestAPI.open({ questId });
    }
 
@@ -55,14 +56,14 @@ export class HandlerAny
     * Potentially sets a new {@link Quest.status} via {@link Socket.setQuestStatus}. If the current user is not a GM
     * a GM level user must be logged in for a successful completion of the set status operation.
     *
-    * @param {JQuery.ClickEvent} event - JQuery.ClickEvent
+    * @param {MouseEvent} event - MouseEvent
     *
     * @returns {Promise<void>}
     */
    static async questStatusSet(event)
    {
-      const target = $(event.target).data('target');
-      const questId = $(event.target).data('quest-id');
+      const target = Utils.data(event.target, 'target');
+      const questId = Utils.data(event.target, 'quest-id');
 
       const quest = QuestDB.getQuest(questId);
       if (quest) { await Socket.setQuestStatus({ quest, target }); }

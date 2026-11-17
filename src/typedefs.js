@@ -21,27 +21,15 @@
  */
 
 /**
- * @external {JQuery.ClickEvent} https://api.jquery.com/category/events/event-object/
+ * @external {DragEvent} https://developer.mozilla.org/en-US/docs/Web/API/DragEvent
  */
 
 /**
- * @external {JQuery.DragEvent} https://api.jquery.com/category/events/event-object/
+ * @external {FocusEvent} https://developer.mozilla.org/en-US/docs/Web/API/FocusEvent
  */
 
 /**
- * @external {JQuery.DragStartEvent} https://api.jquery.com/category/events/event-object/
- */
-
-/**
- * @external {JQuery.DropEvent} https://api.jquery.com/category/events/event-object/
- */
-
-/**
- * @external {JQuery.FocusOutEvent} https://api.jquery.com/category/events/event-object/
- */
-
-/**
- * @external {JQuery.MouseDownEvent} https://api.jquery.com/category/events/event-object/
+ * @external {MouseEvent} https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent
  */
 
 /**
