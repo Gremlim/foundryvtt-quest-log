@@ -346,6 +346,7 @@
     "Rumors": {
       "Empty": "No hay rumores.",
       "HiddenTooltip": "Oculto a los jugadores",
+      "SearchTooltip": "Buscar rumores por su texto o por el nombre de su misión",
       "QuestTooltip": "Misión del rumor (solo la ve el GM)"
     },
     "Settings": {

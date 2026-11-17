@@ -149,8 +149,7 @@ export class QuestLog extends HandlebarsApplicationMixin(ApplicationV2)
             ui.notifications.info(game.i18n.format('ForienQuestLog.QuestPreview.Rumors.BecameAvailable',
              { name: quest.name }));
 
-            // The players are told that there is a new quest (only when they can see it).
-            if (!quest.isHidden) { Socket.questUnlocked(); }
+            await QuestDB.announceUnlockedByRumors();
          }
       });
 
@@ -313,6 +312,12 @@ export class QuestLog extends HandlebarsApplicationMixin(ApplicationV2)
                closeGroup();
                header = li;
                matches = 0;
+            }
+            else if (li.classList.contains('rumor'))
+            {
+               // Rumors (GM): the text of the rumor and the name of its quest.
+               const text = QuestLog.#normalize(li.textContent);
+               li.classList.toggle('search-hidden', searching && !words.every((word) => text.includes(word)));
             }
             else if (li.classList.contains('drag-quest'))
             {

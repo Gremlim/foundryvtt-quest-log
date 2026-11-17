@@ -360,6 +360,7 @@
     "Rumors": {
       "Empty": "There are no rumors.",
       "HiddenTooltip": "Hidden from the players",
+      "SearchTooltip": "Search rumors by their text or by the name of their quest",
       "QuestTooltip": "Quest of the rumor (only the GM sees it)"
     },
     "Settings": {

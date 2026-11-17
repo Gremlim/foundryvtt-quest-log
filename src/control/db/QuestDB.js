@@ -971,6 +971,24 @@ export class QuestDB
    }
 
    /**
+    * Tells the players in the chat that a new quest is available because enough rumors were heard (#82). It is a
+    * whisper to all the players (they get it even if they connect later).
+    *
+    * @returns {Promise<void>}
+    */
+   static async announceUnlockedByRumors()
+   {
+      const whisper = game.users.filter((u) => !u.isGM).map((u) => u.id);
+      if (!whisper.length) { return; }
+
+      await ChatMessage.create({
+         content: `<p><i class="fas fa-scroll"></i> ${game.i18n.localize('ForienQuestLog.Notifications.QuestUnlocked')}</p>`,
+         whisper,
+         speaker: { alias: 'Quest Log' }
+      });
+   }
+
+   /**
     * The players can't see the hidden quests, so the GM stores the visible rumors of all the quests in a world setting
     * (only by the active GM and only when it changed).
     */

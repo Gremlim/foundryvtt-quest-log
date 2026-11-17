@@ -1,4 +1,4 @@
-import { Socket }  from '../../control/index.js';
+import { QuestDB }  from '../../control/index.js';
 
 /**
  * Provides all DOM event callbacks for the `rumors` tab of the quest (#82).
@@ -125,8 +125,7 @@ export class HandlerRumors
          ui.notifications.info(game.i18n.format('ForienQuestLog.QuestPreview.Rumors.BecameAvailable',
           { name: quest.name }));
 
-         // The players are told that there is a new quest (only when they can see it).
-         if (!quest.isHidden) { Socket.questUnlocked(); }
+         await QuestDB.announceUnlockedByRumors();
       }
    }
 

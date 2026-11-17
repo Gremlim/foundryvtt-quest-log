@@ -1,5 +1,9 @@
 # Changelog
 
+## Release 0.23.1
+- Rumors tab of the Quest Log: the GM has a search box to filter the rumors by their text or by the name of their quest.
+- The players are now told in the chat (a whisper to all the players) when a new quest is available because enough rumors were heard, instead of a notification.
+
 ## Release 0.23.0
 - Rumors: when a quest becomes available because enough rumors were heard, the players get a basic Foundry notification ("A new quest is available."; only when the quest is not hidden from them). Rumors can be marked as optional (star icon in their 3 dots menu, shown as "(optional)"): they don't count to unlock the quest. The Rumors tab of the quest has a new field with the number of rumors that must be heard to unlock the quest (0 = all the rumors that are not optional) and a counter of the heard rumors. An inactive quest becomes available as soon as that number of required rumors is heard.
 

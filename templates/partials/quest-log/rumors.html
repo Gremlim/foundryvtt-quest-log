@@ -1,5 +1,11 @@
 <header>
   <h1 style="flex: 1;">{{localize 'ForienQuestLog.QuestTypes.Labels.Rumor'}}</h1>
+  {{#if isGM}}
+    <label class="quest-search-label" title="{{localize 'ForienQuestLog.Rumors.SearchTooltip'}}">
+      <i class="fas fa-magnifying-glass"></i>
+      <input type="search" class="quest-search" value="{{@root.search}}" placeholder="{{localize 'ForienQuestLog.QuestLog.Labels.Search'}}" autocomplete="off">
+    </label>
+  {{/if}}
 </header>
 <div class="table">
   {{#if rumors.length}}
