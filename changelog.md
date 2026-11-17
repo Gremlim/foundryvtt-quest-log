@@ -1,5 +1,10 @@
 # Changelog
 
+## Release 0.9.18
+- Quest Tracker: a subquest listed inside its parent quest is no longer expandable (it is still shown as a quest of its own, with its objectives, in the tracker) and now has a subquest icon to tell it apart from the objectives of the parent quest.
+- Quest Tracker: the P / C / F label is no longer struck through; only the objective text is.
+- Added the English and Spanish tooltip for the subquest icon.
+
 ## Release 0.9.17
 - Quest Tracker: subquests now show their own objectives (and their own subquests) and can be shown / hidden with a chevron button next to the subquest, just like quests. Objectives of a subquest can be toggled by the GM / owners as before, and nested content is indented.
 

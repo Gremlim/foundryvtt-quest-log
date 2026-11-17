@@ -173,6 +173,7 @@
         "BackgroundShow": "Click to show background.",
         "BackgroundUnshow": "Click to make background transparent.",
         "CollapseObjectives": "Click to hide the objectives.",
+        "Subquest": "Subquest",
         "TaskCompleted": "Completed",
         "TaskFailed": "Failed",
         "TaskPending": "Pending",

@@ -196,12 +196,12 @@
         // Must specifically target elements to support context menu.
         filter: drop-shadow(1px 1px 1px #000);
 
-        // Chevron to show / hide the objectives of the subquest.
-        i.quest-tracker-toggle,
-        i.quest-tracker-toggle:last-of-type {
+        // Icon that tells a subquest apart from the objectives of the parent quest.
+        i.task-subquest-icon,
+        i.task-subquest-icon:last-of-type {
           flex: 0 0 14px;
           width: 14px;
-          margin-right: 3px;
+          margin-right: 4px;
           font-size: 11px;
           line-height: 16px;
           text-align: left;
@@ -219,7 +219,7 @@
         span {
           cursor: pointer;
           pointer-events: auto;
-          &.check-square, &.minus-square {
+          &.check-square:not(.task-label), &.minus-square:not(.task-label) {
             text-decoration: line-through;
           }
         }
@@ -240,7 +240,7 @@
 
         span {
           cursor: pointer;
-          &.check-square, &.minus-square {
+          &.check-square:not(.task-label), &.minus-square:not(.task-label) {
             text-decoration: line-through;
           }
         }
