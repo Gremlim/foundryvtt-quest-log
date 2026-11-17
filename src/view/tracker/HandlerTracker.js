@@ -130,13 +130,25 @@ export class HandlerTracker
       const questId = event.currentTarget.dataset.questId;
       if (!questId) { return; }
 
-      const removed = HandlerTracker.getRemovedQuests();
-      if (removed.has(questId)) { removed.delete(questId); }
-      else { removed.add(questId); }
-
-      sessionStorage.setItem(sessionConstants.trackerHiddenQuests, JSON.stringify([...removed]));
+      HandlerTracker.setQuestRemoved(questId, !HandlerTracker.getRemovedQuests().has(questId));
 
       questTracker.render();
+   }
+
+   /**
+    * Removes a quest from the tracker of this user or restores it without rendering the tracker.
+    *
+    * @param {string}   questId - The quest ID.
+    *
+    * @param {boolean}  removed - True to remove the quest from the tracker; false to show it again.
+    */
+   static setQuestRemoved(questId, removed)
+   {
+      const ids = HandlerTracker.getRemovedQuests();
+      if (removed) { ids.add(questId); }
+      else { ids.delete(questId); }
+
+      sessionStorage.setItem(sessionConstants.trackerHiddenQuests, JSON.stringify([...ids]));
    }
 
    /**

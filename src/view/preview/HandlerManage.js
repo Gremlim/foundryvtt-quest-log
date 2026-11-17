@@ -4,6 +4,8 @@ import {
 
 import { FQLDocumentOwnershipConfig }  from '../internal/index.js';
 
+import { HandlerTracker }              from '../tracker/HandlerTracker.js';
+
 /**
  * Provides all DOM event callbacks for the `management` tab.
  */
@@ -161,6 +163,21 @@ export class HandlerManage
    {
       await QuestDB.makePublic({ quest });
       await questPreview.saveQuest();
+   }
+
+   /**
+    * Shows / hides the quest in the Quest Tracker of this user only.
+    *
+    * @param {MouseEvent} event - MouseEvent
+    *
+    * @param {Quest}             quest - The current quest being manipulated.
+    */
+   static setShowInTracker(event, quest)
+   {
+      HandlerTracker.setQuestRemoved(quest.id, !event.target.checked);
+
+      // Only the tracker of this user is affected; refresh it if it is open.
+      if (ViewManager.questTracker?.rendered) { ViewManager.questTracker.render(); }
    }
 
    /**

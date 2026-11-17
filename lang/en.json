@@ -155,6 +155,8 @@
       "Management": {
         "AddSubquest": "Add Subquest",
         "AllowPlayerEdit": "Allow players to edit",
+        "ShowInTracker": "Show in my Quest Tracker",
+        "ShowInTrackerHint": "Shows or hides this quest in your own Quest Tracker. It does not affect other users.",
         "AllowPlayerEditHint": "Players that own this quest, created by a GM, can edit its description, objectives and rewards.",
         "ChangePersonal": "Change players",
         "ConfigurePermissions": "Configure Permissions",

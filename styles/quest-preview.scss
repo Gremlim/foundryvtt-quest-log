@@ -635,7 +635,7 @@
     }
 
     .management {
-      .manage-allow-player-edit {
+      .manage-show-in-tracker, .manage-allow-player-edit {
         display: flex;
         align-items: center;
         margin-top: 6px;

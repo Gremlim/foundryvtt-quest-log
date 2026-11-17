@@ -141,6 +141,8 @@
       "Management": {
         "AddSubquest": "Crear Sub-Misión",
         "AllowPlayerEdit": "Permitir edición a los jugadores",
+        "ShowInTracker": "Mostrar en mi Quest Tracker",
+        "ShowInTrackerHint": "Muestra u oculta esta misión en tu propio Quest Tracker. No afecta a otros usuarios.",
         "AllowPlayerEditHint": "Los jugadores propietarios de esta misión, creada por un GM, pueden editar su descripción, objetivos y recompensas.",
         "ChangePersonal": "Cambiar jugadores",
         "ConfigurePermissions": "Configurar Permisos",

@@ -1,5 +1,8 @@
 # Changelog
 
+## Release 0.15.3
+- The Management tab of the quest window has a new "Show in my Quest Tracker" checkbox to hide or show that quest in your own Quest Tracker (the same state as the new remove button of the tracker, so a removed quest can always be put back from its quest window). It does not affect other users.
+
 ## Release 0.15.2
 - Quest Tracker: each quest has a new button (visible when hovering it) to remove it from your own tracker, and a new header button to also show the quests you removed (dimmed, with a button to restore them). It only affects your tracker; the quest and the other users are not changed. (Forien #121)
 

@@ -9,6 +9,7 @@ import { FQLDialog }          from '../internal/index.js';
 import { HandlerAny }         from './HandlerAny.js';
 import { HandlerDetails }     from './HandlerDetails.js';
 import { HandlerManage }      from './HandlerManage.js';
+import { HandlerTracker }     from '../tracker/HandlerTracker.js';
 
 import {
    constants,
@@ -398,6 +399,9 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
       on(domEvents.click, '.manage-allow-player-edit input[name="allow-player-edit"]', async (event) =>
        await HandlerManage.setAllowPlayerEdit(event, this.#quest, this), edit);
 
+      on(domEvents.click, '.manage-show-in-tracker input[name="show-in-tracker"]', (event) =>
+       HandlerManage.setShowInTracker(event, this.#quest));
+
       on(domEvents.click, '.make-personal-btn', async () => await HandlerManage.makePersonal(this.#quest, this),
        () => game.user.isGM);
 
@@ -530,6 +534,7 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
          canEdit: this.canEdit,
          canEditPlayerNotes,
          playerEdit: this.playerEdit,
+         showInTracker: !HandlerTracker.getRemovedQuests().has(this.#quest.id),
          source: {
             description: this.#quest.description ?? '',
             gmnotes: this.#quest.gmnotes ?? '',
