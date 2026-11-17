@@ -42,7 +42,7 @@
         <div class="quest-giver-name">
           {{#with giverData}}
             <div class="editable-container">
-              <h2 class="open-actor-sheet" data-actor-uuid="{{uuid}}" title="Quest Source">{{name}}</h2>
+              <h2 class="open-actor-sheet" data-actor-uuid="{{uuid}}" title="{{localize 'QuestLog.QuestPreview.Tooltips.QuestSource'}}">{{name}}</h2>
             </div>
           {{/with}}
           {{#if (and canEdit (eq giver 'abstract'))}}

@@ -19,9 +19,7 @@
           "Alias": "Quest Log",
           "RewardDrop": "{userName} took <strong>{itemName}</strong>{amount} from the quest <em>{questName}</em> and gave it to {actorName}."
         },
-        "Notifications": {
-          "RewardDrop": "FQL (quest reward): {userName} dropped '{itemName}' onto {actorName}."
-        }
+        "Notifications": {}
       },
       "Utils": {
         "Notifications": {
@@ -59,7 +57,7 @@
       },
       "toggleQuestTracker": {
         "Name": "Toggle Quest Tracker",
-        "Hint": ""
+        "Hint": "Shows or hides the Quest Tracker."
       }
     },
     "Labels": {
@@ -93,9 +91,9 @@
       "QuestMoved": "Moved '{name}' and set new status to: '{target}'.",
       "QuestPrimary": "'{name}' is the new primary quest.",
       "QuestDuplicated": "Quest duplicated: {name}",
-      "QuestTrackerNoActive": "Quest Tracker is enabled, but there are currently no in progress quests.",
       "QuestUnlocked": "A new quest is available.",
-      "UserCantOpen": "User '{user}' doesn't have permission to open this quest."
+      "UserCantOpen": "User '{user}' doesn't have permission to open this quest.",
+      "QuestFolderNotFound": "Quest Log - the quest folder was not found; cannot create the quest."
     },
     "QuestLog": {
       "Buttons": {
@@ -188,7 +186,6 @@
         "Repeatable": "Repeatable quest",
         "RepeatableHint": "The GM can reset a repeatable quest (objectives, counters, rewards and subquests) to make it available again. The number of times it was completed is counted.",
         "ShowInTracker": "Show in my Quest Tracker",
-        "ShowInTrackerHint": "Shows or hides this quest in your own Quest Tracker. It does not affect other users.",
         "AllowPlayerEditHint": "Players that own this quest, created by a GM, can edit its description, objectives and rewards.",
         "ChangePersonal": "Change players",
         "ConfigurePermissions": "Configure Permissions",
@@ -308,7 +305,8 @@
         "TaskVisible": "Objective is visible. Click to hide.",
         "ToggleImage": "Toggle Token/Actor image.",
         "UnlockAll": "Unlock All",
-        "ViewSplashArt": "View splash art."
+        "ViewSplashArt": "View splash art.",
+        "QuestSource": "Quest Source"
       }
     },
     "QuestTracker": {
@@ -333,25 +331,13 @@
       "Optional": "optional",
       "Title": "Quest Tracker",
       "Tooltips": {
-        "BackgroundShow": "Click to show background.",
-        "BackgroundUnshow": "Click to make background transparent.",
         "CollapseObjectives": "Click to hide the objectives.",
         "Subquest": "Subquest",
         "TaskCompleted": "Completed",
         "TaskFailed": "Failed",
         "TaskPending": "Pending",
         "ExpandObjectives": "Click to show the objectives.",
-        "PrimaryQuestShow": "Click to show primary quest.",
-        "GroupBy": {
-          "group": "Grouped by group. Click to group by giver.",
-          "giver": "Grouped by giver. Click to group by location.",
-          "location": "Grouped by location. Click to stop grouping.",
-          "none": "Not grouped. Click to group by group."
-        },
-        "PrimaryQuestUnshow": "Click to show all quests.",
         "RemoveQuest": "Remove this quest from your tracker.",
-        "RemovedShow": "Click to also show the quests removed from your tracker.",
-        "RemovedUnshow": "Click to hide the quests removed from your tracker.",
         "RestoreQuest": "Show this quest again in your tracker."
       }
     },
@@ -410,10 +396,6 @@
         "OBSERVER": "Observer",
         "OWNER": "Owner"
       },
-      "dynamicBookmarkBackground": {
-        "Enable": "Dynamic Bookmark Background",
-        "EnableHint": "If checked, the bookmark tab background is dynamically set to the window content background."
-      },
       "hideFQLFromPlayers": {
         "Enable": "Hide Quest Log from players",
         "EnableHint": "When enabled this option hides the Quest Log from all players. Only GM level users will be able to access the Quest Log."
@@ -429,12 +411,6 @@
         "EnableHint": "Decide who can see the History tab of a quest, which logs who completes objectives, takes rewards and changes the status.",
         "gm": "Only GMs",
         "players": "Everyone that can see the quest"
-      },
-      "navStyle": {
-        "bookmarks": "Bookmarks",
-        "classic": "Classic tabs",
-        "Enable": "Navigation Style",
-        "EnableHint": "Decide how Quest Log's navigation should be displayed."
       },
       "notifyRewardDrop": {
         "Enable": "Show Reward Drop Messages",

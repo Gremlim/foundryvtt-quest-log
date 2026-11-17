@@ -1,6 +1,6 @@
 {
-  "QuestLog" : {
-    "API" : {
+  "QuestLog": {
+    "API": {
       "Hooks": {
         "Labels": {
           "OpenMacro": "打開任務 „{name}”"
@@ -11,85 +11,132 @@
       },
       "QuestDB": {
         "Labels": {
-          "NewQuest" : "新任務"
+          "NewQuest": "新任務"
         }
       },
       "Socket": {
-        "Notifications": {
-          "RewardDrop" : "FQL（任務獎勵）：{userName} 將 '{itemName}' 放到 {actorName} 上。"
+        "Messages": {
+          "Alias": "Quest Log",
+          "RewardDrop": "{userName} 從任務「<em>{questName}</em>」中拿取了 <strong>{itemName}</strong>{amount}，並交給了 {actorName}。"
         }
       },
       "Utils": {
         "Notifications": {
-          "NoDocument" : "無法加載 UUID：'{uuid}'。",
-          "NoPermission" : "您沒有足夠的權限查看此entity表格。"
+          "NoDocument": "無法加載 UUID：'{uuid}'。",
+          "NoPermission": "您沒有足夠的權限查看此entity表格。"
         }
       }
     },
-    "DeleteDialog" : {
-      "BodyObjective" : "該目標及其資料將被永久刪除。",
-      "BodyQuest" : "此任務及其資料將被永久刪除。",
-      "BodyReward" : "此獎勵及其資料將被永久刪除。",
-      "Cancel" : "取消",
-      "Delete" : "刪除",
-      "HeaderDel" : "你確定要刪除：<p>'{name}'</p>",
-      "TitleDel" : "刪除 {title}"
+    "Currency": {
+      "Notifications": {
+        "Failed": "無法將貨幣加入角色。",
+        "NoCharacter": "你沒有分配用於接收獎勵的角色。",
+        "NotOwner": "你沒有編輯該角色的權限。",
+        "SelectToken": "請選擇一個代幣來接收獎勵。",
+        "Unsupported": "此世界的遊戲系統不支援該貨幣。"
+      }
     },
-    "HeaderLabels": {
-      "Show": "展示給玩家"
+    "DeleteDialog": {
+      "BodyObjective": "該目標及其資料將被永久刪除。",
+      "BodyQuest": "此任務及其資料將被永久刪除。",
+      "BodyReward": "此獎勵及其資料將被永久刪除。",
+      "Cancel": "取消",
+      "Delete": "刪除",
+      "HeaderDel": "你確定要刪除：<p>'{name}'</p>",
+      "TitleDel": "刪除 {title}"
+    },
+    "Keybindings": {
+      "openQuestLog": {
+        "Name": "開啟任務欄",
+        "Hint": "若由 GM 使用，或任務欄未被隱藏，則開啟任務欄。"
+      },
+      "openPrimaryQuest": {
+        "Name": "開啟主線任務",
+        "Hint": "若存在主線任務，則開啟其預覽 / 角色卡。會檢查使用者是否為 GM 或有權檢視該任務。"
+      },
+      "toggleQuestTracker": {
+        "Name": "切換任務追蹤器",
+        "Hint": "顯示或隱藏任務追蹤器。"
+      }
     },
     "Labels": {
       "AppHeader": {
         "ShowPlayers": "展示給玩家"
       },
-      "Quest" : "任務"
+      "Quest": "任務"
     },
-    "Migration" : {
-      "ChatMessage" : {
-        "Footer" : "您必須使用來自Compendiums或你的World中的有效文檔資料，來手動更新上述任務。<br>",
-        "Header" : "Quest Log (DB migration)<br>從以下任務中移除了未連結的任務給予者或獎勵物品：<p>",
-        "Notification" : "Quest Log - 從一個或多個任務中刪除未連結的任務給予者或獎勵物品。請查看聊天消息以獲取更多信息。",
-        "QuestGiver" : "任務給予者",
-        "QuestRewards" : "任務獎勵"
+    "Migration": {
+      "ChatMessage": {
+        "Footer": "您必須使用來自Compendiums或你的World中的有效文檔資料，來手動更新上述任務。<br>",
+        "Header": "Quest Log (DB migration)<br>從以下任務中移除了未連結的任務給予者或獎勵物品：<p>",
+        "Notification": "Quest Log - 從一個或多個任務中刪除未連結的任務給予者或獎勵物品。請查看聊天消息以獲取更多信息。",
+        "QuestGiver": "任務給予者",
+        "QuestRewards": "任務獎勵"
       },
       "Notifications": {
-        "Complete" : "Quest Log - 遷移資料完成。",
-        "CouldNotMigrate" : "Quest Log - 無法遷移任務：'{name}'。",
-        "Schema" : "Quest Log - 將資料遷移到版本 '{version}'。",
-        "Start" : "Quest Log - 遷移資料中，請不要重新加載。"
+        "Complete": "Quest Log - 遷移資料完成。",
+        "CouldNotMigrate": "Quest Log - 無法遷移任務：'{name}'。",
+        "Schema": "Quest Log - 將資料遷移到版本 '{version}'。",
+        "Start": "Quest Log - 遷移資料中，請不要重新加載。"
       }
     },
-    "Notifications" : {
-      "CannotOpen" : "無法查看任務詳情。你可能缺少訪問權限，或者該任務ID錯誤，或者該任務已被刪除。",
-      "FinishQuestAdded" : "請先完成編輯並關閉當前的新任務，然後再添加另一個任務。",
-      "LinkCopied" : "該任務的連結已複製到剪貼板中。",
-      "QuestAdded" : "添加了 '{name}' 作為新任務，狀態為：'{status}'。",
-      "QuestIDCopied" : "此任務的任務 ID 已複製到剪貼板。",
-      "QuestMoved" : "移動該任務至新文件夾並更改其狀態為：'{target}'。",
-      "QuestPrimary" : "'{name}' 是新的主要任務。",
-      "QuestTrackerNoActive" : "任務追踪器已啟用，但目前沒有正在進行的任務。",
-      "UserCantOpen" : "玩家 '{user}' 沒有查看該任務的權限。"
+    "Notifications": {
+      "CannotOpen": "無法查看任務詳情。你可能缺少訪問權限，或者該任務ID錯誤，或者該任務已被刪除。",
+      "FinishQuestAdded": "請先完成編輯並關閉當前的新任務，然後再添加另一個任務。",
+      "LinkCopied": "該任務的連結已複製到剪貼板中。",
+      "QuestAdded": "添加了 '{name}' 作為新任務，狀態為：'{status}'。",
+      "QuestIDCopied": "此任務的任務 ID 已複製到剪貼板。",
+      "QuestJoined": "{who} 接受了任務「{name}」。",
+      "QuestMoved": "已移動「{name}」並將其狀態設為：「{target}」。",
+      "QuestPrimary": "'{name}' 是新的主要任務。",
+      "QuestDuplicated": "任務已複製：{name}",
+      "QuestUnlocked": "有新任務可用。",
+      "UserCantOpen": "玩家 '{user}' 沒有查看該任務的權限。",
+      "QuestFolderNotFound": "Quest Log - 找不到任務資料夾，無法建立任務。"
     },
-    "QuestLog" : {
+    "QuestLog": {
       "Buttons": {
         "AddQuest": "添加任務"
       },
-      "ContextMenu" : {
-        "CopyEntityLink" : "複製內容連結",
-        "CopyQuestID" : "複製任務 ID",
-        "PrimaryQuest" : "設定/取消設定為主要任務"
+      "ContextMenu": {
+        "CopyEntityLink": "複製內容連結",
+        "CopyQuestID": "複製任務 ID",
+        "DuplicateName": "{name}（副本）",
+        "DuplicateQuest": "複製任務",
+        "PrimaryQuest": "設定/取消設定為主要任務"
+      },
+      "GroupBy": {
+        "Giver": "依發布者分組",
+        "Group": "依分組分組",
+        "Location": "依地點分組",
+        "None": "不分組"
       },
       "Labels": {
+        "NoGiver": "無發布者",
+        "NoGroup": "無分組",
+        "NoLocation": "無地點",
+        "Personal": "個人",
+        "Search": "搜尋…",
         "TableHeader": "{0}任務",
         "SubTitle": "的子任務 {0}"
       },
-      "Title" : "任務欄",
-      "Tooltips" : {
-        "Objectives" : "目標"
+      "Personal": {
+        "Hint": "個人任務僅你和 GM 可見。",
+        "Label": "個人任務",
+        "Title": "新任務"
+      },
+      "Title": "任務欄",
+      "Tooltips": {
+        "Search": "依名稱、發布者、地點、分組等搜尋任務（所有分頁）。",
+        "GroupBy": "對此分頁的任務分組（僅對你生效）。",
+        "Objectives": "目標"
       }
     },
-    "QuestPreview" : {
+    "QuestPreview": {
       "Buttons": {
+        "Accept": "接受",
+        "ClearDeadline": "移除期限",
+        "RewardCurrency": "貨幣",
         "RewardCustom": "添加用戶定義",
         "RewardHide": "隱藏所有",
         "RewardLock": "鎖定所有",
@@ -97,163 +144,304 @@
         "RewardUnlock": "全部解鎖"
       },
       "Labels": {
-        "CustomSource" : "自定義來源",
-        "Description" : "描述：",
-        "DragDropActor" : "拖放Actor、物品、日誌條目或左鍵單擊以設定自定義來源。",
-        "DragDropActorPlayer" : "拖放Actor、物品或日誌條目。",
-        "DragDropRewards" : "將物品拖拽到此處以將其設為獎勵。",
-        "GMNotes" : "GM 筆記：",
-        "Objective" : "目標",
-        "Objectives" : "目標：",
+        "AcceptedBy": "接受者：",
+        "CreatedByGM": "由 GM 建立",
+        "CreatedByPlayer": "由 {name} 建立",
+        "CustomSource": "自定義來源",
+        "Currency": "貨幣",
+        "Description": "描述：",
+        "DragDropActor": "拖放Actor、物品、日誌條目或左鍵單擊以設定自定義來源。",
+        "DragDropActorPlayer": "拖放Actor、物品或日誌條目。",
+        "DragDropRewards": "將物品拖拽到此處以將其設為獎勵。",
+        "GMNotes": "GM 筆記：",
+        "Objective": "目標",
+        "Group": "分組",
+        "Location": "地點",
+        "NoGroup": "無分組",
+        "NoLocation": "無地點",
+        "Objectives": "目標：",
+        "Optional": "可選",
+        "Repeatable": "可重複",
+        "RepeatableTimes": "可重複（已完成 {n} 次）",
         "PlayerNotes": "玩家 筆記：",
-        "Reward" : "獎勵",
-        "Rewards" : "獎勵："
+        "Quantity": "數量",
+        "Deadline": "期限",
+        "DeadlineDay": "日",
+        "DeadlineHour": "時",
+        "DeadlineMinute": "分",
+        "DeadlineMonth": "月",
+        "DeadlineReal": "日期與時間",
+        "DeadlineYear": "年",
+        "NoDeadline": "無期限",
+        "QuantityTake": "要拿取的數量：",
+        "RewardChoiceGroup": "選擇組",
+        "RewardChoiceHint": "組名相同的獎勵互為備選：拿取其中一個後，其餘的將被關閉。留空則不使用分組。",
+        "Reward": "獎勵",
+        "Rewards": "獎勵："
       },
-      "Management" : {
-        "AddSubquest" : "新建支線任務",
-        "ConfigurePermissions" : "配置權限",
-        "QuestBranching" : "支線任務：",
-        "QuestSettings" : "任務設定：",
-        "SplashArt" : "插畫：",
-        "SplashInfo" : "點擊設定圖片.",
-        "SplashQuestIcon" : "設定為任務圖示"
+      "Management": {
+        "AddSubquest": "新建支線任務",
+        "AllowPlayerEdit": "允許玩家編輯",
+        "Repeatable": "可重複任務",
+        "RepeatableHint": "GM 可以重設可重複任務（目標、計數器、獎勵和子任務），使其重新可用。會統計完成的次數。",
+        "ShowInTracker": "在我的任務追蹤器中顯示",
+        "AllowPlayerEditHint": "擁有這個由 GM 建立之任務的玩家可以編輯其描述、目標和獎勵。",
+        "ChangePersonal": "變更玩家",
+        "ConfigurePermissions": "配置權限",
+        "MakePersonal": "設為個人",
+        "MakePublic": "設為公開",
+        "NoPlayers": "沒有可以分配任務的玩家。",
+        "PersonalContent": "請選擇此任務的個人所屬玩家。只有他們和 GM 能看到該任務，包括其子任務。",
+        "PersonalTitle": "個人任務",
+        "QuestBranching": "支線任務：",
+        "QuestSettings": "任務設定：",
+        "SplashArt": "插畫：",
+        "SplashInfo": "點擊設定圖片.",
+        "SplashQuestIcon": "設定為任務圖示"
       },
-      "Notifications" : {
-        "BadUUID" : "無法搜索到 UUID 文檔：'{uuid}'。",
-        "WrongDocType" : "任務日誌只接受World/Compendium Actor、物品和日誌條目作為任務提供者。",
-        "WrongItemType" : "任務日誌只接受World和Compendium items作為獎勵。"
+      "Notifications": {
+        "RewardAddFailed": "無法將獎勵物品加入角色。請檢查你是否可以編輯該角色。",
+        "BadUUID": "無法搜索到 UUID 文檔：'{uuid}'。",
+        "WrongDocType": "任務日誌只接受World/Compendium Actor、物品和日誌條目作為任務提供者。",
+        "WrongItemType": "任務日誌只接受World和Compendium items作為獎勵。"
       },
-      "Tabs" : {
-        "Details" : "詳情",
-        "GMNotes" : "GM筆記",
+      "History": {
+        "Accepted": "{user} 接受了任務。",
+        "AcceptedBy": "{user} 使用 {actor} 接受了任務。",
+        "Joined": "{user} 加入了任務。",
+        "JoinedBy": "{user} 使用 {actor} 加入了任務。",
+        "Clear": "清空",
+        "ClearContent": "要刪除任務「{name}」的所有歷史記錄嗎？此操作無法復原。",
+        "ClearTitle": "清空任務歷史",
+        "ClearTooltip": "刪除歷史中的所有項目",
+        "Created": "{user} 建立了任務。",
+        "Empty": "還沒有歷史記錄。",
+        "RewardTaken": "{user} 拿取了獎勵 {item}{amount}。",
+        "RewardTakenBy": "{user} 為 {actor} 拿取了獎勵 {item}{amount}。",
+        "Status": "{user} 將任務狀態從 {from} 改為 {to}。",
+        "CounterChanged": "{user} 將「{task}」的計數器設為 {count}/{target}。",
+        "TaskCompleted": "{user} 將目標「{task}」標記為已完成。",
+        "TaskFailed": "{user} 將目標「{task}」標記為已失敗。",
+        "TaskPending": "{user} 將目標「{task}」重設為待辦。",
+        "Reset": "{user} 重設了任務以便重複（目前已完成 {n} 次）。",
+        "Title": "任務歷史"
+      },
+      "Repeat": {
+        "ResetContent": "要重設任務「{name}」及其子任務以便重複嗎？目標和計數器將被清除，已拿取的獎勵將恢復，任務將變為可用。",
+        "ResetTitle": "重設任務",
+        "ResetTooltip": "重設任務以便重複"
+      },
+      "Counter": {
+        "Current": "目前數量",
+        "Target": "需達到的數量",
+        "TargetHint": "0 表示移除計數器。計數器達到此數量時，目標即完成。",
+        "Title": "目標計數器"
+      },
+      "Rumors": {
+        "Add": "新增傳聞",
+        "BecameAvailable": "任務「{name}」現在可用。",
+        "DeleteContent": "要刪除這則傳聞嗎？",
+        "DeleteTitle": "刪除傳聞",
+        "Empty": "此任務沒有傳聞。",
+        "Heard": "已聽到（點擊標記為未聽到）",
+        "Hidden": "對玩家隱藏",
+        "Hint": "傳聞是玩家可以聽到的零散文字。可見的傳聞會在任務欄的「傳聞」分頁中顯示給玩家，且不會說明它們屬於哪個任務。將傳聞標記為已聽到後，未啟用的任務會變為可用。",
+        "Counter": "已聽到 {heard} / {total} 則必需傳聞",
+        "MakeOptional": "可選傳聞：不計入解鎖任務",
+        "MakeRequired": "必需傳聞：計入解鎖任務",
+        "OptionalLabel": "可選",
+        "Required": "解鎖任務所需的傳聞數",
+        "RequiredHint": "0 = 所有非可選的傳聞。當玩家聽到這麼多傳聞時，任務變為可用。",
+        "NotHeard": "未聽到（點擊標記為已聽到）",
+        "Title": "傳聞",
+        "Visible": "對玩家可見"
+      },
+      "Tabs": {
+        "Details": "詳情",
+        "GMNotes": "GM筆記",
+        "History": "歷史",
         "PlayerNotes": "玩家 筆記",
-        "QuestManagement" : "管理任務"
+        "QuestManagement": "管理任務",
+        "Rumors": "傳聞"
       },
-      "Title" : "任務詳情",
-      "Tooltips" : {
-        "AddCustom" : "添加用戶定義",
+      "Title": "任務詳情 - {name}",
+      "Tooltips": {
+        "AddCurrency": "新增貨幣",
+        "AddCustom": "添加用戶定義",
+        "EditDeadline": "編輯任務期限",
+        "EditQuantity": "編輯數量",
+        "TakeAll": "全部拿取",
+        "TakeAmount": "拿取指定數量",
         "AddObjective": "添加目標",
-        "ChangeSplashPos" : "改變插畫對齊方式。",
-        "DeleteQuestGiver" : "刪除任務給予者。",
-        "DeleteSplash" : "刪除插畫。",
-        "HideAll" : "隱藏所有",
-        "LockAll" : "鎖定所有",
-        "PrimaryQuestSet" : "點擊進行主要任務。",
-        "PrimaryQuestUnset" : "點擊取消設定主要任務。",
-        "RewardHidden" : "獎勵已隱藏，點擊查看。",
-        "RewardLocked" : "獎勵已鎖定，點擊解鎖。",
-        "RewardLockedPlayer" : "獎勵已鎖定。",
-        "RewardUnlocked" : "獎勵已解鎖，點擊鎖定。",
-        "RewardUnlockedPlayer" : "獎勵已解鎖。",
-        "RewardVisible" : "獎勵已可見，點擊隱藏。",
-        "ShowAll" : "顯示全部",
-        "TaskHidden" : "目標已隱藏，點擊查看。",
-        "TaskVisible" : "目標已可見，點擊隱藏。",
-        "ToggleImage" : "打開或關閉token/角色圖片。",
-        "UnlockAll" : "全部解鎖",
-        "ViewSplashArt": "查看插圖。"
+        "CounterMinus": "減 1",
+        "CounterPlus": "加 1",
+        "TaskCounter": "設定目標計數器",
+        "SortObjective": "拖曳以重新排序",
+        "ChangeSplashPos": "改變插畫對齊方式。",
+        "DeleteQuestGiver": "刪除任務給予者。",
+        "DeleteSplash": "刪除插畫。",
+        "HideAll": "隱藏所有",
+        "LockAll": "鎖定所有",
+        "PrimaryQuestSet": "點擊進行主要任務。",
+        "PrimaryQuestUnset": "點擊取消設定主要任務。",
+        "RewardChoice": "選擇組「{group}」：該組中只能拿取一個獎勵。",
+        "RewardClosed": "其選擇組中的另一個獎勵已被拿取。點擊以重新開啟。",
+        "RewardClosedPlayer": "其選擇組中的另一個獎勵已被拿取。",
+        "RewardSetChoice": "設定此獎勵的選擇組（一個組中只能拿取一個獎勵）。",
+        "RewardHidden": "獎勵已隱藏，點擊查看。",
+        "RewardLocked": "獎勵已鎖定，點擊解鎖。",
+        "RewardLockedPlayer": "獎勵已鎖定。",
+        "RewardUnlocked": "獎勵已解鎖，點擊鎖定。",
+        "RewardUnlockedPlayer": "獎勵已解鎖。",
+        "RewardVisible": "獎勵已可見，點擊隱藏。",
+        "ShowAll": "顯示全部",
+        "TaskHidden": "目標已隱藏，點擊查看。",
+        "TaskOptional": "可選（額外）目標。點擊使其變為必需。",
+        "TaskRequired": "必需目標。點擊使其變為可選（額外）。",
+        "TaskNotRepeatable": "不可重複。點擊使該目標可重複。",
+        "TaskRepeatable": "可重複目標。點擊使其不可重複。",
+        "TaskReset": "重設目標（待辦，計數器為 0）",
+        "TaskVisible": "目標已可見，點擊隱藏。",
+        "ToggleImage": "打開或關閉token/角色圖片。",
+        "UnlockAll": "全部解鎖",
+        "ViewSplashArt": "查看插圖。",
+        "QuestSource": "任務來源"
       }
     },
-    "QuestTracker" : {
-      "NoPrimary" : "沒有可用的主要任務。",
-      "Title" : "任務追踪器",
-      "Tooltips" : {
-        "BackgroundShow" : "點擊顯示背景。",
-        "BackgroundUnshow" : "點擊使背景透明。",
-        "PrimaryQuestShow" : "點擊顯示主要任務。",
-        "PrimaryQuestUnshow" : "點擊顯示所有任務。"
+    "QuestTracker": {
+      "Menu": {
+        "Background": "背景",
+        "Group": "分組依據",
+        "GroupBy": {
+          "giver": "發布者",
+          "group": "分組",
+          "location": "地點",
+          "none": "無"
+        },
+        "Off": "否",
+        "On": "是",
+        "Opaque": "不透明",
+        "Primary": "僅主線任務",
+        "Removed": "顯示已移除的",
+        "Transparent": "透明"
+      },
+      "NoPrimary": "沒有可用的主要任務。",
+      "NoQuests": "沒有可用的任務。",
+      "Optional": "可選",
+      "Title": "任務追踪器",
+      "Tooltips": {
+        "CollapseObjectives": "點擊隱藏目標。",
+        "Subquest": "子任務",
+        "TaskCompleted": "已完成",
+        "TaskFailed": "已失敗",
+        "TaskPending": "待辦",
+        "ExpandObjectives": "點擊顯示目標。",
+        "RemoveQuest": "從你的追蹤器中移除此任務。",
+        "RestoreQuest": "在你的追蹤器中重新顯示此任務。"
       }
     },
-    "QuestTypes" : {
-      "Labels" : {
-        "Active" : "進行中",
-        "active" : "進行中",
-        "Available" : "可選",
-        "available" : "可選",
-        "Completed" : "已完成",
-        "completed" : "已完成",
-        "Failed" : "已失敗",
-        "failed" : "已失敗",
-        "InActive" : "未啓動",
-        "inactive" : "未啓動",
-        "Status" : "任務是 {statusLabel}。"
+    "QuestTypes": {
+      "Labels": {
+        "Active": "進行中",
+        "active": "進行中",
+        "Available": "可選",
+        "available": "可選",
+        "Completed": "已完成",
+        "completed": "已完成",
+        "Failed": "已失敗",
+        "failed": "已失敗",
+        "InActive": "未啓動",
+        "inactive": "未啓動",
+        "Rumor": "傳聞",
+        "Status": "任務是 {statusLabel}。"
       },
       "Tooltips": {
-        "SetActive" : "設定為進行中",
-        "SetAvailable" : "設定為可選",
-        "SetCompleted" : "設定為已完成",
-        "SetFailed" : "設定為已失敗",
-        "SetInactive" : "設置為非活動",
-        "Status" : "狀態：{statusI18n}"
+        "Join": "使用你的角色接受此任務",
+        "SetActive": "設定為進行中",
+        "SetAvailable": "設定為可選",
+        "SetCompleted": "設定為已完成",
+        "SetFailed": "設定為已失敗",
+        "SetInactive": "設置為非活動",
+        "Status": "狀態：{statusI18n}"
       }
     },
-    "Settings" : {
-      "allowPlayersAccept" : {
-        "Enable" : "玩家可以接受任務",
-        "EnableHint" : "勾選以允許玩家從可選任務中接受任務。"
+    "Rumors": {
+      "Empty": "沒有傳聞。",
+      "HiddenTooltip": "對玩家隱藏",
+      "SearchTooltip": "依文字或所屬任務名稱搜尋傳聞",
+      "QuestTooltip": "傳聞所屬的任務（僅 GM 可見）"
+    },
+    "Settings": {
+      "allowPlayersAccept": {
+        "Enable": "玩家可以接受任務",
+        "EnableHint": "勾選以允許玩家從可選任務中接受任務。"
       },
-      "allowPlayersCreate" : {
-        "Enable" : "玩家可以新建任務",
-        "EnableHint" : "勾選以允許玩家新建任務。玩家新建的任務將出現在可選任務欄中並且可被玩家編輯。需要給予玩家“新建日誌”權限。"
+      "allowPlayersCreate": {
+        "Enable": "玩家可以新建任務",
+        "EnableHint": "勾選以允許玩家新建任務。玩家新建的任務將出現在可選任務欄中並且可被玩家編輯。需要給予玩家“新建日誌”權限。"
       },
-      "allowPlayersDrag" : {
-        "Enable" : "允許玩家拖拽任務獎勵",
-        "EnableHint" : "勾選以允許玩家將獎勵物品從任務詳情中拖拽到自己的角色卡上。"
+      "allowPlayersDrag": {
+        "Enable": "允許玩家拖拽任務獎勵",
+        "EnableHint": "勾選以允許玩家將獎勵物品從任務詳情中拖拽到自己的角色卡上。"
       },
-      "countHidden" : {
-        "Enable" : "包括隱藏任務數量",
-        "EnableHint" : "勾選以將隱藏任務的數量算入已完成任務/所有任務數量中。"
+      "countHidden": {
+        "Enable": "包括隱藏任務數量",
+        "EnableHint": "勾選以將隱藏任務的數量算入已完成任務/所有任務數量中。"
       },
-      "defaultPermissionLevel" : {
-        "Enable" : "預設任務權限等級",
-        "EnableHint" : "新增任務時，任務所默認的權限級別.",
-        "NONE" : "無",
-        "OBSERVER" : "查看者",
-        "OWNER" : "所有者"
+      "defaultPermissionLevel": {
+        "Enable": "預設任務權限等級",
+        "EnableHint": "新增任務時，任務所默認的權限級別.",
+        "NONE": "無",
+        "OBSERVER": "查看者",
+        "OWNER": "所有者"
       },
-      "dynamicBookmarkBackground" : {
-        "Enable" : "動態書籤背景",
-        "EnableHint" : "啟用此選項後，書籤標籤背景將動態設定為視窗內容背景。"
+      "hideFQLFromPlayers": {
+        "Enable": "對玩家隱藏任務日誌",
+        "EnableHint": "啟用此選項後，所有玩家都無法看到任務日誌。只有 GM 級別的用戶才能訪問任務日誌。"
       },
-      "hideFQLFromPlayers" : {
-        "Enable" : "對玩家隱藏任務日誌",
-        "EnableHint" : "啟用此選項後，所有玩家都無法看到任務日誌。只有 GM 級別的用戶才能訪問任務日誌。"
+      "dateMode": {
+        "Enable": "任務日期",
+        "EnableHint": "任務歷史和任務期限所使用的日期：Foundry 世界日曆的日期或真實日期。",
+        "real": "真實日期",
+        "world": "世界日曆（附加在真實日期之後）"
       },
-      "navStyle" : {
-        "bookmarks" : "書籤",
-        "classic" : "經典標籤頁",
-        "Enable" : "導航方式",
-        "EnableHint" : "選擇如何展示任務日誌的導航。"
+      "historyVisibility": {
+        "Enable": "任務歷史可見性",
+        "EnableHint": "決定誰可以看到任務的「歷史」分頁，其中記錄了誰完成了目標、拿取了獎勵以及變更了狀態。",
+        "gm": "僅 GM",
+        "players": "所有能看到該任務的人"
       },
-      "notifyRewardDrop" : {
-        "Enable" : "顯示獎勵掉落通知",
-        "EnableHint" : "當任務獎勵被放到玩家表上時，將彈出 UI 通知。"
+      "notifyRewardDrop": {
+        "Enable": "顯示獎勵掉落通知",
+        "EnableHint": "當任務獎勵被放到玩家表上時，將彈出 UI 通知。"
       },
-      "questTrackerResizable" : {
-        "Enable" : "任務跟踪器可調整大小",
-        "EnableHint" : "啟用此選項後，將允許對 任務跟踪器 進行手動調整大小控制。"
+      "questTrackerResizable": {
+        "Enable": "任務跟踪器可調整大小",
+        "EnableHint": "啟用此選項後，將允許對 任務跟踪器 進行手動調整大小控制。"
       },
-      "showFolder" : {
-        "Enable" : "顯示任務文件夾",
-        "EnableHint" : "勾選以在日誌欄中顯示目標文件夾。僅用於DEBUG。"
+      "showFolder": {
+        "Enable": "顯示任務文件夾",
+        "EnableHint": "勾選以在日誌欄中顯示目標文件夾。僅用於DEBUG。"
       },
-      "showTasks" : {
-        "default" : "展示目標：已完成/全部",
-        "Enable" : "顯示任務欄中的目標",
-        "EnableHint" : "選擇是否或如何在任務日誌欄中展示任務的目標數量。",
-        "no" : "隱藏 \"目標\" 列表",
-        "onlyCurrent" : "展示目標：已完成"
+      "showTasks": {
+        "default": "展示目標：已完成/全部",
+        "Enable": "顯示任務欄中的目標",
+        "EnableHint": "選擇是否或如何在任務日誌欄中展示任務的目標數量。",
+        "no": "隱藏 \"目標\" 列表",
+        "onlyCurrent": "展示目標：已完成"
       },
-      "trustedPlayerEdit" : {
-        "Enable" : "允許受信任的玩家編輯任務",
-        "EnableHint" : "啟用此選項後，將允許受信任的玩家對他們擁有的擴展任務，進行編輯和狀態控制。"
+      "trustedPlayerEdit": {
+        "Enable": "允許受信任的玩家編輯任務",
+        "EnableHint": "啟用此選項後，將允許受信任的玩家對他們擁有的擴展任務，進行編輯和狀態控制。"
       }
     },
-    "Tooltips" : {
-      "Delete" : "刪除",
-      "Edit" : "編輯",
-      "HiddenQuestNoPlayers" : "這個任務對所有玩家都是隱藏的。",
-      "PrimaryQuest" : "主要任務"
+    "Tooltips": {
+      "Actions": "操作",
+      "Delete": "刪除",
+      "Edit": "編輯",
+      "HiddenQuestNoPlayers": "這個任務對所有玩家都是隱藏的。",
+      "PersonalQuest": "個人任務",
+      "PrimaryQuest": "主要任務"
     }
   }
 }

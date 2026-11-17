@@ -15,8 +15,9 @@
         }
       },
       "Socket": {
-        "Notifications": {
-          "RewardDrop": "FQL (palkkio): {userName} raahasi tavaran \"{itemName}\" hahmolle {actorName}."
+        "Messages": {
+          "Alias": "Quest Log",
+          "RewardDrop": "{userName} otti <strong>{itemName}</strong>{amount} tehtävästä <em>{questName}</em> ja antoi sen hahmolle {actorName}."
         }
       },
       "Utils": {
@@ -24,6 +25,15 @@
           "NoDocument": "Entiteettiä ei voitu ladata UUID:llä \"{uuid}\".",
           "NoPermission": "Sinulla ei ole tarvittavia oikeuksia nähdä tämän entiteetin lomaketta."
         }
+      }
+    },
+    "Currency": {
+      "Notifications": {
+        "Failed": "Valuuttaa ei voitu lisätä toimijalle.",
+        "NoCharacter": "Sinulle ei ole määritetty hahmoa, joka voisi vastaanottaa palkkion.",
+        "NotOwner": "Sinulla ei ole oikeutta muokata tätä toimijaa.",
+        "SelectToken": "Valitse yksi token palkkion vastaanottajaksi.",
+        "Unsupported": "Tämän maailman pelijärjestelmä ei tue kyseistä valuuttaa."
       }
     },
     "DeleteDialog": {
@@ -34,6 +44,20 @@
       "Delete": "Poista",
       "HeaderDel": "Haluatko varmasti poistaa: <p>\"{name}\"</p>",
       "TitleDel": "Poista {title}"
+    },
+    "Keybindings": {
+      "openQuestLog": {
+        "Name": "Avaa tehtäväloki",
+        "Hint": "Avaa tehtävälokin, jos sitä käyttää pelinjohtaja tai jos tehtäväloki ei ole piilotettu."
+      },
+      "openPrimaryQuest": {
+        "Name": "Avaa päätehtävä",
+        "Hint": "Avaa päätehtävän esikatselun / lomakkeen, jos sellainen on. Tarkistaa, että käyttäjä on pelinjohtaja tai hänellä on oikeus nähdä tehtävä."
+      },
+      "toggleQuestTracker": {
+        "Name": "Näytä / piilota tehtäväseurain",
+        "Hint": "Näyttää tai piilottaa tehtäväseurainta."
+      }
     },
     "Labels": {
       "AppHeader": {
@@ -62,10 +86,13 @@
       "LinkCopied": "Entiteetin linkki tähän tehtävään kopioitiin leikepöydälle.",
       "QuestAdded": "Uusi tehtävä \"{name}\" lisättiin {status}-tilassa.",
       "QuestIDCopied": "Tämän tehtävän tunniste kopioitiin leikepöydälle.",
+      "QuestJoined": "{who} hyväksyi tehtävän '{name}'.",
       "QuestMoved": "\"{name}\" siirrettiin ja uudeksi tilaksi asetettiin \"{target}\".",
       "QuestPrimary": "\"{name}\" on uusi päätehtävä.",
-      "QuestTrackerNoActive": "Tehtäväseurain on päällä, mutta keskeneräisiä tehtäviä ei tällä hetkellä ole.",
-      "UserCantOpen": "Käyttäjällä \"{user}\" ei ole oikeuksia avata tätä tehtävää."
+      "QuestDuplicated": "Tehtävä monistettu: {name}",
+      "QuestUnlocked": "Uusi tehtävä on saatavilla.",
+      "UserCantOpen": "Käyttäjällä \"{user}\" ei ole oikeuksia avata tätä tehtävää.",
+      "QuestFolderNotFound": "Quest Log - tehtäväkansiota ei löytynyt; tehtävää ei voi luoda."
     },
     "QuestLog": {
       "Buttons": {
@@ -74,19 +101,42 @@
       "ContextMenu": {
         "CopyEntityLink": "Kopioi entiteetin sisältölinkki",
         "CopyQuestID": "Kopioi tehtävän tunniste",
+        "DuplicateName": "{name} (kopio)",
+        "DuplicateQuest": "Monista tehtävä",
         "PrimaryQuest": "Aseta/poista päätehtäväksi"
       },
+      "GroupBy": {
+        "Giver": "Ryhmittele antajan mukaan",
+        "Group": "Ryhmittele ryhmän mukaan",
+        "Location": "Ryhmittele sijainnin mukaan",
+        "None": "Ei ryhmittelyä"
+      },
       "Labels": {
+        "NoGiver": "Ei antajaa",
+        "NoGroup": "Ei ryhmää",
+        "NoLocation": "Ei sijaintia",
+        "Personal": "Henkilökohtainen",
+        "Search": "Hae…",
         "TableHeader": "{0} tehtävää",
         "SubTitle": "Alitehtävä ({0})"
       },
+      "Personal": {
+        "Hint": "Henkilökohtainen tehtävä näkyy vain sinulle ja pelinjohtajalle.",
+        "Label": "Henkilökohtainen tehtävä",
+        "Title": "Uusi tehtävä"
+      },
       "Title": "Tehtäväloki",
       "Tooltips": {
+        "Search": "Hae tehtäviä nimen, antajan, sijainnin, ryhmän jne. mukaan (kaikki välilehdet).",
+        "GroupBy": "Ryhmittele tämän välilehden tehtävät (vain sinulle).",
         "Objectives": "Tavoitteet"
       }
     },
     "QuestPreview": {
       "Buttons": {
+        "Accept": "Hyväksy",
+        "ClearDeadline": "Poista määräaika",
+        "RewardCurrency": "Valuutta",
         "RewardCustom": "Käyttäjän Määrittelemä",
         "RewardHide": "Piilota",
         "RewardLock": "Lukita",
@@ -94,21 +144,55 @@
         "RewardUnlock": "Avata"
       },
       "Labels": {
+        "AcceptedBy": "Hyväksynyt:",
+        "CreatedByGM": "Pelinjohtajan luoma",
+        "CreatedByPlayer": "Luonut {name}",
         "CustomSource": "Mukautettu alkuperä",
+        "Currency": "Valuutta",
         "Description": "Kuvaus:",
         "DragDropActor": "Raahaa & pudota hahmo, tavara tai muistiinpano tai napsauta vasemmalla asettaaksesi mukautetun alkuperän.",
         "DragDropActorPlayer": "Raahaa & pudota hahmo, tavara tai muistiinpano.",
         "DragDropRewards": "Raahaa & pudota tavaroita tähän asettaaksesi ne palkkioiksi.",
         "GMNotes": "PJ:n muistiinpanot:",
         "Objective": "Tavoite",
+        "Group": "Ryhmä",
+        "Location": "Sijainti",
+        "NoGroup": "Ei ryhmää",
+        "NoLocation": "Ei sijaintia",
         "Objectives": "Tavoitteet:",
+        "Optional": "valinnainen",
+        "Repeatable": "Toistettava",
+        "RepeatableTimes": "Toistettava (suoritettu {n} kertaa)",
         "PlayerNotes": "Pelaajan muistiinpanot:",
+        "Quantity": "Määrä",
+        "Deadline": "Määräaika",
+        "DeadlineDay": "Päivä",
+        "DeadlineHour": "Tunti",
+        "DeadlineMinute": "Minuutti",
+        "DeadlineMonth": "Kuukausi",
+        "DeadlineReal": "Päivämäärä ja kellonaika",
+        "DeadlineYear": "Vuosi",
+        "NoDeadline": "Ei määräaikaa",
+        "QuantityTake": "Otettava määrä:",
+        "RewardChoiceGroup": "Valintaryhmä",
+        "RewardChoiceHint": "Samannimisen ryhmän palkkiot ovat vaihtoehtoja: kun yksi otetaan, muut suljetaan. Jätä tyhjäksi, jos ryhmää ei haluta.",
         "Reward": "Palkkio",
         "Rewards": "Palkkiot:"
       },
       "Management": {
         "AddSubquest": "Lisää alitehtävä",
+        "AllowPlayerEdit": "Salli pelaajien muokata",
+        "Repeatable": "Toistettava tehtävä",
+        "RepeatableHint": "Pelinjohtaja voi nollata toistettavan tehtävän (tavoitteet, laskurit, palkkiot ja alatehtävät), jolloin se tulee uudelleen saataville. Suorituskerrat lasketaan.",
+        "ShowInTracker": "Näytä omassa tehtäväseurainnassani",
+        "AllowPlayerEditHint": "Pelaajat, jotka omistavat tämän pelinjohtajan luoman tehtävän, voivat muokata sen kuvausta, tavoitteita ja palkkioita.",
+        "ChangePersonal": "Vaihda pelaajia",
         "ConfigurePermissions": "Määritä oikeudet",
+        "MakePersonal": "Tee henkilökohtaiseksi",
+        "MakePublic": "Tee julkiseksi",
+        "NoPlayers": "Ei ole pelaajia, joille tehtävän voisi määrittää.",
+        "PersonalContent": "Valitse pelaajat, joille tämä tehtävä on henkilökohtainen. Vain he ja pelinjohtajat näkevät sen alatehtävineen.",
+        "PersonalTitle": "Henkilökohtainen tehtävä",
         "QuestBranching": "Alitehtävät:",
         "QuestSettings": "Tehtävän asetukset:",
         "SplashArt": "Kansikuva:",
@@ -116,20 +200,83 @@
         "SplashQuestIcon": "Aseta tehtävän kuvakkeeksi"
       },
       "Notifications": {
+        "RewardAddFailed": "Palkintoesinettä ei voitu lisätä toimijalle. Tarkista, että voit muokata toimijaa.",
         "BadUUID": "Dokumenttia ei löytynyt UUID:llä \"{uuid}\".",
         "WrongDocType": "Quest Log hyväksyy vain maailman/hakemiston hahmoja, tavaroita ja muistiinpanoja tehtävänantajiksi.",
         "WrongItemType": "Quest Log hyväksyy vain maailman ja hakemiston tavaroita palkkioiksi."
       },
+      "History": {
+        "Accepted": "{user} hyväksyi tehtävän.",
+        "AcceptedBy": "{user} hyväksyi tehtävän hahmolla {actor}.",
+        "Joined": "{user} liittyi tehtävään.",
+        "JoinedBy": "{user} liittyi tehtävään hahmolla {actor}.",
+        "Clear": "Tyhjennä",
+        "ClearContent": "Poistetaanko kaikki tehtävän \"{name}\" historiamerkinnät? Tätä ei voi peruuttaa.",
+        "ClearTitle": "Tyhjennä tehtävän historia",
+        "ClearTooltip": "Poista kaikki historian merkinnät",
+        "Created": "{user} loi tehtävän.",
+        "Empty": "Historiassa ei ole vielä merkintöjä.",
+        "RewardTaken": "{user} otti palkkion {item}{amount}.",
+        "RewardTakenBy": "{user} otti palkkion {item}{amount} hahmolle {actor}.",
+        "Status": "{user} muutti tehtävän tilan tilasta {from} tilaan {to}.",
+        "CounterChanged": "{user} asetti tavoitteen \"{task}\" laskuriksi {count}/{target}.",
+        "TaskCompleted": "{user} merkitsi tavoitteen \"{task}\" suoritetuksi.",
+        "TaskFailed": "{user} merkitsi tavoitteen \"{task}\" epäonnistuneeksi.",
+        "TaskPending": "{user} palautti tavoitteen \"{task}\" odottavaksi.",
+        "Reset": "{user} nollasi tehtävän toistettavaksi (suoritettu tähän mennessä {n} kertaa).",
+        "Title": "Tehtävän historia"
+      },
+      "Repeat": {
+        "ResetContent": "Nollataanko tehtävä \"{name}\" ja sen alatehtävät toistettaviksi? Tavoitteet ja laskurit tyhjennetään, otetut palkkiot palautetaan ja tehtävä tulee saataville.",
+        "ResetTitle": "Nollaa tehtävä",
+        "ResetTooltip": "Nollaa tehtävä toistettavaksi"
+      },
+      "Counter": {
+        "Current": "Nykyinen luku",
+        "Target": "Saavutettava luku",
+        "TargetHint": "0 poistaa laskurin. Kun laskuri saavuttaa tämän luvun, tavoite on suoritettu.",
+        "Title": "Tavoitteen laskuri"
+      },
+      "Rumors": {
+        "Add": "Lisää huhu",
+        "BecameAvailable": "Tehtävä \"{name}\" on nyt saatavilla.",
+        "DeleteContent": "Poistetaanko tämä huhu?",
+        "DeleteTitle": "Poista huhu",
+        "Empty": "Tässä tehtävässä ei ole huhuja.",
+        "Heard": "Kuultu (napsauta merkitäksesi kuulemattomaksi)",
+        "Hidden": "Piilotettu pelaajilta",
+        "Hint": "Huhut ovat irrallisia tekstejä, jotka pelaajat voivat kuulla. Näkyvät huhut näytetään pelaajille tehtävälokin Huhut-välilehdellä kertomatta, mihin tehtävään ne kuuluvat. Kun huhu merkitään kuulluksi, epäaktiivinen tehtävä tulee saataville.",
+        "Counter": "{heard} / {total} vaadituista huhuista kuultu",
+        "MakeOptional": "Valinnainen huhu: ei lasketa tehtävän avaamiseen",
+        "MakeRequired": "Vaadittu huhu: lasketaan tehtävän avaamiseen",
+        "OptionalLabel": "valinnainen",
+        "Required": "Tehtävän avaamiseen tarvittavat huhut",
+        "RequiredHint": "0 = kaikki huhut, jotka eivät ole valinnaisia. Tehtävä tulee saataville, kun pelaajat kuulevat näin monta huhua.",
+        "NotHeard": "Kuulematon (napsauta merkitäksesi kuulluksi)",
+        "Title": "Huhut",
+        "Visible": "Näkyy pelaajille"
+      },
       "Tabs": {
         "Details": "Yksityiskohdat",
         "GMNotes": "PJ:n muistiinpanot",
+        "History": "Historia",
         "PlayerNotes": "Pelaajan muistiinpanot",
-        "QuestManagement": "Hallitse tehtävää"
+        "QuestManagement": "Hallitse tehtävää",
+        "Rumors": "Huhut"
       },
       "Title": "Tehtävän yksityiskohdat - {name}",
       "Tooltips": {
+        "AddCurrency": "Lisää valuuttaa",
         "AddCustom": "Lisää käyttäjän määrittämä",
+        "EditDeadline": "Muokkaa tehtävän määräaikaa",
+        "EditQuantity": "Muokkaa määrää",
+        "TakeAll": "Ota kaikki",
+        "TakeAmount": "Ota tietty määrä",
         "AddObjective": "Lisää tavoite",
+        "CounterMinus": "Vähennä 1",
+        "CounterPlus": "Lisää 1",
+        "TaskCounter": "Aseta tavoitteen laskuri",
+        "SortObjective": "Järjestä vetämällä",
         "ChangeSplashPos": "Muuta kansikuvan tasausta.",
         "DeleteQuestGiver": "Poista tehtävänantaja.",
         "DeleteSplash": "Poista kansikuva.",
@@ -137,6 +284,10 @@
         "LockAll": "Lukitse kaikki",
         "PrimaryQuestSet": "Napsauta asettaaksesi päätehtäväksi.",
         "PrimaryQuestUnset": "Napsauta poistaaksesi päätehtävistä.",
+        "RewardChoice": "Valintaryhmä \"{group}\": ryhmästä voi ottaa vain yhden palkkion.",
+        "RewardClosed": "Toinen saman valintaryhmän palkkio on jo otettu. Napsauta avataksesi uudelleen.",
+        "RewardClosedPlayer": "Toinen saman valintaryhmän palkkio on jo otettu.",
+        "RewardSetChoice": "Aseta tämän palkkion valintaryhmä (ryhmästä voi ottaa vain yhden palkkion).",
         "RewardHidden": "Palkkio on piilotettu. Napsauta näyttääksesi sen.",
         "RewardLocked": "Palkkio on lukittu. Napsauta avataksesi sen.",
         "RewardLockedPlayer": "Palkkio on lukittu.",
@@ -145,20 +296,48 @@
         "RewardVisible": "Palkkio on näkyvillä. Paina piilottaaksesi sen.",
         "ShowAll": "Näytä kaikki",
         "TaskHidden": "Tavoite on piilotettu. Napsauta näyttääksesi sen.",
+        "TaskOptional": "Valinnainen (bonus) tavoite. Napsauta tehdäksesi siitä pakollisen.",
+        "TaskRequired": "Pakollinen tavoite. Napsauta tehdäksesi siitä valinnaisen (bonus).",
+        "TaskNotRepeatable": "Ei toistettava. Napsauta tehdäksesi tavoitteesta toistettavan.",
+        "TaskRepeatable": "Toistettava tavoite. Napsauta tehdäksesi siitä ei-toistettavan.",
+        "TaskReset": "Nollaa tavoite (odottava, laskuri 0:ssa)",
         "TaskVisible": "Tavoite on näkyvillä. Napsauta piilottaaksesi sen.",
         "ToggleImage": "Näytä/piilota pelinappulan/hahmon kuva.",
         "UnlockAll": "Avaa lukitus kaikista",
-        "ViewSplashArt": "Katso kansikuva."
+        "ViewSplashArt": "Katso kansikuva.",
+        "QuestSource": "Tehtävän lähde"
       }
     },
     "QuestTracker": {
+      "Menu": {
+        "Background": "Tausta",
+        "Group": "Ryhmittelyperuste",
+        "GroupBy": {
+          "giver": "Antaja",
+          "group": "Ryhmä",
+          "location": "Sijainti",
+          "none": "Ei mitään"
+        },
+        "Off": "Ei",
+        "On": "Kyllä",
+        "Opaque": "Läpinäkymätön",
+        "Primary": "Vain päätehtävä",
+        "Removed": "Näytä poistetut",
+        "Transparent": "Läpinäkyvä"
+      },
       "NoPrimary": "Päätehtävää ei saatavilla.",
+      "NoQuests": "Ei saatavilla olevia tehtäviä.",
+      "Optional": "valinnainen",
       "Title": "Tehtäväseurain",
       "Tooltips": {
-        "BackgroundShow": "Napsauta näyttääksesi taustan.",
-        "BackgroundUnshow": "Napsauta piilottaaksesi taustan.",
-        "PrimaryQuestShow": "Napsauta näyttääksesi päätehtävän.",
-        "PrimaryQuestUnshow": "Napsauta näyttääksesi kaikki tehtävät."
+        "CollapseObjectives": "Napsauta piilottaaksesi tavoitteet.",
+        "Subquest": "Alatehtävä",
+        "TaskCompleted": "Suoritettu",
+        "TaskFailed": "Epäonnistunut",
+        "TaskPending": "Odottaa",
+        "ExpandObjectives": "Napsauta näyttääksesi tavoitteet.",
+        "RemoveQuest": "Poista tämä tehtävä seurainnastasi.",
+        "RestoreQuest": "Näytä tämä tehtävä taas seurainnassasi."
       }
     },
     "QuestTypes": {
@@ -173,9 +352,11 @@
         "failed": "epäonnistunut",
         "InActive": "Ei-aktiivinen",
         "inactive": "ei-aktiivinen",
+        "Rumor": "Huhut",
         "Status": "Tehtävä on {statusLabel}."
       },
       "Tooltips": {
+        "Join": "Hyväksy tämä tehtävä hahmollasi",
         "SetActive": "Aseta kesken-tilaan",
         "SetAvailable": "Aseta saatavilla-tilaan",
         "SetCompleted": "Aseta suoritettu-tilaan",
@@ -183,6 +364,12 @@
         "SetInactive": "Aseta ei-aktiivinen-tilaan",
         "Status": "Tila: {statusI18n}"
       }
+    },
+    "Rumors": {
+      "Empty": "Huhuja ei ole.",
+      "HiddenTooltip": "Piilotettu pelaajilta",
+      "SearchTooltip": "Hae huhuja tekstin tai tehtävän nimen mukaan",
+      "QuestTooltip": "Huhun tehtävä (vain pelinjohtaja näkee sen)"
     },
     "Settings": {
       "allowPlayersAccept": {
@@ -208,19 +395,21 @@
         "OBSERVER": "Tarkastelija",
         "OWNER": "Omistaja"
       },
-      "dynamicBookmarkBackground": {
-        "Enable": "Dynaaminen kirjanmerkin tausta",
-        "EnableHint": "Jos valittu, kirjanmerkkivälilehden tausta asetetaan dynaamisesti sen ikkunan sisällöstä."
-      },
       "hideFQLFromPlayers": {
         "Enable": "Piilota tehtäväloki pelaajilta",
         "EnableHint": "Jos valittu, tehtäväloki piilotetaan kaikilta pelaajilta. Vain pelinjohtajat voivat käyttää sitä."
       },
-      "navStyle": {
-        "bookmarks": "Kirjanmerkit",
-        "classic": "Klassiset välilehdet",
-        "Enable": "Navigaatiotyyli",
-        "EnableHint": "Valitse, miltä tehtävälokin navigaatio näyttää."
+      "dateMode": {
+        "Enable": "Tehtävien päivämäärät",
+        "EnableHint": "Tehtävien historiassa ja määräajoissa käytettävä päivämäärä: Foundryn maailmankalenterin päivämäärä tai todellinen päivämäärä.",
+        "real": "Todellinen päivämäärä",
+        "world": "Maailmankalenteri (lisätään todelliseen päivämäärään)"
+      },
+      "historyVisibility": {
+        "Enable": "Tehtävähistorian näkyvyys",
+        "EnableHint": "Päätä, kuka näkee tehtävän Historia-välilehden, johon kirjataan, kuka suorittaa tavoitteita, ottaa palkkioita ja muuttaa tilaa.",
+        "gm": "Vain pelinjohtajat",
+        "players": "Kaikki, jotka näkevät tehtävän"
       },
       "notifyRewardDrop": {
         "Enable": "Näytä palkkioiden raahausilmoitukset",
@@ -247,9 +436,11 @@
       }
     },
     "Tooltips": {
+      "Actions": "Toiminnot",
       "Delete": "Poista",
       "Edit": "Muokkaa",
       "HiddenQuestNoPlayers": "Tämä tehtävä on piilotettu kaikilta pelaajilta.",
+      "PersonalQuest": "Henkilökohtainen tehtävä",
       "PrimaryQuest": "Päätehtävä"
     }
   }

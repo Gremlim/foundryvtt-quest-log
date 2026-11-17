@@ -1,5 +1,12 @@
 # Changelog
 
+## Release 0.26.1
+- Translations: the 13 languages besides English and Spanish (Chinese simplified and traditional, Dutch, Finnish, French, German, Italian, Japanese, Korean, Polish, Portuguese (Brazil), Russian and Swedish) now have all the keys of the English file (173 new strings each, translated by Claude without review by native speakers). Spanish got the missing keybinding texts.
+- Translations: removed 19 unused keys (old Quest Tracker header tooltips, the removed `navStyle` and `dynamicBookmarkBackground` settings, `ShowInTrackerHint`, ...) and fixed outdated texts of `QuestPreview.Title`, `Notifications.QuestMoved` and `DeleteDialog.TitleDel` that did not match the placeholders of the English text.
+- The "Quest Source" tooltip of the quest giver and the error shown when the quest folder is not found are now translated.
+- Added `tools/check-lang.mjs` (compares all the language files with `lang/en.json` and lists unused and undefined keys) and `tools/merge-lang.mjs` (adds missing keys to a language file keeping the order of the English one and checking the placeholders).
+- Removed the unused `navStyle` and `dynamicBookmarkBackground` setting names from the constants.
+
 ## Release 0.26.0
 - Breaking: all the module identifiers that used the `ForienQuestLog` prefix now use `QuestLog`: the hooks (`QuestLog.Open.QuestLog`, `QuestLog.Open.QuestTracker`, `QuestLog.Run.DBMigration`, `QuestLog.Lifecycle.ready`, ...), the translation keys and the macros. Macros and external modules that call the old hooks must be updated.
 - The two macro compendiums (GM and player) were regenerated with the new hook names.

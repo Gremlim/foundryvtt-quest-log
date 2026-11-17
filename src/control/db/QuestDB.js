@@ -425,7 +425,7 @@ export class QuestDB
       if (!folder)
       {
          console.warn('QuestLog - QuestDB.createQuest - quest folder not found.');
-         ui.notifications.error('QuestLog - the quest folder was not found; cannot create the quest.');
+         ui.notifications.error('QuestLog.Notifications.QuestFolderNotFound', { localize: true });
          return;
       }
 

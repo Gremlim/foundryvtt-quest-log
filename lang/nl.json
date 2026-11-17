@@ -1,22 +1,6 @@
 {
   "QuestLog": {
     "API": {
-      "QuestDB": {
-        "Labels": {
-          "NewQuest": "Nieuwe Missie"
-        }
-      },
-      "Socket": {
-        "Notifications": {
-          "RewardDrop": "FQL (missiebeloning): {userName} heeft '{itemName}' op {actorName} neergezet."
-        }
-      },
-      "Utils": {
-        "Notifications": {
-          "NoDocument": "Entiteit met UUID '{uuid}' kan niet geladen worden.",
-          "NoPermission": "Je hebt niet de juiste machtigingen om het blad van deze entiteit te bekijken."
-        }
-      },
       "Hooks": {
         "Labels": {
           "OpenMacro": "Open ”{name}”"
@@ -24,16 +8,56 @@
         "Notifications": {
           "NoQuest": "API-fout: Macro met invalide Quest-ID kan niet aangemaakt worden."
         }
+      },
+      "QuestDB": {
+        "Labels": {
+          "NewQuest": "Nieuwe Missie"
+        }
+      },
+      "Socket": {
+        "Messages": {
+          "Alias": "Quest Log",
+          "RewardDrop": "{userName} heeft <strong>{itemName}</strong>{amount} uit de missie <em>{questName}</em> gepakt en aan {actorName} gegeven."
+        }
+      },
+      "Utils": {
+        "Notifications": {
+          "NoDocument": "Entiteit met UUID '{uuid}' kan niet geladen worden.",
+          "NoPermission": "Je hebt niet de juiste machtigingen om het blad van deze entiteit te bekijken."
+        }
+      }
+    },
+    "Currency": {
+      "Notifications": {
+        "Failed": "De valuta kon niet aan de acteur worden toegevoegd.",
+        "NoCharacter": "Je hebt geen toegewezen personage om de beloning te ontvangen.",
+        "NotOwner": "Je hebt geen toestemming om die acteur te bewerken.",
+        "SelectToken": "Selecteer één token om de beloning te ontvangen.",
+        "Unsupported": "Het spelsysteem van deze wereld ondersteunt die valuta niet."
       }
     },
     "DeleteDialog": {
-      "Delete": "Verwijderen",
-      "Cancel": "Annuleren",
-      "TitleDel": "Verwijder {title}",
       "BodyObjective": "Dit doel en de bijbehorende data zullen permanent verwijderd worden.",
       "BodyQuest": "Deze missie en de bijbehorende data zullen permanent verwijderd worden.",
       "BodyReward": "Deze beloning en de bijbehorende data zullen permanent verwijderd worden.",
-      "HeaderDel": "Weet je zeker dat je <p>'{name}'</p> wil verwijderen"
+      "Cancel": "Annuleren",
+      "Delete": "Verwijderen",
+      "HeaderDel": "Weet je zeker dat je <p>'{name}'</p> wil verwijderen",
+      "TitleDel": "Verwijder {title}"
+    },
+    "Keybindings": {
+      "openQuestLog": {
+        "Name": "Missielogboek openen",
+        "Hint": "Opent het missielogboek als het door de SL wordt gebruikt of als het missielogboek niet verborgen is."
+      },
+      "openPrimaryQuest": {
+        "Name": "Hoofdmissie openen",
+        "Hint": "Opent het voorbeeld / blad van de hoofdmissie, indien aanwezig. Controleert of de gebruiker SL is of toestemming heeft om de missie te zien."
+      },
+      "toggleQuestTracker": {
+        "Name": "Missietracker tonen/verbergen",
+        "Hint": "Toont of verbergt de missietracker."
+      }
     },
     "Labels": {
       "AppHeader": {
@@ -43,11 +67,11 @@
     },
     "Migration": {
       "ChatMessage": {
+        "Footer": "Je moet handmatig de bovenstaande missies updaten met valide documentdata uit compendiums of je wereld.<br>",
+        "Header": "Quest Log (DB-migratie)<br>Onverbonden missiegever of beloningen verwijderd uit onderstaande missies:<p>",
         "Notification": "Quest Log - Onverbonden missiegever of beloningen verwijderd uit een of verscheidene missies verwijderd. Lees het chatbericht voor meer informatie.",
         "QuestGiver": "Missiegever",
-        "QuestRewards": "Missiebeloningen",
-        "Footer": "Je moet handmatig de bovenstaande missies updaten met valide documentdata uit compendiums of je wereld.<br>",
-        "Header": "Quest Log (DB-migratie)<br>Onverbonden missiegever of beloningen verwijderd uit onderstaande missies:<p>"
+        "QuestRewards": "Missiebeloningen"
       },
       "Notifications": {
         "Complete": "Quest Log - Datamigratie afgerond.",
@@ -59,106 +83,261 @@
     "Notifications": {
       "CannotOpen": "Kan missiedetails niet openen. Mogelijk is de missie niet meer te bekijken of bestaat de missie niet meer.",
       "FinishQuestAdded": "Rond het wijzigen af en sluit de missie voordat je een nieuwe missie toevoegt.",
-      "QuestMoved": "'{name}' verplaatst en nieuwe status op '{target}' gezet.",
-      "UserCantOpen": "Gebruiker '{user}' heeft niet de juiste machtigingen om deze missie te openen.",
       "LinkCopied": "Entiteitslink voor deze missie is naar het klembord gekopieerd.",
       "QuestAdded": "'{name}' als nieuwe missie met status '{status}' toegevoegd.",
       "QuestIDCopied": "Missie-ID voor deze missie is naar het klembord gekopieerd.",
+      "QuestJoined": "{who} heeft de missie '{name}' geaccepteerd.",
+      "QuestMoved": "'{name}' verplaatst en nieuwe status op '{target}' gezet.",
       "QuestPrimary": "'{name}' is de nieuwe primaire missie.",
-      "QuestTrackerNoActive": "Missietracker is geactiveerd maar er zijn momenteel geen actieve missies."
+      "QuestDuplicated": "Missie gedupliceerd: {name}",
+      "QuestUnlocked": "Er is een nieuwe missie beschikbaar.",
+      "UserCantOpen": "Gebruiker '{user}' heeft niet de juiste machtigingen om deze missie te openen.",
+      "QuestFolderNotFound": "Quest Log - de missiemap is niet gevonden; de missie kan niet worden aangemaakt."
     },
     "QuestLog": {
+      "Buttons": {
+        "AddQuest": "Voeg missie toe"
+      },
       "ContextMenu": {
         "CopyEntityLink": "Kopieer entiteitslink",
         "CopyQuestID": "Kopieer missie-ID",
+        "DuplicateName": "{name} (kopie)",
+        "DuplicateQuest": "Missie dupliceren",
         "PrimaryQuest": "Instellen/uitschakelen als primaire missie"
       },
+      "GroupBy": {
+        "Giver": "Groeperen op opdrachtgever",
+        "Group": "Groeperen op groep",
+        "Location": "Groeperen op locatie",
+        "None": "Geen groepering"
+      },
       "Labels": {
+        "NoGiver": "Geen opdrachtgever",
+        "NoGroup": "Geen groep",
+        "NoLocation": "Geen locatie",
+        "Personal": "Persoonlijk",
+        "Search": "Zoeken…",
         "TableHeader": "{0} Missies",
         "SubTitle": "Sub-missie van {0}"
       },
+      "Personal": {
+        "Hint": "Een persoonlijke missie is alleen zichtbaar voor jou en de SL.",
+        "Label": "Persoonlijke missie",
+        "Title": "Nieuwe missie"
+      },
       "Title": "Missielogboek",
       "Tooltips": {
+        "Search": "Zoek missies op naam, opdrachtgever, locatie, groep, enz. (alle tabbladen).",
+        "GroupBy": "Groepeer de missies van dit tabblad (alleen voor jou).",
         "Objectives": "Doelen"
-      },
-      "Buttons": {
-        "AddQuest": "Voeg missie toe"
       }
     },
     "QuestPreview": {
       "Buttons": {
+        "Accept": "Accepteren",
+        "ClearDeadline": "Deadline verwijderen",
+        "RewardCurrency": "Valuta",
+        "RewardCustom": "Gebruikergedefinieerd",
         "RewardHide": "Verbergen",
         "RewardLock": "Op slot doen",
-        "RewardCustom": "Gebruikergedefinieerd",
         "RewardShow": "Weergeven",
         "RewardUnlock": "Ontgrendelen"
       },
       "Labels": {
+        "AcceptedBy": "Geaccepteerd door:",
+        "CreatedByGM": "Aangemaakt door de SL",
+        "CreatedByPlayer": "Aangemaakt door {name}",
         "CustomSource": "Gebruikergedefinieerde Bron",
+        "Currency": "Valuta",
         "Description": "Beschrijving:",
+        "DragDropActor": "Acteur, object of journaalboeking hiernaartoe slepen of (links) klikken om als gebruikergedefinieerde bron vast te leggen.",
         "DragDropActorPlayer": "Acteur, Voorwerp of Journaalboeking hiernaartoe slepen.",
         "DragDropRewards": "Sleep voorwerpen hiernaartoe om als beloning toe te voegen.",
         "GMNotes": "GM-Notities:",
         "Objective": "Doel",
+        "Group": "Groep",
+        "Location": "Locatie",
+        "NoGroup": "Geen groep",
+        "NoLocation": "Geen locatie",
         "Objectives": "Doelen:",
+        "Optional": "optioneel",
+        "Repeatable": "Herhaalbaar",
+        "RepeatableTimes": "Herhaalbaar ({n} keer voltooid)",
         "PlayerNotes": "Speler-Notities:",
+        "Quantity": "Hoeveelheid",
+        "Deadline": "Deadline",
+        "DeadlineDay": "Dag",
+        "DeadlineHour": "Uur",
+        "DeadlineMinute": "Minuut",
+        "DeadlineMonth": "Maand",
+        "DeadlineReal": "Datum en tijd",
+        "DeadlineYear": "Jaar",
+        "NoDeadline": "Geen deadline",
+        "QuantityTake": "Hoeveelheid om te pakken:",
+        "RewardChoiceGroup": "Keuzegroep",
+        "RewardChoiceHint": "Beloningen met dezelfde groepsnaam zijn alternatieven: wanneer er één wordt gepakt, worden de andere gesloten. Laat leeg voor geen groep.",
         "Reward": "Beloning",
-        "Rewards": "Beloningen:",
-        "DragDropActor": "Acteur, object of journaalboeking hiernaartoe slepen of (links) klikken om als gebruikergedefinieerde bron vast te leggen."
+        "Rewards": "Beloningen:"
       },
       "Management": {
         "AddSubquest": "Sub-missie toevoegen",
-        "QuestBranching": "Sub-missies:",
+        "AllowPlayerEdit": "Spelers toestaan te bewerken",
+        "Repeatable": "Herhaalbare missie",
+        "RepeatableHint": "De SL kan een herhaalbare missie (doelen, tellers, beloningen en submissies) resetten om haar weer beschikbaar te maken. Het aantal keren dat ze is voltooid wordt bijgehouden.",
+        "ShowInTracker": "Tonen in mijn missietracker",
+        "AllowPlayerEditHint": "Spelers die eigenaar zijn van deze missie, aangemaakt door een SL, kunnen de beschrijving, doelen en beloningen bewerken.",
+        "ChangePersonal": "Spelers wijzigen",
         "ConfigurePermissions": "Machtigingen Configureren",
+        "MakePersonal": "Persoonlijk maken",
+        "MakePublic": "Openbaar maken",
+        "NoPlayers": "Er zijn geen spelers aan wie de missie kan worden toegewezen.",
+        "PersonalContent": "Kies de spelers voor wie deze missie persoonlijk is. Alleen zij en de SL's zien haar, inclusief de submissies.",
+        "PersonalTitle": "Persoonlijke missie",
+        "QuestBranching": "Sub-missies:",
+        "QuestSettings": "Missieinstellingen:",
         "SplashArt": "Omslagfoto:",
         "SplashInfo": "Klik om afbeelding in te stellen.",
-        "SplashQuestIcon": "Als missieicoon instellen",
-        "QuestSettings": "Missieinstellingen:"
+        "SplashQuestIcon": "Als missieicoon instellen"
+      },
+      "Notifications": {
+        "RewardAddFailed": "Het beloningsitem kon niet aan de acteur worden toegevoegd. Controleer of je de acteur kunt bewerken.",
+        "BadUUID": "Kon document met UUID {uuid} niet vinden.",
+        "WrongDocType": "Questlog accepteert alleen wereld-/compendiumacteurs, -voorwerpen en -journaalboekingen als missiegever.",
+        "WrongItemType": "Questlog accepteert allen wereld- en compendiumvoorwerpen als beloningen."
+      },
+      "History": {
+        "Accepted": "{user} heeft de missie geaccepteerd.",
+        "AcceptedBy": "{user} heeft de missie geaccepteerd met {actor}.",
+        "Joined": "{user} is bij de missie gekomen.",
+        "JoinedBy": "{user} is met {actor} bij de missie gekomen.",
+        "Clear": "Wissen",
+        "ClearContent": "Alle geschiedenisitems van de missie \"{name}\" verwijderen? Dit kan niet ongedaan worden gemaakt.",
+        "ClearTitle": "De missiegeschiedenis wissen",
+        "ClearTooltip": "Alle items van de geschiedenis verwijderen",
+        "Created": "{user} heeft de missie aangemaakt.",
+        "Empty": "Er zijn nog geen geschiedenisitems.",
+        "RewardTaken": "{user} heeft de beloning {item}{amount} gepakt.",
+        "RewardTakenBy": "{user} heeft de beloning {item}{amount} gepakt voor {actor}.",
+        "Status": "{user} heeft de status van de missie gewijzigd van {from} naar {to}.",
+        "CounterChanged": "{user} heeft de teller van \"{task}\" op {count}/{target} gezet.",
+        "TaskCompleted": "{user} heeft het doel \"{task}\" als voltooid gemarkeerd.",
+        "TaskFailed": "{user} heeft het doel \"{task}\" als mislukt gemarkeerd.",
+        "TaskPending": "{user} heeft het doel \"{task}\" teruggezet naar in afwachting.",
+        "Reset": "{user} heeft de missie gereset om haar te herhalen (tot nu toe {n} keer voltooid).",
+        "Title": "Missiegeschiedenis"
+      },
+      "Repeat": {
+        "ResetContent": "De missie \"{name}\" en haar submissies resetten om ze te herhalen? De doelen en tellers worden gewist, de gepakte beloningen worden hersteld en de missie wordt beschikbaar.",
+        "ResetTitle": "De missie resetten",
+        "ResetTooltip": "De missie resetten om haar te herhalen"
+      },
+      "Counter": {
+        "Current": "Huidig aantal",
+        "Target": "Te bereiken aantal",
+        "TargetHint": "0 verwijdert de teller. Wanneer de teller dit aantal bereikt, is het doel voltooid.",
+        "Title": "Teller van het doel"
+      },
+      "Rumors": {
+        "Add": "Gerucht toevoegen",
+        "BecameAvailable": "De missie \"{name}\" is nu beschikbaar.",
+        "DeleteContent": "Dit gerucht verwijderen?",
+        "DeleteTitle": "Gerucht verwijderen",
+        "Empty": "Deze missie heeft geen geruchten.",
+        "Heard": "Gehoord (klik om als niet gehoord te markeren)",
+        "Hidden": "Verborgen voor de spelers",
+        "Hint": "Geruchten zijn losse teksten die de spelers kunnen horen. Zichtbare geruchten worden aan de spelers getoond in het tabblad Geruchten van het missielogboek, zonder te zeggen bij welke missie ze horen. Wanneer een gerucht als gehoord is gemarkeerd, wordt een inactieve missie beschikbaar.",
+        "Counter": "{heard} van {total} vereiste geruchten gehoord",
+        "MakeOptional": "Optioneel gerucht: telt niet mee om de missie te ontgrendelen",
+        "MakeRequired": "Vereist gerucht: telt mee om de missie te ontgrendelen",
+        "OptionalLabel": "optioneel",
+        "Required": "Geruchten nodig om de missie te ontgrendelen",
+        "RequiredHint": "0 = alle geruchten die niet optioneel zijn. De missie wordt beschikbaar wanneer de spelers zoveel geruchten horen.",
+        "NotHeard": "Niet gehoord (klik om als gehoord te markeren)",
+        "Title": "Geruchten",
+        "Visible": "Zichtbaar voor de spelers"
       },
       "Tabs": {
         "Details": "Details",
         "GMNotes": "GM-Notities",
+        "History": "Geschiedenis",
         "PlayerNotes": "Speler-Notities",
-        "QuestManagement": "Missie beheren"
+        "QuestManagement": "Missie beheren",
+        "Rumors": "Geruchten"
       },
       "Title": "Missiedetails - {name}",
       "Tooltips": {
+        "AddCurrency": "Valuta toevoegen",
         "AddCustom": "Gebruikergedefinieerd Toevoegen",
+        "EditDeadline": "De deadline van de missie bewerken",
+        "EditQuantity": "Hoeveelheid bewerken",
+        "TakeAll": "Alles pakken",
+        "TakeAmount": "Een hoeveelheid pakken",
         "AddObjective": "Doel toevoegen",
+        "CounterMinus": "1 aftrekken",
+        "CounterPlus": "1 toevoegen",
+        "TaskCounter": "De teller van het doel instellen",
+        "SortObjective": "Sleep om te herschikken",
         "ChangeSplashPos": "Omslagfoto-uitlijning wijzigen.",
         "DeleteQuestGiver": "Missiegever verwijderen.",
         "DeleteSplash": "Omslagfoto verwijderen.",
         "HideAll": "Alles verbergen",
         "LockAll": "Alles vergrendelen",
         "PrimaryQuestSet": "Klik om in te stellen als primaire missie.",
+        "PrimaryQuestUnset": "Klik om uit te schakelen als primaire missie.",
+        "RewardChoice": "Keuzegroep \"{group}\": er kan maar één beloning van de groep worden gepakt.",
+        "RewardClosed": "Een andere beloning van zijn keuzegroep is al gepakt. Klik om te heropenen.",
+        "RewardClosedPlayer": "Een andere beloning van zijn keuzegroep is al gepakt.",
+        "RewardSetChoice": "De keuzegroep van deze beloning instellen (er kan maar één beloning van een groep worden gepakt).",
+        "RewardHidden": "Beloning is verborgen. Klik om weer te geven.",
         "RewardLocked": "Belong is vergrendeld. Klik om te ontgrendelen.",
         "RewardLockedPlayer": "Beloning is vergrendeld.",
         "RewardUnlocked": "Beloning is ontgrendeld. Klik om te vergrendelen.",
         "RewardUnlockedPlayer": "Beloning is ontgrendeld.",
         "RewardVisible": "Beloning is zichtbaar. Klik om te verbergen.",
         "ShowAll": "Toon aan allen",
+        "TaskHidden": "Doel is verborgen. Klik om te tonen.",
+        "TaskOptional": "Optioneel (bonus)doel. Klik om het verplicht te maken.",
+        "TaskRequired": "Verplicht doel. Klik om het optioneel (bonus) te maken.",
+        "TaskNotRepeatable": "Niet herhaalbaar. Klik om het doel herhaalbaar te maken.",
+        "TaskRepeatable": "Herhaalbaar doel. Klik om het niet herhaalbaar te maken.",
+        "TaskReset": "Het doel resetten (in afwachting, teller op 0)",
         "TaskVisible": "Doel is zichtbaar. Klik om te verbergen.",
         "ToggleImage": "Token/Acteurafbeelding omschakelen.",
         "UnlockAll": "Alles ontgrendelen",
         "ViewSplashArt": "Omslagfoto bekijken.",
-        "PrimaryQuestUnset": "Klik om uit te schakelen als primaire missie.",
-        "RewardHidden": "Beloning is verborgen. Klik om weer te geven.",
-        "TaskHidden": "Doel is verborgen. Klik om te tonen."
-      },
-      "Notifications": {
-        "BadUUID": "Kon document met UUID {uuid} niet vinden.",
-        "WrongItemType": "Questlog accepteert allen wereld- en compendiumvoorwerpen als beloningen.",
-        "WrongDocType": "Questlog accepteert alleen wereld-/compendiumacteurs, -voorwerpen en -journaalboekingen als missiegever."
+        "QuestSource": "Missiebron"
       }
     },
     "QuestTracker": {
+      "Menu": {
+        "Background": "Achtergrond",
+        "Group": "Groeperen op",
+        "GroupBy": {
+          "giver": "Opdrachtgever",
+          "group": "Groep",
+          "location": "Locatie",
+          "none": "Geen"
+        },
+        "Off": "Nee",
+        "On": "Ja",
+        "Opaque": "Ondoorzichtig",
+        "Primary": "Alleen hoofdmissie",
+        "Removed": "Verwijderde tonen",
+        "Transparent": "Transparant"
+      },
       "NoPrimary": "Geen primaire missie beschikbaar.",
+      "NoQuests": "Geen missies beschikbaar.",
+      "Optional": "optioneel",
       "Title": "Missietracker",
       "Tooltips": {
-        "BackgroundUnshow": "Klik om achtergrond transparent te maken.",
-        "PrimaryQuestShow": "Klik om primaire missie te tonen.",
-        "PrimaryQuestUnshow": "Klik om alle missies te tonen.",
-        "BackgroundShow": "Klik om achtergrond te tonen."
+        "CollapseObjectives": "Klik om de doelen te verbergen.",
+        "Subquest": "Submissie",
+        "TaskCompleted": "Voltooid",
+        "TaskFailed": "Mislukt",
+        "TaskPending": "In afwachting",
+        "ExpandObjectives": "Klik om de doelen te tonen.",
+        "RemoveQuest": "Verwijder deze missie uit je tracker.",
+        "RestoreQuest": "Toon deze missie opnieuw in je tracker."
       }
     },
     "QuestTypes": {
@@ -169,20 +348,28 @@
         "available": "beschikbaar",
         "Completed": "Voltooid",
         "completed": "voltooid",
+        "Failed": "Gefaald",
+        "failed": "gefaald",
         "InActive": "Inactief",
         "inactive": "inactief",
-        "Status": "Missie is {statusLabel}.",
-        "Failed": "Gefaald",
-        "failed": "gefaald"
+        "Rumor": "Geruchten",
+        "Status": "Missie is {statusLabel}."
       },
       "Tooltips": {
+        "Join": "Accepteer deze missie met je personage",
         "SetActive": "Instellen als Actief",
+        "SetAvailable": "Instellen als Beschikbaar",
         "SetCompleted": "Instellen als Voltooid",
         "SetFailed": "Instellen als Gefaald",
         "SetInactive": "Instellen als Inactief",
-        "Status": "Status: {statusI18n}",
-        "SetAvailable": "Instellen als Beschikbaar"
+        "Status": "Status: {statusI18n}"
       }
+    },
+    "Rumors": {
+      "Empty": "Er zijn geen geruchten.",
+      "HiddenTooltip": "Verborgen voor de spelers",
+      "SearchTooltip": "Zoek geruchten op hun tekst of op de naam van hun missie",
+      "QuestTooltip": "Missie van het gerucht (alleen de SL ziet het)"
     },
     "Settings": {
       "allowPlayersAccept": {
@@ -202,29 +389,31 @@
         "EnableHint": "Indien aangevinkt bevat het aantal voltooide/totale doelen ook verborgen doelen."
       },
       "defaultPermissionLevel": {
+        "Enable": "Standaard machtigingsniveau voor missies",
         "EnableHint": "Stelt het standaard machtigingsniveau in voor nieuw aangemaakte missies.",
         "NONE": "Geen",
         "OBSERVER": "Waarnemer",
-        "OWNER": "Eigenaar",
-        "Enable": "Standaard machtigingsniveau voor missies"
-      },
-      "dynamicBookmarkBackground": {
-        "Enable": "Dynamische bladwijzerachtergrond",
-        "EnableHint": "Indien aangevinkt wordt de vensterinhoud dynamisch ingesteld als achtergrond voor het bladwijzertabblad."
+        "OWNER": "Eigenaar"
       },
       "hideFQLFromPlayers": {
         "Enable": "Verberg Missielogboek voor spelers",
         "EnableHint": "Indien aangevinkt verbergt deze optie het missielogboek voor alle spelers. Alleen GM-gebruikers zullen toegang hebben tot het missielogboek."
       },
-      "navStyle": {
-        "bookmarks": "Bladwijzers",
-        "classic": "Klassieke tabbladen",
-        "Enable": "Navigatiestijl",
-        "EnableHint": "Stel in hoe de navigatie van het missielogboek wordt weergegeven."
+      "dateMode": {
+        "Enable": "Missiedata",
+        "EnableHint": "Datum die in de missiegeschiedenis en voor de deadlines van de missies wordt gebruikt: de datum van de wereldkalender van Foundry of de echte datum.",
+        "real": "Echte datum",
+        "world": "Wereldkalender (toegevoegd aan de echte datum)"
+      },
+      "historyVisibility": {
+        "Enable": "Zichtbaarheid van de missiegeschiedenis",
+        "EnableHint": "Bepaal wie het tabblad Geschiedenis van een missie kan zien, dat bijhoudt wie doelen voltooit, beloningen pakt en de status wijzigt.",
+        "gm": "Alleen SL's",
+        "players": "Iedereen die de missie kan zien"
       },
       "notifyRewardDrop": {
-        "EnableHint": "Indien aangevinkt worden in de UI meldingen getoond als missiebeloningen op spelerbladen worden neergezet.",
-        "Enable": "Beloningsmeldingen tonen"
+        "Enable": "Beloningsmeldingen tonen",
+        "EnableHint": "Indien aangevinkt worden in de UI meldingen getoond als missiebeloningen op spelerbladen worden neergezet."
       },
       "questTrackerResizable": {
         "Enable": "Missietracker schaalbaar",
@@ -247,9 +436,11 @@
       }
     },
     "Tooltips": {
+      "Actions": "Acties",
       "Delete": "Verwijderen",
       "Edit": "Wijzigen",
       "HiddenQuestNoPlayers": "Deze missie is verborgen voor alle spelers.",
+      "PersonalQuest": "Persoonlijke missie",
       "PrimaryQuest": "Primaire Missie"
     }
   }

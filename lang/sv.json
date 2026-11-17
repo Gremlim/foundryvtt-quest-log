@@ -15,8 +15,9 @@
         }
       },
       "Socket": {
-        "Notifications": {
-          "RewardDrop": "FQL (uppdragsbelöning): {userName} släppte '{itemName}' på {actorName}."
+        "Messages": {
+          "Alias": "Quest Log",
+          "RewardDrop": "{userName} tog <strong>{itemName}</strong>{amount} från uppdraget <em>{questName}</em> och gav det till {actorName}."
         }
       },
       "Utils": {
@@ -24,6 +25,15 @@
           "NoDocument": "En entitet kunde inte laddas med UUID: '{uuid}'.",
           "NoPermission": "Du har inte tillräckliga behörigheter för att visa detta entitetsblad."
         }
+      }
+    },
+    "Currency": {
+      "Notifications": {
+        "Failed": "Det gick inte att lägga till valutan till aktören.",
+        "NoCharacter": "Du har ingen tilldelad karaktär som kan ta emot belöningen.",
+        "NotOwner": "Du har inte behörighet att redigera den aktören.",
+        "SelectToken": "Välj en token som ska ta emot belöningen.",
+        "Unsupported": "Spelsystemet i den här världen stöder inte den valutan."
       }
     },
     "DeleteDialog": {
@@ -34,6 +44,20 @@
       "Delete": "Radera",
       "HeaderDel": "Är du säker att du vill radera: <p>'{name}'</p>",
       "TitleDel": "Radera {title}"
+    },
+    "Keybindings": {
+      "openQuestLog": {
+        "Name": "Öppna uppdragsloggen",
+        "Hint": "Öppnar uppdragsloggen om den används av spelledaren eller om uppdragsloggen inte är dold."
+      },
+      "openPrimaryQuest": {
+        "Name": "Öppna huvuduppdraget",
+        "Hint": "Öppnar förhandsvisningen / bladet för huvuduppdraget, om det finns något. Kontrollerar att användaren är spelledare eller har behörighet att se uppdraget."
+      },
+      "toggleQuestTracker": {
+        "Name": "Växla uppdragsspåraren",
+        "Hint": "Visar eller döljer uppdragsspåraren."
+      }
     },
     "Labels": {
       "AppHeader": {
@@ -62,10 +86,13 @@
       "LinkCopied": "Entitetslänk för detta uppdrag har kopierats till urklipp.",
       "QuestAdded": "Lagt till '{name}' som ett nytt uppdrag med status: '{status}'.",
       "QuestIDCopied": "Uppdrags-ID för detta uppdrag har kopierats till urklipp.",
+      "QuestJoined": "{who} accepterade uppdraget '{name}'.",
       "QuestMoved": "Flyttat '{name}' och satt dess status till: '{target}'.",
       "QuestPrimary": "'{name}' är det nya primära uppdraget.",
-      "QuestTrackerNoActive": "Uppdragsspårare är aktiverad, men det finns inga pågående uppdrag för närvarande.",
-      "UserCantOpen": "Användare '{user}' har inte behörighet att öppna det här uppdraget."
+      "QuestDuplicated": "Uppdraget duplicerades: {name}",
+      "QuestUnlocked": "Ett nytt uppdrag är tillgängligt.",
+      "UserCantOpen": "Användare '{user}' har inte behörighet att öppna det här uppdraget.",
+      "QuestFolderNotFound": "Quest Log - uppdragsmappen hittades inte; uppdraget kan inte skapas."
     },
     "QuestLog": {
       "Buttons": {
@@ -74,19 +101,42 @@
       "ContextMenu": {
         "CopyEntityLink": "Kopiera entitetsinnehållslänk",
         "CopyQuestID": "Kopiera uppdrags-ID",
+        "DuplicateName": "{name} (kopia)",
+        "DuplicateQuest": "Duplicera uppdrag",
         "PrimaryQuest": "Välj / välj bort som primärt uppdrag"
       },
+      "GroupBy": {
+        "Giver": "Gruppera efter uppdragsgivare",
+        "Group": "Gruppera efter grupp",
+        "Location": "Gruppera efter plats",
+        "None": "Ingen gruppering"
+      },
       "Labels": {
+        "NoGiver": "Ingen uppdragsgivare",
+        "NoGroup": "Ingen grupp",
+        "NoLocation": "Ingen plats",
+        "Personal": "Personligt",
+        "Search": "Sök…",
         "TableHeader": "{0} Uppdrag",
         "SubTitle": "Deluppdrag till {0}"
       },
+      "Personal": {
+        "Hint": "Ett personligt uppdrag syns bara för dig och spelledaren.",
+        "Label": "Personligt uppdrag",
+        "Title": "Nytt uppdrag"
+      },
       "Title": "Uppdragslogg",
       "Tooltips": {
+        "Search": "Sök uppdrag efter namn, uppdragsgivare, plats, grupp osv. (alla flikar).",
+        "GroupBy": "Gruppera uppdragen på den här fliken (bara för dig).",
         "Objectives": "Mål"
       }
     },
     "QuestPreview": {
       "Buttons": {
+        "Accept": "Acceptera",
+        "ClearDeadline": "Ta bort tidsgräns",
+        "RewardCurrency": "Valuta",
         "RewardCustom": "Användardefinierad",
         "RewardHide": "Dölja",
         "RewardLock": "Låsa",
@@ -94,21 +144,55 @@
         "RewardUnlock": "Låsa Upp"
       },
       "Labels": {
+        "AcceptedBy": "Accepterat av:",
+        "CreatedByGM": "Skapat av spelledaren",
+        "CreatedByPlayer": "Skapat av {name}",
         "CustomSource": "Anpassad källa",
+        "Currency": "Valuta",
         "Description": "Beskrivning:",
         "DragDropActor": "Dra och släpp aktörer, saker eller journalanteckningar eller vänsterklicka för att ställa in en anpassad källa.",
         "DragDropActorPlayer": "Dra och släpp aktörer, saker eller journalanteckningar.",
         "DragDropRewards": "Dra och släpp objekt här för att lägga till dem som belöningar.",
         "GMNotes": "SL-anteckningar:",
         "Objective": "Mål",
+        "Group": "Grupp",
+        "Location": "Plats",
+        "NoGroup": "Ingen grupp",
+        "NoLocation": "Ingen plats",
         "Objectives": "Mål:",
+        "Optional": "valfritt",
+        "Repeatable": "Återkommande",
+        "RepeatableTimes": "Återkommande (avklarat {n} gånger)",
         "PlayerNotes": "Spelare-anteckningar:",
+        "Quantity": "Mängd",
+        "Deadline": "Tidsgräns",
+        "DeadlineDay": "Dag",
+        "DeadlineHour": "Timme",
+        "DeadlineMinute": "Minut",
+        "DeadlineMonth": "Månad",
+        "DeadlineReal": "Datum och tid",
+        "DeadlineYear": "År",
+        "NoDeadline": "Ingen tidsgräns",
+        "QuantityTake": "Mängd att ta:",
+        "RewardChoiceGroup": "Valgrupp",
+        "RewardChoiceHint": "Belöningar med samma gruppnamn är alternativ: när en tas stängs de andra. Lämna tomt för ingen grupp.",
         "Reward": "Belöning",
         "Rewards": "Belöningar:"
       },
       "Management": {
         "AddSubquest": "Skapa underuppdrag",
+        "AllowPlayerEdit": "Tillåt spelare att redigera",
+        "Repeatable": "Återkommande uppdrag",
+        "RepeatableHint": "Spelledaren kan återställa ett återkommande uppdrag (mål, räknare, belöningar och deluppdrag) för att göra det tillgängligt igen. Antalet gånger det har avklarats räknas.",
+        "ShowInTracker": "Visa i min uppdragsspårare",
+        "AllowPlayerEditHint": "Spelare som äger det här uppdraget, skapat av en spelledare, kan redigera dess beskrivning, mål och belöningar.",
+        "ChangePersonal": "Ändra spelare",
         "ConfigurePermissions": "Konfigurera Behörigheter",
+        "MakePersonal": "Gör personligt",
+        "MakePublic": "Gör offentligt",
+        "NoPlayers": "Det finns inga spelare att tilldela uppdraget till.",
+        "PersonalContent": "Välj de spelare som uppdraget är personligt för. Bara de och spelledarna ser det, inklusive dess deluppdrag.",
+        "PersonalTitle": "Personligt uppdrag",
         "QuestBranching": "Underuppdrag:",
         "QuestSettings": "Uppdragsinställningar:",
         "SplashArt": "Skvätt Konst:",
@@ -116,20 +200,83 @@
         "SplashQuestIcon": "Ställ in som uppdragsikon"
       },
       "Notifications": {
+        "RewardAddFailed": "Det gick inte att lägga till belöningsföremålet till aktören. Kontrollera att du kan redigera aktören.",
         "BadUUID": "Det gick inte att hämta dokumentet för UUID: '{uuid}'.",
         "WrongDocType": "Quest Log accepterar endast världs-/kompendieaktörer, saker och journalanteckningar som uppdragsgivare.",
         "WrongItemType": "Quest Log accepterar endast världs- och kompendiumobjekt som belöningar."
       },
+      "History": {
+        "Accepted": "{user} accepterade uppdraget.",
+        "AcceptedBy": "{user} accepterade uppdraget med {actor}.",
+        "Joined": "{user} gick med i uppdraget.",
+        "JoinedBy": "{user} gick med i uppdraget med {actor}.",
+        "Clear": "Rensa",
+        "ClearContent": "Ta bort alla historikposter för uppdraget \"{name}\"? Detta kan inte ångras.",
+        "ClearTitle": "Rensa uppdragshistoriken",
+        "ClearTooltip": "Ta bort alla poster i historiken",
+        "Created": "{user} skapade uppdraget.",
+        "Empty": "Det finns inga historikposter än.",
+        "RewardTaken": "{user} tog belöningen {item}{amount}.",
+        "RewardTakenBy": "{user} tog belöningen {item}{amount} åt {actor}.",
+        "Status": "{user} ändrade uppdragets status från {from} till {to}.",
+        "CounterChanged": "{user} satte räknaren för \"{task}\" till {count}/{target}.",
+        "TaskCompleted": "{user} markerade målet \"{task}\" som avklarat.",
+        "TaskFailed": "{user} markerade målet \"{task}\" som misslyckat.",
+        "TaskPending": "{user} återställde målet \"{task}\" till väntande.",
+        "Reset": "{user} återställde uppdraget för att upprepa det (hittills avklarat {n} gånger).",
+        "Title": "Uppdragshistorik"
+      },
+      "Repeat": {
+        "ResetContent": "Återställa uppdraget \"{name}\" och dess deluppdrag för att upprepa dem? Målen och räknarna rensas, tagna belöningar återställs och uppdraget blir tillgängligt.",
+        "ResetTitle": "Återställ uppdraget",
+        "ResetTooltip": "Återställ uppdraget för att upprepa det"
+      },
+      "Counter": {
+        "Current": "Nuvarande antal",
+        "Target": "Antal att nå",
+        "TargetHint": "0 tar bort räknaren. När räknaren når det här antalet är målet avklarat.",
+        "Title": "Målets räknare"
+      },
+      "Rumors": {
+        "Add": "Lägg till rykte",
+        "BecameAvailable": "Uppdraget \"{name}\" är nu tillgängligt.",
+        "DeleteContent": "Ta bort det här ryktet?",
+        "DeleteTitle": "Ta bort rykte",
+        "Empty": "Det här uppdraget har inga rykten.",
+        "Heard": "Hört (klicka för att markera som ohört)",
+        "Hidden": "Dolt för spelarna",
+        "Hint": "Rykten är fria texter som spelarna kan få höra. Synliga rykten visas för spelarna på fliken Rykten i uppdragsloggen, utan att säga vilket uppdrag de hör till. När ett rykte markeras som hört blir ett inaktivt uppdrag tillgängligt.",
+        "Counter": "{heard} av {total} nödvändiga rykten hörda",
+        "MakeOptional": "Valfritt rykte: räknas inte för att låsa upp uppdraget",
+        "MakeRequired": "Nödvändigt rykte: räknas för att låsa upp uppdraget",
+        "OptionalLabel": "valfritt",
+        "Required": "Rykten som krävs för att låsa upp uppdraget",
+        "RequiredHint": "0 = alla rykten som inte är valfria. Uppdraget blir tillgängligt när spelarna hör så många rykten.",
+        "NotHeard": "Ohört (klicka för att markera som hört)",
+        "Title": "Rykten",
+        "Visible": "Synligt för spelarna"
+      },
       "Tabs": {
         "Details": "Detaljer",
         "GMNotes": "SL-anteckningar",
+        "History": "Historik",
         "PlayerNotes": "Spelare-anteckningar",
-        "QuestManagement": "Hantera uppdrag"
+        "QuestManagement": "Hantera uppdrag",
+        "Rumors": "Rykten"
       },
-      "Title": "Uppdragsdetaljer",
+      "Title": "Uppdragsdetaljer - {name}",
       "Tooltips": {
+        "AddCurrency": "Lägg till valuta",
         "AddCustom": "Lägg till användardefinierad",
+        "EditDeadline": "Redigera uppdragets tidsgräns",
+        "EditQuantity": "Redigera mängd",
+        "TakeAll": "Ta allt",
+        "TakeAmount": "Ta en mängd",
         "AddObjective": "Lägg till Mål",
+        "CounterMinus": "Dra av 1",
+        "CounterPlus": "Lägg till 1",
+        "TaskCounter": "Ställ in målets räknare",
+        "SortObjective": "Dra för att ändra ordning",
         "ChangeSplashPos": "Ändra blänkarbild-justering.",
         "DeleteQuestGiver": "Ta bort uppdragsgivare.",
         "DeleteSplash": "Ta bort blänkar-bild.",
@@ -137,6 +284,10 @@
         "LockAll": "Lås allt",
         "PrimaryQuestSet": "Klicka för att göra primärt uppdrag.",
         "PrimaryQuestUnset": "Klicka för att avaktivera primärt uppdrag.",
+        "RewardChoice": "Valgrupp \"{group}\": bara en belöning i gruppen kan tas.",
+        "RewardClosed": "En annan belöning i dess valgrupp har redan tagits. Klicka för att öppna igen.",
+        "RewardClosedPlayer": "En annan belöning i dess valgrupp har redan tagits.",
+        "RewardSetChoice": "Ställ in valgruppen för den här belöningen (bara en belöning i en grupp kan tas).",
         "RewardHidden": "Belöningen är dold. Klicka för att visa.",
         "RewardLocked": "Belöningen är låst. Klicka för att låsa upp.",
         "RewardLockedPlayer": "Belöningen är låst.",
@@ -145,20 +296,48 @@
         "RewardVisible": "Belöningen är synlig. Klicka för att dölja.",
         "ShowAll": "Visa Allt",
         "TaskHidden": "Mål är dolt. Klicka för att visa.",
+        "TaskOptional": "Valfritt (bonus)mål. Klicka för att göra det obligatoriskt.",
+        "TaskRequired": "Obligatoriskt mål. Klicka för att göra det valfritt (bonus).",
+        "TaskNotRepeatable": "Inte återkommande. Klicka för att göra målet återkommande.",
+        "TaskRepeatable": "Återkommande mål. Klicka för att göra det inte återkommande.",
+        "TaskReset": "Återställ målet (väntande, räknare på 0)",
         "TaskVisible": "Mål är synligt. Klicka för att dölja.",
         "ToggleImage": "Toggla Spelfigursbild / Aktörsbild.",
         "UnlockAll": "Lås upp Alla",
-        "ViewSplashArt": "Se blänkarbild."
+        "ViewSplashArt": "Se blänkarbild.",
+        "QuestSource": "Uppdragets källa"
       }
     },
     "QuestTracker": {
+      "Menu": {
+        "Background": "Bakgrund",
+        "Group": "Gruppera efter",
+        "GroupBy": {
+          "giver": "Uppdragsgivare",
+          "group": "Grupp",
+          "location": "Plats",
+          "none": "Ingen"
+        },
+        "Off": "Nej",
+        "On": "Ja",
+        "Opaque": "Ogenomskinlig",
+        "Primary": "Endast huvuduppdrag",
+        "Removed": "Visa borttagna",
+        "Transparent": "Genomskinlig"
+      },
       "NoPrimary": "Inget primärt uppdrag tillgängligt.",
+      "NoQuests": "Inga uppdrag tillgängliga.",
+      "Optional": "valfritt",
       "Title": "Uppdragsspårare",
       "Tooltips": {
-        "BackgroundShow": "Klicka för att visa bakgrund.",
-        "BackgroundUnshow": "Klicka för att göra bakgrunden genomskinlig.",
-        "PrimaryQuestShow": "Klicka för att visa primärt uppdrag.",
-        "PrimaryQuestUnshow": "Klicka för att visa alla uppdrag."
+        "CollapseObjectives": "Klicka för att dölja målen.",
+        "Subquest": "Deluppdrag",
+        "TaskCompleted": "Avklarat",
+        "TaskFailed": "Misslyckat",
+        "TaskPending": "Väntande",
+        "ExpandObjectives": "Klicka för att visa målen.",
+        "RemoveQuest": "Ta bort det här uppdraget från din spårare.",
+        "RestoreQuest": "Visa det här uppdraget i din spårare igen."
       }
     },
     "QuestTypes": {
@@ -173,9 +352,11 @@
         "failed": "misslyckade",
         "InActive": "Inaktiva",
         "inactive": "inaktiva",
+        "Rumor": "Rykten",
         "Status": "Uppdrag är {statusLabel}."
       },
       "Tooltips": {
+        "Join": "Acceptera det här uppdraget med din karaktär",
         "SetActive": "Ställ in som Pågående",
         "SetAvailable": "Ställ in som tillgänglig",
         "SetCompleted": "Ställ in som slutfört",
@@ -183,6 +364,12 @@
         "SetInactive": "Ställ in som inaktiv",
         "Status": "Status: {statusI18n}"
       }
+    },
+    "Rumors": {
+      "Empty": "Det finns inga rykten.",
+      "HiddenTooltip": "Dolt för spelarna",
+      "SearchTooltip": "Sök rykten efter deras text eller namnet på deras uppdrag",
+      "QuestTooltip": "Ryktets uppdrag (bara spelledaren ser det)"
     },
     "Settings": {
       "allowPlayersAccept": {
@@ -208,19 +395,21 @@
         "OBSERVER": "Observatör",
         "OWNER": "Ägare"
       },
-      "dynamicBookmarkBackground": {
-        "Enable": "Dynamisk bokmärkebakgrund",
-        "EnableHint": "Om markerad, ställs bokmärkesflikens bakgrund dynamiskt in på fönstrets innehållsbakgrund."
-      },
       "hideFQLFromPlayers": {
         "Enable": "Dölj Uppdragslogg från spelare",
         "EnableHint": "När det här alternativet är aktiverat döljer Uppdragsloggen för alla spelare. Endast användare på SL-nivå kommer att kunna komma åt Uppdragsloggen."
       },
-      "navStyle": {
-        "bookmarks": "Bokmärken",
-        "classic": "Klassiska flikar",
-        "Enable": "Navigationsstil",
-        "EnableHint": "Bestäm hur Uppdragsloggens navigering ska visas."
+      "dateMode": {
+        "Enable": "Uppdragsdatum",
+        "EnableHint": "Datum som används i uppdragshistoriken och för uppdragens tidsgränser: datumet i Foundrys världskalender eller det verkliga datumet.",
+        "real": "Verkligt datum",
+        "world": "Världskalender (läggs till det verkliga datumet)"
+      },
+      "historyVisibility": {
+        "Enable": "Synlighet för uppdragshistoriken",
+        "EnableHint": "Bestäm vem som kan se fliken Historik för ett uppdrag, som loggar vem som avklarar mål, tar belöningar och ändrar status.",
+        "gm": "Endast spelledare",
+        "players": "Alla som kan se uppdraget"
       },
       "notifyRewardDrop": {
         "Enable": "Visa belöningsaviseringar",
@@ -247,9 +436,11 @@
       }
     },
     "Tooltips": {
+      "Actions": "Åtgärder",
       "Delete": "Radera",
       "Edit": "Redigera",
       "HiddenQuestNoPlayers": "Detta uppdrag är dolt för alla spelare.",
+      "PersonalQuest": "Personligt uppdrag",
       "PrimaryQuest": "Primärt Uppdrag"
     }
   }

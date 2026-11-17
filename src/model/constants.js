@@ -97,10 +97,8 @@ const settings = {
    dateMode: 'dateMode',
    defaultAbstractRewardImage: 'defaultAbstractRewardImage',
    defaultPermission: 'defaultPermission',
-   dynamicBookmarkBackground: 'dynamicBookmarkBackground',
    hideFQLFromPlayers: 'hideFQLFromPlayers',
    historyVisibility: 'historyVisibility',
-   navStyle: 'navStyle',
    notifyRewardDrop: 'notifyRewardDrop',
    primaryQuest: 'primaryQuest',
    rumors: 'rumors',
@@ -165,13 +163,9 @@ export { constants, domEvents, questStatus, questStatusI18n, questTabIndex, sess
  *
  * @property {string}   dateMode - Date shown in the history and used for deadlines: world calendar or real date.
  *
- * @property {string}   dynamicBookmarkBackground - Uses jQuery to dynamically set the tab background image.
- *
  * @property {string}   hideFQLFromPlayers - Completely hides FQL from players.
  *
  * @property {string}   historyVisibility - Who can see the quest history: only GMs or everyone that sees the quest.
- *
- * @property {string}   navStyle - Navigation style / classic / or bookmark tabs.
  *
  * @property {string}   notifyRewardDrop - Post a notification UI message when rewards are dropped in actor sheets.
  *

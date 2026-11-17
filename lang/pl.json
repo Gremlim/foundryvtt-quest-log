@@ -15,8 +15,9 @@
         }
       },
       "Socket": {
-        "Notifications": {
-          "RewardDrop": "FQL (nagroda za misję): {userName} umieszczony '{itemName}' na {actorName}."
+        "Messages": {
+          "Alias": "Quest Log",
+          "RewardDrop": "{userName} wziął <strong>{itemName}</strong>{amount} z misji <em>{questName}</em> i dał to postaci {actorName}."
         }
       },
       "Utils": {
@@ -24,6 +25,15 @@
           "NoDocument": "Nie można załadować dokumentu dla UUID: '{uuid}'.",
           "NoPermission": "Nie masz wystarczających uprawnień, aby wyświetlić ten arkusz encji."
         }
+      }
+    },
+    "Currency": {
+      "Notifications": {
+        "Failed": "Nie udało się dodać waluty do aktora.",
+        "NoCharacter": "Nie masz przypisanej postaci, która mogłaby otrzymać nagrodę.",
+        "NotOwner": "Nie masz uprawnień do edycji tego aktora.",
+        "SelectToken": "Wybierz jeden token, który otrzyma nagrodę.",
+        "Unsupported": "System gry tego świata nie obsługuje tej waluty."
       }
     },
     "DeleteDialog": {
@@ -34,6 +44,20 @@
       "Delete": "Usuń",
       "HeaderDel": "Czy na pewno chcesz usunąć: <p>'{name}'</p>",
       "TitleDel": "Usuń {title}"
+    },
+    "Keybindings": {
+      "openQuestLog": {
+        "Name": "Otwórz Dziennik Misji",
+        "Hint": "Otwiera Dziennik Misji, jeśli używa go MG lub jeśli Dziennik Misji nie jest ukryty."
+      },
+      "openPrimaryQuest": {
+        "Name": "Otwórz misję główną",
+        "Hint": "Otwiera podgląd / kartę misji głównej, jeśli istnieje. Sprawdza, czy użytkownik jest MG lub ma uprawnienia do zobaczenia misji."
+      },
+      "toggleQuestTracker": {
+        "Name": "Przełącz Śledzenie Misji",
+        "Hint": "Pokazuje lub ukrywa Śledzenie Misji."
+      }
     },
     "Labels": {
       "AppHeader": {
@@ -62,10 +86,13 @@
       "LinkCopied": "Link do dokumentu dla tej misji został skopiowany do schowka.",
       "QuestAdded": "Dodany '{name}' jako nowa misja ze statusem: '{status}'.",
       "QuestIDCopied": "Identyfikator dokumentu tej misji został skopiowany do schowka.",
+      "QuestJoined": "{who} przyjął misję '{name}'.",
       "QuestMoved": "Wzruszony '{name}' i ustaw nowy status na: '{target}'.",
       "QuestPrimary": "'{name}' to nowa główna misja.",
-      "QuestTrackerNoActive": "Śledzenie misji jest włączone, ale obecnie nie ma żadnych misji w toku.",
-      "UserCantOpen": "Użytkownik '{user}' nie posiada uprawnień do otwarcia tej Misji."
+      "QuestDuplicated": "Zduplikowano misję: {name}",
+      "QuestUnlocked": "Dostępna jest nowa misja.",
+      "UserCantOpen": "Użytkownik '{user}' nie posiada uprawnień do otwarcia tej Misji.",
+      "QuestFolderNotFound": "Quest Log - nie znaleziono folderu misji; nie można utworzyć misji."
     },
     "QuestLog": {
       "Buttons": {
@@ -74,19 +101,42 @@
       "ContextMenu": {
         "CopyEntityLink": "Skopiuj link treści encji",
         "CopyQuestID": "Skopiuj identyfikator misji",
+        "DuplicateName": "{name} (kopia)",
+        "DuplicateQuest": "Duplikuj misję",
         "PrimaryQuest": "Ustaw / wyłącz jako misję główną"
       },
+      "GroupBy": {
+        "Giver": "Grupuj według zleceniodawcy",
+        "Group": "Grupuj według grupy",
+        "Location": "Grupuj według lokacji",
+        "None": "Bez grupowania"
+      },
       "Labels": {
+        "NoGiver": "Brak zleceniodawcy",
+        "NoGroup": "Brak grupy",
+        "NoLocation": "Brak lokacji",
+        "Personal": "Osobista",
+        "Search": "Szukaj…",
         "TableHeader": "{0} Misje",
         "SubTitle": "Zadanie podrzędne z {0}"
       },
+      "Personal": {
+        "Hint": "Misja osobista jest widoczna tylko dla ciebie i MG.",
+        "Label": "Misja osobista",
+        "Title": "Nowa misja"
+      },
       "Title": "Dziennik Misji",
       "Tooltips": {
+        "Search": "Szukaj misji według nazwy, zleceniodawcy, lokacji, grupy itd. (wszystkie karty).",
+        "GroupBy": "Grupuj misje na tej karcie (tylko dla ciebie).",
         "Objectives": "Cele"
       }
     },
     "QuestPreview": {
       "Buttons": {
+        "Accept": "Przyjmij",
+        "ClearDeadline": "Usuń termin",
+        "RewardCurrency": "Waluta",
         "RewardCustom": "Określony przez użytkownika",
         "RewardHide": "Schowaj",
         "RewardLock": "Zablokuj",
@@ -94,21 +144,55 @@
         "RewardUnlock": "Odemknąć"
       },
       "Labels": {
+        "AcceptedBy": "Przyjęta przez:",
+        "CreatedByGM": "Utworzona przez MG",
+        "CreatedByPlayer": "Utworzona przez {name}",
         "CustomSource": "Niestandardowe źródło",
+        "Currency": "Waluta",
         "Description": "Opis:",
         "DragDropActor": "Przeciągnij i upuść aktora, przedmiot lub wpis do dziennika lub kliknij lewym przyciskiem myszy, aby ustawić niestandardowe źródło.",
         "DragDropActorPlayer": "Przeciągnij i upuść aktora, przedmiot lub wpis do dziennika.",
         "DragDropRewards": "Przeciągnij i upuść elementy tutaj, aby dodać je jako nagrody.",
         "GMNotes": "Notatki GM:",
         "Objective": "Cel",
+        "Group": "Grupa",
+        "Location": "Lokacja",
+        "NoGroup": "Brak grupy",
+        "NoLocation": "Brak lokacji",
         "Objectives": "Cele:",
+        "Optional": "opcjonalny",
+        "Repeatable": "Powtarzalna",
+        "RepeatableTimes": "Powtarzalna (ukończona {n} razy)",
         "PlayerNotes": "Notatki Gracza:",
+        "Quantity": "Ilość",
+        "Deadline": "Termin",
+        "DeadlineDay": "Dzień",
+        "DeadlineHour": "Godzina",
+        "DeadlineMinute": "Minuta",
+        "DeadlineMonth": "Miesiąc",
+        "DeadlineReal": "Data i godzina",
+        "DeadlineYear": "Rok",
+        "NoDeadline": "Brak terminu",
+        "QuantityTake": "Ilość do wzięcia:",
+        "RewardChoiceGroup": "Grupa wyboru",
+        "RewardChoiceHint": "Nagrody o tej samej nazwie grupy są alternatywami: gdy jedna zostanie wzięta, pozostałe zostają zamknięte. Zostaw puste, aby nie tworzyć grupy.",
         "Reward": "Nagroda",
         "Rewards": "Nagrody:"
       },
       "Management": {
         "AddSubquest": "Dodaj misję podrzędną",
+        "AllowPlayerEdit": "Pozwól graczom edytować",
+        "Repeatable": "Misja powtarzalna",
+        "RepeatableHint": "MG może zresetować misję powtarzalną (cele, liczniki, nagrody i podmisje), aby znów stała się dostępna. Liczba jej ukończeń jest zliczana.",
+        "ShowInTracker": "Pokaż w moim Śledzeniu Misji",
+        "AllowPlayerEditHint": "Gracze będący właścicielami tej misji, utworzonej przez MG, mogą edytować jej opis, cele i nagrody.",
+        "ChangePersonal": "Zmień graczy",
         "ConfigurePermissions": "Konfiguruj Uprawnienia",
+        "MakePersonal": "Zrób osobistą",
+        "MakePublic": "Zrób publiczną",
+        "NoPlayers": "Nie ma graczy, którym można przypisać misję.",
+        "PersonalContent": "Wybierz graczy, dla których ta misja jest osobista. Zobaczą ją tylko oni i MG, razem z jej podmisjami.",
+        "PersonalTitle": "Misja osobista",
         "QuestBranching": "Zadania podrzędne:",
         "QuestSettings": "Ustawienia Misji:",
         "SplashArt": "Sztuka Rozchlapania:",
@@ -116,20 +200,83 @@
         "SplashQuestIcon": "Ustaw jako ikonę misji"
       },
       "Notifications": {
+        "RewardAddFailed": "Nie udało się dodać przedmiotu nagrody do aktora. Sprawdź, czy możesz edytować aktora.",
         "BadUUID": "Nie można pobrać dokumentu dla UUID: '{uuid}'.",
         "WrongDocType": "Quest Log akceptuje tylko aktorów świata / kompendium, przedmioty i wpisy do dziennika jako zleceniodawców zadań.",
         "WrongItemType": "Quest Log akceptuje tylko przedmioty ze świata i kompendium jako nagrody."
       },
+      "History": {
+        "Accepted": "{user} przyjął misję.",
+        "AcceptedBy": "{user} przyjął misję postacią {actor}.",
+        "Joined": "{user} dołączył do misji.",
+        "JoinedBy": "{user} dołączył do misji postacią {actor}.",
+        "Clear": "Wyczyść",
+        "ClearContent": "Usunąć wszystkie wpisy historii misji \"{name}\"? Tej operacji nie można cofnąć.",
+        "ClearTitle": "Wyczyść historię misji",
+        "ClearTooltip": "Usuń wszystkie wpisy historii",
+        "Created": "{user} utworzył misję.",
+        "Empty": "W historii nie ma jeszcze wpisów.",
+        "RewardTaken": "{user} wziął nagrodę {item}{amount}.",
+        "RewardTakenBy": "{user} wziął nagrodę {item}{amount} dla {actor}.",
+        "Status": "{user} zmienił status misji z {from} na {to}.",
+        "CounterChanged": "{user} ustawił licznik celu \"{task}\" na {count}/{target}.",
+        "TaskCompleted": "{user} oznaczył cel \"{task}\" jako ukończony.",
+        "TaskFailed": "{user} oznaczył cel \"{task}\" jako nieudany.",
+        "TaskPending": "{user} przywrócił cel \"{task}\" do stanu oczekującego.",
+        "Reset": "{user} zresetował misję, aby ją powtórzyć (dotąd ukończona {n} razy).",
+        "Title": "Historia misji"
+      },
+      "Repeat": {
+        "ResetContent": "Zresetować misję \"{name}\" i jej podmisje, aby je powtórzyć? Cele i liczniki zostaną wyczyszczone, wzięte nagrody przywrócone, a misja stanie się dostępna.",
+        "ResetTitle": "Zresetuj misję",
+        "ResetTooltip": "Zresetuj misję, aby ją powtórzyć"
+      },
+      "Counter": {
+        "Current": "Aktualna liczba",
+        "Target": "Liczba do osiągnięcia",
+        "TargetHint": "0 usuwa licznik. Gdy licznik osiągnie tę liczbę, cel zostaje ukończony.",
+        "Title": "Licznik celu"
+      },
+      "Rumors": {
+        "Add": "Dodaj plotkę",
+        "BecameAvailable": "Misja \"{name}\" jest teraz dostępna.",
+        "DeleteContent": "Usunąć tę plotkę?",
+        "DeleteTitle": "Usuń plotkę",
+        "Empty": "Ta misja nie ma plotek.",
+        "Heard": "Usłyszana (kliknij, aby oznaczyć jako nieusłyszaną)",
+        "Hidden": "Ukryta przed graczami",
+        "Hint": "Plotki to luźne teksty, które gracze mogą usłyszeć. Widoczne plotki są pokazywane graczom na karcie Plotki w Dzienniku Misji, bez informacji, do jakiej misji należą. Gdy plotka zostanie oznaczona jako usłyszana, nieaktywna misja staje się dostępna.",
+        "Counter": "Usłyszano {heard} z {total} wymaganych plotek",
+        "MakeOptional": "Plotka opcjonalna: nie liczy się do odblokowania misji",
+        "MakeRequired": "Plotka wymagana: liczy się do odblokowania misji",
+        "OptionalLabel": "opcjonalna",
+        "Required": "Plotki potrzebne do odblokowania misji",
+        "RequiredHint": "0 = wszystkie plotki, które nie są opcjonalne. Misja staje się dostępna, gdy gracze usłyszą tyle plotek.",
+        "NotHeard": "Nieusłyszana (kliknij, aby oznaczyć jako usłyszaną)",
+        "Title": "Plotki",
+        "Visible": "Widoczna dla graczy"
+      },
       "Tabs": {
         "Details": "Szczegóły",
         "GMNotes": "Notatki GM",
+        "History": "Historia",
         "PlayerNotes": "Notatki Gracza",
-        "QuestManagement": "Zarządzaj Misją"
+        "QuestManagement": "Zarządzaj Misją",
+        "Rumors": "Plotki"
       },
       "Title": "Szczegóły Misji - {name}",
       "Tooltips": {
+        "AddCurrency": "Dodaj walutę",
         "AddCustom": "Dodaj zdefiniowane przez użytkownika",
+        "EditDeadline": "Edytuj termin misji",
+        "EditQuantity": "Edytuj ilość",
+        "TakeAll": "Weź wszystko",
+        "TakeAmount": "Weź ilość",
         "AddObjective": "Dodaj Cel",
+        "CounterMinus": "Odejmij 1",
+        "CounterPlus": "Dodaj 1",
+        "TaskCounter": "Ustaw licznik celu",
+        "SortObjective": "Przeciągnij, aby zmienić kolejność",
         "ChangeSplashPos": "Zmień pozycję obrazu powitalnego.",
         "DeleteQuestGiver": "Usuń zleceniodawcę misji.",
         "DeleteSplash": "Usuń grafikę pluśnięcie.",
@@ -137,6 +284,10 @@
         "LockAll": "Zablokuj wszystko",
         "PrimaryQuestSet": "Kliknij, aby ustawić misję główną.",
         "PrimaryQuestUnset": "Kliknij, aby rozbroić misję główną.",
+        "RewardChoice": "Grupa wyboru \"{group}\": można wziąć tylko jedną nagrodę z grupy.",
+        "RewardClosed": "Inna nagroda z jej grupy wyboru została już wzięta. Kliknij, aby ją ponownie otworzyć.",
+        "RewardClosedPlayer": "Inna nagroda z jej grupy wyboru została już wzięta.",
+        "RewardSetChoice": "Ustaw grupę wyboru tej nagrody (można wziąć tylko jedną nagrodę z grupy).",
         "RewardHidden": "Nagroda jest ukryta. Kliknij, aby pokazać.",
         "RewardLocked": "Nagroda jest zablokowana. Kliknij, aby odblokować.",
         "RewardLockedPlayer": "Nagroda jest zablokowana.",
@@ -145,20 +296,48 @@
         "RewardVisible": "Nagroda jest widoczna. Kliknij, aby ukryć.",
         "ShowAll": "Pokazać wszystko",
         "TaskHidden": "Zadanie jest ukryte. Kliknij, aby pokazać.",
+        "TaskOptional": "Cel opcjonalny (bonusowy). Kliknij, aby uczynić go wymaganym.",
+        "TaskRequired": "Cel wymagany. Kliknij, aby uczynić go opcjonalnym (bonusowym).",
+        "TaskNotRepeatable": "Niepowtarzalny. Kliknij, aby uczynić cel powtarzalnym.",
+        "TaskRepeatable": "Cel powtarzalny. Kliknij, aby uczynić go niepowtarzalnym.",
+        "TaskReset": "Zresetuj cel (oczekujący, licznik na 0)",
         "TaskVisible": "Zadanie jest widoczne. Kliknij, aby ukryć.",
         "ToggleImage": "Przełącz obraz Aktora/Tokenu.",
         "UnlockAll": "Odblokuj wszystkie",
-        "ViewSplashArt": "Obejrzeć sztuka rozchlapania."
+        "ViewSplashArt": "Obejrzeć sztuka rozchlapania.",
+        "QuestSource": "Źródło misji"
       }
     },
     "QuestTracker": {
+      "Menu": {
+        "Background": "Tło",
+        "Group": "Grupuj według",
+        "GroupBy": {
+          "giver": "Zleceniodawca",
+          "group": "Grupa",
+          "location": "Lokacja",
+          "none": "Brak"
+        },
+        "Off": "Nie",
+        "On": "Tak",
+        "Opaque": "Nieprzezroczyste",
+        "Primary": "Tylko misja główna",
+        "Removed": "Pokaż usunięte",
+        "Transparent": "Przezroczyste"
+      },
       "NoPrimary": "Brak dostępnych głównych zadań.",
+      "NoQuests": "Brak dostępnych misji.",
+      "Optional": "opcjonalny",
       "Title": "Śledzenie Misji",
       "Tooltips": {
-        "BackgroundShow": "Kliknij, aby pokazać tło.",
-        "BackgroundUnshow": "Kliknij, aby tło było przezroczyste.",
-        "PrimaryQuestShow": "Kliknij, aby wyświetlić główne zadanie.",
-        "PrimaryQuestUnshow": "Kliknij, aby wyświetlić wszystkie misje."
+        "CollapseObjectives": "Kliknij, aby ukryć cele.",
+        "Subquest": "Podmisja",
+        "TaskCompleted": "Ukończony",
+        "TaskFailed": "Nieudany",
+        "TaskPending": "Oczekujący",
+        "ExpandObjectives": "Kliknij, aby pokazać cele.",
+        "RemoveQuest": "Usuń tę misję ze swojego śledzenia.",
+        "RestoreQuest": "Pokaż tę misję ponownie w swoim śledzeniu."
       }
     },
     "QuestTypes": {
@@ -173,9 +352,11 @@
         "failed": "nieudane",
         "InActive": "Nieaktywny",
         "inactive": "nieaktywny",
+        "Rumor": "Plotki",
         "Status": "Misja to {statusLabel}."
       },
       "Tooltips": {
+        "Join": "Przyjmij tę misję swoją postacią",
         "SetActive": "Ustaw na Aktywną",
         "SetAvailable": "Ustaw jako Dostępną",
         "SetCompleted": "Ustaw jako Zakończoną",
@@ -183,6 +364,12 @@
         "SetInactive": "Ustaw jako Nieaktywne",
         "Status": "Status: {statusI18n}"
       }
+    },
+    "Rumors": {
+      "Empty": "Nie ma plotek.",
+      "HiddenTooltip": "Ukryta przed graczami",
+      "SearchTooltip": "Szukaj plotek według ich tekstu lub nazwy ich misji",
+      "QuestTooltip": "Misja plotki (widzi ją tylko MG)"
     },
     "Settings": {
       "allowPlayersAccept": {
@@ -208,19 +395,21 @@
         "OBSERVER": "Obserwator",
         "OWNER": "Właściciel"
       },
-      "dynamicBookmarkBackground": {
-        "Enable": "Dynamiczne Tło Zakładki",
-        "EnableHint": "Jeśli zaznaczone, tło zakładki jest dynamicznie ustawiane na tło zawartości okna."
-      },
       "hideFQLFromPlayers": {
         "Enable": "Ukryj dziennik zadań przed graczami",
         "EnableHint": "Po włączeniu ta opcja ukrywa dziennik zadań przed wszystkimi graczami. Tylko użytkownicy na poziomie GM będą mieli dostęp do dziennika zadań."
       },
-      "navStyle": {
-        "bookmarks": "Zakładki",
-        "classic": "Klasyczne zakładki",
-        "Enable": "Styl Nawigacji",
-        "EnableHint": "Zdecyduj, jak powinna być wyświetlana nawigacja w dzienniku misji."
+      "dateMode": {
+        "Enable": "Daty misji",
+        "EnableHint": "Data używana w historii misji i dla terminów misji: data z kalendarza świata Foundry lub data rzeczywista.",
+        "real": "Data rzeczywista",
+        "world": "Kalendarz świata (dodany do daty rzeczywistej)"
+      },
+      "historyVisibility": {
+        "Enable": "Widoczność historii misji",
+        "EnableHint": "Zdecyduj, kto może zobaczyć kartę Historia misji, w której zapisywane jest, kto ukończył cele, wziął nagrody i zmienił status.",
+        "gm": "Tylko MG",
+        "players": "Każdy, kto widzi misję"
       },
       "notifyRewardDrop": {
         "Enable": "Pokaż powiadomienia o zrzuceniu nagrody",
@@ -247,9 +436,11 @@
       }
     },
     "Tooltips": {
+      "Actions": "Akcje",
       "Delete": "Usuń",
       "Edit": "Edytować",
       "HiddenQuestNoPlayers": "To zadanie jest ukryte przed wszystkimi graczami.",
+      "PersonalQuest": "Misja osobista",
       "PrimaryQuest": "Główny Misja"
     }
   }

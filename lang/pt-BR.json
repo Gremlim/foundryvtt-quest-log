@@ -15,8 +15,9 @@
         }
       },
       "Socket": {
-        "Notifications": {
-          "RewardDrop": "FQL (recompensa de missão) : {userName} deu '{itemName}' para {actorName}."
+        "Messages": {
+          "Alias": "Quest Log",
+          "RewardDrop": "{userName} pegou <strong>{itemName}</strong>{amount} da missão <em>{questName}</em> e deu a {actorName}."
         }
       },
       "Utils": {
@@ -24,6 +25,15 @@
           "NoDocument": "Uma entidade não pôde ser carregada para IDuu: '{uuid}'.",
           "NoPermission": "Você não tem permissão para visualizar o documento desta entidade."
         }
+      }
+    },
+    "Currency": {
+      "Notifications": {
+        "Failed": "Não foi possível adicionar a moeda ao ator.",
+        "NoCharacter": "Você não tem um personagem atribuído para receber a recompensa.",
+        "NotOwner": "Você não tem permissão para editar esse ator.",
+        "SelectToken": "Selecione apenas um token para receber a recompensa.",
+        "Unsupported": "O sistema de jogo deste mundo não suporta essa moeda."
       }
     },
     "DeleteDialog": {
@@ -34,6 +44,20 @@
       "Delete": "Remover",
       "HeaderDel": "Tem certeza de que deseja excluir: <p>'{name}'</p>",
       "TitleDel": "Excluir {title}"
+    },
+    "Keybindings": {
+      "openQuestLog": {
+        "Name": "Abrir Registro de Missões",
+        "Hint": "Abre o Registro de Missões se usado pelo GM ou se o Registro de Missões não estiver oculto."
+      },
+      "openPrimaryQuest": {
+        "Name": "Abrir missão principal",
+        "Hint": "Abre a visualização / ficha da missão principal, se houver. Verifica se o usuário é GM ou tem permissão para ver a missão."
+      },
+      "toggleQuestTracker": {
+        "Name": "Alternar Rastreador de Missões",
+        "Hint": "Mostra ou oculta o Rastreador de Missões."
+      }
     },
     "Labels": {
       "AppHeader": {
@@ -62,10 +86,13 @@
       "LinkCopied": "O link para esta missão foi copiado para a área de transferência.",
       "QuestAdded": "'{name}' foi adicionado como uma nova missão com a condição: '{status}'.",
       "QuestIDCopied": "Este ID de missão foi copiado para a área de transferência.",
-      "QuestMoved": "Missão movida com nova condição: '{target}'.",
+      "QuestJoined": "{who} aceitou a missão '{name}'.",
+      "QuestMoved": "'{name}' movida e nova condição definida: '{target}'.",
       "QuestPrimary": "'{name}' é a nova missão principal.",
-      "QuestTrackerNoActive": "O rastreador de missões está ativado, mas não há missões ativas no momento.",
-      "UserCantOpen": "O usuário '{user}' não tem permissão para abrir esta missão."
+      "QuestDuplicated": "Missão duplicada: {name}",
+      "QuestUnlocked": "Uma nova missão está disponível.",
+      "UserCantOpen": "O usuário '{user}' não tem permissão para abrir esta missão.",
+      "QuestFolderNotFound": "Quest Log - a pasta de missões não foi encontrada; não é possível criar a missão."
     },
     "QuestLog": {
       "Buttons": {
@@ -74,19 +101,42 @@
       "ContextMenu": {
         "CopyEntityLink": "Copiar conteúdo do link da entidade",
         "CopyQuestID": "Copiar ID da missão",
+        "DuplicateName": "{name} (cópia)",
+        "DuplicateQuest": "Duplicar missão",
         "PrimaryQuest": "Ativar / Desativar como missão principal"
       },
+      "GroupBy": {
+        "Giver": "Agrupar por solicitante",
+        "Group": "Agrupar por grupo",
+        "Location": "Agrupar por local",
+        "None": "Sem agrupamento"
+      },
       "Labels": {
+        "NoGiver": "Sem solicitante",
+        "NoGroup": "Sem grupo",
+        "NoLocation": "Sem local",
+        "Personal": "Pessoal",
+        "Search": "Buscar…",
         "TableHeader": "Missões {0}",
         "SubTitle": "Parte da missão de: {0}"
       },
+      "Personal": {
+        "Hint": "Uma missão pessoal só é visível para você e para o GM.",
+        "Label": "Missão pessoal",
+        "Title": "Nova missão"
+      },
       "Title": "Registro de Missões",
       "Tooltips": {
+        "Search": "Busque missões por nome, solicitante, local, grupo etc. (todas as abas).",
+        "GroupBy": "Agrupar as missões desta aba (apenas para você).",
         "Objectives": "Objetivos"
       }
     },
     "QuestPreview": {
       "Buttons": {
+        "Accept": "Aceitar",
+        "ClearDeadline": "Remover prazo",
+        "RewardCurrency": "Moeda",
         "RewardCustom": "Usuário Definido",
         "RewardHide": "Esconder",
         "RewardLock": "Trancar",
@@ -94,21 +144,55 @@
         "RewardUnlock": "Desbloquear"
       },
       "Labels": {
+        "AcceptedBy": "Aceita por:",
+        "CreatedByGM": "Criada pelo GM",
+        "CreatedByPlayer": "Criada por {name}",
         "CustomSource": "Fonte personalizada",
+        "Currency": "Moeda",
         "Description": "Descrição:",
         "DragDropActor": "Arraste e solte o ator, item, journal ou clique com o botão esquerdo para definir uma fonte customizada.",
         "DragDropActorPlayer": "Arraste e solte o ator, um objeto ou uma entrada do journal.",
         "DragDropRewards": "Arraste e solte itens aqui para torná-los recompensas.",
         "GMNotes": "Notas do Mestre :",
         "Objective": "Objetivos",
+        "Group": "Grupo",
+        "Location": "Local",
+        "NoGroup": "Sem grupo",
+        "NoLocation": "Sem local",
         "Objectives": "Objetivos:",
+        "Optional": "opcional",
+        "Repeatable": "Repetível",
+        "RepeatableTimes": "Repetível (completada {n} vezes)",
         "PlayerNotes": "Notas do Jogador:",
+        "Quantity": "Quantidade",
+        "Deadline": "Prazo",
+        "DeadlineDay": "Dia",
+        "DeadlineHour": "Hora",
+        "DeadlineMinute": "Minuto",
+        "DeadlineMonth": "Mês",
+        "DeadlineReal": "Data e hora",
+        "DeadlineYear": "Ano",
+        "NoDeadline": "Sem prazo",
+        "QuantityTake": "Quantidade a pegar:",
+        "RewardChoiceGroup": "Grupo de escolha",
+        "RewardChoiceHint": "Recompensas com o mesmo nome de grupo são alternativas: ao pegar uma, as outras são fechadas. Deixe vazio para não ter grupo.",
         "Reward": "Recompensa",
         "Rewards": "Recompensas:"
       },
       "Management": {
         "AddSubquest": "Criar uma Missão Secundária",
+        "AllowPlayerEdit": "Permitir que os jogadores editem",
+        "Repeatable": "Missão repetível",
+        "RepeatableHint": "O GM pode reiniciar uma missão repetível (objetivos, contadores, recompensas e submissões) para torná-la disponível novamente. O número de vezes que foi completada é contado.",
+        "ShowInTracker": "Mostrar no meu Rastreador de Missões",
+        "AllowPlayerEditHint": "Jogadores que possuem esta missão, criada por um GM, podem editar sua descrição, objetivos e recompensas.",
+        "ChangePersonal": "Alterar jogadores",
         "ConfigurePermissions": "Configurar as permissões",
+        "MakePersonal": "Tornar pessoal",
+        "MakePublic": "Tornar pública",
+        "NoPlayers": "Não há jogadores para atribuir a missão.",
+        "PersonalContent": "Escolha os jogadores para quem esta missão é pessoal. Apenas eles e os GMs a verão, incluindo suas submissões.",
+        "PersonalTitle": "Missão pessoal",
         "QuestBranching": "Missões Secundárias:",
         "QuestSettings": "Configurações da missão:",
         "SplashArt": "Ilustração:",
@@ -116,20 +200,83 @@
         "SplashQuestIcon": "Definir como ícone de Missão"
       },
       "Notifications": {
+        "RewardAddFailed": "Não foi possível adicionar o item de recompensa ao ator. Verifique se você pode editar o ator.",
         "BadUUID": "Não é possível recuperar documento para IDuu: '{uuid}'.",
         "WrongDocType": "Quest Log só aceita atores, itens e entradas de log de mundo/compêndio como entregadores de missões.",
         "WrongItemType": "O Registro de Missões só aceita itens de mundo e itens de compêndio como recompensas."
       },
+      "History": {
+        "Accepted": "{user} aceitou a missão.",
+        "AcceptedBy": "{user} aceitou a missão com {actor}.",
+        "Joined": "{user} entrou na missão.",
+        "JoinedBy": "{user} entrou na missão com {actor}.",
+        "Clear": "Limpar",
+        "ClearContent": "Apagar todas as entradas do histórico da missão \"{name}\"? Isso não pode ser desfeito.",
+        "ClearTitle": "Limpar o histórico da missão",
+        "ClearTooltip": "Apagar todas as entradas do histórico",
+        "Created": "{user} criou a missão.",
+        "Empty": "Ainda não há entradas no histórico.",
+        "RewardTaken": "{user} pegou a recompensa {item}{amount}.",
+        "RewardTakenBy": "{user} pegou a recompensa {item}{amount} para {actor}.",
+        "Status": "{user} alterou a condição da missão de {from} para {to}.",
+        "CounterChanged": "{user} definiu o contador de \"{task}\" como {count}/{target}.",
+        "TaskCompleted": "{user} marcou o objetivo \"{task}\" como completo.",
+        "TaskFailed": "{user} marcou o objetivo \"{task}\" como falho.",
+        "TaskPending": "{user} voltou o objetivo \"{task}\" para pendente.",
+        "Reset": "{user} reiniciou a missão para repeti-la (completada {n} vezes até agora).",
+        "Title": "Histórico da missão"
+      },
+      "Repeat": {
+        "ResetContent": "Reiniciar a missão \"{name}\" e suas submissões para repeti-las? Os objetivos e contadores são limpos, as recompensas pegas são restauradas e a missão fica disponível.",
+        "ResetTitle": "Reiniciar a missão",
+        "ResetTooltip": "Reiniciar a missão para repeti-la"
+      },
+      "Counter": {
+        "Current": "Número atual",
+        "Target": "Número a alcançar",
+        "TargetHint": "0 remove o contador. Quando o contador alcança este número, o objetivo é completado.",
+        "Title": "Contador do objetivo"
+      },
+      "Rumors": {
+        "Add": "Adicionar rumor",
+        "BecameAvailable": "A missão \"{name}\" agora está disponível.",
+        "DeleteContent": "Apagar este rumor?",
+        "DeleteTitle": "Apagar rumor",
+        "Empty": "Esta missão não tem rumores.",
+        "Heard": "Ouvido (clique para marcar como não ouvido)",
+        "Hidden": "Oculto dos jogadores",
+        "Hint": "Rumores são textos soltos que os jogadores podem ouvir. Os rumores visíveis são mostrados aos jogadores na aba Rumores do Registro de Missões, sem dizer a qual missão pertencem. Quando um rumor é marcado como ouvido, uma missão inativa fica disponível.",
+        "Counter": "{heard} de {total} rumores necessários ouvidos",
+        "MakeOptional": "Rumor opcional: não conta para desbloquear a missão",
+        "MakeRequired": "Rumor necessário: conta para desbloquear a missão",
+        "OptionalLabel": "opcional",
+        "Required": "Rumores necessários para desbloquear a missão",
+        "RequiredHint": "0 = todos os rumores que não são opcionais. A missão fica disponível quando os jogadores ouvem essa quantidade de rumores.",
+        "NotHeard": "Não ouvido (clique para marcar como ouvido)",
+        "Title": "Rumores",
+        "Visible": "Visível para os jogadores"
+      },
       "Tabs": {
         "Details": "Detalhes",
         "GMNotes": "Notas do Mestre",
+        "History": "Histórico",
         "PlayerNotes": "Notas do Jogador",
-        "QuestManagement": "Controle de Missões"
+        "QuestManagement": "Controle de Missões",
+        "Rumors": "Rumores"
       },
-      "Title": "Detalhes da Missão",
+      "Title": "Detalhes da Missão - {name}",
       "Tooltips": {
+        "AddCurrency": "Adicionar moeda",
         "AddCustom": "Adicionar definido pelo usuário",
+        "EditDeadline": "Editar o prazo da missão",
+        "EditQuantity": "Editar quantidade",
+        "TakeAll": "Pegar tudo",
+        "TakeAmount": "Pegar uma quantidade",
         "AddObjective": "Adicionar Objetivo",
+        "CounterMinus": "Subtrair 1",
+        "CounterPlus": "Adicionar 1",
+        "TaskCounter": "Definir o contador do objetivo",
+        "SortObjective": "Arraste para reordenar",
         "ChangeSplashPos": "Modificar o alinhamento da imagem de ilustração.",
         "DeleteQuestGiver": "Excluir entragor da missão.",
         "DeleteSplash": "Excluir a ilustração.",
@@ -137,6 +284,10 @@
         "LockAll": "Bloquear Tudo",
         "PrimaryQuestSet": "Clique para ativar a missão principal.",
         "PrimaryQuestUnset": "Clique para desativar a missão principal.",
+        "RewardChoice": "Grupo de escolha \"{group}\": só uma recompensa do grupo pode ser pega.",
+        "RewardClosed": "Outra recompensa do seu grupo de escolha já foi pega. Clique para reabrir.",
+        "RewardClosedPlayer": "Outra recompensa do seu grupo de escolha já foi pega.",
+        "RewardSetChoice": "Definir o grupo de escolha desta recompensa (só uma recompensa de um grupo pode ser pega).",
         "RewardHidden": "Recompensa escondida. Clique para mostrar.",
         "RewardLocked": "Recompensa bloqueada. Clique para desbloquear.",
         "RewardLockedPlayer": "Recompensa bloqueada.",
@@ -145,20 +296,48 @@
         "RewardVisible": "Recompensa visível. Marque para ocultá-la.",
         "ShowAll": "Mostrar Todo",
         "TaskHidden": "Tarefa oculta. Marque para mostrar.",
+        "TaskOptional": "Objetivo opcional (bônus). Clique para torná-lo obrigatório.",
+        "TaskRequired": "Objetivo obrigatório. Clique para torná-lo opcional (bônus).",
+        "TaskNotRepeatable": "Não repetível. Clique para tornar o objetivo repetível.",
+        "TaskRepeatable": "Objetivo repetível. Clique para torná-lo não repetível.",
+        "TaskReset": "Reiniciar o objetivo (pendente, contador em 0)",
         "TaskVisible": "Tarefa visível. Marque para ocultá-la.",
         "ToggleImage": "Ativar a imagem do token/ator.",
         "UnlockAll": "Destrancar Tudo",
-        "ViewSplashArt": "Ver ilustração."
+        "ViewSplashArt": "Ver ilustração.",
+        "QuestSource": "Origem da missão"
       }
     },
     "QuestTracker": {
-      "Title": "Registro de Missões",
+      "Menu": {
+        "Background": "Fundo",
+        "Group": "Agrupar por",
+        "GroupBy": {
+          "giver": "Solicitante",
+          "group": "Grupo",
+          "location": "Local",
+          "none": "Nenhum"
+        },
+        "Off": "Não",
+        "On": "Sim",
+        "Opaque": "Opaco",
+        "Primary": "Apenas missão principal",
+        "Removed": "Mostrar removidas",
+        "Transparent": "Transparente"
+      },
       "NoPrimary": "Nenhuma missão principal disponível.",
+      "NoQuests": "Nenhuma missão disponível.",
+      "Optional": "opcional",
+      "Title": "Registro de Missões",
       "Tooltips": {
-        "BackgroundShow": "Clique para mostrar o plano de fundo.",
-        "BackgroundUnshow": "Clique para tornar o fundo transparente.",
-        "PrimaryQuestShow": "Clique para mostrar a missão principal.",
-        "PrimaryQuestUnshow": "Clique para ocultar todas as missões."
+        "CollapseObjectives": "Clique para ocultar os objetivos.",
+        "Subquest": "Submissão",
+        "TaskCompleted": "Completo",
+        "TaskFailed": "Falho",
+        "TaskPending": "Pendente",
+        "ExpandObjectives": "Clique para mostrar os objetivos.",
+        "RemoveQuest": "Remover esta missão do seu rastreador.",
+        "RestoreQuest": "Mostrar esta missão novamente no seu rastreador."
       }
     },
     "QuestTypes": {
@@ -173,9 +352,11 @@
         "failed": "perdida",
         "InActive": "Inativas",
         "inactive": "inativa",
+        "Rumor": "Rumores",
         "Status": "A missão está {statusLabel}."
       },
       "Tooltips": {
+        "Join": "Aceitar esta missão com o seu personagem",
         "SetActive": "Definir como Em Progresso",
         "SetAvailable": "Definir como Disponível",
         "SetCompleted": "Definir como Completa",
@@ -183,6 +364,12 @@
         "SetInactive": "Definir como Inativo",
         "Status": "Condição : {statusI18n}"
       }
+    },
+    "Rumors": {
+      "Empty": "Não há rumores.",
+      "HiddenTooltip": "Oculto dos jogadores",
+      "SearchTooltip": "Buscar rumores pelo texto ou pelo nome da missão",
+      "QuestTooltip": "Missão do rumor (só o GM a vê)"
     },
     "Settings": {
       "allowPlayersAccept": {
@@ -208,19 +395,21 @@
         "OBSERVER": "Observador",
         "OWNER": "Proprietário"
       },
-      "dynamicBookmarkBackground": {
-        "Enable": "Marcadores dinâmicos em segundo plano",
-        "EnableHint": "Marque para que a guia de favoritos seja exibida dinamicamente na janela de conteúdo em segundo plano."
-      },
       "hideFQLFromPlayers": {
         "Enable": "Ocultar registro de missões dos jogadores",
         "EnableHint": "Ativar esta opção oculta o registro de missões de todos os jogadores. Somente jogadores com nível GM poderão acessar o registro de missões."
       },
-      "navStyle": {
-        "Enable": "Estilo de Navegação",
-        "EnableHint": "Decida como a navegação do registro de missões será exibida.",
-        "bookmarks": "Marcador de página",
-        "classic": "Guias Clássicas"
+      "dateMode": {
+        "Enable": "Datas das missões",
+        "EnableHint": "Data usada no histórico das missões e nos prazos: a data do calendário do mundo do Foundry ou a data real.",
+        "real": "Data real",
+        "world": "Calendário do mundo (somado à data real)"
+      },
+      "historyVisibility": {
+        "Enable": "Visibilidade do histórico das missões",
+        "EnableHint": "Decida quem pode ver a aba Histórico de uma missão, que registra quem completa objetivos, pega recompensas e altera a condição.",
+        "gm": "Apenas GMs",
+        "players": "Todos que podem ver a missão"
       },
       "notifyRewardDrop": {
         "Enable": "Mostrar notificações de recompensas concedidas",
@@ -235,9 +424,9 @@
         "EnableHint": "Marque para mostrar a pasta de dados da missão na guia Diário. Apenas para fins de DEBUG."
       },
       "showTasks": {
+        "default": "Exibir tarefas: feitas/total",
         "Enable": "Exibir tarefas no Registro de Missões",
         "EnableHint": "Decida se ou como mostrar a quantidade de tarefas (objetivos) ao lado do título da Missão no Registro de Missões. Isso não afeta a visualização individual da missão.",
-        "default": "Exibir tarefas: feitas/total",
         "no": "Esconder a coluna \"Tarefas\"",
         "onlyCurrent": "Exibir tarefas: feitas"
       },
@@ -247,9 +436,11 @@
       }
     },
     "Tooltips": {
+      "Actions": "Ações",
       "Delete": "Excluir",
       "Edit": "Editar",
       "HiddenQuestNoPlayers": "Esta missão está escondida de todos os jogadores.",
+      "PersonalQuest": "Missão pessoal",
       "PrimaryQuest": "Missão Principal"
     }
   }

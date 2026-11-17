@@ -15,8 +15,9 @@
         }
       },
       "Socket": {
-        "Notifications": {
-          "RewardDrop": "FQL (quest reward)：{userName}が'{itemName}'を{actorName}に移動しました。"
+        "Messages": {
+          "Alias": "Quest Log",
+          "RewardDrop": "{userName}がクエスト「<em>{questName}</em>」から<strong>{itemName}</strong>{amount}を受け取り、{actorName}に渡しました。"
         }
       },
       "Utils": {
@@ -24,6 +25,15 @@
           "NoDocument": "UUID:{uuid}のデータを読み込めませんでした。",
           "NoPermission": "このデータを閲覧する権限を持っていません。"
         }
+      }
+    },
+    "Currency": {
+      "Notifications": {
+        "Failed": "アクターに通貨を追加できませんでした。",
+        "NoCharacter": "報酬を受け取るキャラクターが割り当てられていません。",
+        "NotOwner": "そのアクターを編集する権限がありません。",
+        "SelectToken": "報酬を受け取るトークンを1つ選択してください。",
+        "Unsupported": "このワールドのゲームシステムはその通貨に対応していません。"
       }
     },
     "DeleteDialog": {
@@ -34,6 +44,20 @@
       "Delete": "削除",
       "HeaderDel": "消去してもよろしいですか：<p>'{name}'</p>",
       "TitleDel": "{title} デリート"
+    },
+    "Keybindings": {
+      "openQuestLog": {
+        "Name": "クエストログを開く",
+        "Hint": "GMが使用している場合、またはクエストログが非表示でない場合にクエストログを開きます。"
+      },
+      "openPrimaryQuest": {
+        "Name": "メインクエストを開く",
+        "Hint": "メインクエストがあれば、そのプレビュー／シートを開きます。ユーザーがGMか、クエストを閲覧する権限があるかを確認します。"
+      },
+      "toggleQuestTracker": {
+        "Name": "クエスト一覧の表示切替",
+        "Hint": "クエスト一覧を表示または非表示にします。"
+      }
     },
     "Labels": {
       "AppHeader": {
@@ -62,10 +86,13 @@
       "LinkCopied": "このクエストのエンティティリンクをコピーしました。",
       "QuestAdded": "「{name}」を新規追加し、状態を「{status}」に設定しました。",
       "QuestIDCopied": "クエストIDがコピーされました。",
+      "QuestJoined": "{who}がクエスト「{name}」を受注しました。",
       "QuestMoved": "「{name}」を移動し、状態を「{target}」に変更しました。",
       "QuestPrimary": "「{name}」がメインクエストになりました。",
-      "QuestTrackerNoActive": "クエスト一覧が有効になっていますが、進行中のクエストがありません。",
-      "UserCantOpen": "ユーザー「{user}」はこのクエストを開く権限を持っていません。"
+      "QuestDuplicated": "クエストを複製しました：{name}",
+      "QuestUnlocked": "新しいクエストが受注可能です。",
+      "UserCantOpen": "ユーザー「{user}」はこのクエストを開く権限を持っていません。",
+      "QuestFolderNotFound": "Quest Log - クエストフォルダーが見つかりません。クエストを作成できません。"
     },
     "QuestLog": {
       "Buttons": {
@@ -74,19 +101,42 @@
       "ContextMenu": {
         "CopyEntityLink": "データへのリンクをコピー",
         "CopyQuestID": "クエストIDをコピー",
+        "DuplicateName": "{name}（コピー）",
+        "DuplicateQuest": "クエストを複製",
         "PrimaryQuest": "メインクエスト指定切り替え"
       },
+      "GroupBy": {
+        "Giver": "依頼人でグループ化",
+        "Group": "グループでグループ化",
+        "Location": "場所でグループ化",
+        "None": "グループ化しない"
+      },
       "Labels": {
+        "NoGiver": "依頼人なし",
+        "NoGroup": "グループなし",
+        "NoLocation": "場所なし",
+        "Personal": "個人用",
+        "Search": "検索…",
         "TableHeader": "{0}クエスト",
         "SubTitle": "{0}に含まれています"
       },
+      "Personal": {
+        "Hint": "個人用クエストは、あなたとGMだけに表示されます。",
+        "Label": "個人用クエスト",
+        "Title": "新しいクエスト"
+      },
       "Title": "クエストログ",
       "Tooltips": {
+        "Search": "名前、依頼人、場所、グループなどでクエストを検索します（すべてのタブ）。",
+        "GroupBy": "このタブのクエストをグループ化します（自分だけ）。",
         "Objectives": "目標"
       }
     },
     "QuestPreview": {
       "Buttons": {
+        "Accept": "受注",
+        "ClearDeadline": "期限を削除",
+        "RewardCurrency": "通貨",
         "RewardCustom": "ユーザー定義の",
         "RewardHide": "隠す",
         "RewardLock": "閉ざす",
@@ -94,21 +144,55 @@
         "RewardUnlock": "ロック解除"
       },
       "Labels": {
+        "AcceptedBy": "受注者：",
+        "CreatedByGM": "GMが作成",
+        "CreatedByPlayer": "{name}が作成",
         "CustomSource": "カスタムソース",
+        "Currency": "通貨",
         "Description": "詳細：",
         "DragDropActor": "キャラ、アイテム、資料をドラッグ＆ドロップすることでソースを手動で変更できます。",
         "DragDropActorPlayer": "キャラ、アイテム、資料をドラッグ＆ドロップしてください。",
         "DragDropRewards": "アイテムをここにドラッグ＆ドロップすると報酬として設定できます。",
         "GMNotes": "GMノート：",
         "Objective": "目標",
+        "Group": "グループ",
+        "Location": "場所",
+        "NoGroup": "グループなし",
+        "NoLocation": "場所なし",
         "Objectives": "目標：",
+        "Optional": "任意",
+        "Repeatable": "繰り返し可能",
+        "RepeatableTimes": "繰り返し可能（{n}回完了）",
         "PlayerNotes": "プレイヤーのメモ：",
+        "Quantity": "数量",
+        "Deadline": "期限",
+        "DeadlineDay": "日",
+        "DeadlineHour": "時",
+        "DeadlineMinute": "分",
+        "DeadlineMonth": "月",
+        "DeadlineReal": "日付と時刻",
+        "DeadlineYear": "年",
+        "NoDeadline": "期限なし",
+        "QuantityTake": "受け取る数量：",
+        "RewardChoiceGroup": "選択グループ",
+        "RewardChoiceHint": "同じグループ名の報酬は選択肢です。1つを受け取ると、他は閉じられます。グループを使わない場合は空欄にします。",
         "Reward": "報酬",
         "Rewards": "報酬："
       },
       "Management": {
         "AddSubquest": "サブクエスト追加",
+        "AllowPlayerEdit": "プレイヤーによる編集を許可",
+        "Repeatable": "繰り返し可能なクエスト",
+        "RepeatableHint": "GMは繰り返し可能なクエスト（目標、カウンター、報酬、サブクエスト）をリセットして、再び受注可能にできます。完了した回数が記録されます。",
+        "ShowInTracker": "自分のクエスト一覧に表示",
+        "AllowPlayerEditHint": "GMが作成したこのクエストの所有者であるプレイヤーは、説明、目標、報酬を編集できます。",
+        "ChangePersonal": "プレイヤーを変更",
         "ConfigurePermissions": "権限設定",
+        "MakePersonal": "個人用にする",
+        "MakePublic": "公開にする",
+        "NoPlayers": "クエストを割り当てるプレイヤーがいません。",
+        "PersonalContent": "このクエストを個人用にするプレイヤーを選択してください。サブクエストを含め、そのプレイヤーとGMだけに表示されます。",
+        "PersonalTitle": "個人用クエスト",
         "QuestBranching": "サブクエスト：",
         "QuestSettings": "クエスト設定：",
         "SplashArt": "表紙画像：",
@@ -116,20 +200,83 @@
         "SplashQuestIcon": "クエストアイコンとして設定"
       },
       "Notifications": {
+        "RewardAddFailed": "報酬アイテムをアクターに追加できませんでした。アクターを編集できるか確認してください。",
         "BadUUID": "{uuid}のオブジェクトを取得できませんでした。",
         "WrongDocType": "Quest Logはワールドや辞典に指定されたキャラ、アイテム、資料のみをクエスト提供者として受け付けます。",
         "WrongItemType": "Quest Logはワールドや辞典に指定された報酬のみを受け付けます。"
       },
+      "History": {
+        "Accepted": "{user}がクエストを受注しました。",
+        "AcceptedBy": "{user}が{actor}でクエストを受注しました。",
+        "Joined": "{user}がクエストに参加しました。",
+        "JoinedBy": "{user}が{actor}でクエストに参加しました。",
+        "Clear": "クリア",
+        "ClearContent": "クエスト「{name}」の履歴をすべて削除しますか？この操作は元に戻せません。",
+        "ClearTitle": "クエスト履歴をクリア",
+        "ClearTooltip": "履歴のすべての項目を削除",
+        "Created": "{user}がクエストを作成しました。",
+        "Empty": "履歴はまだありません。",
+        "RewardTaken": "{user}が報酬{item}{amount}を受け取りました。",
+        "RewardTakenBy": "{user}が{actor}のために報酬{item}{amount}を受け取りました。",
+        "Status": "{user}がクエストの状態を{from}から{to}に変更しました。",
+        "CounterChanged": "{user}が「{task}」のカウンターを{count}/{target}に設定しました。",
+        "TaskCompleted": "{user}が目標「{task}」を完了にしました。",
+        "TaskFailed": "{user}が目標「{task}」を失敗にしました。",
+        "TaskPending": "{user}が目標「{task}」を未完了に戻しました。",
+        "Reset": "{user}がクエストを繰り返すためにリセットしました（これまでに{n}回完了）。",
+        "Title": "クエスト履歴"
+      },
+      "Repeat": {
+        "ResetContent": "クエスト「{name}」とそのサブクエストをリセットして繰り返しますか？目標とカウンターは消去され、受け取った報酬は元に戻り、クエストは受注可能になります。",
+        "ResetTitle": "クエストをリセット",
+        "ResetTooltip": "クエストを繰り返すためにリセット"
+      },
+      "Counter": {
+        "Current": "現在の数",
+        "Target": "達成する数",
+        "TargetHint": "0にするとカウンターを削除します。カウンターがこの数に達すると目標が完了します。",
+        "Title": "目標のカウンター"
+      },
+      "Rumors": {
+        "Add": "噂を追加",
+        "BecameAvailable": "クエスト「{name}」が受注可能になりました。",
+        "DeleteContent": "この噂を削除しますか？",
+        "DeleteTitle": "噂を削除",
+        "Empty": "このクエストには噂がありません。",
+        "Heard": "聞いた（クリックで未聞に戻す）",
+        "Hidden": "プレイヤーには非表示",
+        "Hint": "噂は、プレイヤーが耳にできる独立したテキストです。表示中の噂は、どのクエストのものかを明かさずに、クエストログの「噂」タブでプレイヤーに表示されます。噂を聞いたことにすると、非アクティブなクエストが受注可能になります。",
+        "Counter": "必要な噂{total}件中{heard}件を聞いた",
+        "MakeOptional": "任意の噂：クエストの解放には数えません",
+        "MakeRequired": "必須の噂：クエストの解放に数えます",
+        "OptionalLabel": "任意",
+        "Required": "クエストの解放に必要な噂の数",
+        "RequiredHint": "0＝任意でない噂すべて。プレイヤーがこの数の噂を聞くと、クエストが受注可能になります。",
+        "NotHeard": "未聞（クリックで聞いたことにする）",
+        "Title": "噂",
+        "Visible": "プレイヤーに表示"
+      },
       "Tabs": {
         "Details": "内容",
         "GMNotes": "GMノート",
+        "History": "履歴",
         "PlayerNotes": "プレイヤーのメモ",
-        "QuestManagement": "クエスト管理"
+        "QuestManagement": "クエスト管理",
+        "Rumors": "噂"
       },
-      "Title": "クエスト詳細",
+      "Title": "クエスト詳細 - {name}",
       "Tooltips": {
+        "AddCurrency": "通貨を追加",
         "AddCustom": "ユーザー定義を追加",
+        "EditDeadline": "クエストの期限を編集",
+        "EditQuantity": "数量を編集",
+        "TakeAll": "すべて受け取る",
+        "TakeAmount": "数量を指定して受け取る",
         "AddObjective": "目標を追加",
+        "CounterMinus": "1減らす",
+        "CounterPlus": "1増やす",
+        "TaskCounter": "目標のカウンターを設定",
+        "SortObjective": "ドラッグして並べ替え",
         "ChangeSplashPos": "画像の位置を調整。",
         "DeleteQuestGiver": "クエスト依頼主削除。",
         "DeleteSplash": "カバー画像を削除します。",
@@ -137,6 +284,10 @@
         "LockAll": "全ロック",
         "PrimaryQuestSet": "メインクエストに設定。",
         "PrimaryQuestUnset": "メインクエストから削除。",
+        "RewardChoice": "選択グループ「{group}」：グループ内の報酬は1つだけ受け取れます。",
+        "RewardClosed": "同じ選択グループの別の報酬がすでに受け取られています。クリックで再び開きます。",
+        "RewardClosedPlayer": "同じ選択グループの別の報酬がすでに受け取られています。",
+        "RewardSetChoice": "この報酬の選択グループを設定（グループ内の報酬は1つだけ受け取れます）。",
         "RewardHidden": "報酬は非表示になっています。クリックで表示できます。",
         "RewardLocked": "報酬はロックされています。クリックでアンロックできます。",
         "RewardLockedPlayer": "報酬はロックされています。",
@@ -145,20 +296,48 @@
         "RewardVisible": "報酬は表示されています。クリックで非表示できます。",
         "ShowAll": "全表示",
         "TaskHidden": "目標は非表示になっています。クリックで表示できます。",
+        "TaskOptional": "任意（ボーナス）の目標です。クリックで必須にします。",
+        "TaskRequired": "必須の目標です。クリックで任意（ボーナス）にします。",
+        "TaskNotRepeatable": "繰り返し不可です。クリックで目標を繰り返し可能にします。",
+        "TaskRepeatable": "繰り返し可能な目標です。クリックで繰り返し不可にします。",
+        "TaskReset": "目標をリセット（未完了、カウンターは0）",
         "TaskVisible": "目標表示されています。クリックで非表示できます。",
         "ToggleImage": "キャラ・コマ画像切替。",
         "UnlockAll": "全アンロック",
-        "ViewSplashArt": "表紙画像を見る。"
+        "ViewSplashArt": "表紙画像を見る。",
+        "QuestSource": "クエストの出典"
       }
     },
     "QuestTracker": {
+      "Menu": {
+        "Background": "背景",
+        "Group": "グループ化",
+        "GroupBy": {
+          "giver": "依頼人",
+          "group": "グループ",
+          "location": "場所",
+          "none": "なし"
+        },
+        "Off": "いいえ",
+        "On": "はい",
+        "Opaque": "不透明",
+        "Primary": "メインクエストのみ",
+        "Removed": "削除したものを表示",
+        "Transparent": "透明"
+      },
       "NoPrimary": "メインクエスト無し。",
+      "NoQuests": "受注可能なクエストはありません。",
+      "Optional": "任意",
       "Title": "クエスト一覧",
       "Tooltips": {
-        "BackgroundShow": "クリックすると背景が表示されます。",
-        "BackgroundUnshow": "クリックすると背景が透明になります。",
-        "PrimaryQuestShow": "クリックでメインクエストを表示。",
-        "PrimaryQuestUnshow": "クリックですべてのクエスト表示。"
+        "CollapseObjectives": "クリックで目標を非表示にします。",
+        "Subquest": "サブクエスト",
+        "TaskCompleted": "完了",
+        "TaskFailed": "失敗",
+        "TaskPending": "未完了",
+        "ExpandObjectives": "クリックで目標を表示します。",
+        "RemoveQuest": "このクエストを自分の一覧から削除します。",
+        "RestoreQuest": "このクエストを自分の一覧にもう一度表示します。"
       }
     },
     "QuestTypes": {
@@ -173,9 +352,11 @@
         "failed": "失敗",
         "InActive": "無効",
         "inactive": "無効",
+        "Rumor": "噂",
         "Status": "クエスト状態{statusLabel}。"
       },
       "Tooltips": {
+        "Join": "このクエストをキャラクターで受注",
         "SetActive": "進行中として設定",
         "SetAvailable": "利用可能に設定",
         "SetCompleted": "完了として設定",
@@ -183,6 +364,12 @@
         "SetInactive": "非アクティブに設定",
         "Status": "状態：{statusI18n}"
       }
+    },
+    "Rumors": {
+      "Empty": "噂はありません。",
+      "HiddenTooltip": "プレイヤーには非表示",
+      "SearchTooltip": "噂をテキストまたはクエスト名で検索",
+      "QuestTooltip": "噂のクエスト（GMだけに表示）"
     },
     "Settings": {
       "allowPlayersAccept": {
@@ -208,19 +395,21 @@
         "OBSERVER": "監視者（Observer）",
         "OWNER": "所有者（Owner）"
       },
-      "dynamicBookmarkBackground": {
-        "Enable": "動的しおり背景",
-        "EnableHint": "有効化時、しおりタブは自動的に現在のウィンドウの背景に置かれます。"
-      },
       "hideFQLFromPlayers": {
         "Enable": "PLからクエスト一覧を隠す",
         "EnableHint": "有効化のとき、PLはクエスト一覧を閲覧できなくなります。GM権限を持っているユーザは依然として閲覧できます。"
       },
-      "navStyle": {
-        "bookmarks": "しおり風",
-        "classic": "クラシック風",
-        "Enable": "タブのスタイル",
-        "EnableHint": "クエストログのタブをどのように表示するのかを設定します。"
+      "dateMode": {
+        "Enable": "クエストの日付",
+        "EnableHint": "クエスト履歴と期限に使う日付：Foundryのワールドカレンダーの日付、または実際の日付。",
+        "real": "実際の日付",
+        "world": "ワールドカレンダー（実際の日付に加えて表示）"
+      },
+      "historyVisibility": {
+        "Enable": "クエスト履歴の閲覧権限",
+        "EnableHint": "誰が完了した目標、受け取った報酬、状態の変更を記録するクエストの「履歴」タブを見られるかを決めます。",
+        "gm": "GMのみ",
+        "players": "クエストを閲覧できる全員"
       },
       "notifyRewardDrop": {
         "Enable": "報酬ドロップ通知",
@@ -247,9 +436,11 @@
       }
     },
     "Tooltips": {
+      "Actions": "操作",
       "Delete": "削除",
       "Edit": "編集",
       "HiddenQuestNoPlayers": "このクエストはPLに表示されていません。",
+      "PersonalQuest": "個人用クエスト",
       "PrimaryQuest": "メインクエスト"
     }
   }

@@ -19,9 +19,7 @@
           "Alias": "Registro de Misiones",
           "RewardDrop": "{userName} cogió <strong>{itemName}</strong>{amount} de la misión <em>{questName}</em> y se lo dio a {actorName}."
         },
-        "Notifications": {
-          "RewardDrop": "FQL (recompensa de misión): {userName} entregó '{itemName}' a {actorName}."
-        }
+        "Notifications": {}
       },
       "Utils": {
         "Notifications": {
@@ -79,9 +77,9 @@
       "QuestMoved": "Se movió '{name}' y se estableció el nuevo estado en: '{target}'.",
       "QuestPrimary": "'{name}' es la nueva misión principal.",
       "QuestDuplicated": "Misión duplicada: {name}",
-      "QuestTrackerNoActive": "Seguimiento de Misiones está habilitado, pero no hay misiones en curso actualmente.",
       "QuestUnlocked": "Hay una nueva misión disponible.",
-      "UserCantOpen": "El usuario '{user}' no tiene permisos para abrir esta misión."
+      "UserCantOpen": "El usuario '{user}' no tiene permisos para abrir esta misión.",
+      "QuestFolderNotFound": "Quest Log: no se encontró la carpeta de misiones; no se puede crear la misión."
     },
     "QuestLog": {
       "Buttons": {
@@ -174,7 +172,6 @@
         "Repeatable": "Misión repetible",
         "RepeatableHint": "El GM puede reiniciar una misión repetible (objetivos, contadores, recompensas y submisiones) para volver a dejarla disponible. Se cuenta cuántas veces se ha completado.",
         "ShowInTracker": "Mostrar en mi Quest Tracker",
-        "ShowInTrackerHint": "Muestra u oculta esta misión en tu propio Quest Tracker. No afecta a otros usuarios.",
         "AllowPlayerEditHint": "Los jugadores propietarios de esta misión, creada por un GM, pueden editar su descripción, objetivos y recompensas.",
         "ChangePersonal": "Cambiar jugadores",
         "ConfigurePermissions": "Configurar Permisos",
@@ -294,7 +291,8 @@
         "TaskVisible": "La tarea está visible. Haz clic para ocultar.",
         "ToggleImage": "Alternar entre imagen de token o actor.",
         "UnlockAll": "Desbloquear Todo",
-        "ViewSplashArt": "Ver imagen de portada."
+        "ViewSplashArt": "Ver imagen de portada.",
+        "QuestSource": "Origen de la misión"
       }
     },
     "QuestTracker": {
@@ -319,25 +317,13 @@
       "Optional": "opcional",
       "Title": "Seguimiento de Misiones",
       "Tooltips": {
-        "BackgroundShow": "Haz clic para mostrar el fondo.",
-        "BackgroundUnshow": "Haz clic para hacer que el fondo sea transparente.",
         "CollapseObjectives": "Haz clic para ocultar los objetivos.",
         "Subquest": "Sub-misión",
         "TaskCompleted": "Completo",
         "TaskFailed": "Fallido",
         "TaskPending": "Pendiente",
         "ExpandObjectives": "Haz clic para mostrar los objetivos.",
-        "PrimaryQuestShow": "Haz clic para mostrar la misión principal.",
-        "GroupBy": {
-          "group": "Agrupadas por grupo. Haz clic para agrupar por dador.",
-          "giver": "Agrupadas por dador. Haz clic para agrupar por ubicación.",
-          "location": "Agrupadas por ubicación. Haz clic para dejar de agrupar.",
-          "none": "Sin agrupar. Haz clic para agrupar por grupo."
-        },
-        "PrimaryQuestUnshow": "Haz clic para mostrar todas las misiones.",
         "RemoveQuest": "Quitar esta misión de tu tracker.",
-        "RemovedShow": "Haz clic para mostrar también las misiones quitadas de tu tracker.",
-        "RemovedUnshow": "Haz clic para ocultar las misiones quitadas de tu tracker.",
         "RestoreQuest": "Volver a mostrar esta misión en tu tracker."
       }
     },
@@ -396,10 +382,6 @@
         "OBSERVER": "Observador",
         "OWNER": "Dueño"
       },
-      "dynamicBookmarkBackground": {
-        "Enable": "Fondo de Marcador Dinámico",
-        "EnableHint": "Si está marcado, el fondo de la pestaña de marcadores se establece dinámicamente en el fondo del contenido de la ventana."
-      },
       "hideFQLFromPlayers": {
         "Enable": "Ocultar registro de misiones de los jugadores",
         "EnableHint": "Cuando está habilitada, esta opción oculta el registro de misiones de todos los jugadores. Solo los usuarios de nivel GM podrán acceder al registro de misiones."
@@ -415,12 +397,6 @@
         "EnableHint": "Decide quién puede ver la pestaña Historial de una misión, que registra quién completa objetivos, coge recompensas y cambia el estado.",
         "gm": "Solo los GM",
         "players": "Todos los que puedan ver la misión"
-      },
-      "navStyle": {
-        "bookmarks": "Marcadores",
-        "classic": "Pestañas clásicas",
-        "Enable": "Estilo de navegación",
-        "EnableHint": "Decide cómo debe mostrarse la navegación del Registro de Misiones."
       },
       "notifyRewardDrop": {
         "Enable": "Mostrar mensajes de entrega de recompensas",
@@ -453,6 +429,20 @@
       "HiddenQuestNoPlayers": "Esta misión está oculta a todos los jugadores.",
       "PersonalQuest": "Misión personal",
       "PrimaryQuest": "Misión Principal"
+    },
+    "Keybindings": {
+      "openQuestLog": {
+        "Name": "Abrir el Quest Log",
+        "Hint": "Abre el Quest Log si lo usa el GM o si el Quest Log no está oculto."
+      },
+      "openPrimaryQuest": {
+        "Name": "Abrir la misión principal",
+        "Hint": "Abre la ficha de la misión principal, si hay alguna. Comprueba que el usuario sea GM o tenga permiso para ver la misión."
+      },
+      "toggleQuestTracker": {
+        "Name": "Mostrar u ocultar el Quest Tracker",
+        "Hint": "Muestra u oculta el Quest Tracker."
+      }
     }
   }
 }

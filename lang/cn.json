@@ -15,8 +15,9 @@
         }
       },
       "Socket": {
-        "Notifications": {
-          "RewardDrop": "FQL (任务奖励)：{userName} 将 '{itemName}' 放到 {actorName} 上。"
+        "Messages": {
+          "Alias": "Quest Log",
+          "RewardDrop": "{userName} 从任务“<em>{questName}</em>”中拿取了 <strong>{itemName}</strong>{amount}，并交给了 {actorName}。"
         }
       },
       "Utils": {
@@ -24,6 +25,15 @@
           "NoDocument": "无法加载实体UUID：'{uuid}'。",
           "NoPermission": "您没有足够的权限查看此实体表。"
         }
+      }
+    },
+    "Currency": {
+      "Notifications": {
+        "Failed": "无法将货币添加到角色。",
+        "NoCharacter": "你没有分配用于接收奖励的角色。",
+        "NotOwner": "你没有编辑该角色的权限。",
+        "SelectToken": "请选择一个令牌来接收奖励。",
+        "Unsupported": "此世界的游戏系统不支持该货币。"
       }
     },
     "DeleteDialog": {
@@ -34,6 +44,20 @@
       "Delete": "删除",
       "HeaderDel": "你确定你要删除：<p>'{name}'</p>",
       "TitleDel": "删除{title}"
+    },
+    "Keybindings": {
+      "openQuestLog": {
+        "Name": "打开任务栏",
+        "Hint": "若由 GM 使用，或任务栏未被隐藏，则打开任务栏。"
+      },
+      "openPrimaryQuest": {
+        "Name": "打开主线任务",
+        "Hint": "若存在主线任务，则打开其预览 / 角色卡。会检查用户是否为 GM 或有权查看该任务。"
+      },
+      "toggleQuestTracker": {
+        "Name": "切换任务追踪器",
+        "Hint": "显示或隐藏任务追踪器。"
+      }
     },
     "Labels": {
       "AppHeader": {
@@ -62,10 +86,13 @@
       "LinkCopied": "该任务的链接已复制到粘贴板中。",
       "QuestAdded": "添加了 '{name}' 作为新任务，状态为：'{status}'。",
       "QuestIDCopied": "此任务的任务 ID 已复制到剪贴板。",
+      "QuestJoined": "{who} 接受了任务“{name}”。",
       "QuestMoved": "移动了 '{name}'并将新状态设置为：'{target}'。",
       "QuestPrimary": "'{name}' 是新的主要任务。",
-      "QuestTrackerNoActive": "任务追踪器已启用，但目前没有正在进行的任务。",
-      "UserCantOpen": "玩家 '{user}' 没有查看该任务的权限。"
+      "QuestDuplicated": "任务已复制：{name}",
+      "QuestUnlocked": "有新任务可用。",
+      "UserCantOpen": "玩家 '{user}' 没有查看该任务的权限。",
+      "QuestFolderNotFound": "Quest Log - 未找到任务文件夹，无法创建任务。"
     },
     "QuestLog": {
       "Buttons": {
@@ -74,19 +101,42 @@
       "ContextMenu": {
         "CopyEntityLink": "复制实体内容链接",
         "CopyQuestID": "复制任务 ID",
+        "DuplicateName": "{name}（副本）",
+        "DuplicateQuest": "复制任务",
         "PrimaryQuest": "设置/取消设置为主要任务"
       },
+      "GroupBy": {
+        "Giver": "按发布者分组",
+        "Group": "按分组分组",
+        "Location": "按地点分组",
+        "None": "不分组"
+      },
       "Labels": {
+        "NoGiver": "无发布者",
+        "NoGroup": "无分组",
+        "NoLocation": "无地点",
+        "Personal": "个人",
+        "Search": "搜索…",
         "TableHeader": "{0}任务",
         "SubTitle": "{0}的子任务"
       },
+      "Personal": {
+        "Hint": "个人任务仅你和 GM 可见。",
+        "Label": "个人任务",
+        "Title": "新任务"
+      },
       "Title": "任务栏",
       "Tooltips": {
+        "Search": "按名称、发布者、地点、分组等搜索任务（所有标签页）。",
+        "GroupBy": "对此标签页的任务分组（仅对你生效）。",
         "Objectives": "目標"
       }
     },
     "QuestPreview": {
       "Buttons": {
+        "Accept": "接受",
+        "ClearDeadline": "移除期限",
+        "RewardCurrency": "货币",
         "RewardCustom": "添加用户定义",
         "RewardHide": "全部藏起来",
         "RewardLock": "锁定所有",
@@ -94,21 +144,55 @@
         "RewardUnlock": "全部解锁"
       },
       "Labels": {
+        "AcceptedBy": "接受者：",
+        "CreatedByGM": "由 GM 创建",
+        "CreatedByPlayer": "由 {name} 创建",
         "CustomSource": "自定义来源",
+        "Currency": "货币",
         "Description": "描述：",
         "DragDropActor": "拖放演员、项目或日记条目或左键单击以设置自定义来源。",
         "DragDropActorPlayer": "拖放演员、项目或日记条目。",
         "DragDropRewards": "将物品拖拽到此处以将其设为奖励。",
         "GMNotes": "GM笔记：",
         "Objective": "客观的",
+        "Group": "分组",
+        "Location": "地点",
+        "NoGroup": "无分组",
+        "NoLocation": "无地点",
         "Objectives": "目标：",
+        "Optional": "可选",
+        "Repeatable": "可重复",
+        "RepeatableTimes": "可重复（已完成 {n} 次）",
         "PlayerNotes": "玩家笔记：",
+        "Quantity": "数量",
+        "Deadline": "期限",
+        "DeadlineDay": "日",
+        "DeadlineHour": "时",
+        "DeadlineMinute": "分",
+        "DeadlineMonth": "月",
+        "DeadlineReal": "日期和时间",
+        "DeadlineYear": "年",
+        "NoDeadline": "无期限",
+        "QuantityTake": "要拿取的数量：",
+        "RewardChoiceGroup": "选择组",
+        "RewardChoiceHint": "组名相同的奖励互为备选：拿取其中一个后，其余的将被关闭。留空则不使用分组。",
         "Reward": "报酬",
         "Rewards": "奖励："
       },
       "Management": {
         "AddSubquest": "新建支线任务",
+        "AllowPlayerEdit": "允许玩家编辑",
+        "Repeatable": "可重复任务",
+        "RepeatableHint": "GM 可以重置可重复任务（目标、计数器、奖励和子任务），使其重新可用。会统计完成的次数。",
+        "ShowInTracker": "在我的任务追踪器中显示",
+        "AllowPlayerEditHint": "拥有这个由 GM 创建的任务的玩家可以编辑其描述、目标和奖励。",
+        "ChangePersonal": "更改玩家",
         "ConfigurePermissions": "配置权限",
+        "MakePersonal": "设为个人",
+        "MakePublic": "设为公开",
+        "NoPlayers": "没有可以分配任务的玩家。",
+        "PersonalContent": "请选择此任务的个人所属玩家。只有他们和 GM 能看到该任务，包括其子任务。",
+        "PersonalTitle": "个人任务",
         "QuestBranching": "支线任务：",
         "QuestSettings": "任务设置：",
         "SplashArt": "插画：",
@@ -116,20 +200,83 @@
         "SplashQuestIcon": "设置为任务图标"
       },
       "Notifications": {
+        "RewardAddFailed": "无法将奖励物品添加到角色。请检查你是否可以编辑该角色。",
         "BadUUID": "无法检索文档 UUID：'{uuid}'。",
         "WrongDocType": "任务日志仅接受世界/纲要演员、物品和日记条目作为任务提供者。",
         "WrongItemType": "任务日志只接受世界和纲要物品作为奖励。"
       },
+      "History": {
+        "Accepted": "{user} 接受了任务。",
+        "AcceptedBy": "{user} 使用 {actor} 接受了任务。",
+        "Joined": "{user} 加入了任务。",
+        "JoinedBy": "{user} 使用 {actor} 加入了任务。",
+        "Clear": "清空",
+        "ClearContent": "要删除任务“{name}”的所有历史记录吗？此操作无法撤销。",
+        "ClearTitle": "清空任务历史",
+        "ClearTooltip": "删除历史中的所有条目",
+        "Created": "{user} 创建了任务。",
+        "Empty": "还没有历史记录。",
+        "RewardTaken": "{user} 拿取了奖励 {item}{amount}。",
+        "RewardTakenBy": "{user} 为 {actor} 拿取了奖励 {item}{amount}。",
+        "Status": "{user} 将任务状态从 {from} 改为 {to}。",
+        "CounterChanged": "{user} 将“{task}”的计数器设为 {count}/{target}。",
+        "TaskCompleted": "{user} 将目标“{task}”标记为已完成。",
+        "TaskFailed": "{user} 将目标“{task}”标记为已失败。",
+        "TaskPending": "{user} 将目标“{task}”重置为待办。",
+        "Reset": "{user} 重置了任务以便重复（目前已完成 {n} 次）。",
+        "Title": "任务历史"
+      },
+      "Repeat": {
+        "ResetContent": "要重置任务“{name}”及其子任务以便重复吗？目标和计数器将被清除，已拿取的奖励将恢复，任务将变为可用。",
+        "ResetTitle": "重置任务",
+        "ResetTooltip": "重置任务以便重复"
+      },
+      "Counter": {
+        "Current": "当前数量",
+        "Target": "需达到的数量",
+        "TargetHint": "0 表示移除计数器。计数器达到此数量时，目标即完成。",
+        "Title": "目标计数器"
+      },
+      "Rumors": {
+        "Add": "添加传闻",
+        "BecameAvailable": "任务“{name}”现在可用。",
+        "DeleteContent": "要删除这条传闻吗？",
+        "DeleteTitle": "删除传闻",
+        "Empty": "此任务没有传闻。",
+        "Heard": "已听到（点击标记为未听到）",
+        "Hidden": "对玩家隐藏",
+        "Hint": "传闻是玩家可以听到的零散文本。可见的传闻会在任务栏的“传闻”标签页中显示给玩家，且不会说明它们属于哪个任务。将传闻标记为已听到后，未激活的任务会变为可用。",
+        "Counter": "已听到 {heard} / {total} 条必需传闻",
+        "MakeOptional": "可选传闻：不计入解锁任务",
+        "MakeRequired": "必需传闻：计入解锁任务",
+        "OptionalLabel": "可选",
+        "Required": "解锁任务所需的传闻数",
+        "RequiredHint": "0 = 所有非可选的传闻。当玩家听到这么多传闻时，任务变为可用。",
+        "NotHeard": "未听到（点击标记为已听到）",
+        "Title": "传闻",
+        "Visible": "对玩家可见"
+      },
       "Tabs": {
         "Details": "详情",
         "GMNotes": "GM笔记",
+        "History": "历史",
         "PlayerNotes": "玩家笔记",
-        "QuestManagement": "管理任务"
+        "QuestManagement": "管理任务",
+        "Rumors": "传闻"
       },
-      "Title": "任务详情",
+      "Title": "任务详情 - {name}",
       "Tooltips": {
+        "AddCurrency": "添加货币",
         "AddCustom": "添加用户定义",
+        "EditDeadline": "编辑任务期限",
+        "EditQuantity": "编辑数量",
+        "TakeAll": "全部拿取",
+        "TakeAmount": "拿取指定数量",
         "AddObjective": "加入新目标",
+        "CounterMinus": "减 1",
+        "CounterPlus": "加 1",
+        "TaskCounter": "设置目标计数器",
+        "SortObjective": "拖动以重新排序",
         "ChangeSplashPos": "更改插画对齐。",
         "DeleteQuestGiver": "删除发布者。",
         "DeleteSplash": "删除插画。",
@@ -137,6 +284,10 @@
         "LockAll": "锁定所有",
         "PrimaryQuestSet": "单击以进行主要任务。",
         "PrimaryQuestUnset": "单击以取消设置主要任务。",
+        "RewardChoice": "选择组“{group}”：该组中只能拿取一个奖励。",
+        "RewardClosed": "其选择组中的另一个奖励已被拿取。点击以重新开启。",
+        "RewardClosedPlayer": "其选择组中的另一个奖励已被拿取。",
+        "RewardSetChoice": "设置此奖励的选择组（一个组中只能拿取一个奖励）。",
         "RewardHidden": "奖励已隐藏，点击查看。",
         "RewardLocked": "奖励已锁定。点击解锁。",
         "RewardLockedPlayer": "奖励已锁定。",
@@ -145,20 +296,48 @@
         "RewardVisible": "奖励已可见，点击隐藏。",
         "ShowAll": "显示所有",
         "TaskHidden": "目标已隐藏，点击查看。",
+        "TaskOptional": "可选（额外）目标。点击使其变为必需。",
+        "TaskRequired": "必需目标。点击使其变为可选（额外）。",
+        "TaskNotRepeatable": "不可重复。点击使该目标可重复。",
+        "TaskRepeatable": "可重复目标。点击使其不可重复。",
+        "TaskReset": "重置目标（待办，计数器为 0）",
         "TaskVisible": "目标已可见，点击隐藏。",
         "ToggleImage": "打开或关闭token/角色图片。",
         "UnlockAll": "全部解锁",
-        "ViewSplashArt": "查看插图。"
+        "ViewSplashArt": "查看插图。",
+        "QuestSource": "任务来源"
       }
     },
     "QuestTracker": {
+      "Menu": {
+        "Background": "背景",
+        "Group": "分组依据",
+        "GroupBy": {
+          "giver": "发布者",
+          "group": "分组",
+          "location": "地点",
+          "none": "无"
+        },
+        "Off": "否",
+        "On": "是",
+        "Opaque": "不透明",
+        "Primary": "仅主线任务",
+        "Removed": "显示已移除的",
+        "Transparent": "透明"
+      },
       "NoPrimary": "没有可用的主要任务。",
+      "NoQuests": "没有可用的任务。",
+      "Optional": "可选",
       "Title": "任务追踪器",
       "Tooltips": {
-        "BackgroundShow": "单击以显示背景。",
-        "BackgroundUnshow": "单击以使背景透明。",
-        "PrimaryQuestShow": "单击以显示主要任务。",
-        "PrimaryQuestUnshow": "单击以显示所有任务。"
+        "CollapseObjectives": "点击隐藏目标。",
+        "Subquest": "子任务",
+        "TaskCompleted": "已完成",
+        "TaskFailed": "已失败",
+        "TaskPending": "待办",
+        "ExpandObjectives": "点击显示目标。",
+        "RemoveQuest": "从你的追踪器中移除此任务。",
+        "RestoreQuest": "在你的追踪器中重新显示此任务。"
       }
     },
     "QuestTypes": {
@@ -173,9 +352,11 @@
         "failed": "已失败",
         "InActive": "不活跃",
         "inactive": "不活跃",
+        "Rumor": "传闻",
         "Status": "该任务{statusLabel}。"
       },
       "Tooltips": {
+        "Join": "使用你的角色接受此任务",
         "SetActive": "设定为进行中",
         "SetAvailable": "设定为可选",
         "SetCompleted": "设定为已完成",
@@ -183,6 +364,12 @@
         "SetInactive": "设置为非活动",
         "Status": "地位：{statusI18n}"
       }
+    },
+    "Rumors": {
+      "Empty": "没有传闻。",
+      "HiddenTooltip": "对玩家隐藏",
+      "SearchTooltip": "按文本或所属任务名称搜索传闻",
+      "QuestTooltip": "传闻所属的任务（仅 GM 可见）"
     },
     "Settings": {
       "allowPlayersAccept": {
@@ -208,19 +395,21 @@
         "OBSERVER": "观察者",
         "OWNER": "所有者"
       },
-      "dynamicBookmarkBackground": {
-        "Enable": "动态书签背景",
-        "EnableHint": "如果选中，书签选项卡背景将动态设置为窗口内容背景。"
-      },
       "hideFQLFromPlayers": {
         "Enable": "对玩家隐藏任务日志",
         "EnableHint": "启用此选项后，将对所有玩家隐藏任务日志。只有 GM 级别的用户才能访问任务日志。"
       },
-      "navStyle": {
-        "bookmarks": "书签",
-        "classic": "经典标签页",
-        "Enable": "导航方式",
-        "EnableHint": "选择如何展示任务日志的导航。"
+      "dateMode": {
+        "Enable": "任务日期",
+        "EnableHint": "任务历史和任务期限所使用的日期：Foundry 世界日历的日期或真实日期。",
+        "real": "真实日期",
+        "world": "世界日历（附加在真实日期之后）"
+      },
+      "historyVisibility": {
+        "Enable": "任务历史可见性",
+        "EnableHint": "决定谁可以看到任务的“历史”标签页，其中记录了谁完成了目标、拿取了奖励以及更改了状态。",
+        "gm": "仅 GM",
+        "players": "所有能看到该任务的人"
       },
       "notifyRewardDrop": {
         "Enable": "显示奖励掉落通知",
@@ -247,9 +436,11 @@
       }
     },
     "Tooltips": {
+      "Actions": "操作",
       "Delete": "删除",
       "Edit": "编辑",
       "HiddenQuestNoPlayers": "这个任务对所有玩家都是隐藏的。",
+      "PersonalQuest": "个人任务",
       "PrimaryQuest": "主要任务"
     }
   }

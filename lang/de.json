@@ -15,8 +15,9 @@
         }
       },
       "Socket": {
-        "Notifications": {
-          "RewardDrop": "FQL (Questbelohnung): {userName} hat '{itemName}' auf {actorName} gezogen."
+        "Messages": {
+          "Alias": "Quest Log",
+          "RewardDrop": "{userName} hat <strong>{itemName}</strong>{amount} aus der Quest <em>{questName}</em> genommen und an {actorName} gegeben."
         }
       },
       "Utils": {
@@ -24,6 +25,15 @@
           "NoDocument": "Entität mit UUID '{uuid}' konnte nicht geladen werden.",
           "NoPermission": "Du verfügst nicht über die nötigen Berechtigungen, um den Bogen dieser Entität einzusehen."
         }
+      }
+    },
+    "Currency": {
+      "Notifications": {
+        "Failed": "Die Währung konnte dem Akteur nicht hinzugefügt werden.",
+        "NoCharacter": "Dir ist kein Charakter zugewiesen, der die Belohnung erhalten könnte.",
+        "NotOwner": "Du hast keine Berechtigung, diesen Akteur zu bearbeiten.",
+        "SelectToken": "Wähle genau einen Token aus, der die Belohnung erhalten soll.",
+        "Unsupported": "Das Spielsystem dieser Welt unterstützt diese Währung nicht."
       }
     },
     "DeleteDialog": {
@@ -34,6 +44,20 @@
       "Delete": "Löschen",
       "HeaderDel": "Bist du sicher, dass du <p>'{name}'</p> löschen willst",
       "TitleDel": "{title} löschen"
+    },
+    "Keybindings": {
+      "openQuestLog": {
+        "Name": "Questlog öffnen",
+        "Hint": "Öffnet das Questlog, wenn es vom SL benutzt wird oder wenn das Questlog nicht versteckt ist."
+      },
+      "openPrimaryQuest": {
+        "Name": "Hauptquest öffnen",
+        "Hint": "Öffnet die Vorschau / das Blatt der Hauptquest, falls vorhanden. Prüft, ob der Benutzer SL ist oder die Berechtigung hat, die Quest zu sehen."
+      },
+      "toggleQuestTracker": {
+        "Name": "Questtracker umschalten",
+        "Hint": "Zeigt den Questtracker an oder blendet ihn aus."
+      }
     },
     "Labels": {
       "AppHeader": {
@@ -62,10 +86,13 @@
       "LinkCopied": "Entitätslink für diese Quest wurde in die Zwischenablage kopiert.",
       "QuestAdded": "'{name}' als neue Quest mit Status '{status}' hinzugefügt.",
       "QuestIDCopied": "Quest-ID für diese Quest wurde in die Zwischenablage kopiert.",
+      "QuestJoined": "{who} hat die Quest '{name}' angenommen.",
       "QuestMoved": "'{name}' verschoben und Ziel gesetzt auf: '{target}'.",
       "QuestPrimary": "'{name}' ist die neue primäre Quest.",
-      "QuestTrackerNoActive": "Questtracker ist aktiviert, aber aktuell gibt es keine aktiven Quests.",
-      "UserCantOpen": "Benutzer '{user}' hat nicht die Berechtigungen, um diese Quest zu öffnen."
+      "QuestDuplicated": "Quest dupliziert: {name}",
+      "QuestUnlocked": "Eine neue Quest ist verfügbar.",
+      "UserCantOpen": "Benutzer '{user}' hat nicht die Berechtigungen, um diese Quest zu öffnen.",
+      "QuestFolderNotFound": "Quest Log - der Quest-Ordner wurde nicht gefunden; die Quest kann nicht erstellt werden."
     },
     "QuestLog": {
       "Buttons": {
@@ -74,19 +101,42 @@
       "ContextMenu": {
         "CopyEntityLink": "Entität-Link kopieren",
         "CopyQuestID": "Kopieren Sie Quest-ID",
+        "DuplicateName": "{name} (Kopie)",
+        "DuplicateQuest": "Quest duplizieren",
         "PrimaryQuest": "Als primäre Quest (de)aktivieren"
       },
+      "GroupBy": {
+        "Giver": "Nach Questgeber gruppieren",
+        "Group": "Nach Gruppe gruppieren",
+        "Location": "Nach Ort gruppieren",
+        "None": "Keine Gruppierung"
+      },
       "Labels": {
+        "NoGiver": "Kein Questgeber",
+        "NoGroup": "Keine Gruppe",
+        "NoLocation": "Kein Ort",
+        "Personal": "Persönlich",
+        "Search": "Suchen…",
         "TableHeader": "{0} Quests",
         "SubTitle": "Unterquest von {0}"
       },
+      "Personal": {
+        "Hint": "Eine persönliche Quest ist nur für dich und den SL sichtbar.",
+        "Label": "Persönliche Quest",
+        "Title": "Neue Quest"
+      },
       "Title": "Questlog",
       "Tooltips": {
+        "Search": "Quests nach Name, Questgeber, Ort, Gruppe usw. suchen (alle Reiter).",
+        "GroupBy": "Die Quests dieses Reiters gruppieren (nur für dich).",
         "Objectives": "Ziele"
       }
     },
     "QuestPreview": {
       "Buttons": {
+        "Accept": "Annehmen",
+        "ClearDeadline": "Frist entfernen",
+        "RewardCurrency": "Währung",
         "RewardCustom": "Benutzerdefinierten",
         "RewardHide": "Verbergen",
         "RewardLock": "Sperren",
@@ -94,21 +144,55 @@
         "RewardUnlock": "Entsperren"
       },
       "Labels": {
+        "AcceptedBy": "Angenommen von:",
+        "CreatedByGM": "Vom SL erstellt",
+        "CreatedByPlayer": "Erstellt von {name}",
         "CustomSource": "Eigene Quelle",
+        "Currency": "Währung",
         "Description": "Beschreibung:",
         "DragDropActor": "Akteur, Gegenstand oder Notizbucheintrag hierher ziehen oder linksklicken, um sie als eigene Quelle festzulegen.",
         "DragDropActorPlayer": "Akteur, Gegenstand oder Notizbucheintrag hierher ziehen.",
         "DragDropRewards": "Gegenstände hierher ziehen, um sie als Belohnung festzulegen.",
         "GMNotes": "GM-Notizen:",
         "Objective": "Ziel",
+        "Group": "Gruppe",
+        "Location": "Ort",
+        "NoGroup": "Keine Gruppe",
+        "NoLocation": "Kein Ort",
         "Objectives": "Ziele:",
+        "Optional": "optional",
+        "Repeatable": "Wiederholbar",
+        "RepeatableTimes": "Wiederholbar ({n}-mal abgeschlossen)",
         "PlayerNotes": "Spielernotizen:",
+        "Quantity": "Menge",
+        "Deadline": "Frist",
+        "DeadlineDay": "Tag",
+        "DeadlineHour": "Stunde",
+        "DeadlineMinute": "Minute",
+        "DeadlineMonth": "Monat",
+        "DeadlineReal": "Datum und Uhrzeit",
+        "DeadlineYear": "Jahr",
+        "NoDeadline": "Keine Frist",
+        "QuantityTake": "Zu nehmende Menge:",
+        "RewardChoiceGroup": "Auswahlgruppe",
+        "RewardChoiceHint": "Belohnungen mit demselben Gruppennamen sind Alternativen: Wird eine genommen, werden die anderen geschlossen. Leer lassen für keine Gruppe.",
         "Reward": "Belohnung",
         "Rewards": "Belohnungen:"
       },
       "Management": {
         "AddSubquest": "Unterquest hinzufügen",
+        "AllowPlayerEdit": "Bearbeitung durch Spieler erlauben",
+        "Repeatable": "Wiederholbare Quest",
+        "RepeatableHint": "Der SL kann eine wiederholbare Quest (Ziele, Zähler, Belohnungen und Unterquests) zurücksetzen, um sie wieder verfügbar zu machen. Die Anzahl der Abschlüsse wird mitgezählt.",
+        "ShowInTracker": "In meinem Questtracker anzeigen",
+        "AllowPlayerEditHint": "Spieler, die diese vom SL erstellte Quest besitzen, können ihre Beschreibung, Ziele und Belohnungen bearbeiten.",
+        "ChangePersonal": "Spieler ändern",
         "ConfigurePermissions": "Berechtigungen Konfigurieren",
+        "MakePersonal": "Persönlich machen",
+        "MakePublic": "Öffentlich machen",
+        "NoPlayers": "Es gibt keine Spieler, denen die Quest zugewiesen werden könnte.",
+        "PersonalContent": "Wähle die Spieler, für die diese Quest persönlich ist. Nur sie und die SL sehen sie, einschließlich ihrer Unterquests.",
+        "PersonalTitle": "Persönliche Quest",
         "QuestBranching": "Unterquests:",
         "QuestSettings": "Questeinstellungen:",
         "SplashArt": "Titelbild:",
@@ -116,20 +200,83 @@
         "SplashQuestIcon": "Als Questicon setzen"
       },
       "Notifications": {
+        "RewardAddFailed": "Das Belohnungsitem konnte dem Akteur nicht hinzugefügt werden. Prüfe, ob du den Akteur bearbeiten darfst.",
         "BadUUID": "Konnte Dokument mit UUID {uuid} nicht abrufen.",
         "WrongDocType": "Questlog akzeptnur Welt-/Kompendium-Akteure, -Items und -Notizbucheinträge als Questgeber.",
         "WrongItemType": "Questlog akzeptiert nur Welt- und Kompendium-Items als Belohnungen."
       },
+      "History": {
+        "Accepted": "{user} hat die Quest angenommen.",
+        "AcceptedBy": "{user} hat die Quest mit {actor} angenommen.",
+        "Joined": "{user} ist der Quest beigetreten.",
+        "JoinedBy": "{user} ist der Quest mit {actor} beigetreten.",
+        "Clear": "Leeren",
+        "ClearContent": "Alle Verlaufseinträge der Quest \"{name}\" löschen? Dies kann nicht rückgängig gemacht werden.",
+        "ClearTitle": "Questverlauf leeren",
+        "ClearTooltip": "Alle Einträge des Verlaufs löschen",
+        "Created": "{user} hat die Quest erstellt.",
+        "Empty": "Es gibt noch keine Verlaufseinträge.",
+        "RewardTaken": "{user} hat die Belohnung {item}{amount} genommen.",
+        "RewardTakenBy": "{user} hat die Belohnung {item}{amount} für {actor} genommen.",
+        "Status": "{user} hat den Status der Quest von {from} auf {to} geändert.",
+        "CounterChanged": "{user} hat den Zähler von \"{task}\" auf {count}/{target} gesetzt.",
+        "TaskCompleted": "{user} hat das Ziel \"{task}\" als abgeschlossen markiert.",
+        "TaskFailed": "{user} hat das Ziel \"{task}\" als fehlgeschlagen markiert.",
+        "TaskPending": "{user} hat das Ziel \"{task}\" auf ausstehend zurückgesetzt.",
+        "Reset": "{user} hat die Quest zurückgesetzt, um sie zu wiederholen (bisher {n}-mal abgeschlossen).",
+        "Title": "Questverlauf"
+      },
+      "Repeat": {
+        "ResetContent": "Die Quest \"{name}\" und ihre Unterquests zurücksetzen, um sie zu wiederholen? Ziele und Zähler werden gelöscht, genommene Belohnungen wiederhergestellt und die Quest wird verfügbar.",
+        "ResetTitle": "Quest zurücksetzen",
+        "ResetTooltip": "Quest zurücksetzen, um sie zu wiederholen"
+      },
+      "Counter": {
+        "Current": "Aktuelle Zahl",
+        "Target": "Zu erreichende Zahl",
+        "TargetHint": "0 entfernt den Zähler. Erreicht der Zähler diese Zahl, ist das Ziel abgeschlossen.",
+        "Title": "Zähler des Ziels"
+      },
+      "Rumors": {
+        "Add": "Gerücht hinzufügen",
+        "BecameAvailable": "Die Quest \"{name}\" ist jetzt verfügbar.",
+        "DeleteContent": "Dieses Gerücht löschen?",
+        "DeleteTitle": "Gerücht löschen",
+        "Empty": "Diese Quest hat keine Gerüchte.",
+        "Heard": "Gehört (klicken, um als nicht gehört zu markieren)",
+        "Hidden": "Vor den Spielern versteckt",
+        "Hint": "Gerüchte sind lose Texte, die die Spieler hören können. Sichtbare Gerüchte werden den Spielern im Reiter Gerüchte des Questlogs angezeigt, ohne zu verraten, zu welcher Quest sie gehören. Wird ein Gerücht als gehört markiert, wird eine inaktive Quest verfügbar.",
+        "Counter": "{heard} von {total} nötigen Gerüchten gehört",
+        "MakeOptional": "Optionales Gerücht: zählt nicht für das Freischalten der Quest",
+        "MakeRequired": "Nötiges Gerücht: zählt für das Freischalten der Quest",
+        "OptionalLabel": "optional",
+        "Required": "Gerüchte zum Freischalten der Quest",
+        "RequiredHint": "0 = alle Gerüchte, die nicht optional sind. Die Quest wird verfügbar, wenn die Spieler so viele Gerüchte hören.",
+        "NotHeard": "Nicht gehört (klicken, um als gehört zu markieren)",
+        "Title": "Gerüchte",
+        "Visible": "Für die Spieler sichtbar"
+      },
       "Tabs": {
         "Details": "Details",
         "GMNotes": "GM-Notizen",
+        "History": "Verlauf",
         "PlayerNotes": "Spielernotizen",
-        "QuestManagement": "Quest verwalten"
+        "QuestManagement": "Quest verwalten",
+        "Rumors": "Gerüchte"
       },
       "Title": "Questdetails - {name}",
       "Tooltips": {
+        "AddCurrency": "Währung hinzufügen",
         "AddCustom": "Benutzerdefiniert Hinzufügen",
+        "EditDeadline": "Frist der Quest bearbeiten",
+        "EditQuantity": "Menge bearbeiten",
+        "TakeAll": "Alles nehmen",
+        "TakeAmount": "Menge nehmen",
         "AddObjective": "Ziel hinzufügen",
+        "CounterMinus": "1 abziehen",
+        "CounterPlus": "1 hinzufügen",
+        "TaskCounter": "Zähler des Ziels festlegen",
+        "SortObjective": "Zum Umsortieren ziehen",
         "ChangeSplashPos": "Splash-Bildausrichtung ändern.",
         "DeleteQuestGiver": "Questgeber löschen.",
         "DeleteSplash": "Splash Art löschen.",
@@ -137,6 +284,10 @@
         "LockAll": "Alle sperren",
         "PrimaryQuestSet": "Anklicken, um als primäre Quest zu setzen.",
         "PrimaryQuestUnset": "Anklicken, um primäre Quest aufzuheben.",
+        "RewardChoice": "Auswahlgruppe \"{group}\": Es kann nur eine Belohnung der Gruppe genommen werden.",
+        "RewardClosed": "Eine andere Belohnung ihrer Auswahlgruppe wurde bereits genommen. Klicken zum Wiederöffnen.",
+        "RewardClosedPlayer": "Eine andere Belohnung ihrer Auswahlgruppe wurde bereits genommen.",
+        "RewardSetChoice": "Auswahlgruppe dieser Belohnung festlegen (es kann nur eine Belohnung einer Gruppe genommen werden).",
         "RewardHidden": "Belohnung verborgen. Anklicken zum Anzeigen.",
         "RewardLocked": "Belohnung ist gesperrt. Klicken zum Entsperren.",
         "RewardLockedPlayer": "Belohnung ist gesperrt.",
@@ -145,20 +296,48 @@
         "RewardVisible": "Belohnung ist sichtbar. Anklicken zum Verbergen.",
         "ShowAll": "Alle anzeigen",
         "TaskHidden": "Ziel ist verborgen. Anklicken zum Anzeigen.",
+        "TaskOptional": "Optionales (Bonus-)Ziel. Klicken, um es zur Pflicht zu machen.",
+        "TaskRequired": "Pflichtziel. Klicken, um es optional (Bonus) zu machen.",
+        "TaskNotRepeatable": "Nicht wiederholbar. Klicken, um das Ziel wiederholbar zu machen.",
+        "TaskRepeatable": "Wiederholbares Ziel. Klicken, um es nicht wiederholbar zu machen.",
+        "TaskReset": "Ziel zurücksetzen (ausstehend, Zähler auf 0)",
         "TaskVisible": "Ziel ist sichtbar. Anklicken zum Verbergen.",
         "ToggleImage": "Figur/Akteur-Bild umschalten.",
         "UnlockAll": "Alle entsperren",
-        "ViewSplashArt": "Titelfoto ansehen."
+        "ViewSplashArt": "Titelfoto ansehen.",
+        "QuestSource": "Questquelle"
       }
     },
     "QuestTracker": {
+      "Menu": {
+        "Background": "Hintergrund",
+        "Group": "Gruppieren nach",
+        "GroupBy": {
+          "giver": "Questgeber",
+          "group": "Gruppe",
+          "location": "Ort",
+          "none": "Keine"
+        },
+        "Off": "Nein",
+        "On": "Ja",
+        "Opaque": "Deckend",
+        "Primary": "Nur Hauptquest",
+        "Removed": "Entfernte anzeigen",
+        "Transparent": "Transparent"
+      },
       "NoPrimary": "Keine primäre Quest verfügbar.",
+      "NoQuests": "Keine Quests verfügbar.",
+      "Optional": "optional",
       "Title": "Questtracker",
       "Tooltips": {
-        "BackgroundShow": "Anklicken, um Hintergrund anzuzeigen.",
-        "BackgroundUnshow": "Für transparenten Hintergrund klicken.",
-        "PrimaryQuestShow": "Anklicken, um primäre Quest anzuzeigen.",
-        "PrimaryQuestUnshow": "Anklicken, um alle Quests anzuzeigen."
+        "CollapseObjectives": "Klicken, um die Ziele auszublenden.",
+        "Subquest": "Unterquest",
+        "TaskCompleted": "Abgeschlossen",
+        "TaskFailed": "Fehlgeschlagen",
+        "TaskPending": "Ausstehend",
+        "ExpandObjectives": "Klicken, um die Ziele anzuzeigen.",
+        "RemoveQuest": "Diese Quest aus deinem Tracker entfernen.",
+        "RestoreQuest": "Diese Quest wieder in deinem Tracker anzeigen."
       }
     },
     "QuestTypes": {
@@ -173,9 +352,11 @@
         "failed": "fehlgeschlagen",
         "InActive": "Inaktive",
         "inactive": "inaktiv",
+        "Rumor": "Gerüchte",
         "Status": "Quest ist {statusLabel}."
       },
       "Tooltips": {
+        "Join": "Diese Quest mit deinem Charakter annehmen",
         "SetActive": "Als Aktiv setzen",
         "SetAvailable": "Als Verfügbar setzen",
         "SetCompleted": "Als abgeschlossen setzen",
@@ -183,6 +364,12 @@
         "SetInactive": "Als Inaktiv setzen",
         "Status": "Status: {statusI18n}"
       }
+    },
+    "Rumors": {
+      "Empty": "Es gibt keine Gerüchte.",
+      "HiddenTooltip": "Vor den Spielern versteckt",
+      "SearchTooltip": "Gerüchte nach ihrem Text oder dem Namen ihrer Quest durchsuchen",
+      "QuestTooltip": "Quest des Gerüchts (nur der SL sieht sie)"
     },
     "Settings": {
       "allowPlayersAccept": {
@@ -208,19 +395,21 @@
         "OBSERVER": "Beobachter",
         "OWNER": "Besitzer"
       },
-      "dynamicBookmarkBackground": {
-        "Enable": "Dynamischer Lesezeichenhintergrund",
-        "EnableHint": "Aktivieren, um den Fensterinhalt dynamisch als den Hintergrund für den Lesezeichenreiter zu setzen."
-      },
       "hideFQLFromPlayers": {
         "Enable": "Questlog für Spieler verbergen",
         "EnableHint": "Aktivieren, um das Questlog für alle Spieler zu verbergen. Nur GM-Benutzer können auf das Questlog zugreifen."
       },
-      "navStyle": {
-        "bookmarks": "Lesezeichen",
-        "classic": "Klassische Reiter",
-        "Enable": "Navigationsstil",
-        "EnableHint": "Festlegen, wie die Navigation in Questlog angezeigt wird."
+      "dateMode": {
+        "Enable": "Quest-Daten",
+        "EnableHint": "Datum, das im Questverlauf und für die Fristen der Quests verwendet wird: das Datum des Weltkalenders von Foundry oder das echte Datum.",
+        "real": "Echtes Datum",
+        "world": "Weltkalender (zusätzlich zum echten Datum)"
+      },
+      "historyVisibility": {
+        "Enable": "Sichtbarkeit des Questverlaufs",
+        "EnableHint": "Legt fest, wer den Reiter Verlauf einer Quest sehen kann, der protokolliert, wer Ziele abschließt, Belohnungen nimmt und den Status ändert.",
+        "gm": "Nur SL",
+        "players": "Alle, die die Quest sehen können"
       },
       "notifyRewardDrop": {
         "Enable": "Bei Ziehen von Belohnungen benachrichtigen",
@@ -247,9 +436,11 @@
       }
     },
     "Tooltips": {
+      "Actions": "Aktionen",
       "Delete": "Löschen",
       "Edit": "Bearbeiten",
       "HiddenQuestNoPlayers": "Diese Quest ist vor allen Spielern verborgen.",
+      "PersonalQuest": "Persönliche Quest",
       "PrimaryQuest": "Primäre Quest"
     }
   }
