@@ -259,8 +259,12 @@
         "TaskPending": "Pending",
         "ExpandObjectives": "Click to show the objectives.",
         "PrimaryQuestShow": "Click to show primary quest.",
-        "GroupsShow": "Click to group the quests by their group.",
-        "GroupsUnshow": "Click to stop grouping the quests.",
+        "GroupBy": {
+          "group": "Grouped by group. Click to group by giver.",
+          "giver": "Grouped by giver. Click to group by location.",
+          "location": "Grouped by location. Click to stop grouping.",
+          "none": "Not grouped. Click to group by group."
+        },
         "PrimaryQuestUnshow": "Click to show all quests.",
         "RemoveQuest": "Remove this quest from your tracker.",
         "RemovedShow": "Click to also show the quests removed from your tracker.",

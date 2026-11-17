@@ -78,7 +78,7 @@ const sessionConstants = {
    logGroupCollapsed: 'quest-log.questlog.groupCollapsed-',
    trackerFolderState: 'quest-log.questtracker.folderState-',
    trackerGroupCollapsed: 'quest-log.questtracker.groupCollapsed-',
-   trackerShowGroups: 'quest-log.questtracker.showGroups',
+   trackerGroupBy: 'quest-log.questtracker.groupBy',
    trackerHiddenQuests: 'quest-log.questtracker.hiddenQuests',
    trackerShowBackground: 'quest-log.questtracker.showBackground',
    trackerShowHidden: 'quest-log.questtracker.showHidden',
@@ -134,7 +134,7 @@ export { constants, domEvents, questStatus, questStatusI18n, questTabIndex, sess
  *
  * @property {string}   trackerGroupCollapsed - Prefix of the keys storing the collapsed quest groups of the tracker.
  *
- * @property {string}   trackerShowGroups - Stores a boolean if the tracker groups the quests by their group.
+ * @property {string}   trackerGroupBy - Stores how the tracker groups the quests: none, group, giver or location.
  *
  * @property {string}   trackerHiddenQuests - Stores a JSON array of the IDs of the quests the user removed from the tracker.
  *

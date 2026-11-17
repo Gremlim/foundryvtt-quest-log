@@ -245,8 +245,12 @@
         "TaskPending": "Pendiente",
         "ExpandObjectives": "Haz clic para mostrar los objetivos.",
         "PrimaryQuestShow": "Haz clic para mostrar la misión principal.",
-        "GroupsShow": "Haz clic para agrupar las misiones por su grupo.",
-        "GroupsUnshow": "Haz clic para dejar de agrupar las misiones.",
+        "GroupBy": {
+          "group": "Agrupadas por grupo. Haz clic para agrupar por dador.",
+          "giver": "Agrupadas por dador. Haz clic para agrupar por ubicación.",
+          "location": "Agrupadas por ubicación. Haz clic para dejar de agrupar.",
+          "none": "Sin agrupar. Haz clic para agrupar por grupo."
+        },
         "PrimaryQuestUnshow": "Haz clic para mostrar todas las misiones.",
         "RemoveQuest": "Quitar esta misión de tu tracker.",
         "RemovedShow": "Haz clic para mostrar también las misiones quitadas de tu tracker.",

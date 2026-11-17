@@ -152,14 +152,33 @@ export class HandlerTracker
    }
 
    /**
-    * Handles the header button to group the quests by their group or not.
+    * The ways to group the quests of the tracker in the order the header button cycles through them.
+    *
+    * @type {string[]}
+    */
+   static GROUP_BY = ['none', 'group', 'giver', 'location'];
+
+   /**
+    * Gets how the quests of the tracker are grouped by this user.
+    *
+    * @returns {string} One of {@link HandlerTracker.GROUP_BY}.
+    */
+   static getGroupBy()
+   {
+      const value = sessionStorage.getItem(sessionConstants.trackerGroupBy);
+      return HandlerTracker.GROUP_BY.includes(value) ? value : 'none';
+   }
+
+   /**
+    * Handles the header button to cycle how the quests are grouped: by group, by giver, by location and not grouped.
     *
     * @param {QuestTracker}   questTracker - The QuestTracker.
     */
    static showGroups(questTracker)
    {
-      const newState = !(sessionStorage.getItem(sessionConstants.trackerShowGroups) === 'true');
-      sessionStorage.setItem(sessionConstants.trackerShowGroups, (newState).toString());
+      const order = HandlerTracker.GROUP_BY;
+      const next = order[(order.indexOf(HandlerTracker.getGroupBy()) + 1) % order.length];
+      sessionStorage.setItem(sessionConstants.trackerGroupBy, next);
 
       // The header button icon / tooltip is updated in `QuestTracker._onRender`.
       questTracker.render();
@@ -175,7 +194,7 @@ export class HandlerTracker
    static groupToggle(event, questTracker)
    {
       const header = event.currentTarget;
-      const key = `${sessionConstants.trackerGroupCollapsed}${header.dataset.groupKey ?? ''}`;
+      const key = `${sessionConstants.trackerGroupCollapsed}${HandlerTracker.getGroupBy()}-${header.dataset.groupKey ?? ''}`;
 
       if (sessionStorage.getItem(key) === 'true') { sessionStorage.removeItem(key); }
       else { sessionStorage.setItem(key, 'true'); }

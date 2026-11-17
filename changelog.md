@@ -1,5 +1,8 @@
 # Changelog
 
+## Release 0.16.3
+- Quest Tracker: the group button of the header now cycles through the ways to group the quests every time it is clicked: by group, by giver, by location and not grouped, and starts again. Its tooltip shows the current grouping. Collapsed groups are remembered separately for each way of grouping.
+
 ## Release 0.16.2
 - Quest Tracker: a new header button groups the quests by their group (alphabetically, with the quests without group at the end). Each group has a header with the quest count that can be collapsed with a click; it is stored per user in the browser session. Grouping is off by default. (Forien #154, #60, #66, #14)
 

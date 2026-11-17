@@ -402,8 +402,24 @@ export class QuestTracker extends HandlebarsApplicationMixin(ApplicationV2)
        questEntries.filter((entry) => !removedIds.has(entry.id));
 
       // Optionally list the quests by group (alphabetically; the quests without group at the end).
-      const showGroups = sessionStorage.getItem(sessionConstants.trackerShowGroups) === 'true';
-      const groupOf = (entry) => (showGroups ? (entry.quest.group ?? '').trim() : '');
+      const groupBy = HandlerTracker.getGroupBy();
+      const showGroups = groupBy !== 'none';
+      const groupOf = (entry) =>
+      {
+         switch (groupBy)
+         {
+            case 'group': return (entry.quest.group ?? '').trim();
+            case 'giver': return (entry.enrich?.giverData?.name ?? '').trim();
+            case 'location': return (entry.quest.location ?? '').trim();
+            default: return '';
+         }
+      };
+
+      const emptyLabel = {
+         group: game.i18n.localize('ForienQuestLog.QuestLog.Labels.NoGroup'),
+         giver: game.i18n.localize('ForienQuestLog.QuestLog.Labels.NoGiver'),
+         location: game.i18n.localize('ForienQuestLog.QuestLog.Labels.NoLocation')
+      };
 
       let entries = visibleEntries;
       const groupCounts = new Map();
@@ -433,7 +449,7 @@ export class QuestTracker extends HandlebarsApplicationMixin(ApplicationV2)
          const groupHeader = showGroups && group !== previousGroup;
          previousGroup = group;
          const groupCollapsed = showGroups &&
-          sessionStorage.getItem(`${sessionConstants.trackerGroupCollapsed}${group}`) === 'true';
+          sessionStorage.getItem(`${sessionConstants.trackerGroupCollapsed}${groupBy}-${group}`) === 'true';
 
          const rows = expanded ? buildRows(entry) : [];
 
@@ -441,8 +457,9 @@ export class QuestTracker extends HandlebarsApplicationMixin(ApplicationV2)
             id: q.id,
             groupHeader,
             groupCollapsed,
-            groupName: group === '' ? game.i18n.localize('ForienQuestLog.QuestLog.Labels.NoGroup') : group,
+            groupName: group === '' ? emptyLabel[groupBy] : group,
             groupKey: group,
+            groupBy,
             groupIsEmpty: group === '',
             groupCount: groupCounts.get(group) ?? 0,
             isRemoved: removedIds.has(q.id),
@@ -610,7 +627,7 @@ export class QuestTracker extends HandlebarsApplicationMixin(ApplicationV2)
    }
 
    /**
-    * Toggles grouping the quests by their group.
+    * Cycles how the quests are grouped: none, by group, by giver, by location.
     *
     * @this {QuestTracker}
     */
@@ -717,7 +734,7 @@ export class QuestTracker extends HandlebarsApplicationMixin(ApplicationV2)
       const showBackgroundState = sessionStorage.getItem(sessionConstants.trackerShowBackground) === 'true';
       const primaryState = sessionStorage.getItem(sessionConstants.trackerShowPrimary) === 'true';
       const showHiddenState = sessionStorage.getItem(sessionConstants.trackerShowHidden) === 'true';
-      const showGroupsState = sessionStorage.getItem(sessionConstants.trackerShowGroups) === 'true';
+      const groupByState = HandlerTracker.getGroupBy();
 
       const buttons = {
          shareTracker: {
@@ -730,9 +747,8 @@ export class QuestTracker extends HandlebarsApplicationMixin(ApplicationV2)
              'ForienQuestLog.QuestTracker.Tooltips.BackgroundShow')
          },
          showGroups: {
-            icon: showGroupsState ? 'fas fa-layer-group on' : 'fas fa-layer-group off',
-            tooltip: game.i18n.localize(showGroupsState ? 'ForienQuestLog.QuestTracker.Tooltips.GroupsUnshow' :
-             'ForienQuestLog.QuestTracker.Tooltips.GroupsShow')
+            icon: groupByState !== 'none' ? 'fas fa-layer-group on' : 'fas fa-layer-group off',
+            tooltip: game.i18n.localize(`ForienQuestLog.QuestTracker.Tooltips.GroupBy.${groupByState}`)
          },
          showHidden: {
             icon: showHiddenState ? 'fas fa-list-check on' : 'fas fa-list-check off',
