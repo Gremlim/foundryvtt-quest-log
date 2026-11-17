@@ -858,6 +858,19 @@ export class QuestDB
    }
 
    /**
+    * Gets the names of all the quest groups in use by the quests the current user can observe, sorted alphabetically.
+    *
+    * @returns {string[]} Sorted unique group names.
+    */
+   static getGroups()
+   {
+      const groups = new Set();
+      for (const quest of this.iteratorQuests()) { if (quest.group) { groups.add(quest.group); } }
+
+      return [...groups].sort((a, b) => a.localeCompare(b, void 0, { numeric: true, sensitivity: 'base' }));
+   }
+
+   /**
     * Provides an iterator across the QuestEntry map of maps returning all {@link QuestEntry} instances or instances of
     * a particular status category.
     *

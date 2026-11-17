@@ -114,6 +114,51 @@
     background: rgba(0, 0, 0, .22);
   }
 
+  // Header of a group of quests (collapsible).
+  .quest-tracker-group {
+    flex: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0 0 4px 0;
+    padding: 0 4px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    pointer-events: auto;
+
+    // Must specifically target elements to support context menu.
+    filter: drop-shadow(1px 1px 1px #000);
+
+    i {
+      flex: 0 0 12px;
+      text-align: center;
+    }
+
+    .group-name {
+      flex: 1;
+      min-width: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .group-count {
+      flex: 0 0 auto;
+      font-weight: 400;
+      opacity: .7;
+    }
+
+    &.is-empty {
+      font-style: italic;
+      font-weight: 400;
+      opacity: .8;
+    }
+
+    &:hover {
+      color: $primary-color-accent;
+    }
+  }
+
   .quest {
     overflow-x: hidden;
     overflow-y: hidden;

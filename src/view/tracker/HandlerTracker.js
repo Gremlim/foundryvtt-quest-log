@@ -152,6 +152,38 @@ export class HandlerTracker
    }
 
    /**
+    * Handles the header button to group the quests by their group or not.
+    *
+    * @param {QuestTracker}   questTracker - The QuestTracker.
+    */
+   static showGroups(questTracker)
+   {
+      const newState = !(sessionStorage.getItem(sessionConstants.trackerShowGroups) === 'true');
+      sessionStorage.setItem(sessionConstants.trackerShowGroups, (newState).toString());
+
+      // The header button icon / tooltip is updated in `QuestTracker._onRender`.
+      questTracker.render();
+   }
+
+   /**
+    * Collapses / expands a group of quests of the tracker.
+    *
+    * @param {MouseEvent}     event - The click event.
+    *
+    * @param {QuestTracker}   questTracker - The QuestTracker.
+    */
+   static groupToggle(event, questTracker)
+   {
+      const header = event.currentTarget;
+      const key = `${sessionConstants.trackerGroupCollapsed}${header.dataset.groupKey ?? ''}`;
+
+      if (sessionStorage.getItem(key) === 'true') { sessionStorage.removeItem(key); }
+      else { sessionStorage.setItem(key, 'true'); }
+
+      questTracker.render();
+   }
+
+   /**
     * Handles the header button to also show the quests removed from the tracker.
     *
     * @param {QuestTracker}   questTracker - The QuestTracker.

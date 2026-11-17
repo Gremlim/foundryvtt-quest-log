@@ -1,6 +1,14 @@
 <div class="quest-tracker-content">
     {{#if hasQuests}}<div class="quests">{{/if}}
       {{#each quests}}
+      {{#if groupHeader}}
+      <div class="quest-tracker-group{{#if groupIsEmpty}} is-empty{{/if}}" data-group-key="{{groupKey}}">
+        <i class="fas {{#if groupCollapsed}}fa-chevron-right{{else}}fa-chevron-down{{/if}}"></i>
+        <span class="group-name">{{groupName}}</span>
+        <span class="group-count">{{groupCount}}</span>
+      </div>
+      {{/if}}
+      {{#unless groupCollapsed}}
       <div class="quest{{#if (eq id ../primaryQuestId)}} is-primary{{/if}}{{#if isRemoved}} is-removed{{/if}}">
         <div class="title" {{#if (or isHidden isInactive)}}id="hidden"{{/if}}>
         {{#if hasObjectives}}
@@ -52,6 +60,7 @@
         </ul>
         {{/if}}
       </div>
+      {{/unless}}
       {{/each}}
     {{#if hasQuests}}
       </div>

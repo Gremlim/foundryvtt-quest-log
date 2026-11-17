@@ -1,4 +1,5 @@
 import {
+   QuestDB,
    Socket,
    Utils }           from '../../control/index.js';
 
@@ -118,7 +119,26 @@ export class HandlerDetails
 
       const input = createInput({ value: quest[target], target, maxlength: 48 });
 
-      showInput(input, prevSibling(event.target.closest('.actions-single'), '.editable-container'));
+      // The groups already in use are suggested when editing the group of the quest.
+      if (target === 'group')
+      {
+         const datalist = document.createElement('datalist');
+         datalist.id = `fql-group-list-${quest.id}`;
+         for (const group of QuestDB.getGroups())
+         {
+            const option = document.createElement('option');
+            option.value = group;
+            datalist.append(option);
+         }
+         input.setAttribute('list', datalist.id);
+
+         showInput(input, prevSibling(event.target.closest('.actions-single'), '.editable-container'));
+         input.after(datalist);
+      }
+      else
+      {
+         showInput(input, prevSibling(event.target.closest('.actions-single'), '.editable-container'));
+      }
 
       /**
        * Store the input focus callback in the associated QuestPreview instance so that it can be invoked if the app is
@@ -148,6 +168,10 @@ export class HandlerDetails
 
             case 'location':
                quest.location = valueOut.trim();
+               break;
+
+            case 'group':
+               quest.group = valueOut.trim();
                break;
          }
          await questPreview.saveQuest(saveOptions);

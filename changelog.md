@@ -1,5 +1,15 @@
 # Changelog
 
+## Release 0.16.2
+- Quest Tracker: a new header button groups the quests by their group (alphabetically, with the quests without group at the end). Each group has a header with the quest count that can be collapsed with a click; it is stored per user in the browser session. Grouping is off by default. (Forien #154, #60, #66, #14)
+
+## Release 0.16.1
+- Quest Log: each status tab (Available, In Progress, Completed, Failed, Inactive) has a new selector in its header to group its quests by group, by giver or by location, or to not group them (the default). The groups are listed alphabetically with the quest count, can be collapsed with a click, and the quests without a value are listed last. The choice and the collapsed groups are stored per user in the browser session and do not affect other users. (Forien #154, #60, #66, #14, #17, #119)
+
+## Release 0.16.0
+- Quests have a new optional Group (folder, category, chapter...) that is edited with the pencil below the location in the quest window, suggesting the groups already in use. Duplicated quests keep their group. It will be used to group the quests in the Quest Log and the Quest Tracker. (Forien #154, #60, #66, #14)
+- Cleanup: the quest location field was declared twice in the quest data; it is now declared once.
+
 ## Release 0.15.3
 - The Management tab of the quest window has a new "Show in my Quest Tracker" checkbox to hide or show that quest in your own Quest Tracker (the same state as the new remove button of the tracker, so a removed quest can always be put back from its quest window). It does not affect other users.
 

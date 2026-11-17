@@ -8,6 +8,8 @@ import { QuestAPI }  from '../../control/public/index.js';
 
 import { Quest }     from '../../model/index.js';
 
+import { sessionConstants } from '../../model/constants.js';
+
 import { FQLDialog } from '../internal/index.js';
 
 /**
@@ -82,6 +84,44 @@ export class HandlerLog
       };
 
       event.dataTransfer.setData('text/plain', JSON.stringify(dataTransfer));
+   }
+
+   /**
+    * Sets how the quests of a tab are grouped by this user.
+    *
+    * @param {Event}      event - The change event of the select.
+    *
+    * @param {QuestLog}   questLog - The QuestLog.
+    */
+   static groupBySet(event, questLog)
+   {
+      const status = event.target.dataset.tab;
+      if (!status) { return; }
+
+      sessionStorage.setItem(`${sessionConstants.logGroupBy}${status}`, event.target.value);
+
+      questLog.render();
+   }
+
+   /**
+    * Collapses / expands a group of quests of the quest log.
+    *
+    * @param {MouseEvent} event - MouseEvent
+    *
+    * @param {QuestLog}   questLog - The QuestLog.
+    */
+   static groupToggle(event, questLog)
+   {
+      const header = event.target?.closest('.group-header');
+      if (!header) { return; }
+
+      const key = `${sessionConstants.logGroupCollapsed}${header.dataset.tab}-${header.dataset.groupBy}-${header.dataset.groupKey}`;
+      const collapsed = sessionStorage.getItem(key) === 'true';
+
+      if (collapsed) { sessionStorage.removeItem(key); }
+      else { sessionStorage.setItem(key, 'true'); }
+
+      questLog.render();
    }
 
    /**

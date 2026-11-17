@@ -63,6 +63,18 @@
           {{/if}}
         </div>
         {{/if}}
+        {{#if (or group canEdit playerEdit)}}
+        <div class="quest-group">
+          <div class="editable-container">
+            <p class="group" title="{{localize 'ForienQuestLog.QuestPreview.Labels.Group'}}"><i class="fas fa-folder"></i> {{#if group}}{{group}}{{else}}<span class="no-group">{{localize 'ForienQuestLog.QuestPreview.Labels.NoGroup'}}</span>{{/if}}</p>
+          </div>
+          {{#if (or canEdit playerEdit)}}
+          <div class="actions-single">
+            <i class="fas fa-pen editable" data-target="group" title="{{localize 'ForienQuestLog.Tooltips.Edit'}}"></i>
+          </div>
+          {{/if}}
+        </div>
+        {{/if}}
         <div class="quest-status {{status}}">
           <p>
             {{statusLabel}}

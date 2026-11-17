@@ -545,9 +545,11 @@ export class Quest
       this.splashAsIcon = typeof data.splashAsIcon === 'boolean' ? data.splashAsIcon : false;
 
       /**
-       * @type {string|null}
+       * Optional location where the quest takes place (free text).
+       *
+       * @type {string}
        */
-      this.location = data.location || null;
+      this.location = typeof data.location === 'string' ? data.location : '';
 
       /**
        * @type {string}
@@ -592,11 +594,11 @@ export class Quest
       this.allowPlayerEdit = data.allowPlayerEdit === true;
 
       /**
-       * Optional location where the quest takes place (free text).
+       * Optional group (folder, category, chapter...) of the quest, used to group the quests in the lists.
        *
        * @type {string}
        */
-      this.location = typeof data.location === 'string' ? data.location : '';
+      this.group = typeof data.group === 'string' ? data.group.trim() : '';
 
       /**
        * Who created the quest: `{ id, name, gm }`. Quests without this data (created before the creator was stored)
@@ -1019,7 +1021,7 @@ export class Quest
          history: this.history,
          creator: this.creator,
          allowPlayerEdit: this.allowPlayerEdit,
-         location: this.location,
+         group: this.group,
          tasks: this.tasks,
          rewards: this.rewards,
          date: this.date
@@ -1306,7 +1308,7 @@ export class Task
  *
  * @property {boolean}           splashAsIcon - Use the splash image as the quest icon.
  *
- * @property {string|null}       location - Unused / future use for quest location.
+ * @property {string}            [location] - Optional location where the quest takes place (free text).
  *
  * @property {string}            playernotes - The Player Notes.
  *
@@ -1322,7 +1324,7 @@ export class Task
  * @property {object|null}       [creator] - Who created the quest (`id`, `name`, `gm`).
  * @property {boolean}           [allowPlayerEdit] - Owners can edit a quest created by a GM.
  *
- * @property {string}            [location] - Optional location where the quest takes place.
+ * @property {string}            [group] - Optional group (folder, category, chapter...) of the quest.
  *
  * @property {QuestTaskData[]}   tasks - An array of tasks.
  *

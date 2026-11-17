@@ -178,7 +178,7 @@
           }
         }
 
-        .quest-location {
+        .quest-location, .quest-group {
           display: flex;
           flex-direction: row;
           align-items: center;
@@ -194,10 +194,10 @@
             }
           }
 
-          p.location {
+          p.location, p.group {
             margin: 0;
 
-            .no-location {
+            .no-location, .no-group {
               font-style: italic;
               opacity: .6;
             }

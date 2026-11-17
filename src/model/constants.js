@@ -15,6 +15,7 @@ const constants = {
  * @type {{click: string, dblclick: string, dragstart: string, drop: string, focus: string, focusout: string, mousedown: string}}
  */
 const domEvents = {
+   change: 'change',
    click: 'click',
    dblclick: 'dblclick',
    dragenter: 'dragenter',
@@ -73,7 +74,11 @@ const questTabIndex = {
  */
 const sessionConstants = {
    currentPrimaryQuest: 'quest-log.questlog.currentPrimaryQuest',
+   logGroupBy: 'quest-log.questlog.groupBy-',
+   logGroupCollapsed: 'quest-log.questlog.groupCollapsed-',
    trackerFolderState: 'quest-log.questtracker.folderState-',
+   trackerGroupCollapsed: 'quest-log.questtracker.groupCollapsed-',
+   trackerShowGroups: 'quest-log.questtracker.showGroups',
    trackerHiddenQuests: 'quest-log.questtracker.hiddenQuests',
    trackerShowBackground: 'quest-log.questtracker.showBackground',
    trackerShowHidden: 'quest-log.questtracker.showHidden',
@@ -122,6 +127,14 @@ export { constants, domEvents, questStatus, questStatusI18n, questTabIndex, sess
  * @property {string}   currentPrimaryQuest - Stores current primary quest set from {@link FQLSettings.primaryQuest}.
  *
  * @property {string}   trackerFolderState - Stores a boolean with tacked on quest ID for whether objectives are shown.
+ *
+ * @property {string}   logGroupBy - Prefix of the key storing how the quests of a tab of the quest log are grouped.
+ *
+ * @property {string}   logGroupCollapsed - Prefix of the keys storing the collapsed groups of the quest log.
+ *
+ * @property {string}   trackerGroupCollapsed - Prefix of the keys storing the collapsed quest groups of the tracker.
+ *
+ * @property {string}   trackerShowGroups - Stores a boolean if the tracker groups the quests by their group.
  *
  * @property {string}   trackerHiddenQuests - Stores a JSON array of the IDs of the quests the user removed from the tracker.
  *

@@ -92,7 +92,16 @@
         "DuplicateQuest": "Duplicar misión",
         "PrimaryQuest": "Establecer / Desestablecer como misión principal"
       },
+      "GroupBy": {
+        "Giver": "Agrupar por dador",
+        "Group": "Agrupar por grupo",
+        "Location": "Agrupar por ubicación",
+        "None": "Sin agrupar"
+      },
       "Labels": {
+        "NoGiver": "Sin dador",
+        "NoGroup": "Sin grupo",
+        "NoLocation": "Sin ubicación",
         "Personal": "Personal",
         "TableHeader": "Misiones {0}",
         "SubTitle": "Sub-Misión de: {0}"
@@ -104,6 +113,7 @@
       },
       "Title": "Registro de Misiones",
       "Tooltips": {
+        "GroupBy": "Agrupa las misiones de esta pestaña (solo para ti).",
         "Objectives": "Objetivos"
       }
     },
@@ -128,7 +138,9 @@
         "DragDropRewards": "Arrastra y Suelta elementos aquí para añadirlos como recompensas.",
         "GMNotes": "Notas del GM:",
         "Objective": "Objetivo",
+        "Group": "Grupo",
         "Location": "Ubicación",
+        "NoGroup": "Sin grupo",
         "NoLocation": "Sin ubicación",
         "Objectives": "Objetivos:",
         "Optional": "opcional",
@@ -233,6 +245,8 @@
         "TaskPending": "Pendiente",
         "ExpandObjectives": "Haz clic para mostrar los objetivos.",
         "PrimaryQuestShow": "Haz clic para mostrar la misión principal.",
+        "GroupsShow": "Haz clic para agrupar las misiones por su grupo.",
+        "GroupsUnshow": "Haz clic para dejar de agrupar las misiones.",
         "PrimaryQuestUnshow": "Haz clic para mostrar todas las misiones.",
         "RemoveQuest": "Quitar esta misión de tu tracker.",
         "RemovedShow": "Haz clic para mostrar también las misiones quitadas de tu tracker.",

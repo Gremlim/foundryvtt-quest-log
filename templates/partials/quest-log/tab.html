@@ -1,11 +1,29 @@
 <header>
   <h1 style="flex: 1;">{{fql_format 'ForienQuestLog.QuestLog.Labels.TableHeader' (localize (lookup questStatusI18n tab))}}</h1>
+  <label class="group-by-label" title="{{localize 'ForienQuestLog.QuestLog.Tooltips.GroupBy'}}">
+    <i class="fas fa-layer-group"></i>
+    <select class="quest-group-by" data-tab="{{tab}}">
+      <option value="none" {{#if (eq groupBy 'none')}}selected{{/if}}>{{localize 'ForienQuestLog.QuestLog.GroupBy.None'}}</option>
+      <option value="group" {{#if (eq groupBy 'group')}}selected{{/if}}>{{localize 'ForienQuestLog.QuestLog.GroupBy.Group'}}</option>
+      <option value="giver" {{#if (eq groupBy 'giver')}}selected{{/if}}>{{localize 'ForienQuestLog.QuestLog.GroupBy.Giver'}}</option>
+      <option value="location" {{#if (eq groupBy 'location')}}selected{{/if}}>{{localize 'ForienQuestLog.QuestLog.GroupBy.Location'}}</option>
+    </select>
+  </label>
   {{#if (or isGM canCreate)}}
     <button class="new-quest-btn"><i class="fas fa-plus"></i> {{localize 'ForienQuestLog.QuestLog.Buttons.AddQuest'}}</button>
   {{/if}}
 </header>
 <div class="table">
   <ul>
+    {{#each groups}}
+    {{#if header}}
+    <li class="group-header {{#if isEmpty}}is-empty{{/if}}" data-tab="{{../tab}}" data-group-by="{{../groupBy}}" data-group-key="{{key}}">
+      <i class="fas {{#if collapsed}}fa-chevron-right{{else}}fa-chevron-down{{/if}}"></i>
+      <span class="group-name">{{name}}</span>
+      <span class="group-count">{{count}}</span>
+    </li>
+    {{/if}}
+    {{#unless collapsed}}
     {{#each quests}}
     {{#with enrich}}
     <li class="drag-quest" data-quest-id="{{id}}" draggable="true">
@@ -29,14 +47,16 @@
         {{#if location}}<p class="location"><i class="fas fa-location-dot"></i> {{location}}</p>{{/if}}
         {{#if creatorLabel}}<p class="creator">{{creatorLabel}}</p>{{/if}}
       </div>
-      {{#unless (eq ../../showTasks 'no')}}
-        <div class="open-quest tasks" title="{{localize 'ForienQuestLog.QuestLog.Tooltips.Objectives'}}">{{checkedTasks}}{{#unless (eq ../../showTasks 'onlyCurrent')}}/{{totalTasks}}{{/unless}}</div>
+      {{#unless (eq @root.showTasks 'no')}}
+        <div class="open-quest tasks" title="{{localize 'ForienQuestLog.QuestLog.Tooltips.Objectives'}}">{{checkedTasks}}{{#unless (eq @root.showTasks 'onlyCurrent')}}/{{totalTasks}}{{/unless}}</div>
       {{/unless}}
       {{#if statusActions.length}}
         {{{statusActions}}}
       {{/if}}
     </li>
     {{/with}}
+    {{/each}}
+    {{/unless}}
     {{/each}}
   </ul>
 </div>

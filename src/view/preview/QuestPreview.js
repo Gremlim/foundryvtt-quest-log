@@ -292,8 +292,8 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
       on(domEvents.click, '.actions-single.quest-name .editable', (event) =>
        HandlerDetails.questEditName(event, this.#quest, this), editOrPlayerEdit);
 
-      on(domEvents.click, '.quest-location .actions-single .editable', (event) =>
-       HandlerDetails.questEditName(event, this.#quest, this), editOrPlayerEdit);
+      on(domEvents.click, '.quest-location .actions-single .editable, .quest-group .actions-single .editable',
+       (event) => HandlerDetails.questEditName(event, this.#quest, this), editOrPlayerEdit);
 
       on(domEvents.drop, '.quest-giver-gc', async (event) =>
        await HandlerDetails.questGiverDropDocument(event, this.#quest, this), editOrPlayerEdit);

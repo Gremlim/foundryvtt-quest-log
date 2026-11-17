@@ -76,6 +76,7 @@ export class QuestTracker extends HandlebarsApplicationMixin(ApplicationV2)
       actions: {
          shareTracker: QuestTracker.#onShareTracker,
          showBackground: QuestTracker.#onShowBackground,
+         showGroups: QuestTracker.#onShowGroups,
          showHidden: QuestTracker.#onShowHidden,
          showPrimary: QuestTracker.#onShowPrimary
       }
@@ -209,7 +210,7 @@ export class QuestTracker extends HandlebarsApplicationMixin(ApplicationV2)
       {
          const first = header.querySelector('.header-control');
 
-         const actions = ['showPrimary', 'showHidden', 'showBackground'];
+         const actions = ['showPrimary', 'showGroups', 'showHidden', 'showBackground'];
 
          // Share the tracker w/ remote clients.
          if (game.user.isGM) { actions.push('shareTracker'); }
@@ -256,6 +257,9 @@ export class QuestTracker extends HandlebarsApplicationMixin(ApplicationV2)
 
       // Removes / restores a quest in the tracker of this user.
       Utils.on(html, domEvents.click, '.quest-tracker-remove', (event) => HandlerTracker.questRemoveToggle(event, this));
+
+      // Collapses / expands a group of quests.
+      Utils.on(html, domEvents.click, '.quest-tracker-group', (event) => HandlerTracker.groupToggle(event, this));
 
       Utils.on(html, domEvents.click, '.quest-tracker-task', async (event) =>
        await HandlerTracker.questTaskToggle(event));
@@ -397,15 +401,50 @@ export class QuestTracker extends HandlebarsApplicationMixin(ApplicationV2)
       const visibleEntries = showOnlyPrimary || showRemoved || removedIds.size === 0 ? questEntries :
        questEntries.filter((entry) => !removedIds.has(entry.id));
 
-      return visibleEntries.transform((entry) =>
+      // Optionally list the quests by group (alphabetically; the quests without group at the end).
+      const showGroups = sessionStorage.getItem(sessionConstants.trackerShowGroups) === 'true';
+      const groupOf = (entry) => (showGroups ? (entry.quest.group ?? '').trim() : '');
+
+      let entries = visibleEntries;
+      const groupCounts = new Map();
+      if (showGroups)
+      {
+         for (const entry of visibleEntries.all()) { groupCounts.set(groupOf(entry), (groupCounts.get(groupOf(entry)) ?? 0) + 1); }
+
+         entries = visibleEntries.sort((a, b) =>
+         {
+            const ga = groupOf(a);
+            const gb = groupOf(b);
+            if (ga === gb) { return 0; }
+            if (ga === '') { return 1; }
+            if (gb === '') { return -1; }
+            return ga.localeCompare(gb, void 0, { numeric: true, sensitivity: 'base' });
+         });
+      }
+
+      let previousGroup = null;
+
+      return entries.transform((entry) =>
       {
          const q = entry.enrich;
          const expanded = isExpanded(q.id);
+
+         const group = groupOf(entry);
+         const groupHeader = showGroups && group !== previousGroup;
+         previousGroup = group;
+         const groupCollapsed = showGroups &&
+          sessionStorage.getItem(`${sessionConstants.trackerGroupCollapsed}${group}`) === 'true';
 
          const rows = expanded ? buildRows(entry) : [];
 
          return {
             id: q.id,
+            groupHeader,
+            groupCollapsed,
+            groupName: group === '' ? game.i18n.localize('ForienQuestLog.QuestLog.Labels.NoGroup') : group,
+            groupKey: group,
+            groupIsEmpty: group === '',
+            groupCount: groupCounts.get(group) ?? 0,
             isRemoved: removedIds.has(q.id),
             canEdit: isGM || (entry.quest.isEditOwner && isTrustedPlayerEdit),
             playerEdit: entry.quest.isEditOwner,
@@ -571,6 +610,16 @@ export class QuestTracker extends HandlebarsApplicationMixin(ApplicationV2)
    }
 
    /**
+    * Toggles grouping the quests by their group.
+    *
+    * @this {QuestTracker}
+    */
+   static #onShowGroups()
+   {
+      HandlerTracker.showGroups(this);
+   }
+
+   /**
     * Toggles showing the quests that the user removed from the tracker.
     *
     * @this {QuestTracker}
@@ -668,6 +717,7 @@ export class QuestTracker extends HandlebarsApplicationMixin(ApplicationV2)
       const showBackgroundState = sessionStorage.getItem(sessionConstants.trackerShowBackground) === 'true';
       const primaryState = sessionStorage.getItem(sessionConstants.trackerShowPrimary) === 'true';
       const showHiddenState = sessionStorage.getItem(sessionConstants.trackerShowHidden) === 'true';
+      const showGroupsState = sessionStorage.getItem(sessionConstants.trackerShowGroups) === 'true';
 
       const buttons = {
          shareTracker: {
@@ -678,6 +728,11 @@ export class QuestTracker extends HandlebarsApplicationMixin(ApplicationV2)
             icon: showBackgroundState ? 'fas fa-fill on' : 'fas fa-fill off',
             tooltip: game.i18n.localize(showBackgroundState ? 'ForienQuestLog.QuestTracker.Tooltips.BackgroundUnshow' :
              'ForienQuestLog.QuestTracker.Tooltips.BackgroundShow')
+         },
+         showGroups: {
+            icon: showGroupsState ? 'fas fa-layer-group on' : 'fas fa-layer-group off',
+            tooltip: game.i18n.localize(showGroupsState ? 'ForienQuestLog.QuestTracker.Tooltips.GroupsUnshow' :
+             'ForienQuestLog.QuestTracker.Tooltips.GroupsShow')
          },
          showHidden: {
             icon: showHiddenState ? 'fas fa-list-check on' : 'fas fa-list-check off',

@@ -10,20 +10,20 @@
   </nav>
   <section class="log-body">
     <div class="tab available" data-group="primary" data-tab="available">
-      {{> "modules/quest-log/templates/partials/quest-log/tab.html" tab="available" quests=quests.available}}
+      {{> "modules/quest-log/templates/partials/quest-log/tab.html" tab="available" groups=groups.available groupBy=groupBy.available}}
     </div>
     <div class="tab active" data-group="primary" data-tab="active">
-      {{> "modules/quest-log/templates/partials/quest-log/tab.html" tab="active" quests=quests.active}}
+      {{> "modules/quest-log/templates/partials/quest-log/tab.html" tab="active" groups=groups.active groupBy=groupBy.active}}
     </div>
     <div class="tab completed" data-group="primary" data-tab="completed">
-      {{> "modules/quest-log/templates/partials/quest-log/tab.html" tab="completed" quests=quests.completed}}
+      {{> "modules/quest-log/templates/partials/quest-log/tab.html" tab="completed" groups=groups.completed groupBy=groupBy.completed}}
     </div>
     <div class="tab failed" data-group="primary" data-tab="failed">
-      {{> "modules/quest-log/templates/partials/quest-log/tab.html" tab="failed" quests=quests.failed}}
+      {{> "modules/quest-log/templates/partials/quest-log/tab.html" tab="failed" groups=groups.failed groupBy=groupBy.failed}}
     </div>
     {{#if (or isGM isTrustedPlayerEdit)}}
       <div class="tab inactive" data-group="primary" data-tab="inactive">
-        {{> "modules/quest-log/templates/partials/quest-log/tab.html" tab="inactive" quests=quests.inactive}}
+        {{> "modules/quest-log/templates/partials/quest-log/tab.html" tab="inactive" groups=groups.inactive groupBy=groupBy.inactive}}
       </div>
     {{/if}}
   </section>

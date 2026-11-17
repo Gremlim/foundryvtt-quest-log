@@ -14,6 +14,7 @@ import {
    domEvents,
    questStatus,
    questStatusI18n,
+   sessionConstants,
    settings }           from '../../model/constants.js';
 import * as contextOptions from "../internal/context-options.js";
 
@@ -111,6 +112,11 @@ export class QuestLog extends HandlebarsApplicationMixin(ApplicationV2)
 
       Utils.on(html, domEvents.click, '.open-quest', HandlerLog.questOpen);
 
+      // Grouping of the quests of a tab.
+      Utils.on(html, domEvents.change, '.quest-group-by', (event) => HandlerLog.groupBySet(event, this));
+
+      Utils.on(html, domEvents.click, '.group-header', (event) => HandlerLog.groupToggle(event, this));
+
       Utils.on(html, domEvents.click, '.actions.quest-status i.move', HandlerLog.questStatusSet);
 
       this.#contextMenu();
@@ -196,8 +202,97 @@ export class QuestLog extends HandlebarsApplicationMixin(ApplicationV2)
          canCreate: game.settings.get(constants.moduleName, settings.allowPlayersCreate),
          showTasks: game.settings.get(constants.moduleName, settings.showTasks),
          questStatusI18n,
-         quests: QuestDB.sortCollect()
+         quests: QuestDB.sortCollect(),
+         groupBy: Object.fromEntries(Object.keys(questStatus).map((status) => [status, QuestLog.getGroupBy(status)])),
+         groups: this.#prepareGroups()
       });
+   }
+
+   /**
+    * The available ways to group the quests of a tab.
+    *
+    * @type {string[]}
+    */
+   static GROUP_BY = ['none', 'group', 'giver', 'location'];
+
+   /**
+    * Gets how the quests of the given tab are grouped by this user.
+    *
+    * @param {string}   status - A quest status / tab ID.
+    *
+    * @returns {string} One of {@link QuestLog.GROUP_BY}.
+    */
+   static getGroupBy(status)
+   {
+      const value = sessionStorage.getItem(`${sessionConstants.logGroupBy}${status}`);
+      return QuestLog.GROUP_BY.includes(value) ? value : 'none';
+   }
+
+   /**
+    * Builds the groups of quests (with the quests inside) of each tab according to how the user chose to group them.
+    * Without grouping each tab has one group without header.
+    *
+    * @returns {Record<string, object[]>} The groups of each tab.
+    */
+   #prepareGroups()
+   {
+      const sorted = QuestDB.sortCollect();
+      const result = {};
+
+      const noneLabel = {
+         group: game.i18n.localize('ForienQuestLog.QuestLog.Labels.NoGroup'),
+         giver: game.i18n.localize('ForienQuestLog.QuestLog.Labels.NoGiver'),
+         location: game.i18n.localize('ForienQuestLog.QuestLog.Labels.NoLocation')
+      };
+
+      for (const status of Object.keys(sorted))
+      {
+         const collection = sorted[status];
+         const entries = typeof collection?.all === 'function' ? collection.all() : Array.from(collection ?? []);
+         const groupBy = QuestLog.getGroupBy(status);
+
+         if (groupBy === 'none')
+         {
+            result[status] = [{ header: false, quests: entries }];
+            continue;
+         }
+
+         const keyOf = (entry) =>
+         {
+            switch (groupBy)
+            {
+               case 'group': return entry.quest.group ?? '';
+               case 'location': return entry.quest.location ?? '';
+               case 'giver': return entry.enrich?.giverData?.name ?? '';
+               default: return '';
+            }
+         };
+
+         const map = new Map();
+         for (const entry of entries)
+         {
+            const key = (keyOf(entry) ?? '').trim();
+            if (!map.has(key)) { map.set(key, []); }
+            map.get(key).push(entry);
+         }
+
+         // Named groups alphabetically and the quests without value in the last group.
+         const keys = [...map.keys()].filter((key) => key !== '').sort(
+          (a, b) => a.localeCompare(b, void 0, { numeric: true, sensitivity: 'base' }));
+         if (map.has('')) { keys.push(''); }
+
+         result[status] = keys.map((key) => ({
+            header: true,
+            key,
+            name: key === '' ? noneLabel[groupBy] : key,
+            isEmpty: key === '',
+            count: map.get(key).length,
+            collapsed: sessionStorage.getItem(`${sessionConstants.logGroupCollapsed}${status}-${groupBy}-${key}`) === 'true',
+            quests: map.get(key)
+         }));
+      }
+
+      return result;
    }
 
    /**
