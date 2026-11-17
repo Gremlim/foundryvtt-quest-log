@@ -392,6 +392,12 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
       on(domEvents.click, '.manage-allow-player-edit input[name="allow-player-edit"]', async (event) =>
        await HandlerManage.setAllowPlayerEdit(event, this.#quest, this), edit);
 
+      on(domEvents.click, '.make-personal-btn', async () => await HandlerManage.makePersonal(this.#quest, this),
+       () => game.user.isGM);
+
+      on(domEvents.click, '.make-public-btn', async () => await HandlerManage.makePublic(this.#quest, this),
+       () => game.user.isGM);
+
       on(domEvents.click, '.configure-perm-btn', () => HandlerManage.configurePermissions(this.#quest, this), edit);
 
       on(domEvents.click, '.delete-splash', async () => await HandlerManage.deleteSplashImage(this.#quest, this), edit);

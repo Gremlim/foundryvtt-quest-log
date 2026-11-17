@@ -160,6 +160,39 @@ export class FQLDialog
    }
 
    /**
+    * Asks a player if a new quest is personal (only visible to them and the GM).
+    *
+    * @param {object}   options - Options.
+    *
+    * @param {string}   options.title - Title of the dialog.
+    *
+    * @param {string}   options.label - Label of the checkbox.
+    *
+    * @param {string}   options.hint - Hint below the checkbox.
+    *
+    * @returns {Promise<boolean|null>} Whether the quest is personal or null if the dialog was cancelled.
+    */
+   static async promptPersonal({ title, label, hint })
+   {
+      const escape = (text) => String(text ?? '').replace(/[&<>"']/g,
+       (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+
+      const result = await foundry.applications.api.DialogV2.prompt({
+         window: { title },
+         content: `<div class="form-group"><label>${escape(label)}</label><div class="form-fields">` +
+          `<input type="checkbox" name="personal"></div><p class="hint">${escape(hint)}</p></div>`,
+         ok: {
+            label: game.i18n.localize('ForienQuestLog.QuestPreview.Buttons.Accept'),
+            callback: (event, button) => button.form.elements.personal.checked === true
+         },
+         rejectClose: false,
+         modal: true
+      });
+
+      return typeof result === 'boolean' ? result : null;
+   }
+
+   /**
     * Shows a confirm dialog to delete a reward.
     *
     * @param {object}   options - Options.

@@ -226,7 +226,9 @@ export class Enrich
       if (canEdit) { data.wrapNameLengthCSS = 'can-edit'; }
 
       data.isPersonal = personalActors.length > 0;
-      data.personalActors = personalActors.map((a) => a.name).sort((a, b) => a.localeCompare(b)).join('&#013;');
+      data.personalActors = game.user.isGM ?
+       personalActors.map((a) => a.name).sort((a, b) => a.localeCompare(b)).join('&#013;') :
+        game.i18n.localize('ForienQuestLog.Tooltips.PersonalQuest');
 
       data.isPrimary = isPrimary;
 
@@ -327,7 +329,9 @@ export class Enrich
                   isHidden: subquest.isHidden,
                   isInactive,
                   isPersonal: subPersonalActors.length > 0,
-                  personalActors: subPersonalActors.map((a) => a.name).sort((a, b) => a.localeCompare(b)).join('&#013;'),
+                  personalActors: game.user.isGM ?
+                   subPersonalActors.map((a) => a.name).sort((a, b) => a.localeCompare(b)).join('&#013;') :
+                    game.i18n.localize('ForienQuestLog.Tooltips.PersonalQuest'),
                   isPrimary: subIsPrimary
                });
             }

@@ -105,6 +105,65 @@ export class HandlerManage
    }
 
    /**
+    * Asks the GM for the players and makes the quest personal for them.
+    *
+    * @param {Quest}          quest - The current quest being manipulated.
+    *
+    * @param {QuestPreview}   questPreview - The QuestPreview being manipulated.
+    *
+    * @returns {Promise<void>}
+    */
+   static async makePersonal(quest, questPreview)
+   {
+      const players = game.users.filter((user) => !user.isGM);
+
+      if (!players.length)
+      {
+         ui.notifications.warn(game.i18n.localize('ForienQuestLog.QuestPreview.Management.NoPlayers'));
+         return;
+      }
+
+      const selected = new Set(quest.getPersonalActors().map((user) => user.id));
+      const escape = (text) => foundry.utils.escapeHTML(String(text ?? ''));
+
+      const rows = players.map((user) => `<label class="checkbox"><input type="checkbox" name="user" ` +
+       `value="${escape(user.id)}"${selected.has(user.id) ? ' checked' : ''}> ${escape(user.name)}</label>`).join('<br>');
+
+      const userIds = await foundry.applications.api.DialogV2.prompt({
+         window: { title: game.i18n.localize('ForienQuestLog.QuestPreview.Management.PersonalTitle') },
+         content: `<p>${game.i18n.localize('ForienQuestLog.QuestPreview.Management.PersonalContent')}</p>${rows}`,
+         ok: {
+            label: game.i18n.localize('ForienQuestLog.QuestPreview.Buttons.Accept'),
+            callback: (event, button) => [...button.form.querySelectorAll('input[name="user"]:checked')]
+             .map((input) => input.value)
+         },
+         rejectClose: false,
+         modal: true
+      });
+
+      if (Array.isArray(userIds) && userIds.length)
+      {
+         await QuestDB.makePersonal({ quest, userIds });
+         await questPreview.saveQuest();
+      }
+   }
+
+   /**
+    * Makes a personal quest public again.
+    *
+    * @param {Quest}          quest - The current quest being manipulated.
+    *
+    * @param {QuestPreview}   questPreview - The QuestPreview being manipulated.
+    *
+    * @returns {Promise<void>}
+    */
+   static async makePublic(quest, questPreview)
+   {
+      await QuestDB.makePublic({ quest });
+      await questPreview.saveQuest();
+   }
+
+   /**
     * Sets if players that own a quest created by a GM can edit it.
     *
     * @param {MouseEvent} event - MouseEvent

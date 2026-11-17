@@ -1,5 +1,13 @@
 # Changelog
 
+## Release 0.13.0
+- Personal quests. A personal quest is only seen by the players it belongs to and by the GMs. It is based on the permissions of the quest (default permission none, and one or more players with access), so it works with the existing "Configure Permissions".
+- Everyone that can see a personal quest now sees a "Personal" label in the quest list and in the quest window, and the personal icon in the Quest Tracker (before only the GM saw the icon). The names of the players are only shown to the GM, in the tooltip of the icon.
+- When a player adds a quest a dialog asks if it is personal; a personal quest is only visible to that player and the GM.
+- The Manage Quest tab has new GM buttons: "Make personal" (choose one or more players; the quest and its subquests become visible only to them and the GMs), "Change players" and "Make public" (restores the default permission of the module settings for everyone; the permissions of the players are kept).
+- A subquest added inside a personal quest is personal for the same players.
+- Added the English and Spanish text for personal quests.
+
 ## Release 0.12.0
 - Each quest now stores who created it (the GM or a player). Only GMs see this: a "Created by the GM" / "Created by <player>" label appears in the quest list of the Quest Log and in the status line of the quest window. Quests that already existed count as created by the GM.
 - Players that own a quest created by a GM can no longer edit it (description, objectives, rewards, status, objective checkboxes) unless the GM enables the new "Allow players to edit" checkbox in the Manage Quest tab of that quest. They can still write their player notes and accept the quest when the setting allows it. Quests created by a player keep working as before. The checkbox only appears for quests created by a GM.

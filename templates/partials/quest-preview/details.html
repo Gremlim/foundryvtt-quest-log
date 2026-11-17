@@ -55,6 +55,7 @@
           <p>
             {{statusLabel}}
           </p>
+          {{#if isPersonal}}<p class="personal">{{localize 'ForienQuestLog.QuestLog.Labels.Personal'}}</p>{{/if}}
           {{#if creatorLabel}}<p class="creator">{{creatorLabel}}</p>{{/if}}
           {{#if isSubquest}}
             <p class="quest-name-link" data-quest-id="{{data_parent.id}}">

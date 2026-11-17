@@ -32,7 +32,20 @@ export class HandlerLog
    {
       if (ViewManager.verifyQuestCanAdd())
       {
-         const quest = await QuestDB.createQuest();
+         // A player decides if the new quest is personal.
+         let personal = false;
+         if (!game.user.isGM)
+         {
+            personal = await FQLDialog.promptPersonal({
+               title: game.i18n.localize('ForienQuestLog.QuestLog.Personal.Title'),
+               label: game.i18n.localize('ForienQuestLog.QuestLog.Personal.Label'),
+               hint: game.i18n.localize('ForienQuestLog.QuestLog.Personal.Hint')
+            });
+
+            if (personal === null) { return; }
+         }
+
+         const quest = await QuestDB.createQuest({ personal });
          if (quest) { ViewManager.questAdded({ quest }); }
       }
    }

@@ -368,9 +368,11 @@ export class QuestDB
     *
     * @param {object}   [options.ownership] - Ownership to set instead of the default; only used by a GM.
     *
+    * @param {boolean}  [options.personal=false] - A player creates a personal quest that only they and the GM see.
+    *
     * @returns {Promise<Quest|void>} The newly created quest.
     */
-   static async createQuest({ data = {}, parentId = void 0, ownership: ownershipOverride = void 0 } = {})
+   static async createQuest({ data = {}, parentId = void 0, ownership: ownershipOverride = void 0, personal = false } = {})
    {
       // Get the default ownership setting and attempt to set it if found in DOCUMENT_PERMISSION_LEVELS.
       const defaultPerm = game.settings.get(constants.moduleName, settings.defaultPermission);
@@ -388,13 +390,21 @@ export class QuestDB
 
       // Used for a player created quest setting and the quest as 'available' for normal players or 'hidden' for
       // trusted players.
+      const parentQuest = QuestDB.getQuest(parentId);
+
       if (!game.user.isGM)
       {
          data.status = Utils.isTrustedPlayerEdit() ? questStatus.inactive : questStatus.available;
          ownership[game.user.id] = CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER;
-      }
 
-      const parentQuest = QuestDB.getQuest(parentId);
+         // A personal quest (or a subquest of one) is only seen by its owner and the GM.
+         if (personal || parentQuest?.isPersonal) { ownership.default = CONST.DOCUMENT_OWNERSHIP_LEVELS.NONE; }
+      }
+      else if (parentQuest?.isPersonal && !ownershipOverride && parentQuest.entry)
+      {
+         // A subquest created by a GM in a personal quest is personal for the same players.
+         Object.assign(ownership, foundry.utils.deepClone(FVTTCompat.ownership(parentQuest.entry)));
+      }
       if (parentQuest)
       {
          data.parent = parentId;
@@ -451,6 +461,76 @@ export class QuestDB
             resolve(quest);
          }, 10);
       });
+   }
+
+   /**
+    * Makes a quest (and its subquests) personal: only the given players (with at least observer access, a higher
+    * level they already had is kept) and the GMs see it. Only available to a GM.
+    *
+    * @param {object}   options - Options.
+    *
+    * @param {Quest}    options.quest - The quest.
+    *
+    * @param {string[]} options.userIds - The IDs of the players the quest is personal for.
+    *
+    * @returns {Promise<void>}
+    */
+   static async makePersonal({ quest, userIds = [] } = {})
+   {
+      if (!game.user.isGM || !quest?.entry) { return; }
+
+      const players = userIds.filter((id) => { const u = game.users.get(id); return u && !u.isGM; });
+      if (!players.length) { return; }
+
+      const levels = CONST.DOCUMENT_OWNERSHIP_LEVELS;
+
+      for (const target of [quest, ...quest.subquests.map((id) => QuestDB.getQuest(id)).filter((q) => q?.entry)])
+      {
+         const current = FVTTCompat.ownership(target.entry) ?? {};
+         const ownership = { default: levels.NONE };
+
+         // Keep the entries of GMs.
+         for (const [id, level] of Object.entries(current))
+         {
+            if (id !== 'default' && game.users.get(id)?.isGM) { ownership[id] = level; }
+         }
+
+         for (const id of players)
+         {
+            const level = current[id];
+            ownership[id] = Number.isFinite(level) && level >= levels.OBSERVER ? level : levels.OBSERVER;
+         }
+
+         await target.entry.update({ ownership }, { diff: false, recursive: false });
+      }
+
+      Socket.refreshAll();
+   }
+
+   /**
+    * Makes a personal quest (and its subquests) public again by restoring the default permission of the module
+    * setting for everyone. The permissions of players are kept. Only available to a GM.
+    *
+    * @param {object}   options - Options.
+    *
+    * @param {Quest}    options.quest - The quest.
+    *
+    * @returns {Promise<void>}
+    */
+   static async makePublic({ quest } = {})
+   {
+      if (!game.user.isGM || !quest?.entry) { return; }
+
+      const defaultPerm = game.settings.get(constants.moduleName, settings.defaultPermission);
+      const level = typeof CONST.DOCUMENT_OWNERSHIP_LEVELS[defaultPerm] === 'number' ?
+       CONST.DOCUMENT_OWNERSHIP_LEVELS[defaultPerm] : CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER;
+
+      for (const target of [quest, ...quest.subquests.map((id) => QuestDB.getQuest(id)).filter((q) => q?.entry)])
+      {
+         await target.entry.update({ 'ownership.default': level });
+      }
+
+      Socket.refreshAll();
    }
 
    /**

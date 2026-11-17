@@ -18,13 +18,14 @@
       {{#if isPrimary}}<i class="open-quest is-primary fas fa-star pad-l-4" title="{{localize 'ForienQuestLog.Tooltips.PrimaryQuest'}}"></i>{{/if}}
       {{#if canEdit}}
         {{#if isHidden}}<i class="open-quest is-hidden fas fa-eye-slash pad-l-4" title="{{localize 'ForienQuestLog.Tooltips.HiddenQuestNoPlayers'}}"></i>{{/if}}
-        {{#if isPersonal}}<i class="open-quest is-personal fas fa-user-shield pad-l-4" title="{{{personalActors}}}"></i>{{/if}}
       {{/if}}
+      {{#if isPersonal}}<i class="open-quest is-personal fas fa-user-shield pad-l-4" title="{{{personalActors}}}"></i>{{/if}}
       <div class="open-quest title" data-quest-id="{{id}}">
         <h2>{{name}}</h2>
         {{#if isSubquest}}
           <p class="subquest">{{fql_format 'ForienQuestLog.QuestLog.Labels.SubTitle' data_parent.name}}</p>
         {{/if}}
+        {{#if isPersonal}}<p class="personal">{{localize 'ForienQuestLog.QuestLog.Labels.Personal'}}</p>{{/if}}
         {{#if creatorLabel}}<p class="creator">{{creatorLabel}}</p>{{/if}}
       </div>
       {{#unless (eq ../../showTasks 'no')}}

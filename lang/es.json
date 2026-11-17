@@ -93,8 +93,14 @@
         "PrimaryQuest": "Establecer / Desestablecer como misión principal"
       },
       "Labels": {
+        "Personal": "Personal",
         "TableHeader": "Misiones {0}",
         "SubTitle": "Sub-Misión de: {0}"
+      },
+      "Personal": {
+        "Hint": "Una misión personal solo la ven usted y el GM.",
+        "Label": "Misión personal",
+        "Title": "Nueva misión"
       },
       "Title": "Registro de Misiones",
       "Tooltips": {
@@ -133,7 +139,13 @@
         "AddSubquest": "Crear Sub-Misión",
         "AllowPlayerEdit": "Permitir edición a los jugadores",
         "AllowPlayerEditHint": "Los jugadores propietarios de esta misión, creada por un GM, pueden editar su descripción, objetivos y recompensas.",
+        "ChangePersonal": "Cambiar jugadores",
         "ConfigurePermissions": "Configurar Permisos",
+        "MakePersonal": "Hacer personal",
+        "MakePublic": "Hacer pública",
+        "NoPlayers": "No hay jugadores a los que asignar la misión.",
+        "PersonalContent": "Elige los jugadores para los que esta misión es personal. Solo ellos y los GM la verán, incluidas sus sub-misiones.",
+        "PersonalTitle": "Misión personal",
         "QuestBranching": "Sub-Misiones:",
         "QuestSettings": "Configuración de la Misión:",
         "SplashArt": "Imagen Portada:",
@@ -311,6 +323,7 @@
       "Delete": "Eliminar",
       "Edit": "Editar",
       "HiddenQuestNoPlayers": "Esta misión está oculta a todos los jugadores.",
+      "PersonalQuest": "Misión personal",
       "PrimaryQuest": "Misión Principal"
     }
   }

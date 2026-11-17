@@ -107,8 +107,14 @@
         "PrimaryQuest": "Set / Unset as primary quest"
       },
       "Labels": {
+        "Personal": "Personal",
         "TableHeader": "{0} Quests",
         "SubTitle": "Subquest of {0}"
+      },
+      "Personal": {
+        "Hint": "A personal quest is only visible to you and the GM.",
+        "Label": "Personal quest",
+        "Title": "New quest"
       },
       "Title": "Quest Log",
       "Tooltips": {
@@ -147,7 +153,13 @@
         "AddSubquest": "Add Subquest",
         "AllowPlayerEdit": "Allow players to edit",
         "AllowPlayerEditHint": "Players that own this quest, created by a GM, can edit its description, objectives and rewards.",
+        "ChangePersonal": "Change players",
         "ConfigurePermissions": "Configure Permissions",
+        "MakePersonal": "Make personal",
+        "MakePublic": "Make public",
+        "NoPlayers": "There are no players to assign the quest to.",
+        "PersonalContent": "Choose the players this quest is personal for. Only they and the GMs will see it, including its subquests.",
+        "PersonalTitle": "Personal quest",
         "QuestBranching": "Subquests:",
         "QuestSettings": "Quest Settings:",
         "SplashArt": "Splash Art:",
@@ -325,6 +337,7 @@
       "Delete": "Delete",
       "Edit": "Edit",
       "HiddenQuestNoPlayers": "This Quest is hidden from all players.",
+      "PersonalQuest": "Personal quest",
       "PrimaryQuest": "Primary Quest"
     }
   }

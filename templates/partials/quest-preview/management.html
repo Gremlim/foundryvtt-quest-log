@@ -3,6 +3,12 @@
     <h2>{{localize 'ForienQuestLog.QuestPreview.Management.QuestSettings'}}</h2>
     <div class="setting-groups">
       <button class="btn configure-perm-btn"><i class="fas fa-lock fa-fw"></i>{{localize 'ForienQuestLog.QuestPreview.Management.ConfigurePermissions'}}</button>
+      {{#if isGM}}
+        <button class="btn make-personal-btn"><i class="fas fa-user-shield fa-fw"></i>{{#if isPersonal}}{{localize 'ForienQuestLog.QuestPreview.Management.ChangePersonal'}}{{else}}{{localize 'ForienQuestLog.QuestPreview.Management.MakePersonal'}}{{/if}}</button>
+        {{#if isPersonal}}
+          <button class="btn make-public-btn"><i class="fas fa-users fa-fw"></i>{{localize 'ForienQuestLog.QuestPreview.Management.MakePublic'}}</button>
+        {{/if}}
+      {{/if}}
       {{#if canSetPlayerEdit}}
         <div class="manage-allow-player-edit" title="{{localize 'ForienQuestLog.QuestPreview.Management.AllowPlayerEditHint'}}">
           <input type="checkbox" id="allow-player-edit-{{id}}" name="allow-player-edit" {{#if allowPlayerEdit}}checked{{/if}}>
