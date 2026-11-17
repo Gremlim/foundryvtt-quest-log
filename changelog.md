@@ -1,5 +1,8 @@
 # Changelog
 
+## Release 0.17.2
+- Redesigned the look of the Player Notes, GM Notes and History tabs of the Quest Details window. The three tabs share the same heading as the other tabs (accent underline and same height), the notes editors are cards with a bit more padding and a slightly larger text, and the description editor of the Details tab matches the new heading height.
+
 ## Release 0.17.1
 - Redesigned the look of the Quest Details window (Details and Manage Quest tabs), in the same style as the Quest Tracker and the Quest Log.
 - Description, objectives, rewards, history entries and subquests are now cards with a line at the left, a hover highlight and colors that adapt to the text color, so they are readable on dark and light windows (before they were light gray boxes with low contrast).

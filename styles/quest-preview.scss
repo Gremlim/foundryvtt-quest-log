@@ -595,6 +595,23 @@
       }
     }
 
+    // Player notes, GM notes and history share the same heading as the other tabs: accent underline, same height.
+    .quest-playernotes > h1, .quest-gmnotes > h1, .quest-history > header {
+      display: flex;
+      align-items: flex-end;
+      flex: 0 0 auto;
+      min-height: 34px;
+      margin: 0 0 6px;
+      padding: 0 0 2px;
+      border-bottom: 2px solid $primary-color-borderheader;
+      border-block-end: 2px solid $primary-color-borderheader;
+    }
+
+    .quest-playernotes > h1, .quest-gmnotes > h1 {
+      font-size: 18px;
+      line-height: 1.2;
+    }
+
     .playernotes {
       .quest-playernotes {
         height: 100%;
@@ -610,19 +627,21 @@
         overflow: hidden;
 
         header {
-          display: flex;
-          align-items: center;
           justify-content: space-between;
-          flex: 0 0 auto;
-          margin-bottom: 4px;
+          align-items: center;
 
           h1 {
             flex: 1;
             margin: 0;
+            padding: 0;
+            border: none;
+            font-size: 18px;
+            line-height: 1.2;
           }
 
           button {
             flex: 0 0 fit-content;
+            margin-bottom: 2px;
           }
         }
 
@@ -885,12 +904,25 @@
       }
     }
 
-    prose-mirror {
-      height: calc(100% - 30px);
+    // Notes editors fill the rest of the tab under the heading (34px + 6px margin + 2px border).
+    .playernotes prose-mirror, .gmnotes prose-mirror {
+      height: calc(100% - 44px);
+      padding: 10px 12px;
+      font-size: 14px;
+      line-height: 1.45;
     }
 
-    .gmnotes prose-mirror {
-      height: calc(100% - 36px);
+    .history .history-list {
+      padding-top: 2px;
+    }
+
+    // Same height as the description card (heading is 34px + 4px margin + 2px border).
+    .quest-description prose-mirror {
+      height: calc(100% - 40px);
+    }
+
+    prose-mirror {
+      height: calc(100% - 30px);
     }
   }
 }
