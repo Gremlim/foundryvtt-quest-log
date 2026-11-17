@@ -1,5 +1,10 @@
 # Changelog
 
+## Release 0.10.2
+- Reward drops now post a chat message, whispered only to the GMs, instead of a UI notification (which could stay invisible if Foundry's notification queue is stuck). The message says who took which item (and how many) from which quest and to which actor. It uses the existing "Show Reward Drop Messages" setting (formerly "Show Reward Drop Notifications"), and when several GMs are connected only one posts it.
+- The chat message stores the transaction in its flags for a future activity log.
+- Added the English and Spanish text for the message and updated the setting label and hint.
+
 ## Release 0.10.1
 - Added quantities to item rewards. The GM can set the quantity with the new `#` button of an item reward; quantities greater than one are shown as "x N" next to the name.
 - Dragging an item reward with more than one unit onto an actor sheet now asks how many to take; the actor receives that amount (the item quantity is set when the game system has one) and the remaining quantity stays in the quest. The reward is removed when nothing remains. Rewards with a single unit work as before.

@@ -15,6 +15,10 @@
         }
       },
       "Socket": {
+        "Messages": {
+          "Alias": "Registro de Misiones",
+          "RewardDrop": "{userName} cogió <strong>{itemName}</strong>{amount} de la misión <em>{questName}</em> y se lo dio a {actorName}."
+        },
         "Notifications": {
           "RewardDrop": "FQL (recompensa de misión): {userName} entregó '{itemName}' a {actorName}."
         }
@@ -238,8 +242,8 @@
         "EnableHint": "Decide cómo debe mostrarse la navegación del Registro de Misiones."
       },
       "notifyRewardDrop": {
-        "Enable": "Mostrar notificaciones de entrega de recompensas",
-        "EnableHint": "Verifique para ver notificaciones cuando las recompensas de misiones se colocan en las hojas de los jugadores."
+        "Enable": "Mostrar mensajes de entrega de recompensas",
+        "EnableHint": "Marque para enviar un mensaje de chat, visible solo para los GM, cuando las recompensas de misiones se colocan en las hojas de los jugadores."
       },
       "questTrackerResizable": {
         "Enable": "Seguimiento de misiones redimensionable",

@@ -141,6 +141,12 @@ export class Socket
             Socket.refreshQuestPreview({ questId: fqlData.questId });
          }
          handled = true;
+
+         // The sender is a GM, so the chat message is posted here; the other GMs skip it as the event is `handled`.
+         if (game.settings.get(constants.moduleName, settings.notifyRewardDrop))
+         {
+            await Socket.#postRewardDropMessage(fqlData, data.actor?.name);
+         }
       }
 
       // Emit the reward drop event.
@@ -455,6 +461,57 @@ export class Socket
    }
 
    /**
+    * Posts a chat message, whispered to all GMs, with the details of a reward that was dropped onto an actor sheet.
+    *
+    * @param {FQLDropData}   fqlData - The reward drop data.
+    *
+    * @param {string}        actorName - The name of the actor that received the reward.
+    *
+    * @returns {Promise<void>}
+    */
+   static async #postRewardDropMessage(fqlData, actorName)
+   {
+      const escape = (text) => String(text ?? '').replace(/[&<>"']/g,
+       (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+
+      const quest = QuestDB.getQuest(fqlData.questId);
+      const amount = Number.isFinite(fqlData.amount) ? fqlData.amount : (Number(fqlData.quantity) || 1);
+
+      const content = game.i18n.format('ForienQuestLog.API.Socket.Messages.RewardDrop', {
+         userName: escape(fqlData.userName),
+         itemName: escape(fqlData.itemName),
+         amount: amount > 1 ? ` &times;${amount}` : '',
+         questName: escape(quest?.name ?? ''),
+         actorName: escape(actorName)
+      });
+
+      try
+      {
+         await ChatMessage.create({
+            content,
+            whisper: game.users.filter((user) => user.isGM).map((user) => user.id),
+            speaker: { alias: game.i18n.localize('ForienQuestLog.API.Socket.Messages.Alias') },
+            flags: {
+               [constants.moduleName]: {
+                  rewardDrop: {
+                     questId: fqlData.questId,
+                     uuidv4: fqlData.uuidv4,
+                     itemName: fqlData.itemName,
+                     amount,
+                     userName: fqlData.userName,
+                     actorName
+                  }
+               }
+            }
+         });
+      }
+      catch (err)
+      {
+         console.error('ForienQuestLog - Failed to post the reward drop chat message:', err);
+      }
+   }
+
+   /**
     * Handles the reward item drop into actor sheet by the first GM level user receiving this message setting the
     * handled state to `true`, so no further GM level users attempt to remove the item from the associated quest.
     *
@@ -473,16 +530,13 @@ export class Socket
           */
          const fqlData = data.payload.data._fqlData;
 
-         // Notify the GM that a user has dropped a reward item into an actor sheet.
+         // Post a chat message to the GMs that a user has dropped a reward item into an actor sheet. All GMs receive
+         // this event, so only the active GM posts the message (which is whispered to all GMs).
          const notify = game.settings.get(constants.moduleName, settings.notifyRewardDrop);
 
-         if (notify)
+         if (notify && !data.payload.handled && game.users.activeGM?.id === game.user.id)
          {
-            ViewManager.notifications.info(game.i18n.format('ForienQuestLog.API.Socket.Notifications.RewardDrop', {
-               userName: fqlData.userName,
-               itemName: fqlData.amount > 1 ? `${fqlData.itemName} x${fqlData.amount}` : fqlData.itemName,
-               actorName: data.payload.actor.name
-            }));
+            await Socket.#postRewardDropMessage(fqlData, data.payload.actor?.name);
          }
 
          // The quest reward has already been removed by a GM user.
