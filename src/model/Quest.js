@@ -360,6 +360,9 @@ export class Quest
       if (!this.subquests.includes(questId))
       {
          this.subquests.push(questId);
+
+         // Once a custom order exists new subquests are added to the end of the objectives.
+         if (this.order.length) { this.order.push(questId); }
       }
    }
 
@@ -371,7 +374,13 @@ export class Quest
    addTask(data = {})
    {
       const task = new Task(data);
-      if (task.name && task.name.length) { this.tasks.push(task); }
+      if (task.name && task.name.length)
+      {
+         this.tasks.push(task);
+
+         // Once a custom order exists new tasks are added to the end of the objectives.
+         if (this.order.length) { this.order.push(task.uuidv4); }
+      }
    }
 
    /**
@@ -537,6 +546,15 @@ export class Quest
       this.subquests = data.subquests || [];
 
       /**
+       * Display order of the objectives of this quest. Contains the UUIDv4 of tasks and the IDs of subquests so that
+       * subquests can be intermixed with the tasks. When empty / incomplete the default order is used (subquests
+       * first, then tasks). Use {@link Quest.getObjectiveOrder} to get the resolved order.
+       *
+       * @type {string[]}
+       */
+      this.order = Array.isArray(data.order) ? data.order.filter((id) => typeof id === 'string') : [];
+
+      /**
        * @type {Task[]}
        */
       this.tasks = Array.isArray(data.tasks) ? data.tasks.map((task) => new Task(task)) : [];
@@ -629,6 +647,7 @@ export class Quest
    removeSubquest(questId)
    {
       this.subquests = this.subquests.filter((id) => id !== questId);
+      this.order = this.order.filter((id) => id !== questId);
    }
 
    /**
@@ -642,6 +661,7 @@ export class Quest
    {
       const index = this.tasks.findIndex((t) => t.uuidv4 === uuidv4);
       if (index >= 0) { this.tasks.splice(index, 1); }
+      this.order = this.order.filter((id) => id !== uuidv4);
    }
 
    /**
@@ -762,6 +782,60 @@ export class Quest
    }
 
    /**
+    * Resolves the display order of the objectives (tasks and subquests). Entries in `order` that no longer exist are
+    * ignored and any missing entries are added at the end. Without a custom order subquests come first.
+    *
+    * @returns {string[]} Ordered list of task UUIDv4s and subquest IDs.
+    */
+   getObjectiveOrder()
+   {
+      const valid = new Set([...this.subquests, ...this.tasks.map((t) => t.uuidv4)]);
+
+      const result = [];
+      const seen = new Set();
+
+      for (const id of this.order)
+      {
+         if (valid.has(id) && !seen.has(id)) { result.push(id); seen.add(id); }
+      }
+
+      for (const id of this.subquests) { if (!seen.has(id)) { result.push(id); seen.add(id); } }
+      for (const task of this.tasks) { if (!seen.has(task.uuidv4)) { result.push(task.uuidv4); seen.add(task.uuidv4); } }
+
+      return result;
+   }
+
+   /**
+    * Moves the objective (task or subquest) indicated by the source ID to the position of the target ID. The
+    * resulting order is stored and the tasks / subquests arrays are kept in the same relative order.
+    *
+    * @param {string}   sourceId - The UUIDv4 of a task or the ID of a subquest.
+    *
+    * @param {string}   targetId - The UUIDv4 of a task or the ID of a subquest.
+    */
+   sortObjectives(sourceId, targetId)
+   {
+      if (!sourceId || !targetId || sourceId === targetId) { return; }
+
+      const order = this.getObjectiveOrder();
+
+      const index = order.indexOf(sourceId);
+      const targetIdx = order.indexOf(targetId);
+
+      if (index < 0 || targetIdx < 0) { return; }
+
+      const entry = order.splice(index, 1)[0];
+      order.splice(targetIdx, 0, entry);
+
+      this.order = order;
+
+      const position = (id) => order.indexOf(id);
+
+      this.subquests.sort((a, b) => position(a) - position(b));
+      this.tasks.sort((a, b) => position(a.uuidv4) - position(b.uuidv4));
+   }
+
+   /**
     * Locates and swaps the tasks indicated by the source and target UUIDv4s provided.
     *
     * @param {string}   sourceUuidv4 - The source UUIDv4
@@ -806,6 +880,7 @@ export class Quest
          type: this.type,
          parent: this.parent,
          subquests: this.subquests,
+         order: this.order,
          tasks: this.tasks,
          rewards: this.rewards,
          date: this.date
@@ -1095,6 +1170,7 @@ export class Task
  * @property {string|null}       parent - The parent quest ID.
  *
  * @property {string[]}          subquests - An array of quest IDs that are subquests.
+ * @property {string[]}          [order] - Display order of objectives: task UUIDv4s and subquest IDs.
  *
  * @property {QuestTaskData[]}   tasks - An array of tasks.
  *

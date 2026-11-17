@@ -1096,7 +1096,7 @@ export class HandlerDetails
       if (data?.mode === 'Sort' && data?.type === 'Task')
       {
          const dt = event.target.closest('li.task') || null;
-         quest.sortTasks(data.uuidv4, dt?.dataset.uuidv4);
+         quest.sortObjectives(data.uuidv4, dt?.dataset.uuidv4);
          await quest.save();
          Socket.refreshQuestPreview({ questId: quest.id });
       }

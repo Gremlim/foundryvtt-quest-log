@@ -170,6 +170,7 @@
         "TakeAll": "Take all",
         "TakeAmount": "Take an amount",
         "AddObjective": "Add Objective",
+        "SortObjective": "Drag to reorder",
         "ChangeSplashPos": "Change splash art alignment.",
         "DeleteQuestGiver": "Delete quest giver.",
         "DeleteSplash": "Delete splash art.",

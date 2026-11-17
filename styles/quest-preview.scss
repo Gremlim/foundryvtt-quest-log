@@ -402,6 +402,17 @@
             }
           }
 
+          // Sort handle of subquests that are listed among the objectives.
+          .actions.subquest-sort {
+            flex: 0 0 24px;
+            justify-content: center;
+
+            i.fa-sort {
+              border-right: none;
+              width: 18px;
+            }
+          }
+
           .task-hidden {
             background: $primary-color-bg-li-hidden;
 

@@ -469,6 +469,7 @@ export class QuestDB
 
       data.name = game.i18n.format('ForienQuestLog.QuestLog.ContextMenu.DuplicateName', { name: source.name });
       data.subquests = [];
+      data.order = [];
       data.parent = null;
       delete data.date;
 

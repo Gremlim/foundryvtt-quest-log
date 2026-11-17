@@ -366,19 +366,20 @@ export class QuestTracker extends HandlebarsApplicationMixin(ApplicationV2)
          const q = entry.enrich;
          const rows = [];
 
-         for (const sub of q.data_subquest)
-         {
-            rows.push({ kind: 'subquest', isGM, isPrimary: sub.id === primaryQuestId, ...sub });
-         }
-
-         if (q.data_subquest.length && q.data_tasks.length) { rows.push({ kind: 'separator' }); }
-
          const canEdit = isGM || (entry.isOwner && isTrustedPlayerEdit);
          const playerEdit = !!entry.isOwner;
 
-         for (const task of q.data_tasks)
+         // Subquests and tasks are listed in the order defined in the quest.
+         for (const objective of q.data_objectives)
          {
-            rows.push({ kind: 'task', questId: q.id, canEdit, playerEdit, ...task });
+            if (objective.kind === 'subquest')
+            {
+               rows.push({ isGM, isPrimary: objective.id === primaryQuestId, ...objective });
+            }
+            else
+            {
+               rows.push({ questId: q.id, canEdit, playerEdit, ...objective });
+            }
          }
 
          return rows;

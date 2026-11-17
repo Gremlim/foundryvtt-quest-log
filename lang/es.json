@@ -156,6 +156,7 @@
         "TakeAll": "Coger todo",
         "TakeAmount": "Coger cantidad",
         "AddObjective": "Añadir Objetivo",
+        "SortObjective": "Arrastrar para reordenar",
         "ChangeSplashPos": "Cambiar la alineación de la imagen de misión.",
         "DeleteQuestGiver": "Eliminar dador de misiones.",
         "DeleteSplash": "Eliminar imagen de misión.",

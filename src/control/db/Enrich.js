@@ -367,6 +367,18 @@ export class Enrich
          data.data_rewards = data.data_rewards.filter((r) => r.hidden === false);
       }
 
+      // Subquests and tasks in the display order of the quest so that they can be intermixed.
+      const subquestById = new Map(data.data_subquest.map((s) => [s.id, s]));
+      const taskById = new Map(data.data_tasks.map((t) => [t.uuidv4, t]));
+
+      data.data_objectives = [];
+
+      for (const id of quest.getObjectiveOrder())
+      {
+         if (subquestById.has(id)) { data.data_objectives.push({ kind: 'subquest', ...subquestById.get(id) }); }
+         else if (taskById.has(id)) { data.data_objectives.push({ kind: 'task', ...taskById.get(id) }); }
+      }
+
       data.hasObjectives = data.data_tasks.length + data.data_subquest.length > 0;
 
       // Currency rewards are only available when the game system has supported currencies.
@@ -467,6 +479,7 @@ export class Enrich
  * @property {string}      data_subquest.statusTooltip - The localized quest status tooltip / {@link Quest.status}
  *
  * @property {QuestTaskData[]}  data_tasks - The task data.
+ * @property {object[]}         data_objectives - Subquests and tasks in display order (`kind` is subquest / task).
  *
  * @property {string}      description - The enriched quest description via {@link TextEditor.enrichHTML}.
  *

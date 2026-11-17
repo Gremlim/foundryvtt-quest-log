@@ -1,5 +1,10 @@
 # Changelog
 
+## Release 0.10.5
+- Subquests can now be intermixed with the objectives of a quest (#141). Each subquest listed in the objectives has a sort handle at the end of its row; drag it (or any objective) over another entry to move it to that position. The order is stored in the quest and is also used by the Quest Tracker, so subquests and objectives appear in the same order there (the old separator between subquests and objectives was removed). Quests that were never reordered keep the previous order (subquests first, then objectives), and new subquests / objectives are added at the end once an order exists.
+- Duplicating a quest resets the order of its objectives.
+- Added the English and Spanish text for the new "Drag to reorder" tooltip.
+
 ## Release 0.10.4
 - Item rewards now have the same "Take all" and "Take an amount" buttons as currency rewards ("Take an amount" only when there is more than one unit), so an item can be given to an actor without dragging it. The item goes to the assigned character of a player or to the actor of the single selected token for a GM, and the quest and the GM chat message are updated as when dragging. A reward with a single unit keeps the quantity of the original item.
 - A small space now separates the take buttons from the rest of the reward buttons.

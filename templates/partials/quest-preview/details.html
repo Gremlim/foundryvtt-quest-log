@@ -101,9 +101,10 @@
       </header>
       <div class="quest-box tasks-box">
         <ul>
-          {{#each data_subquest}}
+          {{#each data_objectives}}
+          {{#if (eq kind 'subquest')}}
           {{#if name}}
-            <li class="task {{#if (or isHidden isInactive)}}task-hidden{{/if}}">
+            <li class="task is-subquest {{#if (or isHidden isInactive)}}task-hidden{{/if}}" data-uuidv4="{{id}}">
               <div class="state-container">
                 <span class="state-display">
                   <i class="fas fa-check state {{#unless (eq status 'completed')}}hidden{{/unless}}"></i>
@@ -124,10 +125,12 @@
               {{#if (or ../canEdit statusActions.length)}}
                 {{{statusActions}}}
               {{/if}}
+              {{#if (or ../canEdit ../playerEdit)}}
+                <div class="actions subquest-sort"><i class="fas fa-sort" draggable="true" title="{{localize 'ForienQuestLog.QuestPreview.Tooltips.SortObjective'}}"></i></div>
+              {{/if}}
             </li>
           {{/if}}
-          {{/each}}
-          {{#each data_tasks}}
+          {{else}}
           <li class="task {{#if hidden}}task-hidden{{/if}}" data-uuidv4="{{uuidv4}}">
             {{#if (or ../canEdit ../playerEdit)}}
             <i class="toggleState fas fa-{{state}}" data-uuidv4="{{uuidv4}}"></i>
@@ -159,6 +162,7 @@
             </div>
             {{/if}}
           </li>
+          {{/if}}
           {{/each}}
         </ul>
         <template id="camera-views">…</template>      </div>
