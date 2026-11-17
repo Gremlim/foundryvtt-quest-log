@@ -474,13 +474,38 @@
           }
 
           // Sort handle of subquests that are listed among the objectives.
-          .actions.subquest-sort {
-            flex: 0 0 24px;
+          // Objectives and subquests: no divider lines, same spacing as the rewards: [menu] [sort].
+          li .actions {
+            border-left: none;
+          }
+
+          li .actions.has-menu {
+            flex: 0 0 auto;
+            gap: 2px;
+            padding: 0 6px;
+
+            i.fa-sort {
+              margin-left: 0;
+              padding-left: 0;
+              border-left: none;
+              border-right: none;
+            }
+          }
+
+          // The sort handle of a subquest is a separate block after its menu: it keeps the same gap as the objectives.
+          li .actions.has-menu:has(+ .actions.subquest-sort) {
+            padding-right: 0;
+          }
+
+          li .actions.subquest-sort {
+            flex: 0 0 auto;
+            padding: 0 6px 0 2px;
             justify-content: center;
 
             i.fa-sort {
-              border-right: none;
-              width: 18px;
+              flex: 0 0 auto;
+              width: 13px;
+              border: none;
             }
           }
 
