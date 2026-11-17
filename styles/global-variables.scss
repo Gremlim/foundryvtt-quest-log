@@ -13,10 +13,15 @@ $primary-color-border-drop: color-mix(in srgb, currentColor 60%, transparent);
 $primary-color-bg-drop: rgba(0, 0, 0, .1);
 $primary-color-hover-drop: rgba(0, 0, 0, .075);
 
-$primary-color-bg-li: rgba(255, 255, 255, .4);
-$primary-color-bg-li-hidden: rgba(255, 255, 255, .2);
+// Cards of the quest window (objectives, rewards, subquests, description). They use the text color so they work on
+// both dark and light window backgrounds.
+$primary-color-bg-li: color-mix(in srgb, currentColor 9%, transparent);
+$primary-color-bg-li-hover: color-mix(in srgb, currentColor 15%, transparent);
+$primary-color-bg-li-hidden: color-mix(in srgb, currentColor 5%, transparent);
+$primary-color-border-li: color-mix(in srgb, currentColor 30%, transparent);
+$primary-color-line: color-mix(in srgb, currentColor 18%, transparent);
 
-$primary-color-icon: rgba(0,0,0,.75);
+$primary-color-icon: color-mix(in srgb, currentColor 80%, transparent);
 
 $primary-color-bg-nav: rgba(255,255,255,.2);
 

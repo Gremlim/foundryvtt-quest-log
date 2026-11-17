@@ -163,7 +163,9 @@
   prose-mirror {
     height: 100%;
     padding: 8px;
-    background: $background-color-light;
+    background: $primary-color-bg-li;
+    border: 1px solid $primary-color-line;
+    color: inherit;
     border-radius: 5px;
 
     .editor-content {
@@ -176,7 +178,7 @@
   // See `Enrich.statusActions` for building actions for quests.
   .actions {
     flex: 0 0 100px;
-    border-left: 1px solid rgba(0,0,0,.15);
+    border-left: 1px solid $primary-color-line;
     height: 100%;
     display: flex;
     justify-content: center;
@@ -214,7 +216,7 @@
         flex: 0 0 18px;
         cursor: move;
         width: 14px;
-        border-right: 1px solid rgba(0, 0, 0, 0.15);
+        border-right: 1px solid $primary-color-line;
       }
 
       // fa-eye-slash is slightly larger and offsets so provide specific flex settings and padding for fa-eye

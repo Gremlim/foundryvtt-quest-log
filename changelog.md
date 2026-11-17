@@ -1,5 +1,13 @@
 # Changelog
 
+## Release 0.17.1
+- Redesigned the look of the Quest Details window (Details and Manage Quest tabs), in the same style as the Quest Tracker and the Quest Log.
+- Description, objectives, rewards, history entries and subquests are now cards with a line at the left, a hover highlight and colors that adapt to the text color, so they are readable on dark and light windows (before they were light gray boxes with low contrast).
+- The icons of the action buttons (status, sort, edit, hide...) now use the text color instead of black, so they can be seen on dark windows, and the separator lines are visible too.
+- The quest status, personal, creator and parent quest are shown as small labels in the header instead of being separated by pipes; location and group lines are more compact.
+- The Description heading has the same underline and height as Objectives and Rewards, so both columns are aligned.
+- Manage Quest: Quest Settings and Splash Art share the same heading with underline, the buttons wrap in a row, the "Show in my Quest Tracker" and "Allow players to edit" options are cards, the "Set as quest icon" checkbox sits aligned to the right of its heading and the subquest list uses the new card style.
+
 ## Release 0.17.0
 - Redesigned the look of the Quest Log list, in the same style as the Quest Tracker. Each quest is a card with an accent line at the left (in the accent color for the primary quest) and a hover highlight.
 - The image slot is always reserved (with a placeholder icon when the quest has no image) so the titles of all the quests are aligned.
