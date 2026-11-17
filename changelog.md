@@ -1,5 +1,9 @@
 # Changelog
 
+## Release 0.26.3
+- The notice to the GMs when a player drops a reward onto an actor sheet is a Foundry UI notification again (every connected GM sees it) instead of a whispered chat message. Setting `Show Reward Drop Notifications` (the texts of the setting were updated in English and Spanish).
+- Translations: the reward drop text moved from `API.Socket.Messages.RewardDrop` to `API.Socket.Notifications.RewardDrop` (plain text, no HTML) in all the languages; removed the unused `API.Socket.Messages.Alias`.
+
 ## Release 0.26.2
 - The notice to the players when a quest is unlocked by rumors is a Foundry UI notification again (sent by socket to the connected players) instead of a whispered chat message. The earlier problem was caused by another installed module, not by Quest Log.
 

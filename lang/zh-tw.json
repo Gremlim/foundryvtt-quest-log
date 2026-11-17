@@ -15,9 +15,8 @@
         }
       },
       "Socket": {
-        "Messages": {
-          "Alias": "Quest Log",
-          "RewardDrop": "{userName} 從任務「<em>{questName}</em>」中拿取了 <strong>{itemName}</strong>{amount}，並交給了 {actorName}。"
+        "Notifications": {
+          "RewardDrop": "{userName} 從任務「{questName}」中拿取了 {itemName}{amount}，並交給了 {actorName}。"
         }
       },
       "Utils": {

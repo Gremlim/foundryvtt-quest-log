@@ -15,9 +15,8 @@
         }
       },
       "Socket": {
-        "Messages": {
-          "Alias": "Quest Log",
-          "RewardDrop": "{userName} a pris <strong>{itemName}</strong>{amount} de la quête <em>{questName}</em> et l'a donné à {actorName}."
+        "Notifications": {
+          "RewardDrop": "{userName} a pris {itemName}{amount} de la quête {questName} et l'a donné à {actorName}."
         }
       },
       "Utils": {

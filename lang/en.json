@@ -15,11 +15,9 @@
         }
       },
       "Socket": {
-        "Messages": {
-          "Alias": "Quest Log",
-          "RewardDrop": "{userName} took <strong>{itemName}</strong>{amount} from the quest <em>{questName}</em> and gave it to {actorName}."
-        },
-        "Notifications": {}
+        "Notifications": {
+          "RewardDrop": "{userName} took {itemName}{amount} from the quest {questName} and gave it to {actorName}."
+        }
       },
       "Utils": {
         "Notifications": {
@@ -413,8 +411,8 @@
         "players": "Everyone that can see the quest"
       },
       "notifyRewardDrop": {
-        "Enable": "Show Reward Drop Messages",
-        "EnableHint": "Check to send a chat message, visible only to GMs, when quest rewards are dropped onto player sheets."
+        "Enable": "Show Reward Drop Notifications",
+        "EnableHint": "Check to show a notification, visible only to GMs, when quest rewards are dropped onto player sheets."
       },
       "questTrackerResizable": {
         "Enable": "Quest Tracker Resizable",

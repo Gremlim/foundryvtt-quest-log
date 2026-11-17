@@ -15,9 +15,8 @@
         }
       },
       "Socket": {
-        "Messages": {
-          "Alias": "Quest Log",
-          "RewardDrop": "{userName}님이 퀘스트 <em>{questName}</em>에서 <strong>{itemName}</strong>{amount}을(를) 가져가 {actorName}에게 주었습니다."
+        "Notifications": {
+          "RewardDrop": "{userName}님이 퀘스트 {questName}에서 {itemName}{amount}을(를) 가져가 {actorName}에게 주었습니다."
         }
       },
       "Utils": {

@@ -15,9 +15,8 @@
         }
       },
       "Socket": {
-        "Messages": {
-          "Alias": "Quest Log",
-          "RewardDrop": "{userName} otti <strong>{itemName}</strong>{amount} tehtävästä <em>{questName}</em> ja antoi sen hahmolle {actorName}."
+        "Notifications": {
+          "RewardDrop": "{userName} otti {itemName}{amount} tehtävästä {questName} ja antoi sen hahmolle {actorName}."
         }
       },
       "Utils": {

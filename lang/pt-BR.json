@@ -15,9 +15,8 @@
         }
       },
       "Socket": {
-        "Messages": {
-          "Alias": "Quest Log",
-          "RewardDrop": "{userName} pegou <strong>{itemName}</strong>{amount} da missão <em>{questName}</em> e deu a {actorName}."
+        "Notifications": {
+          "RewardDrop": "{userName} pegou {itemName}{amount} da missão {questName} e deu a {actorName}."
         }
       },
       "Utils": {

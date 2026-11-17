@@ -15,9 +15,8 @@
         }
       },
       "Socket": {
-        "Messages": {
-          "Alias": "Quest Log",
-          "RewardDrop": "{userName}がクエスト「<em>{questName}</em>」から<strong>{itemName}</strong>{amount}を受け取り、{actorName}に渡しました。"
+        "Notifications": {
+          "RewardDrop": "{userName}がクエスト「{questName}」から{itemName}{amount}を受け取り、{actorName}に渡しました。"
         }
       },
       "Utils": {
