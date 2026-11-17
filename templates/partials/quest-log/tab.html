@@ -25,6 +25,7 @@
         {{#if isSubquest}}
           <p class="subquest">{{fql_format 'ForienQuestLog.QuestLog.Labels.SubTitle' data_parent.name}}</p>
         {{/if}}
+        {{#if creatorLabel}}<p class="creator">{{creatorLabel}}</p>{{/if}}
       </div>
       {{#unless (eq ../../showTasks 'no')}}
         <div class="open-quest tasks" title="{{localize 'ForienQuestLog.QuestLog.Tooltips.Objectives'}}">{{checkedTasks}}{{#unless (eq ../../showTasks 'onlyCurrent')}}/{{totalTasks}}{{/unless}}</div>

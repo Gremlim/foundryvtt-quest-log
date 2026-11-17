@@ -45,7 +45,7 @@ export class Enrich
 
       const isTrustedPlayerEdit = Utils.isTrustedPlayerEdit();
       const canAccept = game.settings.get(constants.moduleName, settings.allowPlayersAccept);
-      const canEdit = game.user.isGM || (isTrustedPlayerEdit && quest.isOwner);
+      const canEdit = game.user.isGM || (isTrustedPlayerEdit && quest.isEditOwner);
 
       let addedAction = false;
 
@@ -207,7 +207,7 @@ export class Enrich
       data.isHidden = quest.isHidden;
       data.isInactive = quest.isInactive;
 
-      const isOwner = quest.isOwner;
+      const isOwner = quest.isEditOwner;
       const isPrimary = quest.isPrimary;
       const personalActors = quest.getPersonalActors();
 
@@ -312,7 +312,7 @@ export class Enrich
 
                const statusTooltip = game.i18n.format('ForienQuestLog.QuestTypes.Tooltips.Status', statusTooltipData);
 
-               const canEditSubquest = game.user.isGM || (subquest.isOwner && isTrustedPlayerEdit);
+               const canEditSubquest = game.user.isGM || (subquest.isEditOwner && isTrustedPlayerEdit);
 
                data.data_subquest.push({
                   id: questId,
@@ -437,6 +437,16 @@ export class Enrich
       }
 
       // The history of the quest; only for GMs or for everyone when enabled in the module settings.
+      // Only GMs see who created the quest; the GM can allow players to edit a quest created by a GM.
+      data.creatorLabel = '';
+      data.canSetPlayerEdit = game.user.isGM && quest.isCreatedByGM;
+
+      if (game.user.isGM)
+      {
+         data.creatorLabel = quest.isCreatedByGM ? game.i18n.localize('ForienQuestLog.QuestPreview.Labels.CreatedByGM') :
+          game.i18n.format('ForienQuestLog.QuestPreview.Labels.CreatedByPlayer', { name: quest.creator.name });
+      }
+
       data.canViewHistory = game.user.isGM ||
        game.settings.get(constants.moduleName, settings.historyVisibility) === 'players';
 

@@ -114,6 +114,8 @@
       "Labels": {
         "Currency": "Moneda",
         "CustomSource": "Fuente Personalizada",
+        "CreatedByGM": "Creada por el GM",
+        "CreatedByPlayer": "Creada por {name}",
         "Description": "Descripción:",
         "DragDropActor": "Arrastre y suelte al actor, elemento o entrada de diario o haga clic con el botón izquierdo para establecer una fuente personalizada.",
         "DragDropActorPlayer": "Arrastrar y Soltar actor, elemento o entrada de diario.",
@@ -129,6 +131,8 @@
       },
       "Management": {
         "AddSubquest": "Crear Sub-Misión",
+        "AllowPlayerEdit": "Permitir edición a los jugadores",
+        "AllowPlayerEditHint": "Los jugadores propietarios de esta misión, creada por un GM, pueden editar su descripción, objetivos y recompensas.",
         "ConfigurePermissions": "Configurar Permisos",
         "QuestBranching": "Sub-Misiones:",
         "QuestSettings": "Configuración de la Misión:",

@@ -55,6 +55,7 @@
           <p>
             {{statusLabel}}
           </p>
+          {{#if creatorLabel}}<p class="creator">{{creatorLabel}}</p>{{/if}}
           {{#if isSubquest}}
             <p class="quest-name-link" data-quest-id="{{data_parent.id}}">
               {{fql_format 'ForienQuestLog.QuestLog.Labels.SubTitle' data_parent.name}}

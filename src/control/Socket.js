@@ -312,7 +312,7 @@ export class Socket
 
       // If the current user is a GM or trusted player with edit capability and owner of the quest immediately perform
       // the status move.
-      if (game.user.isGM || (Utils.isTrustedPlayerEdit() && quest.isOwner))
+      if (game.user.isGM || (Utils.isTrustedPlayerEdit() && quest.isEditOwner))
       {
          await quest.setStatus(target);
          handled = true;

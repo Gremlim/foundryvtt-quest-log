@@ -3,6 +3,12 @@
     <h2>{{localize 'ForienQuestLog.QuestPreview.Management.QuestSettings'}}</h2>
     <div class="setting-groups">
       <button class="btn configure-perm-btn"><i class="fas fa-lock fa-fw"></i>{{localize 'ForienQuestLog.QuestPreview.Management.ConfigurePermissions'}}</button>
+      {{#if canSetPlayerEdit}}
+        <div class="manage-allow-player-edit" title="{{localize 'ForienQuestLog.QuestPreview.Management.AllowPlayerEditHint'}}">
+          <input type="checkbox" id="allow-player-edit-{{id}}" name="allow-player-edit" {{#if allowPlayerEdit}}checked{{/if}}>
+          <label for="allow-player-edit-{{id}}">{{localize 'ForienQuestLog.QuestPreview.Management.AllowPlayerEdit'}}</label>
+        </div>
+      {{/if}}
     </div>
   </section>
 

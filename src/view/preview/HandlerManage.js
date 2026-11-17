@@ -105,6 +105,23 @@ export class HandlerManage
    }
 
    /**
+    * Sets if players that own a quest created by a GM can edit it.
+    *
+    * @param {MouseEvent} event - MouseEvent
+    *
+    * @param {Quest}             quest - The current quest being manipulated.
+    *
+    * @param {QuestPreview}      questPreview - The QuestPreview being manipulated.
+    *
+    * @returns {Promise<void>}
+    */
+   static async setAllowPlayerEdit(event, quest, questPreview)
+   {
+      quest.allowPlayerEdit = event.target.checked;
+      await questPreview.saveQuest();
+   }
+
+   /**
     * @param {MouseEvent} event - MouseEvent
     *
     * @param {Quest}             quest - The current quest being manipulated.

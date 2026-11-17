@@ -1,5 +1,11 @@
 # Changelog
 
+## Release 0.12.0
+- Each quest now stores who created it (the GM or a player). Only GMs see this: a "Created by the GM" / "Created by <player>" label appears in the quest list of the Quest Log and in the status line of the quest window. Quests that already existed count as created by the GM.
+- Players that own a quest created by a GM can no longer edit it (description, objectives, rewards, status, objective checkboxes) unless the GM enables the new "Allow players to edit" checkbox in the Manage Quest tab of that quest. They can still write their player notes and accept the quest when the setting allows it. Quests created by a player keep working as before. The checkbox only appears for quests created by a GM.
+- A duplicated quest keeps the creator of the original.
+- Added the English and Spanish text for the label and the checkbox.
+
 ## Release 0.11.1
 - Fixed the "Clear" button of the quest history, which raised an error (`allowed is not a function`) and did nothing.
 

@@ -389,6 +389,9 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
 
       on(domEvents.click, '.add-subquest-btn', async () => await HandlerManage.addSubquest(this.#quest, this), edit);
 
+      on(domEvents.click, '.manage-allow-player-edit input[name="allow-player-edit"]', async (event) =>
+       await HandlerManage.setAllowPlayerEdit(event, this.#quest, this), edit);
+
       on(domEvents.click, '.configure-perm-btn', () => HandlerManage.configurePermissions(this.#quest, this), edit);
 
       on(domEvents.click, '.delete-splash', async () => await HandlerManage.deleteSplashImage(this.#quest, this), edit);
@@ -496,8 +499,8 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
       const content = QuestDB.getQuestEntry(this.#quest.id).enrich;
 
       this.canAccept = game.settings.get(constants.moduleName, settings.allowPlayersAccept);
-      this.canEdit = game.user.isGM || (this.#quest.isOwner && Utils.isTrustedPlayerEdit());
-      this.playerEdit = this.#quest.isOwner;
+      this.canEdit = game.user.isGM || (this.#quest.isEditOwner && Utils.isTrustedPlayerEdit());
+      this.playerEdit = this.#quest.isEditOwner;
 
       const canEditPlayerNotes = this.#quest.canUserUpdate || game.users.activeGM !== null;
 

@@ -401,6 +401,12 @@ export class QuestDB
       }
 
       // Creating a new quest will add any missing data / schema.
+      // The creator is the current user; a GM duplicating a quest keeps the creator of the original.
+      if (!(game.user.isGM && data.creator))
+      {
+         data.creator = { id: game.user.id, name: game.user.name, gm: game.user.isGM };
+      }
+
       const tempQuest = new Quest(data);
 
       tempQuest.addHistory({ type: 'created' });

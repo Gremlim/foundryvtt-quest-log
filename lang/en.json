@@ -126,6 +126,8 @@
         "RewardUnlock": "Unlock"
       },
       "Labels": {
+        "CreatedByGM": "Created by the GM",
+        "CreatedByPlayer": "Created by {name}",
         "CustomSource": "Custom Source",
         "Currency": "Currency",
         "Description": "Description:",
@@ -143,6 +145,8 @@
       },
       "Management": {
         "AddSubquest": "Add Subquest",
+        "AllowPlayerEdit": "Allow players to edit",
+        "AllowPlayerEditHint": "Players that own this quest, created by a GM, can edit its description, objectives and rewards.",
         "ConfigurePermissions": "Configure Permissions",
         "QuestBranching": "Subquests:",
         "QuestSettings": "Quest Settings:",

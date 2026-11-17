@@ -274,6 +274,28 @@ export class Quest
    }
 
    /**
+    * @returns {boolean} Whether the quest was created by a GM. Quests without creator data count as created by a GM.
+    */
+   get isCreatedByGM()
+   {
+      return !this.creator || this.creator.gm;
+   }
+
+   /**
+    * Is the user an owner of the quest that is allowed to edit it as an owner. For a quest created by a GM the GM
+    * must allow it with {@link Quest.allowPlayerEdit}; GMs always can. Players keep the access to their player notes
+    * and to accepting quests regardless.
+    *
+    * @returns {boolean} Is owner with edit access.
+    */
+   get isEditOwner()
+   {
+      if (game.user.isGM) { return true; }
+
+      return this.isOwner && (!this.isCreatedByGM || this.allowPlayerEdit);
+   }
+
+   /**
     * Gets whether the current user has owner permissions.
     *
     * @returns {boolean} Is owner.
@@ -567,6 +589,20 @@ export class Quest
        *
        * @type {object[]}
        */
+      this.allowPlayerEdit = data.allowPlayerEdit === true;
+
+      /**
+       * Who created the quest: `{ id, name, gm }`. Quests without this data (created before the creator was stored)
+       * are considered created by a GM.
+       *
+       * @type {{id: string, name: string, gm: boolean}|null}
+       */
+      this.creator = data.creator && typeof data.creator === 'object' ? {
+         id: String(data.creator.id ?? ''),
+         name: String(data.creator.name ?? ''),
+         gm: data.creator.gm === true
+      } : null;
+
       this.history = Array.isArray(data.history) ?
        data.history.filter((e) => e && typeof e === 'object').slice(-Quest.MAX_HISTORY) : [];
 
@@ -974,6 +1010,8 @@ export class Quest
          subquests: this.subquests,
          order: this.order,
          history: this.history,
+         creator: this.creator,
+         allowPlayerEdit: this.allowPlayerEdit,
          tasks: this.tasks,
          rewards: this.rewards,
          date: this.date
@@ -1265,6 +1303,8 @@ export class Task
  * @property {string[]}          subquests - An array of quest IDs that are subquests.
  * @property {string[]}          [order] - Display order of objectives: task UUIDv4s and subquest IDs.
  * @property {object[]}          [history] - Activity log entries (`t`, `user`, `type` and details).
+ * @property {object|null}       [creator] - Who created the quest (`id`, `name`, `gm`).
+ * @property {boolean}           [allowPlayerEdit] - Owners can edit a quest created by a GM.
  *
  * @property {QuestTaskData[]}   tasks - An array of tasks.
  *

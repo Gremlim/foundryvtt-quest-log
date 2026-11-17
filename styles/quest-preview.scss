@@ -601,6 +601,22 @@
     }
 
     .management {
+      .manage-allow-player-edit {
+        display: flex;
+        align-items: center;
+        margin-top: 6px;
+
+        input {
+          flex: 0 0 auto;
+          margin: 0 4px 0 6px;
+        }
+
+        label {
+          margin: 0;
+          width: auto;
+        }
+      }
+
       .row {
         display: flex;
         flex: 0 0 1px;
