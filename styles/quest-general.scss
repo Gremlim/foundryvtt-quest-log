@@ -55,7 +55,7 @@
     }
   }
 
-	h1 {
+	.window-content h1 {
     flex: 0 0 1px;
     font-size: 22px;
     line-height: 1;
@@ -109,20 +109,28 @@
     }
   }
 
+  // Tabs are shown at the top of the window content, right under the window header, using the window background.
   nav.tabs {
     flex: 0 0 40px;
-    background: $primary-color-bg-nav;
+    display: flex;
+    background: none;
+    border-bottom: 1px solid $primary-color-border-drop;
     justify-content: flex-start;
-    align-items: center;
+    align-items: stretch;
     padding: 0 16px;
     font-size: larger;
 
     .item {
+      display: flex;
+      align-items: center;
       text-align: left;
-      flex: 0 0 1px;
+      flex: 0 0 auto;
       margin-left: 1rem;
+      padding: 0 8px;
       white-space: nowrap;
-      transition: color .3s ease;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -1px;
+      transition: color .3s ease, border-color .3s ease;
 
       &:hover {
         text-shadow: none;
@@ -133,11 +141,13 @@
         margin-left: 0
       }
 
+      // The active tab is highlighted with the accent color underline and bold text.
       &.active,
       &.active:hover {
         font-weight: 700;
         text-shadow: none;
-        color: inherit;
+        color: $primary-color-accent;
+        border-bottom-color: $primary-color-accent;
       }
     }
   }

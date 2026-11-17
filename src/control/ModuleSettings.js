@@ -157,41 +157,6 @@ export class ModuleSettings
          }
       });
 
-      game.settings.register(constants.moduleName, settings.dynamicBookmarkBackground, {
-         name: 'ForienQuestLog.Settings.dynamicBookmarkBackground.Enable',
-         hint: 'ForienQuestLog.Settings.dynamicBookmarkBackground.EnableHint',
-         scope: this.#scope.world,
-         config: true,
-         default: true,
-         type: Boolean,
-         onChange: () =>
-         {
-            // Must render the quest log.
-            if (ViewManager.questLog.rendered) { ViewManager.questLog.render(); }
-         }
-      });
-
-      game.settings.register(constants.moduleName, settings.navStyle, {
-         name: 'ForienQuestLog.Settings.navStyle.Enable',
-         hint: 'ForienQuestLog.Settings.navStyle.EnableHint',
-         scope: this.#scope.client,
-         config: true,
-         default: 'bookmarks',
-         type: String,
-         choices: {
-            bookmarks: 'ForienQuestLog.Settings.navStyle.bookmarks',
-            classic: 'ForienQuestLog.Settings.navStyle.classic'
-         },
-         onChange: async () =>
-         {
-            // Must enrich all quests again in QuestDB.
-            await QuestDB.enrichAll();
-
-            // Must render the quest log.
-            if (ViewManager.questLog.rendered) { ViewManager.questLog.render(); }
-         }
-      });
-
       game.settings.register(constants.moduleName, settings.showTasks, {
          name: 'ForienQuestLog.Settings.showTasks.Enable',
          hint: 'ForienQuestLog.Settings.showTasks.EnableHint',

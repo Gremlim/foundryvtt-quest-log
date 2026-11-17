@@ -89,33 +89,6 @@ export class QuestLog extends HandlebarsApplicationMixin(ApplicationV2)
    }
 
    /**
-    * Adds the GM only "show to players" button to the window header (before the close / controls buttons). The same
-    * action is also available in the window controls (three dots) menu.
-    *
-    * @inheritDoc
-    */
-   async _renderFrame(options)
-   {
-      const frame = await super._renderFrame(options);
-
-      const header = frame.querySelector('.window-header');
-      if (header && game.user.isGM)
-      {
-         const button = document.createElement('button');
-         button.type = 'button';
-         button.dataset.action = 'showPlayers';
-         button.dataset.tooltip = game.i18n.localize('ForienQuestLog.Labels.AppHeader.ShowPlayers');
-         button.setAttribute('aria-label', game.i18n.localize('ForienQuestLog.Labels.AppHeader.ShowPlayers'));
-         button.classList.add('header-control', 'icon', 'fa-solid', 'fa-eye');
-
-         const first = header.querySelector('.header-control');
-         first ? first.before(button) : header.append(button);
-      }
-
-      return frame;
-   }
-
-   /**
     * Sets up all delegated control callbacks with event listeners for click, drag, drop via various CSS selectors and
     * the context menus. This is done once as the root element of the application persists between renders.
     *
@@ -144,7 +117,7 @@ export class QuestLog extends HandlebarsApplicationMixin(ApplicationV2)
    }
 
    /**
-    * Applies the dynamic bookmark background, selects any requested tab and sets the table heights.
+    * Selects any requested tab and sets the table heights.
     *
     * Supports the optional render option `tabId` that matches an entry in `constants.questStatus` to select the
     * given tab. This comes into play as when a GM uses the `show to players` button in the app header as not only
@@ -156,8 +129,6 @@ export class QuestLog extends HandlebarsApplicationMixin(ApplicationV2)
    async _onRender(context, options)
    {
       await super._onRender(context, options);
-
-      this.#applyDynamicBookmarkBackground();
 
       // Determine the tab to show. Only GMs or trusted players w/ edit may view the inactive tab.
       const canViewInactive = game.user.isGM || Utils.isTrustedPlayerEdit();
@@ -207,7 +178,7 @@ export class QuestLog extends HandlebarsApplicationMixin(ApplicationV2)
    /**
     * Retrieves the sorted quest collection from the {@link QuestDB.sortCollect} and sets several state parameters for
     * GM / player / trusted player edit along with several module settings: {@link FQLSettings.allowPlayersAccept},
-    * {@link FQLSettings.allowPlayersCreate}, {@link FQLSettings.showTasks} and {@link FQLSettings.navStyle}.
+    * {@link FQLSettings.allowPlayersCreate}, and {@link FQLSettings.showTasks}.
     *
     * @override
     * @inheritDoc
@@ -224,44 +195,9 @@ export class QuestLog extends HandlebarsApplicationMixin(ApplicationV2)
          canAccept: game.settings.get(constants.moduleName, settings.allowPlayersAccept),
          canCreate: game.settings.get(constants.moduleName, settings.allowPlayersCreate),
          showTasks: game.settings.get(constants.moduleName, settings.showTasks),
-         style: game.settings.get(constants.moduleName, settings.navStyle),
          questStatusI18n,
          quests: QuestDB.sortCollect()
       });
-   }
-
-   /**
-    * Retrieves the background image of `.window-content` to match the game system background image for the bookmark
-    * tabs. This is only done if the module setting is checked which it is by default and the background image actually
-    * exists. The fallback is the default parchment image set in the FQL styles.
-    */
-   #applyDynamicBookmarkBackground()
-   {
-      const navStyle = game.settings.get(constants.moduleName, settings.navStyle);
-      const dynamicBackground = game.settings.get(constants.moduleName, settings.dynamicBookmarkBackground);
-
-      if ('bookmarks' !== navStyle || !dynamicBackground) { return; }
-
-      // In ApplicationV2 the `.window-content` is transparent and the background is drawn by the window frame.
-      const style = window.getComputedStyle(this.element);
-      const hasImage = style.backgroundImage && style.backgroundImage !== 'none';
-
-      for (const item of this.element.querySelectorAll('.log-tabs .item'))
-      {
-         if (hasImage)
-         {
-            item.style.backgroundImage = style.backgroundImage;
-            item.style.backgroundColor = style.backgroundColor;
-            item.style.backgroundBlendMode = style.backgroundBlendMode;
-         }
-         else
-         {
-            // No image to copy; use the stylesheet fallback (parchment) so the bookmarks are never transparent.
-            item.style.backgroundImage = '';
-            item.style.backgroundColor = '';
-            item.style.backgroundBlendMode = '';
-         }
-      }
    }
 
    /**

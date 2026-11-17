@@ -1,5 +1,11 @@
 # Changelog
 
+## Release 0.9.7
+- Quest Log and Quest windows: the tabs are now a horizontal bar at the top of the window, right under the window header, using the window background. The active tab is highlighted with an accent underline.
+- Removed the bookmark tab style and its settings (`navStyle`, `dynamicBookmarkBackground`).
+- Fixed the window title not showing ("Quest Log" / "Quest Details - name") and the header buttons being pushed to the left: the `h1` content style was also applied to the window title.
+- Removed the "show to players" header button; the action remains in the Quest Log window menu (three dots).
+
 ## Release 0.9.6
 - Fixed untranslated labels (`ForienQuestLog.QuestPreview.Labels.ShowSplash` / `CopyLink`) in the quest window menu; they now reuse existing translated strings.
 - "Show to players" is available both as a header button and in the Quest Log window menu (three dots).
