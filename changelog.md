@@ -1,5 +1,10 @@
 # Changelog
 
+## Release 0.10.3
+- Added currency rewards. In a game system with supported currencies (currently dnd5e: platinum, gold, electrum, silver and copper, read from the system configuration) the GM gets a new "Currency" button next to "Custom" in the rewards. It asks for the currency and the amount, and adding more of a currency already in the quest increases its amount. The amount can be edited with the `#` button.
+- Currency rewards show their amount and have "Take all" and "Take an amount" buttons (the second only when there is more than one unit). The currency is added to the assigned character of a player, or to the actor of the single selected token for a GM. Players can take currency when they are allowed to drag rewards and the reward is unlocked. The amount taken is removed from the quest (the reward disappears when nothing remains) and the GMs get the usual reward chat message.
+- Added the English and Spanish text for currencies.
+
 ## Release 0.10.2
 - Reward drops now post a chat message, whispered only to the GMs, instead of a UI notification (which could stay invisible if Foundry's notification queue is stuck). The message says who took which item (and how many) from which quest and to which actor. It uses the existing "Show Reward Drop Messages" setting (formerly "Show Reward Drop Notifications"), and when several GMs are connected only one posts it.
 - The chat message stores the transaction in its flags for a future activity log.

@@ -4,6 +4,8 @@ import {
 
 import { DOMPurify } from '../../../external/index.js';
 
+import { Currency }  from '../util/Currency.js';
+
 import {
    constants,
    questStatus,
@@ -330,21 +332,30 @@ export class Enrich
          const itemLink = type === 'item' && !canEdit && !canPlayerDrag && !item.locked;
 
          const quantity = item.quantity ?? 1;
+         const isCurrency = type === 'currency';
+
+         // Currency rewards show the current localized name of the currency and can be taken by the GM or by players
+         // when they can drag rewards and the reward is unlocked.
+         const currency = isCurrency ? Currency.get(item.data.currency) : void 0;
+         const rewardName = isCurrency && currency ? currency.label : item.data.name;
+         const canTake = isCurrency && (canEdit || (canPlayerDrag && !item.locked));
 
          return {
-            name: await TextEditor.enrichHTML(DOMPurify.sanitize(item.data.name)),
+            name: await TextEditor.enrichHTML(DOMPurify.sanitize(rewardName)),
             img: item.data.img,
             type,
             quantity,
-            hasQuantity: type === 'item' && quantity > 1,
-            canEditQuantity: canEdit && type === 'item',
+            hasQuantity: isCurrency || (type === 'item' && quantity > 1),
+            canEditQuantity: canEdit && (type === 'item' || isCurrency),
+            canTake,
+            canTakeAmount: canTake && quantity > 1,
             hidden: item.hidden,
             locked: item.locked,
             lockedTooltip,
             unlockedTooltip,
             isLink: isLink || itemLink,
             draggable,
-            transfer: type !== 'abstract' ? JSON.stringify(
+            transfer: type !== 'abstract' && !isCurrency ? JSON.stringify(
              { uuid: item.data.uuid, uuidv4: item.uuidv4, name: item.data.name, quantity }) : void 0,
             uuidv4: item.uuidv4
          };
@@ -357,6 +368,9 @@ export class Enrich
       }
 
       data.hasObjectives = data.data_tasks.length + data.data_subquest.length > 0;
+
+      // Currency rewards are only available when the game system has supported currencies.
+      data.hasCurrencies = Currency.getCurrencies().length > 0;
 
       // Determine if all rewards are visible / unlocked
       data.allRewardsVisible = true;

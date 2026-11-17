@@ -30,6 +30,15 @@
         }
       }
     },
+    "Currency": {
+      "Notifications": {
+        "Failed": "Could not add the currency to the actor.",
+        "NoCharacter": "You do not have an assigned character to receive the currency.",
+        "NotOwner": "You do not have permission to edit that actor.",
+        "SelectToken": "Select one token to receive the currency.",
+        "Unsupported": "The game system of this world does not support that currency."
+      }
+    },
     "DeleteDialog": {
       "BodyObjective": "This objective and its data will be permanently deleted.",
       "BodyQuest": "This quest and its data will be permanently deleted.",
@@ -109,6 +118,7 @@
     "QuestPreview": {
       "Buttons": {
         "Accept": "Accept",
+        "RewardCurrency": "Currency",
         "RewardCustom": "Custom",
         "RewardHide": "Hide",
         "RewardLock": "Lock",
@@ -117,6 +127,7 @@
       },
       "Labels": {
         "CustomSource": "Custom Source",
+        "Currency": "Currency",
         "Description": "Description:",
         "DragDropActor": "Drag & Drop Actor, Item or Journal Entry or left click to set a custom source.",
         "DragDropActorPlayer": "Drag & Drop Actor, Item or Journal Entry.",
@@ -153,8 +164,11 @@
       },
       "Title": "Quest Details - {name}",
       "Tooltips": {
+        "AddCurrency": "Add currency",
         "AddCustom": "Add Custom",
         "EditQuantity": "Edit quantity",
+        "TakeAll": "Take all",
+        "TakeAmount": "Take an amount",
         "AddObjective": "Add Objective",
         "ChangeSplashPos": "Change splash art alignment.",
         "DeleteQuestGiver": "Delete quest giver.",

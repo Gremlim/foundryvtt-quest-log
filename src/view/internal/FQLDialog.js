@@ -116,6 +116,50 @@ export class FQLDialog
    }
 
    /**
+    * Shows a dialog to choose a currency and an amount.
+    *
+    * @param {object}   options - Options.
+    *
+    * @param {{id: string, label: string}[]}   options.currencies - The currencies to choose from.
+    *
+    * @param {string}   options.title - Title of the dialog.
+    *
+    * @param {string}   options.currencyLabel - Label of the currency select.
+    *
+    * @param {string}   options.amountLabel - Label of the amount input.
+    *
+    * @returns {Promise<{currency: string, amount: number}|null>} The choice or null if the dialog was cancelled.
+    */
+   static async promptCurrency({ currencies, title, currencyLabel, amountLabel })
+   {
+      const escape = (text) => String(text ?? '').replace(/[&<>"']/g,
+       (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+
+      const options = currencies.map((c) => `<option value="${escape(c.id)}">${escape(c.label)}</option>`).join('');
+
+      const result = await foundry.applications.api.DialogV2.prompt({
+         window: { title },
+         content: `<div class="form-group"><label>${escape(currencyLabel)}</label><div class="form-fields">` +
+          `<select name="currency">${options}</select></div></div>` +
+          `<div class="form-group"><label>${escape(amountLabel)}</label><div class="form-fields">` +
+          `<input type="number" name="amount" value="1" min="1" step="1" autofocus></div></div>`,
+         ok: {
+            label: game.i18n.localize('ForienQuestLog.QuestPreview.Buttons.Accept'),
+            callback: (event, button) => ({
+               currency: button.form.elements.currency.value,
+               amount: Math.floor(Number(button.form.elements.amount.value))
+            })
+         },
+         rejectClose: false,
+         modal: true
+      });
+
+      if (!result || !Number.isFinite(result.amount) || result.amount < 1) { return null; }
+
+      return result;
+   }
+
+   /**
     * Shows a confirm dialog to delete a reward.
     *
     * @param {object}   options - Options.

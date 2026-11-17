@@ -496,6 +496,15 @@
             text-align: center;
             cursor: pointer;
           }
+
+          // Room for the take all / take amount icons of currency rewards.
+          .actions.rewards.has-take {
+            flex: 0 0 136px;
+
+            &.is-player {
+              flex: 0 0 60px;
+            }
+          }
         }
       }
     }

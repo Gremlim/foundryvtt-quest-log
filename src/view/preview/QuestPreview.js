@@ -341,6 +341,15 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
       on(domEvents.click, '.actions.rewards .editable', (event) =>
        HandlerDetails.rewardAbstractEditName(event, this.#quest, this), edit);
 
+      on(domEvents.click, '.quest-rewards .add-currency', async (event) =>
+       await HandlerDetails.rewardAddCurrency(event, this.#quest, this), edit);
+
+      on(domEvents.click, '.actions.rewards .reward-take-all', async (event) =>
+       await HandlerDetails.rewardTakeCurrency(event, this.#quest, true));
+
+      on(domEvents.click, '.actions.rewards .reward-take-amount', async (event) =>
+       await HandlerDetails.rewardTakeCurrency(event, this.#quest, false));
+
       on(domEvents.click, '.actions.rewards .edit-quantity', async (event) =>
        await HandlerDetails.rewardEditQuantity(event, this.#quest, this), edit);
 

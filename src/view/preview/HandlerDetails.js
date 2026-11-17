@@ -4,6 +4,8 @@ import {
 
 import { Quest }     from '../../model/index.js';
 
+import { Currency }  from '../../control/util/Currency.js';
+
 import { FQLDialog } from '../internal/index.js';
 
 import {
@@ -759,6 +761,113 @@ export class HandlerDetails
          // If a new sheet is rendered track it so it is closed with the preview.
          if (sheet && !questPreview._openedApps.includes(sheet)) { questPreview._openedApps.push(sheet); }
       }
+   }
+
+   /**
+    * Adds a currency reward. If the quest already has a reward for the currency the amount is added to it.
+    *
+    * @param {MouseEvent} event - The click event.
+    *
+    * @param {Quest}             quest - The current quest being manipulated.
+    *
+    * @param {QuestPreview}      questPreview - The QuestPreview being manipulated.
+    *
+    * @returns {Promise<void>}
+    */
+   static async rewardAddCurrency(event, quest, questPreview)
+   {
+      const currencies = Currency.getCurrencies();
+      if (!currencies.length) { return; }
+
+      const choice = await FQLDialog.promptCurrency({
+         currencies,
+         title: game.i18n.localize('ForienQuestLog.QuestPreview.Tooltips.AddCurrency'),
+         currencyLabel: game.i18n.localize('ForienQuestLog.QuestPreview.Labels.Currency'),
+         amountLabel: game.i18n.localize('ForienQuestLog.QuestPreview.Labels.Quantity')
+      });
+
+      if (!choice) { return; }
+
+      const currency = Currency.get(choice.currency);
+      if (!currency) { return; }
+
+      const existing = quest.rewards.find((r) => r.type?.toLowerCase() === 'currency' &&
+       r.data?.currency === currency.id);
+
+      if (existing) { existing.quantity += choice.amount; }
+      else
+      {
+         quest.addReward({
+            type: 'Currency',
+            data: { currency: currency.id, name: currency.label, img: Currency.IMAGE },
+            quantity: choice.amount,
+            hidden: true
+         });
+      }
+
+      await questPreview.saveQuest();
+   }
+
+   /**
+    * Takes all or an amount of a currency reward and gives it to the actor of the user: the assigned character of a
+    * player or the actor of the selected token of a GM.
+    *
+    * @param {MouseEvent} event - The click event.
+    *
+    * @param {Quest}             quest - The current quest being manipulated.
+    *
+    * @param {boolean}           all - Take everything instead of asking for an amount.
+    *
+    * @returns {Promise<void>}
+    */
+   static async rewardTakeCurrency(event, quest, all)
+   {
+      const uuidv4 = Utils.data(event.target, 'uuidv4');
+      const reward = quest.getReward(uuidv4);
+      if (!reward || reward.type?.toLowerCase() !== 'currency') { return; }
+
+      // Players can only take unlocked rewards when they can drag rewards.
+      if (!game.user.isGM && (reward.locked ||
+       !game.settings.get(constants.moduleName, settings.allowPlayersDrag))) { return; }
+
+      const currency = Currency.get(reward.data.currency);
+      if (!currency) { return; }
+
+      const actor = Currency.getRecipientActor();
+      if (!actor) { return; }
+
+      let amount = reward.quantity;
+
+      if (!all && reward.quantity > 1)
+      {
+         amount = await FQLDialog.promptAmount({
+            title: currency.label,
+            label: game.i18n.localize('ForienQuestLog.QuestPreview.Labels.QuantityTake'),
+            value: reward.quantity,
+            min: 1,
+            max: reward.quantity
+         });
+      }
+
+      if (!amount) { return; }
+
+      if (!await Currency.giveToActor(actor, currency.id, amount)) { return; }
+
+      await Socket.questRewardDrop({
+         actor: { id: actor.id, name: actor.name },
+         sheet: { id: null },
+         data: {
+            _fqlData: {
+               type: 'reward',
+               questId: quest.id,
+               uuidv4,
+               itemName: currency.label,
+               userName: game.user.name,
+               quantity: reward.quantity,
+               amount
+            }
+         }
+      });
    }
 
    /**

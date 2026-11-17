@@ -30,6 +30,15 @@
         }
       }
     },
+    "Currency": {
+      "Notifications": {
+        "Failed": "No se pudo añadir la moneda al actor.",
+        "NoCharacter": "No tienes un personaje asignado para recibir la moneda.",
+        "NotOwner": "No tienes permiso para editar ese actor.",
+        "SelectToken": "Selecciona un token para recibir la moneda.",
+        "Unsupported": "El sistema de juego de este mundo no admite esa moneda."
+      }
+    },
     "DeleteDialog": {
       "BodyObjective": "Este objetivo y sus datos serán eliminados de forma permanente.",
       "BodyQuest": "Esta misión y sus datos se eliminarán de forma permanente.",
@@ -95,6 +104,7 @@
     "QuestPreview": {
       "Buttons": {
         "Accept": "Aceptar",
+        "RewardCurrency": "Moneda",
         "RewardCustom": "Personalizado",
         "RewardHide": "Ocultar",
         "RewardLock": "Bloquear",
@@ -102,6 +112,7 @@
         "RewardUnlock": "Desbloquear"
       },
       "Labels": {
+        "Currency": "Moneda",
         "CustomSource": "Fuente Personalizada",
         "Description": "Descripción:",
         "DragDropActor": "Arrastre y suelte al actor, elemento o entrada de diario o haga clic con el botón izquierdo para establecer una fuente personalizada.",
@@ -139,8 +150,11 @@
       },
       "Title": "Detalles de la misión - {name}",
       "Tooltips": {
+        "AddCurrency": "Añadir moneda",
         "AddCustom": "Agregar personalizada",
         "EditQuantity": "Editar cantidad",
+        "TakeAll": "Coger todo",
+        "TakeAmount": "Coger cantidad",
         "AddObjective": "Añadir Objetivo",
         "ChangeSplashPos": "Cambiar la alineación de la imagen de misión.",
         "DeleteQuestGiver": "Eliminar dador de misiones.",
