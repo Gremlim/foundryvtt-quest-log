@@ -26,8 +26,8 @@ const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
  * constrained by {@link FoundryUIManager.checkPosition} in {@link QuestTracker._updatePosition} and the tracker may be
  * pinned to the top left of the sidebar.
  *
- * The icon buttons in the window header (share, primary quest, background) are added to the frame in
- * {@link QuestTracker._renderFrame} and are handled through the ApplicationV2 `actions` system.
+ * The options of the window (share, primary quest, group, removed quests, background) are entries of the 3-dots
+ * window menu, see {@link QuestTracker._getHeaderControls}, and are handled through the ApplicationV2 `actions` system.
  *
  * Control callbacks are setup once in {@link QuestTracker._onFirstRender} as delegated event listeners and are located
  * in a separate static control class {@link HandlerTracker}.
@@ -197,36 +197,58 @@ export class QuestTracker extends HandlebarsApplicationMixin(ApplicationV2)
    }
 
    /**
-    * Adds the icon buttons to the window header. Buttons are updated in {@link QuestTracker.#updateHeaderButtons}.
+    * Provides the entries of the 3-dots window menu. The state of each option (background, primary quest only,
+    * removed quests and grouping) is shown in the label and icon of the entry. The entries trigger the `actions` set
+    * in the default options.
     *
     * @inheritDoc
     */
-   async _renderFrame(options)
+   _getHeaderControls()
    {
-      const frame = await super._renderFrame(options);
+      const controls = super._getHeaderControls();
 
-      const header = frame.querySelector('.window-header');
-      if (header)
-      {
-         const first = header.querySelector('.header-control');
+      const loc = (key) => game.i18n.localize(`ForienQuestLog.QuestTracker.Menu.${key}`);
+      const state = (value) => loc(value ? 'On' : 'Off');
 
-         const actions = ['showPrimary', 'showGroups', 'showHidden', 'showBackground'];
+      const primary = sessionStorage.getItem(sessionConstants.trackerShowPrimary) === 'true';
+      const hidden = sessionStorage.getItem(sessionConstants.trackerShowHidden) === 'true';
+      const opaque = sessionStorage.getItem(sessionConstants.trackerShowBackground) === 'true';
+      const groupBy = HandlerTracker.getGroupBy();
 
-         // Share the tracker w/ remote clients.
-         if (game.user.isGM) { actions.push('shareTracker'); }
-
-         for (const action of actions.reverse())
+      const entries = [
          {
-            const button = document.createElement('button');
-            button.type = 'button';
-            button.dataset.action = action;
-            button.classList.add('header-control', 'icon');
-
-            first ? first.before(button) : header.append(button);
+            action: 'showPrimary',
+            icon: primary ? 'fa-solid fa-star' : 'fa-regular fa-star',
+            label: `${loc('Primary')}: ${state(primary)}`
+         },
+         {
+            action: 'showGroups',
+            icon: 'fa-solid fa-layer-group',
+            label: `${loc('Group')}: ${loc(`GroupBy.${groupBy}`)}`
+         },
+         {
+            action: 'showHidden',
+            icon: 'fa-solid fa-list-check',
+            label: `${loc('Removed')}: ${state(hidden)}`
+         },
+         {
+            action: 'showBackground',
+            icon: 'fa-solid fa-fill',
+            label: `${loc('Background')}: ${loc(opaque ? 'Opaque' : 'Transparent')}`
          }
+      ];
+
+      // Share the tracker w/ remote clients.
+      if (game.user.isGM)
+      {
+         entries.push({
+            action: 'shareTracker',
+            icon: 'fa-solid fa-eye',
+            label: 'ForienQuestLog.Labels.AppHeader.ShowPlayers'
+         });
       }
 
-      return frame;
+      return [...entries, ...controls];
    }
 
    /**
@@ -286,7 +308,7 @@ export class QuestTracker extends HandlebarsApplicationMixin(ApplicationV2)
    }
 
    /**
-    * Updates the header buttons, background state and the resizable state of the window.
+    * Updates the background state and the resizable state of the window.
     *
     * @inheritDoc
     */
@@ -294,7 +316,6 @@ export class QuestTracker extends HandlebarsApplicationMixin(ApplicationV2)
    {
       await super._onRender(context, options);
 
-      this.#updateHeaderButtons();
 
       const showBackgroundState = sessionStorage.getItem(sessionConstants.trackerShowBackground) === 'true';
       this.element.classList.toggle('no-background', !showBackgroundState);
@@ -722,56 +743,6 @@ export class QuestTracker extends HandlebarsApplicationMixin(ApplicationV2)
       {
          this.#scrollbarActive = scrollbarActive;
          this.element.style.pointerEvents = scrollbarActive ? 'auto' : 'none';
-      }
-   }
-
-   /**
-    * Updates the icon, state and tooltip of the header buttons from the session storage state.
-    */
-   #updateHeaderButtons()
-   {
-      const header = this.window.header;
-      if (!header) { return; }
-
-      const showBackgroundState = sessionStorage.getItem(sessionConstants.trackerShowBackground) === 'true';
-      const primaryState = sessionStorage.getItem(sessionConstants.trackerShowPrimary) === 'true';
-      const showHiddenState = sessionStorage.getItem(sessionConstants.trackerShowHidden) === 'true';
-      const groupByState = HandlerTracker.getGroupBy();
-
-      const buttons = {
-         shareTracker: {
-            icon: 'fas fa-eye',
-            tooltip: game.i18n.localize('ForienQuestLog.Labels.AppHeader.ShowPlayers')
-         },
-         showBackground: {
-            icon: showBackgroundState ? 'fas fa-fill on' : 'fas fa-fill off',
-            tooltip: game.i18n.localize(showBackgroundState ? 'ForienQuestLog.QuestTracker.Tooltips.BackgroundUnshow' :
-             'ForienQuestLog.QuestTracker.Tooltips.BackgroundShow')
-         },
-         showGroups: {
-            icon: groupByState !== 'none' ? 'fas fa-layer-group on' : 'fas fa-layer-group off',
-            tooltip: game.i18n.localize(`ForienQuestLog.QuestTracker.Tooltips.GroupBy.${groupByState}`)
-         },
-         showHidden: {
-            icon: showHiddenState ? 'fas fa-list-check on' : 'fas fa-list-check off',
-            tooltip: game.i18n.localize(showHiddenState ? 'ForienQuestLog.QuestTracker.Tooltips.RemovedUnshow' :
-             'ForienQuestLog.QuestTracker.Tooltips.RemovedShow')
-         },
-         showPrimary: {
-            icon: primaryState ? 'fas fa-star' : 'far fa-star',
-            tooltip: game.i18n.localize(primaryState ? 'ForienQuestLog.QuestTracker.Tooltips.PrimaryQuestUnshow' :
-             'ForienQuestLog.QuestTracker.Tooltips.PrimaryQuestShow')
-         }
-      };
-
-      for (const [action, data] of Object.entries(buttons))
-      {
-         const button = header.querySelector(`button[data-action="${action}"]`);
-         if (!button) { continue; }
-
-         button.className = `header-control icon ${data.icon}`;
-         button.dataset.tooltip = data.tooltip;
-         button.setAttribute('aria-label', data.tooltip);
       }
    }
 }

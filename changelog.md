@@ -1,5 +1,8 @@
 # Changelog
 
+## Release 0.19.0
+- The buttons of the Quest Tracker window header (share with players for the GM, primary quest only, group by, show removed quests and background) have been moved to the 3-dots menu of the window, leaving the header clean. The state of each option is shown in the entry itself (icon and text: primary quest only Yes/No, group by None/Group/Giver/Location, show removed Yes/No, background Opaque/Transparent).
+
 ## Release 0.18.2
 - #87 Dates and deadline. New setting "Quest Dates" (world calendar by default, or real date): the history of the quest now shows the date of the world calendar of Foundry (the real date is still stored, and entries created before this version show the real date). New optional "Deadline" of the quest: it is edited with the pencil under the group in the Details tab (a dialog with the fields of the world calendar, or a real date and time when the setting is set to real date), it can be removed, and it is shown in the Details tab, in the Quest Log list and in the Quest Tracker. When the deadline has passed and the quest is available or in progress it is shown in red.
 - Duplicating a quest keeps the deadline.

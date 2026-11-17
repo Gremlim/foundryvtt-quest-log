@@ -252,6 +252,22 @@
       }
     },
     "QuestTracker": {
+      "Menu": {
+        "Background": "Fondo",
+        "Group": "Agrupar por",
+        "GroupBy": {
+          "giver": "Dador",
+          "group": "Grupo",
+          "location": "Ubicación",
+          "none": "Sin agrupar"
+        },
+        "Off": "No",
+        "On": "Sí",
+        "Opaque": "Opaco",
+        "Primary": "Solo misión principal",
+        "Removed": "Mostrar quitadas",
+        "Transparent": "Transparente"
+      },
       "NoPrimary": "No hay misión principal disponible.",
       "NoQuests": "No hay misiones disponibles.",
       "Optional": "opcional",

@@ -266,6 +266,22 @@
       }
     },
     "QuestTracker": {
+      "Menu": {
+        "Background": "Background",
+        "Group": "Group by",
+        "GroupBy": {
+          "giver": "Giver",
+          "group": "Group",
+          "location": "Location",
+          "none": "None"
+        },
+        "Off": "No",
+        "On": "Yes",
+        "Opaque": "Opaque",
+        "Primary": "Primary quest only",
+        "Removed": "Show removed",
+        "Transparent": "Transparent"
+      },
       "NoPrimary": "No primary quest available.",
       "NoQuests": "No quests available.",
       "Optional": "optional",
