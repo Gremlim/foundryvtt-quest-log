@@ -366,9 +366,11 @@ export class QuestDB
     *
     * @param {string}   [options.parentId] - Any associated parent ID; if set then this is a subquest.
     *
+    * @param {object}   [options.ownership] - Ownership to set instead of the default; only used by a GM.
+    *
     * @returns {Promise<Quest|void>} The newly created quest.
     */
-   static async createQuest({ data = {}, parentId = void 0 } = {})
+   static async createQuest({ data = {}, parentId = void 0, ownership: ownershipOverride = void 0 } = {})
    {
       // Get the default ownership setting and attempt to set it if found in DOCUMENT_PERMISSION_LEVELS.
       const defaultPerm = game.settings.get(constants.moduleName, settings.defaultPermission);
@@ -377,6 +379,12 @@ export class QuestDB
          default: typeof CONST.DOCUMENT_OWNERSHIP_LEVELS[defaultPerm] === 'number' ?
           CONST.DOCUMENT_OWNERSHIP_LEVELS[defaultPerm] : CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER
       };
+
+      // A GM can provide the complete ownership (for example when duplicating a quest).
+      if (game.user.isGM && ownershipOverride && typeof ownershipOverride === 'object')
+      {
+         Object.assign(ownership, ownershipOverride);
+      }
 
       // Used for a player created quest setting and the quest as 'available' for normal players or 'hidden' for
       // trusted players.
@@ -399,6 +407,7 @@ export class QuestDB
       if (!folder)
       {
          console.warn('ForienQuestLog - QuestDB.createQuest - quest folder not found.');
+         ui.notifications.error('ForienQuestLog - the quest folder was not found; cannot create the quest.');
          return;
       }
 
@@ -434,6 +443,49 @@ export class QuestDB
             resolve(quest);
          }, 10);
       });
+   }
+
+   /**
+    * Duplicates a quest. Only available to a GM. The copy keeps the data, objectives, rewards, status and ownership
+    * of the original, but gets a new name, new objective / reward IDs and no subquests (they are not copied). If the
+    * original is a subquest the copy is added to the same parent quest.
+    *
+    * @param {object}   options - Options.
+    *
+    * @param {Quest}    [options.quest] - The Quest instance to duplicate.
+    *
+    * @param {string}   [options.questId] - The ID of the quest to duplicate.
+    *
+    * @returns {Promise<Quest|void>} The new quest.
+    */
+   static async duplicateQuest({ quest, questId } = {})
+   {
+      if (!game.user.isGM) { return; }
+
+      const source = quest ?? QuestDB.getQuest(questId);
+      if (!source) { return; }
+
+      const data = JSON.parse(JSON.stringify(source.toJSON()));
+
+      data.name = game.i18n.format('ForienQuestLog.QuestLog.ContextMenu.DuplicateName', { name: source.name });
+      data.subquests = [];
+      data.parent = null;
+      delete data.date;
+
+      // New IDs are generated for the objectives and rewards by the Task / Reward constructors.
+      for (const task of data.tasks ?? []) { delete task.uuidv4; }
+      for (const reward of data.rewards ?? []) { delete reward.uuidv4; }
+
+      const ownership = source.entry ? foundry.utils.deepClone(FVTTCompat.ownership(source.entry)) : void 0;
+
+      const newQuest = await QuestDB.createQuest({ data, parentId: source.parent || void 0, ownership });
+
+      if (newQuest)
+      {
+         ui.notifications.info(game.i18n.format('ForienQuestLog.Notifications.QuestDuplicated', { name: newQuest.name }));
+      }
+
+      return newQuest;
    }
 
    /**

@@ -228,7 +228,9 @@ export class QuestLog extends HandlebarsApplicationMixin(ApplicationV2)
           contextOptions.togglePrimaryQuest
          );
 
-         menuItemsOther.push(contextOptions.copyQuestId);
+         menuItemsActive.push(contextOptions.duplicateQuest);
+
+         menuItemsOther.push(contextOptions.copyQuestId, contextOptions.duplicateQuest);
       }
 
       // Must show two different context menus as only the active / in progress tab potentially has the menu option to

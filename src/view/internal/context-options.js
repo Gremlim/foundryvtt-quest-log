@@ -60,3 +60,14 @@ export const jumpToPin = {
       quest?.entry.panToNote();
    }
 };
+
+export const duplicateQuest = {
+   label: 'ForienQuestLog.QuestLog.ContextMenu.DuplicateQuest',
+   icon: 'fa-solid fa-clone',
+   visible: () => game.user.isGM,
+   onClick: async (event, target) =>
+   {
+      const quest = getQuestFromElement(target);
+      if (quest) { await QuestDB.duplicateQuest({ quest }); }
+   }
+};

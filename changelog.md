@@ -1,5 +1,10 @@
 # Changelog
 
+## Release 0.10.0
+- Added #159: quests can be duplicated from the Quest Log by right clicking a quest and choosing "Duplicate quest" (GM only). The copy keeps the details, status, objectives, rewards and permissions of the original with a new name ("... (Copy)"), and new objective / reward IDs. Subquests are not copied; if the original is a subquest the copy is added to the same parent quest.
+- #68 (indent subquests and collapse their quest) is covered by the Quest Tracker changes of 0.9.13 - 0.9.18, where subquests are listed under their parent quest with their own icon and quests can be shown / hidden.
+- Added the English and Spanish text for the new menu option and notification.
+
 ## Release 0.9.18
 - Quest Tracker: a subquest listed inside its parent quest is no longer expandable (it is still shown as a quest of its own, with its objectives, in the tracker) and now has a subquest icon to tell it apart from the objectives of the parent quest.
 - Quest Tracker: the P / C / F label is no longer struck through; only the objective text is.

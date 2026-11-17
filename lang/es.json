@@ -64,6 +64,7 @@
       "QuestIDCopied": "El ID de misión para esta misión se ha copiado al portapapeles.",
       "QuestMoved": "Se movió '{name}' y se estableció el nuevo estado en: '{target}'.",
       "QuestPrimary": "'{name}' es la nueva misión principal.",
+      "QuestDuplicated": "Misión duplicada: {name}",
       "QuestTrackerNoActive": "Seguimiento de Misiones está habilitado, pero no hay misiones en curso actualmente.",
       "UserCantOpen": "El usuario '{user}' no tiene permisos para abrir esta misión."
     },
@@ -74,6 +75,8 @@
       "ContextMenu": {
         "CopyEntityLink": "Copiar enlace de contenido de entidad",
         "CopyQuestID": "Copiar ID de misión",
+        "DuplicateName": "{name} (Copia)",
+        "DuplicateQuest": "Duplicar misión",
         "PrimaryQuest": "Establecer / Desestablecer como misión principal"
       },
       "Labels": {

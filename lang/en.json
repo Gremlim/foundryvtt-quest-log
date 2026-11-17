@@ -78,6 +78,7 @@
       "QuestIDCopied": "Quest ID for this quest has been copied to clipboard.",
       "QuestMoved": "Moved '{name}' and set new status to: '{target}'.",
       "QuestPrimary": "'{name}' is the new primary quest.",
+      "QuestDuplicated": "Quest duplicated: {name}",
       "QuestTrackerNoActive": "Quest Tracker is enabled, but there are currently no in progress quests.",
       "UserCantOpen": "User '{user}' doesn't have permission to open this quest."
     },
@@ -88,6 +89,8 @@
       "ContextMenu": {
         "CopyEntityLink": "Copy entity content link",
         "CopyQuestID": "Copy quest ID",
+        "DuplicateName": "{name} (Copy)",
+        "DuplicateQuest": "Duplicate quest",
         "PrimaryQuest": "Set / Unset as primary quest"
       },
       "Labels": {
