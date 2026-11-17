@@ -104,6 +104,7 @@
     },
     "QuestPreview": {
       "Buttons": {
+        "Accept": "Accept",
         "RewardCustom": "Custom",
         "RewardHide": "Hide",
         "RewardLock": "Lock",
@@ -120,6 +121,8 @@
         "Objective": "Objective",
         "Objectives": "Objectives:",
         "PlayerNotes": "Player Notes:",
+        "Quantity": "Quantity",
+        "QuantityTake": "Quantity to take:",
         "Reward": "Reward",
         "Rewards": "Rewards:"
       },
@@ -133,6 +136,7 @@
         "SplashQuestIcon": "Set as quest icon"
       },
       "Notifications": {
+        "RewardAddFailed": "Could not add the reward item to the actor. Check that you can edit the actor.",
         "BadUUID": "Could not retrieve the document for UUID: '{uuid}'.",
         "WrongDocType": "Forien's Quest Log only accepts world / compendium actors, items, and journal entries as quest givers.",
         "WrongItemType": "Forien's Quest Log only accepts world and compendium items as rewards."
@@ -146,6 +150,7 @@
       "Title": "Quest Details - {name}",
       "Tooltips": {
         "AddCustom": "Add Custom",
+        "EditQuantity": "Edit quantity",
         "AddObjective": "Add Objective",
         "ChangeSplashPos": "Change splash art alignment.",
         "DeleteQuestGiver": "Delete quest giver.",

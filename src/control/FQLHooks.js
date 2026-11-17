@@ -13,6 +13,8 @@ import { Quest }        from '../model/index.js';
 
 import { QuestPreview } from '../view/index.js';
 
+import { FQLDialog }    from '../view/internal/index.js';
+
 import { DBMigration }  from '../../database/DBMigration.js';
 
 import {
@@ -103,14 +105,85 @@ export class FQLHooks
     * @see https://foundryvtt.com/api/classes/client.Actor.html
     * @see https://foundryvtt.com/api/classes/client.ActorSheet.html
     */
-   static async dropActorSheetData(actor, sheet, data)
+   static dropActorSheetData(actor, sheet, data)
    {
       if (typeof data !== 'object' || data?._fqlData?.type !== 'reward') { return; }
+
+      const quantity = Number(data._fqlData.quantity) || 1;
+
+      // A reward with several units asks for the amount and creates the item on the actor itself, so the default
+      // drop must be cancelled synchronously.
+      if (quantity > 1)
+      {
+         FQLHooks.#dropRewardQuantity(actor, sheet, data, quantity);
+         return false;
+      }
+
+      Socket.questRewardDrop({
+         actor: { id: actor.id, name: FVTTCompat.get(actor, 'name') },
+         sheet: { id: sheet.id },
+         data
+      });
+   }
+
+   /**
+    * Asks for the amount of a reward item with several units, creates the item with that amount on the actor and
+    * takes the amount from the reward of the quest.
+    *
+    * @param {Actor}          actor - The Actor which received the data drop.
+    *
+    * @param {ActorSheet}     sheet - The ActorSheet which received the data drop.
+    *
+    * @param {RewardDropData} data - The reward drop data.
+    *
+    * @param {number}         quantity - The quantity of the reward.
+    *
+    * @returns {Promise<void>}
+    */
+   static async #dropRewardQuantity(actor, sheet, data, quantity)
+   {
+      const amount = await FQLDialog.promptAmount({
+         title: data._fqlData.itemName,
+         label: game.i18n.localize('ForienQuestLog.QuestPreview.Labels.QuantityTake'),
+         value: quantity,
+         min: 1,
+         max: quantity
+      });
+
+      if (!amount) { return; }
+
+      try
+      {
+         const item = await fromUuid(data.uuid);
+         if (!item)
+         {
+            ui.notifications.warn(game.i18n.format('ForienQuestLog.QuestPreview.Notifications.BadUUID',
+             { uuid: data.uuid }));
+            return;
+         }
+
+         const itemData = Item.implementation.fromCompendium?.(item) ?? item.toObject();
+         delete itemData._id;
+
+         // Set the amount on the new item if the game system stores a quantity.
+         if (foundry.utils.hasProperty(itemData, 'system.quantity'))
+         {
+            foundry.utils.setProperty(itemData, 'system.quantity', amount);
+         }
+
+         await actor.createEmbeddedDocuments('Item', [itemData]);
+      }
+      catch (err)
+      {
+         console.error('ForienQuestLog - Failed to add the reward item to the actor:', err);
+         ui.notifications.error(game.i18n.localize('ForienQuestLog.QuestPreview.Notifications.RewardAddFailed'));
+         return;
+      }
 
       await Socket.questRewardDrop({
          actor: { id: actor.id, name: FVTTCompat.get(actor, 'name') },
          sheet: { id: sheet.id },
-         data
+         data: { ...data, _fqlData: { ...data._fqlData, amount } }
       });
    }
 

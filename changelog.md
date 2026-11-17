@@ -1,5 +1,11 @@
 # Changelog
 
+## Release 0.10.1
+- Added quantities to item rewards. The GM can set the quantity with the new `#` button of an item reward; quantities greater than one are shown as "x N" next to the name.
+- Dragging an item reward with more than one unit onto an actor sheet now asks how many to take; the actor receives that amount (the item quantity is set when the game system has one) and the remaining quantity stays in the quest. The reward is removed when nothing remains. Rewards with a single unit work as before.
+- The reward drop notification for the GM includes the amount taken.
+- Added the English and Spanish text for the new dialog and buttons.
+
 ## Release 0.10.0
 - Added #159: quests can be duplicated from the Quest Log by right clicking a quest and choosing "Duplicate quest" (GM only). The copy keeps the details, status, objectives, rewards and permissions of the original with a new name ("... (Copy)"), and new objective / reward IDs. Subquests are not copied; if the original is a subquest the copy is added to the same parent quest.
 - #68 (indent subquests and collapse their quest) is covered by the Quest Tracker changes of 0.9.13 - 0.9.18, where subquests are listed under their parent quest with their own icon and quests can be shown / hidden.

@@ -603,6 +603,25 @@ export class Quest
    }
 
    /**
+    * Takes an amount of a reward. If the amount is not provided or is equal or greater than the quantity of the reward
+    * then the reward is removed from the quest; otherwise the quantity is reduced by the amount.
+    *
+    * @param {string}   uuidv4 - The UUIDv4 associated with a Reward.
+    *
+    * @param {number}   [amount] - The amount taken.
+    */
+   takeReward(uuidv4, amount = void 0)
+   {
+      const reward = this.getReward(uuidv4);
+      if (!reward) { return; }
+
+      const taken = Number.isFinite(amount) ? Math.floor(amount) : reward.quantity;
+
+      if (taken >= reward.quantity) { this.removeReward(uuidv4); }
+      else if (taken >= 1) { reward.quantity -= taken; }
+   }
+
+   /**
     * Removes subquest from Quest.
     *
     * @param {string} questId - The subquest ID to remove.
@@ -873,6 +892,13 @@ export class Reward
        * @type {string}
        */
       this.uuidv4 = data.uuidv4 || Utils.uuidv4();
+
+      /**
+       * The amount of this reward; for example the amount of an item.
+       *
+       * @type {number}
+       */
+      this.quantity = Number.isFinite(data.quantity) && data.quantity >= 1 ? Math.floor(data.quantity) : 1;
    }
 
    /**
@@ -901,7 +927,8 @@ export class Reward
          data: this.data,
          hidden: this.hidden,
          locked: this.locked,
-         uuidv4: this.uuidv4
+         uuidv4: this.uuidv4,
+         quantity: this.quantity
       }));
    }
 

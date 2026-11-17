@@ -72,6 +72,50 @@ export class FQLDialog
    }
 
    /**
+    * Shows a dialog to enter a whole number.
+    *
+    * @param {object}   options - Options.
+    *
+    * @param {string}   options.title - Title of the dialog.
+    *
+    * @param {string}   options.label - Label of the number input.
+    *
+    * @param {number}   [options.value=1] - The initial value.
+    *
+    * @param {number}   [options.min=1] - The minimum value.
+    *
+    * @param {number}   [options.max] - The maximum value.
+    *
+    * @returns {Promise<number|null>} The chosen whole number or null if the dialog was cancelled.
+    */
+   static async promptAmount({ title, label, value = 1, min = 1, max = void 0 })
+   {
+      const escape = (text) => String(text ?? '').replace(/[&<>"']/g,
+       (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+
+      const maxAttr = Number.isFinite(max) ? ` max="${max}"` : '';
+
+      const result = await foundry.applications.api.DialogV2.prompt({
+         window: { title: String(title ?? '').replace(/<[^>]*>/g, '') },
+         content: `<div class="form-group"><label>${escape(label)}</label><div class="form-fields">` +
+          `<input type="number" name="amount" value="${value}" min="${min}"${maxAttr} step="1" autofocus></div></div>`,
+         ok: {
+            label: game.i18n.localize('ForienQuestLog.QuestPreview.Buttons.Accept'),
+            callback: (event, button) => Math.floor(Number(button.form.elements.amount.value))
+         },
+         rejectClose: false,
+         modal: true
+      });
+
+      if (!Number.isFinite(result)) { return null; }
+
+      let amount = Math.max(result, min);
+      if (Number.isFinite(max)) { amount = Math.min(amount, max); }
+
+      return amount;
+   }
+
+   /**
     * Shows a confirm dialog to delete a reward.
     *
     * @param {object}   options - Options.

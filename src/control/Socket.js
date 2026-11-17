@@ -136,7 +136,7 @@ export class Socket
          const quest = QuestDB.getQuest(fqlData.questId);
          if (quest)
          {
-            quest.removeReward(fqlData.uuidv4);
+            quest.takeReward(fqlData.uuidv4, fqlData.amount);
             await quest.save();
             Socket.refreshQuestPreview({ questId: fqlData.questId });
          }
@@ -480,7 +480,7 @@ export class Socket
          {
             ViewManager.notifications.info(game.i18n.format('ForienQuestLog.API.Socket.Notifications.RewardDrop', {
                userName: fqlData.userName,
-               itemName: fqlData.itemName,
+               itemName: fqlData.amount > 1 ? `${fqlData.itemName} x${fqlData.amount}` : fqlData.itemName,
                actorName: data.payload.actor.name
             }));
          }
@@ -494,7 +494,7 @@ export class Socket
          const quest = QuestDB.getQuest(fqlData.questId);
          if (quest)
          {
-            quest.removeReward(fqlData.uuidv4);
+            quest.takeReward(fqlData.uuidv4, fqlData.amount);
             await quest.save();
             Socket.refreshQuestPreview({ questId: fqlData.questId });
          }

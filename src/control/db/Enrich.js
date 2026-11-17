@@ -329,10 +329,15 @@ export class Enrich
          // For item rewards make them links when `can player drag` is not enabled.
          const itemLink = type === 'item' && !canEdit && !canPlayerDrag && !item.locked;
 
+         const quantity = item.quantity ?? 1;
+
          return {
             name: await TextEditor.enrichHTML(DOMPurify.sanitize(item.data.name)),
             img: item.data.img,
             type,
+            quantity,
+            hasQuantity: type === 'item' && quantity > 1,
+            canEditQuantity: canEdit && type === 'item',
             hidden: item.hidden,
             locked: item.locked,
             lockedTooltip,
@@ -340,7 +345,7 @@ export class Enrich
             isLink: isLink || itemLink,
             draggable,
             transfer: type !== 'abstract' ? JSON.stringify(
-             { uuid: item.data.uuid, uuidv4: item.uuidv4, name: item.data.name }) : void 0,
+             { uuid: item.data.uuid, uuidv4: item.uuidv4, name: item.data.name, quantity }) : void 0,
             uuidv4: item.uuidv4
          };
       }));

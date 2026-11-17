@@ -512,6 +512,7 @@ export class HandlerDetails
             uuidv4: data.uuidv4,
             itemName: data.name,
             userName: game.user.name,
+            quantity: data.quantity ?? 1,
          },
          type: 'Item',
          uuid: data.uuid,
@@ -757,6 +758,37 @@ export class HandlerDetails
 
          // If a new sheet is rendered track it so it is closed with the preview.
          if (sheet && !questPreview._openedApps.includes(sheet)) { questPreview._openedApps.push(sheet); }
+      }
+   }
+
+   /**
+    * Edits the quantity of a reward.
+    *
+    * @param {MouseEvent} event - The click event.
+    *
+    * @param {Quest}             quest - The current quest being manipulated.
+    *
+    * @param {QuestPreview}      questPreview - The QuestPreview being manipulated.
+    *
+    * @returns {Promise<void>}
+    */
+   static async rewardEditQuantity(event, quest, questPreview)
+   {
+      const uuidv4 = Utils.data(event.target, 'uuidv4');
+      const reward = quest.getReward(uuidv4);
+      if (!reward) { return; }
+
+      const amount = await FQLDialog.promptAmount({
+         title: reward.name,
+         label: game.i18n.localize('ForienQuestLog.QuestPreview.Labels.Quantity'),
+         value: reward.quantity,
+         min: 1
+      });
+
+      if (amount !== null && amount !== reward.quantity)
+      {
+         reward.quantity = amount;
+         await questPreview.saveQuest();
       }
    }
 

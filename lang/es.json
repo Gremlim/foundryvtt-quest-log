@@ -90,6 +90,7 @@
     },
     "QuestPreview": {
       "Buttons": {
+        "Accept": "Aceptar",
         "RewardCustom": "Personalizado",
         "RewardHide": "Ocultar",
         "RewardLock": "Bloquear",
@@ -106,6 +107,8 @@
         "Objective": "Objetivo",
         "Objectives": "Objetivos:",
         "PlayerNotes": "Notas del jugador:",
+        "Quantity": "Cantidad",
+        "QuantityTake": "Cantidad a coger:",
         "Reward": "Recompensa",
         "Rewards": "Recompensas:"
       },
@@ -119,6 +122,7 @@
         "SplashQuestIcon": "Establecer como icono de misión"
       },
       "Notifications": {
+        "RewardAddFailed": "No se pudo añadir el item de recompensa al actor. Comprueba que puedes editar el actor.",
         "BadUUID": "No se pudo recuperar el documento para UUID: '{uuid}'.",
         "WrongDocType": "Forien's Quest Log solo acepta actores del mundo/compendio, elementos y entradas de diario como dador de misiones.",
         "WrongItemType": "Forien's Quest Log solo acepta artículos del mundo y del compendio como recompensa."
@@ -132,6 +136,7 @@
       "Title": "Detalles de la misión - {name}",
       "Tooltips": {
         "AddCustom": "Agregar personalizada",
+        "EditQuantity": "Editar cantidad",
         "AddObjective": "Añadir Objetivo",
         "ChangeSplashPos": "Cambiar la alineación de la imagen de misión.",
         "DeleteQuestGiver": "Eliminar dador de misiones.",

@@ -191,7 +191,7 @@
             <div class="reward-image" style="background-image: url('{{img}}')" data-uuidv4="{{uuidv4}}"></div>
           </div>
           <div class="editable-container {{#if draggable}}draggable{{/if}} {{#if isLink}}is-link{{/if}}" data-transfer="{{transfer}}" data-uuidv4="{{uuidv4}}" {{#if draggable}}draggable="true"{{/if}}>
-            <p class="reward-name">{{{name}}}</p>
+            <p class="reward-name">{{{name}}}{{#if hasQuantity}} <span class="reward-quantity">&times;{{quantity}}</span>{{/if}}</p>
           </div>
           <div class="actions rewards {{#unless ../canEdit}}is-player{{/unless}}">
             {{#if ../canEdit}}
@@ -211,6 +211,8 @@
             {{#if ../canEdit}}
               {{#if (eq type 'abstract')}}
                 <i class="editable fas fa-pen" data-target="reward.name" data-uuidv4="{{uuidv4}}" title="{{localize 'ForienQuestLog.Tooltips.Edit'}}"></i>
+              {{else if canEditQuantity}}
+                <i class="edit-quantity fas fa-hashtag" data-uuidv4="{{uuidv4}}" title="{{localize 'ForienQuestLog.QuestPreview.Tooltips.EditQuantity'}}"></i>
               {{else}}
                 <span class="spacer-edit"></span>
               {{/if}}

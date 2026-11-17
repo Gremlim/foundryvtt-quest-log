@@ -483,6 +483,18 @@
             font-weight: 400;
             margin: 0;
             padding-right: 8px;
+
+            .reward-quantity {
+              margin-left: 4px;
+              font-weight: 700;
+              opacity: .85;
+            }
+          }
+
+          .actions.rewards .edit-quantity {
+            flex: 0 0 18px;
+            text-align: center;
+            cursor: pointer;
           }
         }
       }

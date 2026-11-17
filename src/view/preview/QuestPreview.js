@@ -341,6 +341,9 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
       on(domEvents.click, '.actions.rewards .editable', (event) =>
        HandlerDetails.rewardAbstractEditName(event, this.#quest, this), edit);
 
+      on(domEvents.click, '.actions.rewards .edit-quantity', async (event) =>
+       await HandlerDetails.rewardEditQuantity(event, this.#quest, this), edit);
+
       on(domEvents.click, '.actions.rewards .delete', async (event) =>
        await HandlerDetails.rewardDelete(event, this.#quest, this), edit);
 
