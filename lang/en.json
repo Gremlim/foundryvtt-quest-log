@@ -223,12 +223,26 @@
         "TaskPending": "{user} reset the objective \"{task}\" to pending.",
         "Title": "Quest History"
       },
+      "Rumors": {
+        "Add": "Add rumor",
+        "BecameAvailable": "Quest \"{name}\" is now available.",
+        "DeleteContent": "Delete this rumor?",
+        "DeleteTitle": "Delete rumor",
+        "Empty": "This quest has no rumors.",
+        "Heard": "Heard (click to mark as not heard)",
+        "Hidden": "Hidden from the players",
+        "Hint": "Rumors are loose texts that the players can hear. Visible rumors are shown to the players in the Rumors tab of the Quest Log, without saying which quest they belong to. When a rumor is marked as heard, an inactive quest becomes available.",
+        "NotHeard": "Not heard (click to mark as heard)",
+        "Title": "Rumors",
+        "Visible": "Visible to the players"
+      },
       "Tabs": {
         "Details": "Details",
         "GMNotes": "GM Notes",
         "History": "History",
         "PlayerNotes": "Player Notes",
-        "QuestManagement": "Manage Quest"
+        "QuestManagement": "Manage Quest",
+        "Rumors": "Rumors"
       },
       "Title": "Quest Details - {name}",
       "Tooltips": {
@@ -324,7 +338,6 @@
         "InActive": "Inactive",
         "inactive": "inactive",
         "Rumor": "Rumors",
-        "rumor": "a rumor",
         "Status": "Quest is {statusLabel}."
       },
       "Tooltips": {
@@ -334,9 +347,13 @@
         "SetCompleted": "Set as Completed",
         "SetFailed": "Set as Failed",
         "SetInactive": "Set as Inactive",
-        "SetRumor": "Set as Rumor",
         "Status": "Status: {statusI18n}"
       }
+    },
+    "Rumors": {
+      "Empty": "There are no rumors.",
+      "HiddenTooltip": "Hidden from the players",
+      "QuestTooltip": "Quest of the rumor (only the GM sees it)"
     },
     "Settings": {
       "allowPlayersAccept": {

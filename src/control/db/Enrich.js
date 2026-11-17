@@ -91,7 +91,7 @@ export class Enrich
             addedAction = true;
          }
 
-         if ((canEdit && (questStatus.inactive === quest.status || questStatus.rumor === quest.status)) ||
+         if ((canEdit && questStatus.inactive === quest.status) ||
           questStatus.available === quest.status)
          {
             items += `<i class="move fas fa-play" title="${game.i18n.localize(
@@ -108,20 +108,11 @@ export class Enrich
             addedAction = true;
          }
 
-         if ((canEdit && (questStatus.inactive === quest.status || questStatus.rumor === quest.status)) ||
+         if ((canEdit && questStatus.inactive === quest.status) ||
           questStatus.active === quest.status)
          {
             items += `<i class="move fas fa-clipboard" title="${game.i18n.localize(
              'ForienQuestLog.QuestTypes.Tooltips.SetAvailable')}" data-target="available" data-quest-id="${quest.id}"></i>\n`;
-
-            addedAction = true;
-         }
-
-         // A rumor is a quest that the players only heard about (#82); the GM can turn any quest into a rumor.
-         if (canEdit && questStatus.rumor !== quest.status)
-         {
-            items += `<i class="move fas fa-comment-dots" title="${game.i18n.localize(
-             'ForienQuestLog.QuestTypes.Tooltips.SetRumor')}" data-target="rumor" data-quest-id="${quest.id}"></i>\n`;
 
             addedAction = true;
          }
@@ -521,6 +512,9 @@ export class Enrich
 
       data.canClearHistory = game.user.isGM;
       data.data_history = data.canViewHistory ? Enrich.#history(quest) : [];
+
+      // The rumors of the quest (#82); managed in the rumors tab by those who can edit the quest.
+      data.data_rumors = quest.rumors.map((r) => ({ ...r }));
 
       // Subquests and tasks in the display order of the quest so that they can be intermixed.
       const subquestById = new Map(data.data_subquest.map((s) => [s.id, s]));

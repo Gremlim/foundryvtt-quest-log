@@ -38,8 +38,7 @@ const questStatus = {
    available: 'available',
    completed: 'completed',
    failed: 'failed',
-   inactive: 'inactive',
-   rumor: 'rumor'
+   inactive: 'inactive'
 };
 
 /**
@@ -52,8 +51,7 @@ const questStatusI18n = {
    available: 'ForienQuestLog.QuestTypes.Labels.Available',
    completed: 'ForienQuestLog.QuestTypes.Labels.Completed',
    failed: 'ForienQuestLog.QuestTypes.Labels.Failed',
-   inactive: 'ForienQuestLog.QuestTypes.Labels.InActive',
-   rumor: 'ForienQuestLog.QuestTypes.Labels.Rumor'
+   inactive: 'ForienQuestLog.QuestTypes.Labels.InActive'
 };
 
 /**
@@ -67,8 +65,7 @@ const questTabIndex = {
    available: 0,
    completed: 2,
    failed: 3,
-   inactive: 4,
-   rumor: 5
+   inactive: 4
 };
 
 /**
@@ -106,6 +103,7 @@ const settings = {
    navStyle: 'navStyle',
    notifyRewardDrop: 'notifyRewardDrop',
    primaryQuest: 'primaryQuest',
+   rumors: 'rumors',
    questTrackerEnable: 'questTrackerEnable',
    questTrackerPinned: 'questTrackerPinned',
    questTrackerPosition: 'questTrackerPosition',
@@ -178,6 +176,8 @@ export { constants, domEvents, questStatus, questStatusI18n, questTabIndex, sess
  * @property {string}   notifyRewardDrop - Post a notification UI message when rewards are dropped in actor sheets.
  *
  * @property {string}   primaryQuest - Stores the quest ID of a quest that is the current primary quest.
+ *
+ * @property {string}   rumors - World data with the rumors visible to the players (kept in sync by the GM).
  *
  * @property {string}   questTrackerEnable - Enables the quest tracker.
  *

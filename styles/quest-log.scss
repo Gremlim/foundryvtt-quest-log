@@ -308,3 +308,67 @@
     }
   }
 }
+
+// Rumors tab: loose rumors, not grouped by quest.
+#ql-quest-log {
+  .quest-log .table .rumors-empty {
+    opacity: .6;
+    margin: 8px 4px;
+  }
+
+  .quest-log .table ul.rumors-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    li.rumor {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 4px 4px 0;
+      padding: 6px 8px;
+      background: rgba(255, 255, 255, .09);
+      border-left: 3px solid rgba(255, 255, 255, .3);
+      border-radius: 3px;
+
+      > i.fa-comment-dots {
+        flex: 0 0 18px;
+        text-align: center;
+        opacity: .8;
+      }
+
+      .rumor-text {
+        flex: 1;
+        min-width: 0;
+        overflow-wrap: anywhere;
+        white-space: pre-wrap;
+      }
+
+      // Heard rumors: struck through and muted.
+      &.heard .rumor-text {
+        text-decoration: line-through;
+        opacity: .55;
+      }
+
+      // Only seen by the GM.
+      &.not-visible {
+        border-left-style: dashed;
+      }
+
+      .rumor-hidden {
+        flex: 0 0 auto;
+        opacity: .7;
+      }
+
+      .rumor-quest {
+        flex: 0 1 auto;
+        max-width: 160px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 11px;
+        opacity: .7;
+      }
+    }
+  }
+}

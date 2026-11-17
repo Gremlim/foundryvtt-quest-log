@@ -11,6 +11,7 @@ import {
 import { HandlerAny }         from './HandlerAny.js';
 import { HandlerDetails }     from './HandlerDetails.js';
 import { HandlerManage }      from './HandlerManage.js';
+import { HandlerRumors }      from './HandlerRumors.js';
 import { HandlerTracker }     from '../tracker/HandlerTracker.js';
 
 import {
@@ -72,6 +73,7 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
             { id: 'details' },
             { id: 'playernotes' },
             { id: 'history' },
+            { id: 'rumors' },
             { id: 'gmnotes' },
             { id: 'management' }
          ],
@@ -407,6 +409,20 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
 
       on(domEvents.click, '.actions.tasks .toggleHidden', async (event) =>
        await HandlerDetails.taskToggleHidden(event, this.#quest, this), edit);
+
+      on(domEvents.click, '.rumor-add', async () => await HandlerRumors.add(this.#quest, this), edit);
+
+      on(domEvents.click, '.quest-rumors .rumor-heard', async (event) =>
+       await HandlerRumors.toggleHeard(event, this.#quest, this), edit);
+
+      on(domEvents.click, '.quest-rumors .rumor-visible', async (event) =>
+       await HandlerRumors.toggleVisible(event, this.#quest, this), edit);
+
+      on(domEvents.click, '.quest-rumors .rumor-edit', async (event) =>
+       await HandlerRumors.edit(event, this.#quest, this), edit);
+
+      on(domEvents.click, '.quest-rumors .rumor-delete', async (event) =>
+       await HandlerRumors.delete(event, this.#quest, this), edit);
 
       on(domEvents.click, '.history-clear', async () => await HandlerManage.clearHistory(this.#quest, this),
        () => game.user.isGM);

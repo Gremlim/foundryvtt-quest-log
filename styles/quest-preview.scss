@@ -680,7 +680,7 @@
     }
 
     // Player notes, GM notes and history share the same heading as the other tabs: accent underline, same height.
-    .quest-playernotes > h1, .quest-gmnotes > h1, .quest-history > header {
+    .quest-playernotes > h1, .quest-gmnotes > h1, .quest-history > header, .quest-rumors > header {
       display: flex;
       align-items: flex-end;
       flex: 0 0 auto;
@@ -766,6 +766,110 @@
               flex: 0 0 auto;
               font-size: 12px;
               opacity: .7;
+            }
+          }
+        }
+      }
+    }
+
+    .rumors {
+      .quest-rumors {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+
+        header {
+          justify-content: space-between;
+          align-items: center;
+
+          h1 {
+            flex: 1;
+            margin: 0;
+            padding: 0;
+            border: none;
+            font-size: 18px;
+            line-height: 1.2;
+          }
+
+          button {
+            flex: 0 0 fit-content;
+            margin-bottom: 2px;
+          }
+        }
+
+        .rumors-hint {
+          margin: 0 4px 6px 0;
+          font-size: 12px;
+          opacity: .7;
+        }
+
+        .rumors-empty {
+          opacity: .6;
+          margin: 8px 4px;
+        }
+
+        .rumors-list {
+          flex: 1;
+          overflow-y: auto;
+          list-style: none;
+          margin: 0;
+          padding: 0;
+
+          .rumor {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: $primary-color-bg-li;
+            border-left: 3px solid $primary-color-border-li;
+            border-radius: 3px;
+            margin: 0 4px 4px 0;
+            padding: 4px 8px;
+
+            &:hover {
+              border-left-color: $primary-color-accent;
+            }
+
+            // Not visible to the players: dashed line, like the hidden objectives.
+            &.not-visible {
+              border-left-style: dashed;
+            }
+
+            i.rumor-heard {
+              flex: 0 0 18px;
+              text-align: center;
+              font-size: 16px;
+              cursor: pointer;
+              color: $primary-color-icon;
+              transition: color .3s ease;
+
+              &:hover {
+                color: $primary-color-accent;
+              }
+            }
+
+            .rumor-text {
+              flex: 1;
+              min-width: 0;
+              overflow-wrap: anywhere;
+              white-space: pre-wrap;
+            }
+
+            // Heard rumors: struck through and muted.
+            &.heard {
+              .rumor-text {
+                text-decoration: line-through;
+                opacity: .55;
+              }
+
+              i.rumor-heard {
+                color: $icon-color-completed;
+              }
+            }
+
+            .actions.rumors {
+              border-left: none;
+              height: auto;
             }
           }
         }

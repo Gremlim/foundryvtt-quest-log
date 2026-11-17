@@ -335,6 +335,19 @@ export class ModuleSettings
          }
       });
 
+      // Rumors that are visible to the players (#82). The quests may be hidden to the players, so the GM keeps the
+      // visible rumors in this world setting (see `QuestDB.syncRumors`).
+      game.settings.register(constants.moduleName, settings.rumors, {
+         scope: this.#scope.world,
+         config: false,
+         default: [],
+         type: Array,
+         onChange: () =>
+         {
+            if (ViewManager.questLog.rendered) { ViewManager.questLog.render(); }
+         }
+      });
+
       /**
        * This is the most complex module setting handling as quite a bit of logic is contained below to handle
        * setting the primary quest. Since the onChange event does not pass the old and new value the old value for

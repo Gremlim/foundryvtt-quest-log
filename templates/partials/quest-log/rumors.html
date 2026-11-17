@@ -1,0 +1,21 @@
+<header>
+  <h1 style="flex: 1;">{{localize 'ForienQuestLog.QuestTypes.Labels.Rumor'}}</h1>
+</header>
+<div class="table">
+  {{#if rumors.length}}
+    <ul class="rumors-list">
+      {{#each rumors}}
+        <li class="rumor{{#if heard}} heard{{/if}}{{#unless visible}} not-visible{{/unless}}">
+          <i class="fas fa-comment-dots"></i>
+          <span class="rumor-text">{{text}}</span>
+          {{#if @root.isGM}}
+            {{#unless visible}}<i class="rumor-hidden fas fa-eye-slash" title="{{localize 'ForienQuestLog.Rumors.HiddenTooltip'}}"></i>{{/unless}}
+            <span class="chip rumor-quest" title="{{localize 'ForienQuestLog.Rumors.QuestTooltip'}}"><i class="fas fa-scroll"></i>{{questName}}</span>
+          {{/if}}
+        </li>
+      {{/each}}
+    </ul>
+  {{else}}
+    <p class="rumors-empty">{{localize 'ForienQuestLog.Rumors.Empty'}}</p>
+  {{/if}}
+</div>

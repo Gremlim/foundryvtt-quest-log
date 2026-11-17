@@ -295,6 +295,9 @@ export class ViewManager
     */
    static async #handleQuestEntryAdd(questEntry, flags)
    {
+      // The GM keeps the rumors visible to the players in a world setting (#82).
+      QuestDB.syncRumors();
+
       if ('ownership' in flags)
       {
          ViewManager.refreshQuestPreview(questEntry.questIds);
@@ -313,6 +316,9 @@ export class ViewManager
     */
    static async #handleQuestEntryRemove(questEntry, flags)
    {
+      // The GM keeps the rumors visible to the players in a world setting (#82).
+      QuestDB.syncRumors();
+
       const quest = questEntry.quest;
 
       const questPreview = ViewManager.questPreview.get(quest.id);
@@ -334,6 +340,9 @@ export class ViewManager
     */
    static #handleQuestEntryUpdate(questEntry, flags)
    {
+      // The GM keeps the rumors visible to the players in a world setting (#82).
+      QuestDB.syncRumors();
+
       if ('ownership' in flags)
       {
          ViewManager.refreshQuestPreview(questEntry.questIds);

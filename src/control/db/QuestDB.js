@@ -157,8 +157,7 @@ export class QuestDB
       available: collect(),
       completed: collect(),
       failed: collect(),
-      inactive: collect(),
-      rumor: collect()
+      inactive: collect()
    });
 
    /**
@@ -180,8 +179,7 @@ export class QuestDB
       available: new Map(),
       completed: new Map(),
       failed: new Map(),
-      inactive: new Map(),
-      rumor: new Map()
+      inactive: new Map()
    });
 
    /**
@@ -734,13 +732,11 @@ export class QuestDB
     *
     * @param {Function} [options.filterInactive] - The filter function for inactive quests.
     *
-    * @param {Function} [options.filterRumor] - The filter function for rumors.
-    *
     * @returns {QuestsCollect|collect<QuestEntry>|void} An object of all QuestEntries filtered by status or individual
     *                                                   status or undefined.
     */
    static filterCollect({ status = void 0, filter = void 0, filterActive = void 0, filterAvailable = void 0,
-    filterCompleted = void 0, filterFailed = void 0, filterInactive = void 0, filterRumor = void 0 } = {})
+    filterCompleted = void 0, filterFailed = void 0, filterInactive = void 0 } = {})
    {
       // A particular status is requested so only filter and return the specific collection.
       if (typeof status === 'string')
@@ -757,8 +753,6 @@ export class QuestDB
                return this.#questsCollect[questStatus.failed].filter(filterFailed ?? filter);
             case questStatus.inactive:
                return this.#questsCollect[questStatus.inactive].filter(filterInactive ?? filter);
-            case questStatus.rumor:
-               return this.#questsCollect[questStatus.rumor].filter(filterRumor ?? filter);
             default:
                console.error(`Forien Quest Log - QuestDB - filterCollect - unknown status: ${status}`);
                return void 0;
@@ -771,8 +765,7 @@ export class QuestDB
          available: this.#questsCollect[questStatus.available].filter(filterAvailable || filter),
          completed: this.#questsCollect[questStatus.completed].filter(filterCompleted || filter),
          failed: this.#questsCollect[questStatus.failed].filter(filterFailed || filter),
-         inactive: this.#questsCollect[questStatus.inactive].filter(filterInactive || filter),
-         rumor: this.#questsCollect[questStatus.rumor].filter(filterRumor || filter)
+         inactive: this.#questsCollect[questStatus.inactive].filter(filterInactive || filter)
       };
    }
 
@@ -834,7 +827,7 @@ export class QuestDB
       {
          return this.#questsMap[questStatus.active].size + this.#questsMap[questStatus.available].size +
           this.#questsMap[questStatus.completed].size + this.#questsMap[questStatus.failed].size +
-          this.#questsMap[questStatus.inactive].size + this.#questsMap[questStatus.rumor].size;
+          this.#questsMap[questStatus.inactive].size;
       }
 
       return this.#questsMap[status] ? this.#questsMap[status].size : 0;
@@ -898,7 +891,6 @@ export class QuestDB
          for (const value of this.#questsMap[questStatus.completed].values()) { yield value; }
          for (const value of this.#questsMap[questStatus.failed].values()) { yield value; }
          for (const value of this.#questsMap[questStatus.inactive].values()) { yield value; }
-         for (const value of this.#questsMap[questStatus.rumor].values()) { yield value; }
       }
       else if (this.#questsMap[status])
       {
@@ -926,13 +918,76 @@ export class QuestDB
          for (const value of this.#questsMap[questStatus.completed].values()) { yield value.quest; }
          for (const value of this.#questsMap[questStatus.failed].values()) { yield value.quest; }
          for (const value of this.#questsMap[questStatus.inactive].values()) { yield value.quest; }
-         for (const value of this.#questsMap[questStatus.rumor].values()) { yield value.quest; }
       }
       else if (this.#questsMap[status])
       {
          for (const value of this.#questsMap[status].values()) { yield value.quest; }
       }
    }
+
+   /**
+    * Gets the rumors of all the quests. Only for a GM.
+    *
+    * @returns {{uuidv4: string, text: string, heard: boolean, visible: boolean, questId: string,
+    *            questName: string}[]} All rumors.
+    */
+   static getAllRumors()
+   {
+      const result = [];
+
+      for (const quest of QuestDB.getAllQuests())
+      {
+         for (const rumor of quest.rumors ?? [])
+         {
+            result.push({ ...rumor, questId: quest.id, questName: quest.name });
+         }
+      }
+
+      return result;
+   }
+
+   /**
+    * Gets the rumors to display in the rumors tab of the Quest Log. A GM sees all the rumors (the ones hidden to the
+    * players are flagged), the players see the rumors that are marked as visible.
+    *
+    * @returns {{uuidv4: string, text: string, heard: boolean, visible: boolean}[]} The rumors.
+    */
+   static getRumors()
+   {
+      const rumors = game.user.isGM ? this.getAllRumors() :
+       game.settings.get(constants.moduleName, settings.rumors);
+
+      const list = (Array.isArray(rumors) ? rumors : []).filter((r) => r && typeof r.text === 'string' &&
+       (game.user.isGM || r.visible !== false)).map((r) => ({
+         uuidv4: r.uuidv4, text: r.text, heard: r.heard === true, visible: game.user.isGM ? r.visible === true : true,
+         questName: game.user.isGM ? r.questName : void 0
+      }));
+
+      // The rumors are loose: they are not grouped by quest. A stable pseudo random order mixes them.
+      const hash = (id) => { let h = 0; for (const c of String(id)) { h = ((h * 31) + c.charCodeAt(0)) | 0; } return h; };
+
+      return list.sort((a, b) => hash(a.uuidv4) - hash(b.uuidv4));
+   }
+
+   /**
+    * The players can't see the hidden quests, so the GM stores the visible rumors of all the quests in a world setting
+    * (only by the active GM and only when it changed).
+    */
+   static syncRumors = foundry.utils.debounce(async () =>
+   {
+      if (!game.user.isGM || game.users.activeGM !== game.user) { return; }
+
+      const visible = QuestDB.getAllRumors().filter((r) => r.visible).map((r) => ({
+         uuidv4: r.uuidv4, text: r.text, heard: r.heard, visible: true
+      }));
+
+      const current = game.settings.get(constants.moduleName, settings.rumors);
+
+      if (JSON.stringify(current) !== JSON.stringify(visible))
+      {
+         await game.settings.set(constants.moduleName, settings.rumors, visible);
+      }
+   }, 500);
 
    /**
     * Removes all quests from the QuestDB.
@@ -944,7 +999,6 @@ export class QuestDB
       this.#questsMap[questStatus.completed].clear();
       this.#questsMap[questStatus.failed].clear();
       this.#questsMap[questStatus.inactive].clear();
-      this.#questsMap[questStatus.rumor].clear();
 
       this.#questIndex.clear();
 
@@ -953,7 +1007,6 @@ export class QuestDB
       this.#questsCollect[questStatus.completed] = collect();
       this.#questsCollect[questStatus.failed] = collect();
       this.#questsCollect[questStatus.inactive] = collect();
-      this.#questsCollect[questStatus.rumor] = collect();
 
       Hooks.callAll(QuestDB.hooks.removedAllQuestEntries);
    }
@@ -978,13 +1031,11 @@ export class QuestDB
     *
     * @param {Function} [options.sortInactive] - The sort function for inactive quests.
     *
-    * @param {Function} [options.sortRumor] - The sort function for rumors.
-    *
     * @returns {QuestsCollect|Collection<QuestEntry>|void} An object of all QuestEntries sorted by status or individual
     *                                                      status.
     */
    static sortCollect({ status = void 0, sortActive = this.Sort.ALPHA, sortAvailable = this.Sort.ALPHA,
-    sortCompleted = this.Sort.DATE_END, sortFailed = this.Sort.DATE_END, sortInactive = this.Sort.ALPHA, sortRumor = this.Sort.ALPHA } = {})
+    sortCompleted = this.Sort.DATE_END, sortFailed = this.Sort.DATE_END, sortInactive = this.Sort.ALPHA } = {})
    {
       if (typeof status === 'string')
       {
@@ -1000,8 +1051,6 @@ export class QuestDB
                return this.#questsCollect[questStatus.failed].sort(sortFailed);
             case questStatus.inactive:
                return this.#questsCollect[questStatus.inactive].sort(sortInactive);
-            case questStatus.rumor:
-               return this.#questsCollect[questStatus.rumor].sort(sortRumor);
             default:
                console.error(`Forien Quest Log - QuestDB - sortCollect - unknown status: ${status}`);
                return void 0;
@@ -1013,8 +1062,7 @@ export class QuestDB
          available: this.#questsCollect[questStatus.available].sort(sortAvailable),
          completed: this.#questsCollect[questStatus.completed].sort(sortCompleted),
          failed: this.#questsCollect[questStatus.failed].sort(sortFailed),
-         inactive: this.#questsCollect[questStatus.inactive].sort(sortInactive),
-         rumor: this.#questsCollect[questStatus.rumor].sort(sortRumor)
+         inactive: this.#questsCollect[questStatus.inactive].sort(sortInactive)
       };
    }
 
@@ -1211,8 +1259,7 @@ export class QuestDB
          ...this.#questsMap[questStatus.available].values(),
          ...this.#questsMap[questStatus.completed].values(),
          ...this.#questsMap[questStatus.failed].values(),
-         ...this.#questsMap[questStatus.inactive].values(),
-         ...this.#questsMap[questStatus.rumor].values()
+         ...this.#questsMap[questStatus.inactive].values()
       ];
    }
 

@@ -6,6 +6,7 @@
       <a class="item" data-action="tab" data-group="primary" data-tab="history">{{localize 'ForienQuestLog.QuestPreview.Tabs.History'}}</a>
     {{/if}}
     {{#if canEdit}}
+      <a class="item" data-action="tab" data-group="primary" data-tab="rumors">{{localize 'ForienQuestLog.QuestPreview.Tabs.Rumors'}}</a>
       {{#if isGM}}
         <a class="item" data-action="tab" data-group="primary" data-tab="gmnotes">{{localize 'ForienQuestLog.QuestPreview.Tabs.GMNotes'}}</a>
       {{/if}}
@@ -39,6 +40,9 @@
       </div>
     {{/if}}
     {{#if canEdit}}
+      <div class="tab rumors" data-group="primary" data-tab="rumors">
+        {{> "modules/quest-log/templates/partials/quest-preview/rumors.html"}}
+      </div>
       {{#if isGM}}
         <div class="tab gmnotes" data-group="primary" data-tab="gmnotes">
           {{> "modules/quest-log/templates/partials/quest-preview/gmnotes.html"}}

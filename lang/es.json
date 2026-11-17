@@ -209,12 +209,26 @@
         "TaskPending": "{user} devolvió el objetivo \"{task}\" a pendiente.",
         "Title": "Historial de la misión"
       },
+      "Rumors": {
+        "Add": "Añadir rumor",
+        "BecameAvailable": "La misión \"{name}\" ya está disponible.",
+        "DeleteContent": "¿Eliminar este rumor?",
+        "DeleteTitle": "Eliminar rumor",
+        "Empty": "Esta misión no tiene rumores.",
+        "Heard": "Escuchado (clic para marcar como no escuchado)",
+        "Hidden": "Oculto a los jugadores",
+        "Hint": "Los rumores son textos sueltos que los jugadores pueden escuchar. Los rumores visibles se muestran a los jugadores en la pestaña Rumores del Quest Log, sin decir a qué misión pertenecen. Al marcar un rumor como escuchado, una misión inactiva pasa a estar disponible.",
+        "NotHeard": "No escuchado (clic para marcar como escuchado)",
+        "Title": "Rumores",
+        "Visible": "Visible para los jugadores"
+      },
       "Tabs": {
         "Details": "Detalles",
         "GMNotes": "Notas del GM",
         "History": "Historial",
         "PlayerNotes": "Notas del jugador",
-        "QuestManagement": "Administrar Misión"
+        "QuestManagement": "Administrar Misión",
+        "Rumors": "Rumores"
       },
       "Title": "Detalles de la misión - {name}",
       "Tooltips": {
@@ -310,7 +324,6 @@
         "InActive": "Inactivas",
         "inactive": "inactiva",
         "Rumor": "Rumores",
-        "rumor": "un rumor",
         "Status": "La Misión está {statusLabel}."
       },
       "Tooltips": {
@@ -320,9 +333,13 @@
         "SetCompleted": "Establecer como Completada",
         "SetFailed": "Establecer como Fallida",
         "SetInactive": "Establecer como Inactiva",
-        "SetRumor": "Establecer como Rumor",
         "Status": "Estado: {statusI18n}"
       }
+    },
+    "Rumors": {
+      "Empty": "No hay rumores.",
+      "HiddenTooltip": "Oculto a los jugadores",
+      "QuestTooltip": "Misión del rumor (solo la ve el GM)"
     },
     "Settings": {
       "allowPlayersAccept": {

@@ -616,6 +616,19 @@ export class Quest
        data.history.filter((e) => e && typeof e === 'object').slice(-Quest.MAX_HISTORY) : [];
 
       /**
+       * Rumors (#82): loose texts about the quest that the characters can hear. `heard` marks a rumor as heard
+       * (completed) and `visible` makes it visible to the players in the rumors tab of the Quest Log.
+       *
+       * @type {{uuidv4: string, text: string, heard: boolean, visible: boolean}[]}
+       */
+      this.rumors = Array.isArray(data.rumors) ? data.rumors.filter((r) => r && typeof r.text === 'string').map((r) => ({
+         uuidv4: typeof r.uuidv4 === 'string' && r.uuidv4 ? r.uuidv4 : foundry.utils.randomID(),
+         text: r.text,
+         heard: r.heard === true,
+         visible: r.visible === true
+      })) : [];
+
+      /**
        * The characters (and users) that accepted the quest (#138): `{ actorId, actorName, userId, userName, t }`.
        * Cleared when the quest goes back to available / inactive. See {@link Quest.addAccepted}.
        *
@@ -685,7 +698,6 @@ export class Quest
 
             case questStatus.inactive:
             case questStatus.available:
-            case questStatus.rumor:
             default:
                this.date.start = null;
                this.date.end = null;
@@ -869,7 +881,6 @@ export class Quest
 
          case questStatus.inactive:
          case questStatus.available:
-         case questStatus.rumor:
          default:
             this.date.start = null;
             this.date.end = null;
@@ -973,6 +984,67 @@ export class Quest
    hasAccepted({ actorId = '', userId = '' } = {})
    {
       return this.accepted.some((a) => (actorId ? a.actorId === actorId : (a.actorId === '' && a.userId === userId)));
+   }
+
+   /**
+    * Adds a rumor (hidden for the players and not heard). The quest must be saved afterward.
+    *
+    * @param {string}   text - Text of the rumor.
+    *
+    * @returns {object|null} The new rumor or null when the text is empty.
+    */
+   addRumor(text)
+   {
+      const value = String(text ?? '').trim();
+      if (!value) { return null; }
+
+      const rumor = { uuidv4: foundry.utils.randomID(), text: value, heard: false, visible: false };
+      this.rumors.push(rumor);
+      return rumor;
+   }
+
+   /**
+    * @param {string}   uuidv4 - The ID of a rumor.
+    *
+    * @returns {object|undefined} The rumor.
+    */
+   getRumor(uuidv4)
+   {
+      return this.rumors.find((r) => r.uuidv4 === uuidv4);
+   }
+
+   /**
+    * Removes a rumor. The quest must be saved afterward.
+    *
+    * @param {string}   uuidv4 - The ID of a rumor.
+    */
+   removeRumor(uuidv4)
+   {
+      this.rumors = this.rumors.filter((r) => r.uuidv4 !== uuidv4);
+   }
+
+   /**
+    * Marks a rumor as heard or not heard. When a rumor is heard and the quest is inactive it becomes available.
+    * The quest must be saved afterward.
+    *
+    * @param {string}   uuidv4 - The ID of a rumor.
+    *
+    * @returns {Promise<boolean>} True when the status of the quest changed.
+    */
+   async toggleRumorHeard(uuidv4)
+   {
+      const rumor = this.getRumor(uuidv4);
+      if (!rumor) { return false; }
+
+      rumor.heard = !rumor.heard;
+
+      if (rumor.heard && this.status === questStatus.inactive)
+      {
+         await this.setStatus(questStatus.available);
+         return true;
+      }
+
+      return false;
    }
 
    /**
@@ -1112,6 +1184,7 @@ export class Quest
          subquests: this.subquests,
          order: this.order,
          history: this.history,
+         rumors: this.rumors,
          accepted: this.accepted,
          deadline: this.deadline,
          creator: this.creator,
@@ -1434,6 +1507,8 @@ export class Task
  * @property {string[]}          subquests - An array of quest IDs that are subquests.
  * @property {string[]}          [order] - Display order of objectives: task UUIDv4s and subquest IDs.
  * @property {object[]}          [history] - Activity log entries (`t`, `user`, `type` and details).
+ *
+ * @property {object[]}          [rumors] - Rumors of the quest: `uuidv4`, `text`, `heard` and `visible`.
  * @property {object|null}       [creator] - Who created the quest (`id`, `name`, `gm`).
  * @property {boolean}           [allowPlayerEdit] - Owners can edit a quest created by a GM.
  *
