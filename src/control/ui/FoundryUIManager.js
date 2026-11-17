@@ -216,9 +216,16 @@ export class FoundryUIManager
     *
     * @param {object}   position - The complete position with top, left, width, height keys.
     *
+    * @param {object}   [opts] - Optional parameters.
+    *
+    * @param {boolean}  [opts.resizeWidth=false] - The width is increasing; kept out of `position` as it may not be
+    *        extensible.
+    *
+    * @param {boolean}  [opts.resizeHeight=false] - The height is increasing.
+    *
     * @returns {boolean} True if the new position is within the sidebar pinned rectangle.
     */
-   static checkPosition(position)
+   static checkPosition(position, { resizeWidth = false, resizeHeight = false } = {})
    {
       const controlsData = FoundryUIManager.#uiState.controls;
       const boundaries = FoundryUIManager.#uiState.boundaries;
@@ -230,7 +237,7 @@ export class FoundryUIManager
        position.left + tracker.position.width > boundaries.right)
       {
          // This is a resize width change, so limit the new position width to the sidebar left side.
-         if (position.resizeWidth)
+         if (resizeWidth)
          {
             position.width = boundaries.right - FoundryUIManager.#bufferSpaceX - position.left;
          }
@@ -244,7 +251,7 @@ export class FoundryUIManager
       if (!tracker.pinned && boundaries.bottom >= 0 &&
        position.top + position.height > boundaries.bottom + FoundryUIManager.#bufferSpaceY)
       {
-         if (position.resizeHeight)
+         if (resizeHeight)
          {
             position.height = boundaries.bottom - FoundryUIManager.#bufferSpaceY - position.top;
             tracker.position.height = position.height;
@@ -271,8 +278,8 @@ export class FoundryUIManager
       // If pinned always make sure the position top is the sidebar top.
       if (tracker.pinned)
       {
-         position.top = boundaries.top;
-         position.left = boundaries.right - position.width - FoundryUIManager.#bufferSpaceX;
+         position.top = Math.max(boundaries.top, 0);
+         position.left = Math.max(boundaries.right - position.width - FoundryUIManager.#bufferSpaceX, 0);
       }
 
       return boundaries.rectDock.contains(position.left + position.width, position.top);
@@ -336,8 +343,8 @@ export class FoundryUIManager
       // If the tracker is pinned set the top / left based on the sidebar.
       if (tracker.pinned)
       {
-         position.top = boundaries.top;
-         position.left = boundaries.right - tracker.position.width - FoundryUIManager.#bufferSpaceX;
+         position.top = Math.max(boundaries.top, 0);
+         position.left = Math.max(boundaries.right - tracker.position.width - FoundryUIManager.#bufferSpaceX, 0);
       }
       else // Make sure the tracker isn't overlapping the sidebar or hotbar.
       {
@@ -485,7 +492,8 @@ export class FoundryUIManager
       const hotbarElem = ui?.hotbar?.element;
       const hotbarRect = hotbarElem?.getBoundingClientRect();
 
-      if (hotbarRect)
+      // A hotbar that is hidden / has no size (Foundry v14 can hide it) must not constrain the tracker.
+      if (hotbarRect && hotbarRect.width > 0 && hotbarRect.height > 0)
       {
          // Store gapX / gapY calculating including any ::before elements if it has not already been set.
          // This is only calculated one time on startup.
@@ -519,6 +527,7 @@ export class FoundryUIManager
 
          FoundryUIManager.#uiState.boundaries.bottom = hotbarRect.top;
       }
+      else { FoundryUIManager.#uiState.boundaries.bottom = -1; }
 
       const controlsElem = ui?.controls?.element;
       const controlsRect = controlsElem?.getBoundingClientRect();

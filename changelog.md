@@ -1,5 +1,10 @@
 # Changelog
 
+## Release 0.9.11
+- Fixed the Quest Tracker failing to position itself when opened (`Cannot add property resizeWidth, object is not extensible`): the resize state is no longer stored in the position object, which is not extensible in Foundry v14. This left the tracker stuck in the top left corner without being able to move it.
+- A hidden hotbar (zero size) no longer limits the Quest Tracker position to the top of the screen.
+- The pinned position of the Quest Tracker can no longer end up with a negative position.
+
 ## Release 0.9.10
 - Removed the remaining jQuery usage (technical debt). All event handling now uses native DOM events: delegated listeners (`Utils.on`), `data-*` reading (`Utils.data`) and a native single / double click helper (`Utils.createDblClick`), replacing `Utils.createJQueryDblClick`.
 - Inline editing fields (quest name, quest giver name, objectives, rewards) are created with the DOM API; this also fixes names containing quotes being cut when editing.

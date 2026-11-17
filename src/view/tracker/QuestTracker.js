@@ -454,12 +454,13 @@ export class QuestTracker extends HandlebarsApplicationMixin(ApplicationV2)
 
          if (Number.isFinite(position.width) && Number.isFinite(position.height))
          {
-            position.resizeWidth = this.#lastSize.width < position.width;
-            position.resizeHeight = this.#lastSize.height < position.height;
+            // The position object may not be extensible, so the resize state is not stored in it.
+            const resizeWidth = this.#lastSize.width < position.width;
+            const resizeHeight = this.#lastSize.height < position.height;
 
             // Mutates `position` to set the maximum left position / pin the position.
             const currentInPinDropRect = this._inPinDropRect;
-            this._inPinDropRect = FoundryUIManager.checkPosition(position);
+            this._inPinDropRect = FoundryUIManager.checkPosition(position, { resizeWidth, resizeHeight });
 
             // Set the jiggle animation if the position movement is coming from dragging the header and the pin drop
             // state has changed.
@@ -470,7 +471,7 @@ export class QuestTracker extends HandlebarsApplicationMixin(ApplicationV2)
          }
       }
 
-      position.zIndex = QuestTracker.#Z_INDEX;
+      if ('zIndex' in position || Object.isExtensible(position)) { position.zIndex = QuestTracker.#Z_INDEX; }
 
       const resolved = super._updatePosition(position);
 
