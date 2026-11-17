@@ -186,8 +186,6 @@
             </div>
             {{#if (or ../canEdit ../playerEdit)}}
             <div class="actions tasks has-menu {{#unless ../canEdit}}is-player{{/unless}}">
-              <i class="fas fa-sort" draggable="true"></i>
-              <span class="spacer"></span>
               <span class="actions-menu"><i class="menu-toggle fas fa-ellipsis-vertical" title="{{localize 'ForienQuestLog.Tooltips.Actions'}}"></i><span class="menu-items">
               {{#if ../canEdit}}
                 <i class="{{#if optional}}fas{{else}}far{{/if}} fa-star toggleOptional" data-uuidv4="{{uuidv4}}" title="{{#if optional}}{{localize 'ForienQuestLog.QuestPreview.Tooltips.TaskOptional'}}{{else}}{{localize 'ForienQuestLog.QuestPreview.Tooltips.TaskRequired'}}{{/if}}"></i>
@@ -200,6 +198,7 @@
               <i class="editable fas fa-pen" data-target="task.name" data-uuidv4="{{uuidv4}}" title="{{localize 'ForienQuestLog.Tooltips.Edit'}}"></i>
               <i class="delete fas fa-trash" data-target="tasks" data-task-name="{{name}}" data-uuidv4="{{uuidv4}}" title="{{localize 'ForienQuestLog.Tooltips.Delete'}}"></i>
               </span></span>
+              <i class="fas fa-sort" draggable="true"></i>
               <span class="justify-center"></span>
             </div>
             {{/if}}
@@ -251,8 +250,6 @@
               <span class="spacer"></span>
             {{/if}}
             {{#if ../canEdit}}
-              <i class="sort fas fa-sort" draggable="true"></i>
-              <span class="spacer"></span>
               <span class="actions-menu"><i class="menu-toggle fas fa-ellipsis-vertical" title="{{localize 'ForienQuestLog.Tooltips.Actions'}}"></i><span class="menu-items">
                 <i class="setChoice fas fa-code-branch {{#unless choice}}no-choice{{/unless}}" data-uuidv4="{{uuidv4}}" title="{{localize 'ForienQuestLog.QuestPreview.Tooltips.RewardSetChoice'}}"></i>
                 {{#if hidden}}
@@ -272,6 +269,7 @@
                 {{/if}}
                 <i class="delete fas fa-trash" data-target="rewards" data-reward-name="{{name}}" data-uuidv4="{{uuidv4}}" title="{{localize 'ForienQuestLog.Tooltips.Delete'}}"></i>
               </span></span>
+              <i class="sort fas fa-sort" draggable="true"></i>
               <span class="justify-center"></span>
             {{else}}
               {{#if locked}}

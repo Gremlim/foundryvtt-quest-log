@@ -123,8 +123,8 @@ export class Enrich
             addedAction = true;
          }
 
-         // Two or more actions are grouped in the 3 dots menu, see ActionMenu.
-         const menu = (items.match(/<i /g) ?? []).length > 1;
+         // The actions are always grouped in the 3 dots menu (even a single one) to keep the same look, see ActionMenu.
+         const menu = items.length > 0;
 
          result += `<div class="actions quest-status${!isTrustedPlayerEdit && !canEdit ? ' is-player' : ''}` +
           `${menu ? ' has-menu' : ''}">`;

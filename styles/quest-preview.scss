@@ -628,8 +628,19 @@
           }
 
           // Room for the take all / take amount icons of currency rewards.
+          // Rewards have no divider lines around the buttons; same spacing as the objectives.
+          .actions.rewards {
+            border-left: none;
+          }
+
           .actions.rewards.has-menu {
             flex: 0 0 auto;
+
+            i.fa-sort {
+              margin-left: 0;
+              padding-left: 0;
+              border-left: none;
+            }
           }
 
           .actions.rewards.has-take:not(.has-menu) {

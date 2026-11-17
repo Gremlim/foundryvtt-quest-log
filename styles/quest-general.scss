@@ -300,6 +300,16 @@
     gap: 2px;
     padding: 0 6px;
 
+    // The sort handle is after the menu: the divider is on its left.
+    i.fa-sort {
+      flex: 0 0 auto;
+      width: 13px;
+      padding-left: 5px;
+      margin-left: 2px;
+      border-right: none;
+      border-left: 1px solid $primary-color-line;
+    }
+
     .actions-menu {
       display: flex;
       align-items: center;
