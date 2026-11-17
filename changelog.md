@@ -1,5 +1,9 @@
 # Changelog
 
+## Release 0.9.6
+- Fixed untranslated labels (`ForienQuestLog.QuestPreview.Labels.ShowSplash` / `CopyLink`) in the quest window menu; they now reuse existing translated strings.
+- "Show to players" is available both as a header button and in the Quest Log window menu (three dots).
+
 ## Release 0.9.5
 - Fixed the Quest Log bookmark tabs being transparent: the dynamic bookmark background copied the (transparent) window content style; it now reads the window frame and falls back to the parchment image with an opaque color and dark text.
 

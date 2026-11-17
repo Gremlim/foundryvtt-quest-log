@@ -203,14 +203,14 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
       {
          controls.unshift({
             icon: 'fa-regular fa-image',
-            label: 'ForienQuestLog.QuestPreview.Labels.ShowSplash',
+            label: 'ForienQuestLog.QuestPreview.Tooltips.ViewSplashArt',
             action: 'showSplash'
          });
       }
 
       controls.unshift({
          icon: 'fa-solid fa-link',
-         label: 'ForienQuestLog.QuestPreview.Labels.CopyLink',
+         label: 'ForienQuestLog.QuestLog.ContextMenu.CopyEntityLink',
          action: 'copyLink'
       });
 

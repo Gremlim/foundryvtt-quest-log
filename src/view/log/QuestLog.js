@@ -44,7 +44,15 @@ export class QuestLog extends HandlebarsApplicationMixin(ApplicationV2)
          title: 'ForienQuestLog.QuestLog.Title',
          icon: 'fa-solid fa-scroll',
          minimizable: true,
-         resizable: true
+         resizable: true,
+         controls: [
+            {
+               icon: 'fa-solid fa-eye',
+               label: 'ForienQuestLog.Labels.AppHeader.ShowPlayers',
+               action: 'showPlayers',
+               visible: () => game.user.isGM
+            }
+         ]
       },
       actions: {
          showPlayers: QuestLog.#onShowPlayers
@@ -81,7 +89,8 @@ export class QuestLog extends HandlebarsApplicationMixin(ApplicationV2)
    }
 
    /**
-    * Adds the GM only "show to players" button to the window header (before the close / controls buttons).
+    * Adds the GM only "show to players" button to the window header (before the close / controls buttons). The same
+    * action is also available in the window controls (three dots) menu.
     *
     * @inheritDoc
     */
