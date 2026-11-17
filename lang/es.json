@@ -396,6 +396,7 @@
       }
     },
     "Tooltips": {
+      "Actions": "Acciones",
       "Delete": "Eliminar",
       "Edit": "Editar",
       "HiddenQuestNoPlayers": "Esta misión está oculta a todos los jugadores.",

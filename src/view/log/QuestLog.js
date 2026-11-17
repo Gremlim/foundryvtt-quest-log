@@ -4,6 +4,7 @@ import {
    Utils }              from '../../control/index.js';
 
 import {
+   ActionMenu,
    FQLContextMenu,
    FQLDialog }          from '../internal/index.js';
 
@@ -101,6 +102,9 @@ export class QuestLog extends HandlebarsApplicationMixin(ApplicationV2)
 
       const html = this.element;
 
+      // The 3 dots menu of the quest actions.
+      ActionMenu.bind(html);
+
       Utils.on(html, domEvents.click, '.new-quest-btn', HandlerLog.questAdd);
 
       Utils.on(html, domEvents.click, '.actions.quest-status i.delete', HandlerLog.questDelete);
@@ -142,6 +146,8 @@ export class QuestLog extends HandlebarsApplicationMixin(ApplicationV2)
    async _onRender(context, options)
    {
       await super._onRender(context, options);
+
+      ActionMenu.close();
 
       // Determine the tab to show. Only GMs or trusted players w/ edit may view the inactive tab.
       const canViewInactive = game.user.isGM || Utils.isTrustedPlayerEdit();
@@ -186,6 +192,7 @@ export class QuestLog extends HandlebarsApplicationMixin(ApplicationV2)
     */
    async close(options)
    {
+      ActionMenu.close();
       FQLDialog.closeDialogs({ isQuestLog: true });
       return super.close(options);
    }

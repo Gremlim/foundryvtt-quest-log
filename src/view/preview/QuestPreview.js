@@ -4,7 +4,9 @@ import {
    Socket,
    Utils }                    from '../../control/index.js';
 
-import { FQLDialog }          from '../internal/index.js';
+import {
+   ActionMenu,
+   FQLDialog }             from '../internal/index.js';
 
 import { HandlerAny }         from './HandlerAny.js';
 import { HandlerDetails }     from './HandlerDetails.js';
@@ -266,6 +268,9 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
 
       on(domEvents.click, '.quest-name-link', (event) => HandlerAny.questOpen(event));
 
+      // The 3 dots menu of the quest / objective / reward actions.
+      ActionMenu.bind(html);
+
       // This registers for any element and prevents the circle / slash icon displaying for not being a drag target.
       html.addEventListener(domEvents.dragenter, (event) => event.preventDefault());
 
@@ -442,6 +447,8 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
    {
       await super._onRender(context, options);
 
+      ActionMenu.close();
+
       // Show the stored tab if it exists otherwise the details tab.
       let tab = this.tabGroups.primary ?? 'details';
       if (!this.element.querySelector(`.tab[data-tab="${tab}"]`)) { tab = 'details'; }
@@ -464,6 +471,7 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
     */
    async close({ noSave = false, ...options } = {})
    {
+      ActionMenu.close();
       FQLDialog.closeDialogs({ questId: this.#quest.id });
 
       if (this._ownershipControl)

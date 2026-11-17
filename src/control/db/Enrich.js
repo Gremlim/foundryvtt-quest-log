@@ -42,6 +42,7 @@ export class Enrich
    static statusActions(quest)
    {
       let result = '';
+      let items = '';
 
       const isTrustedPlayerEdit = Utils.isTrustedPlayerEdit();
       const canAccept = game.settings.get(constants.moduleName, settings.allowPlayersAccept);
@@ -49,16 +50,14 @@ export class Enrich
 
       let addedAction = false;
 
-      result += `<div class="actions quest-status${!isTrustedPlayerEdit && !canEdit ? ' is-player' : ''}">`;
-
       if (canEdit || canAccept)
       {
          if (canEdit && questStatus.active === quest.status)
          {
-            result += `<i class="move fas fa-check-circle" title="${game.i18n.localize(
+            items += `<i class="move fas fa-check-circle" title="${game.i18n.localize(
              'ForienQuestLog.QuestTypes.Tooltips.SetCompleted')}" data-target="completed" data-quest-id="${quest.id}"></i>\n`;
 
-            result += `<i class="move fas fa-times-circle" title="${game.i18n.localize(
+            items += `<i class="move fas fa-times-circle" title="${game.i18n.localize(
              'ForienQuestLog.QuestTypes.Tooltips.SetFailed')}" data-target="failed" data-quest-id="${quest.id}"></i>\n`;
 
             addedAction = true;
@@ -67,7 +66,7 @@ export class Enrich
          // If the quest status is completed add a failed button to be able to move it directly to failed.
          if (canEdit && questStatus.completed === quest.status)
          {
-            result += `<i class="move fas fa-times-circle" title="${game.i18n.localize(
+            items += `<i class="move fas fa-times-circle" title="${game.i18n.localize(
              'ForienQuestLog.QuestTypes.Tooltips.SetFailed')}" data-target="failed" data-quest-id="${quest.id}"></i>\n`;
 
             addedAction = true;
@@ -76,7 +75,7 @@ export class Enrich
          // If the quest status is failed add a completed button to be able to move it directly to completed.
          if (canEdit && questStatus.failed === quest.status)
          {
-            result += `<i class="move fas fa-check-circle" title="${game.i18n.localize(
+            items += `<i class="move fas fa-check-circle" title="${game.i18n.localize(
              'ForienQuestLog.QuestTypes.Tooltips.SetCompleted')}" data-target="completed" data-quest-id="${quest.id}"></i>\n`;
 
             addedAction = true;
@@ -86,7 +85,7 @@ export class Enrich
          if (!canEdit && canAccept && questStatus.active === quest.status && !game.user.isGM &&
           !quest.hasAccepted({ actorId: game.user.character?.id ?? '', userId: game.user.id }))
          {
-            result += `<i class="move join fas fa-user-plus" title="${game.i18n.localize(
+            items += `<i class="move join fas fa-user-plus" title="${game.i18n.localize(
              'ForienQuestLog.QuestTypes.Tooltips.Join')}" data-target="active" data-quest-id="${quest.id}"></i>\n`;
 
             addedAction = true;
@@ -94,7 +93,7 @@ export class Enrich
 
          if ((canEdit && questStatus.inactive === quest.status) || questStatus.available === quest.status)
          {
-            result += `<i class="move fas fa-play" title="${game.i18n.localize(
+            items += `<i class="move fas fa-play" title="${game.i18n.localize(
              'ForienQuestLog.QuestTypes.Tooltips.SetActive')}" data-target="active" data-quest-id="${quest.id}"></i>\n`;
 
             addedAction = true;
@@ -102,7 +101,7 @@ export class Enrich
 
          if (canEdit && questStatus.inactive !== quest.status)
          {
-            result += `<i class="move fas fa-stop-circle" title="${game.i18n.localize(
+            items += `<i class="move fas fa-stop-circle" title="${game.i18n.localize(
              'ForienQuestLog.QuestTypes.Tooltips.SetInactive')}" data-target="inactive" data-quest-id="${quest.id}"></i>\n`;
 
             addedAction = true;
@@ -110,7 +109,7 @@ export class Enrich
 
          if ((canEdit && questStatus.inactive === quest.status) || questStatus.active === quest.status)
          {
-            result += `<i class="move fas fa-clipboard" title="${game.i18n.localize(
+            items += `<i class="move fas fa-clipboard" title="${game.i18n.localize(
              'ForienQuestLog.QuestTypes.Tooltips.SetAvailable')}" data-target="available" data-quest-id="${quest.id}"></i>\n`;
 
             addedAction = true;
@@ -118,11 +117,21 @@ export class Enrich
 
          if (canEdit)
          {
-            result += `<i class="delete fas fa-trash" title="${game.i18n.localize(
+            items += `<i class="delete fas fa-trash" title="${game.i18n.localize(
              'ForienQuestLog.Tooltips.Delete')}" data-quest-id="${quest.id}" data-quest-name="${quest.name}"></i>\n`;
 
             addedAction = true;
          }
+
+         // Two or more actions are grouped in the 3 dots menu, see ActionMenu.
+         const menu = (items.match(/<i /g) ?? []).length > 1;
+
+         result += `<div class="actions quest-status${!isTrustedPlayerEdit && !canEdit ? ' is-player' : ''}` +
+          `${menu ? ' has-menu' : ''}">`;
+
+         result += menu ? `<span class="actions-menu"><i class="menu-toggle fas fa-ellipsis-vertical" title="${
+          game.i18n.localize('ForienQuestLog.Tooltips.Actions')}"></i><span class="menu-items">${items}</span></span>` :
+          items;
 
          result += `</div>\n`;
       }

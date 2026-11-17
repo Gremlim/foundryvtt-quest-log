@@ -1,5 +1,8 @@
 # Changelog
 
+## Release 0.20.0
+- The action icons of the quests, objectives and rewards are now grouped in a 3 dots menu (a dropdown) instead of being shown in a row: the status buttons (complete, fail, set inactive, available, accept / join, delete) in the Quest Log list, in the Details tab and in the subquest lists of the Manage tab, the objective buttons (optional, visible / hidden, edit, delete) and the reward buttons for the GM (choice group, visible / hidden, lock, edit / quantity, delete). The entries show the same icon and text as the original buttons, so the state (visible / hidden, locked / unlocked, optional / required) is still shown, the delete entries are in red, and the menu closes with `Esc`, clicking outside or choosing an entry. The sort handles, the take buttons of the rewards, the lock indicator of the players and the single edit pencils are unchanged, and when there is only one action available (for example a player accepting a quest) the icon is shown directly.
+
 ## Release 0.19.2
 - #56 Entity links in the objectives. A document (actor, item, journal entry or page, scene, roll table, macro, compendium entry, etc.) can be dragged from the sidebar, a compendium or a sheet onto the objectives of the Details tab: dropped on an objective that is being edited it is inserted as a link at the cursor, dropped on any other objective it is appended to the name of the objective, and dropped on the empty area of the objectives list it creates a new objective with the link. This also works when the edit field of the objective has already closed because the drag was started outside of the window. The maximum length of an objective being edited has been raised (96 to 512) to fit the links.
 

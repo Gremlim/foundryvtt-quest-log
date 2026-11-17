@@ -628,7 +628,11 @@
           }
 
           // Room for the take all / take amount icons of currency rewards.
-          .actions.rewards.has-take {
+          .actions.rewards.has-menu {
+            flex: 0 0 auto;
+          }
+
+          .actions.rewards.has-take:not(.has-menu) {
             flex: 0 0 154px;
 
             &.is-player {
