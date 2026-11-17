@@ -1,3 +1,5 @@
+import { Socket }  from '../../control/index.js';
+
 /**
  * Provides all DOM event callbacks for the `rumors` tab of the quest (#82).
  */
@@ -118,8 +120,53 @@ export class HandlerRumors
 
       await questPreview.saveQuest();
 
-      if (statusChanged) { ui.notifications.info(game.i18n.format('ForienQuestLog.QuestPreview.Rumors.BecameAvailable',
-       { name: quest.name })); }
+      if (statusChanged)
+      {
+         ui.notifications.info(game.i18n.format('ForienQuestLog.QuestPreview.Rumors.BecameAvailable',
+          { name: quest.name }));
+
+         // The players are told that there is a new quest (only when they can see it).
+         if (!quest.isHidden) { Socket.questUnlocked(); }
+      }
+   }
+
+   /**
+    * Marks a rumor as optional (it doesn't count to unlock the quest) or required.
+    *
+    * @param {Event}          event - The click event.
+    *
+    * @param {Quest}          quest - The quest.
+    *
+    * @param {QuestPreview}   questPreview - The QuestPreview.
+    *
+    * @returns {Promise<void>}
+    */
+   static async toggleOptional(event, quest, questPreview)
+   {
+      const rumor = quest.getRumor(event.currentTarget.dataset.rumorId);
+      if (!rumor) { return; }
+
+      rumor.optional = !rumor.optional;
+      await questPreview.saveQuest();
+   }
+
+   /**
+    * Sets the number of rumors that must be heard to unlock the quest (0 = all the rumors that are not optional).
+    *
+    * @param {Event}          event - The change event.
+    *
+    * @param {Quest}          quest - The quest.
+    *
+    * @param {QuestPreview}   questPreview - The QuestPreview.
+    *
+    * @returns {Promise<void>}
+    */
+   static async setRequired(event, quest, questPreview)
+   {
+      const value = Math.floor(Number(event.currentTarget.value));
+
+      quest.rumorsRequired = Number.isFinite(value) && value > 0 ? value : 0;
+      await questPreview.saveQuest();
    }
 
    /**

@@ -148,6 +148,9 @@ export class QuestLog extends HandlebarsApplicationMixin(ApplicationV2)
          {
             ui.notifications.info(game.i18n.format('ForienQuestLog.QuestPreview.Rumors.BecameAvailable',
              { name: quest.name }));
+
+            // The players are told that there is a new quest (only when they can see it).
+            if (!quest.isHidden) { Socket.questUnlocked(); }
          }
       });
 

@@ -515,6 +515,10 @@ export class Enrich
 
       // The rumors of the quest (#82); managed in the rumors tab by those who can edit the quest.
       data.data_rumors = quest.rumors.map((r) => ({ ...r }));
+      data.rumorsRequired = quest.rumorsRequired;
+      data.rumorProgress = quest.getRumorProgress();
+      data.rumorProgressLabel = game.i18n.format('ForienQuestLog.QuestPreview.Rumors.Counter',
+       { heard: data.rumorProgress.heard, total: data.rumorProgress.needed });
 
       // Subquests and tasks in the display order of the quest so that they can be intermixed.
       const subquestById = new Map(data.data_subquest.map((s) => [s.id, s]));

@@ -1,5 +1,8 @@
 # Changelog
 
+## Release 0.23.0
+- Rumors: when a quest becomes available because enough rumors were heard, the players get a basic Foundry notification ("A new quest is available."; only when the quest is not hidden from them). Rumors can be marked as optional (star icon in their 3 dots menu, shown as "(optional)"): they don't count to unlock the quest. The Rumors tab of the quest has a new field with the number of rumors that must be heard to unlock the quest (0 = all the rumors that are not optional) and a counter of the heard rumors. An inactive quest becomes available as soon as that number of required rumors is heard.
+
 ## Release 0.22.1
 - Objectives list: the space between the 3 dots menu and the sort arrows is now the same for subquests and normal objectives (the menu of a subquest had a minimum width that added extra space).
 - Rumors tab of the Quest Log: the GM can mark a rumor as heard / not heard directly in the list by clicking its ear icon (an inactive quest becomes available, as in the quest's Rumors tab).

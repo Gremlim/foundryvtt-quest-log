@@ -80,6 +80,7 @@
       "QuestPrimary": "'{name}' es la nueva misión principal.",
       "QuestDuplicated": "Misión duplicada: {name}",
       "QuestTrackerNoActive": "Seguimiento de Misiones está habilitado, pero no hay misiones en curso actualmente.",
+      "QuestUnlocked": "Hay una nueva misión disponible.",
       "UserCantOpen": "El usuario '{user}' no tiene permisos para abrir esta misión."
     },
     "QuestLog": {
@@ -218,6 +219,12 @@
         "Heard": "Escuchado (clic para marcar como no escuchado)",
         "Hidden": "Oculto a los jugadores",
         "Hint": "Los rumores son textos sueltos que los jugadores pueden escuchar. Los rumores visibles se muestran a los jugadores en la pestaña Rumores del Quest Log, sin decir a qué misión pertenecen. Al marcar un rumor como escuchado, una misión inactiva pasa a estar disponible.",
+        "Counter": "{heard} de {total} rumores necesarios escuchados",
+        "MakeOptional": "Rumor opcional: no cuenta para desbloquear la misión",
+        "MakeRequired": "Rumor necesario: cuenta para desbloquear la misión",
+        "OptionalLabel": "opcional",
+        "Required": "Rumores necesarios para desbloquear la misión",
+        "RequiredHint": "0 = todos los rumores que no sean opcionales. La misión pasa a estar disponible cuando se escuchan tantos rumores.",
         "NotHeard": "No escuchado (clic para marcar como escuchado)",
         "Title": "Rumores",
         "Visible": "Visible para los jugadores"

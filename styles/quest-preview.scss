@@ -805,6 +805,30 @@
           opacity: .7;
         }
 
+        .rumors-required {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          margin: 0 4px 8px 0;
+
+          input {
+            flex: 0 0 60px;
+            width: 60px;
+          }
+
+          .rumors-progress {
+            margin-left: auto;
+            font-size: 12px;
+            opacity: .7;
+          }
+        }
+
+        .rumor-optional-label {
+          font-style: italic;
+          opacity: .7;
+          font-size: .9em;
+        }
+
         .rumors-empty {
           opacity: .6;
           margin: 8px 4px;

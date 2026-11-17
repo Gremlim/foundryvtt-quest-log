@@ -418,6 +418,12 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
       on(domEvents.click, '.quest-rumors .rumor-visible', async (event) =>
        await HandlerRumors.toggleVisible(event, this.#quest, this), edit);
 
+      on(domEvents.click, '.quest-rumors .rumor-optional', async (event) =>
+       await HandlerRumors.toggleOptional(event, this.#quest, this), edit);
+
+      on(domEvents.change, '.quest-rumors .rumor-required', async (event) =>
+       await HandlerRumors.setRequired(event, this.#quest, this), edit);
+
       on(domEvents.click, '.quest-rumors .rumor-edit', async (event) =>
        await HandlerRumors.edit(event, this.#quest, this), edit);
 

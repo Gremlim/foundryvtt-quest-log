@@ -52,6 +52,7 @@ export class Socket
       savePlayerNotes: 'savePlayerNotes',
       showQuestLog: 'showQuestLog',
       showQuestPreview: 'showQuestPreview',
+      questUnlocked: 'questUnlocked',
       showQuestTracker: 'showQuestTracker',
       userCantOpenQuest: 'userCantOpenQuest'
    };
@@ -412,6 +413,19 @@ export class Socket
    }
 
    /**
+    * Tells the players that a new quest is available because enough rumors were heard (#82). Shows a basic Foundry
+    * notification to the players (not to the GM).
+    *
+    * Handled on the receiving side by `#handleQuestUnlocked`.
+    */
+   static questUnlocked()
+   {
+      game.socket.emit(this.#eventName, {
+         type: this.#messageTypes.questUnlocked
+      });
+   }
+
+   /**
     * A message emitted for GM users when a player can't open a particular quest in {@link QuestAPI.open}. This is
     * particularly useful if a GM tries to show a quest that the user doesn't have access to via the `show to players`
     * header button in {@link QuestPreview._getHeaderButtons}.
@@ -448,6 +462,7 @@ export class Socket
             case this.#messageTypes.questRewardDrop: await this.#handleQuestRewardDrop(data); break;
             case this.#messageTypes.questSetPrimary: await this.#handleQuestSetPrimary(data); break;
             case this.#messageTypes.questSetStatus: await this.#handleQuestSetStatus(data); break;
+            case this.#messageTypes.questUnlocked: this.#handleQuestUnlocked(); break;
             case this.#messageTypes.refreshAll: this.#handleRefreshAll(data); break;
             case this.#messageTypes.refreshQuestPreview: this.#handleRefreshQuestPreview(data); break;
             case this.#messageTypes.savePlayerNotes: await this.#handleSavePlayerNotes(data); break;
@@ -786,6 +801,16 @@ export class Socket
    static #handleShowQuestPreview(data)
    {
       QuestAPI.open({ questId: data.payload.questId, notify: false });
+   }
+
+   /**
+    * Shows a basic Foundry notification to the players: a new quest is available.
+    *
+    * This message is sent from {@link Socket.questUnlocked}.
+    */
+   static #handleQuestUnlocked()
+   {
+      if (!game.user.isGM) { ui.notifications.info(game.i18n.localize('ForienQuestLog.Notifications.QuestUnlocked')); }
    }
 
    /**

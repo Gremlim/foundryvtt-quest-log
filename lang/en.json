@@ -94,6 +94,7 @@
       "QuestPrimary": "'{name}' is the new primary quest.",
       "QuestDuplicated": "Quest duplicated: {name}",
       "QuestTrackerNoActive": "Quest Tracker is enabled, but there are currently no in progress quests.",
+      "QuestUnlocked": "A new quest is available.",
       "UserCantOpen": "User '{user}' doesn't have permission to open this quest."
     },
     "QuestLog": {
@@ -232,6 +233,12 @@
         "Heard": "Heard (click to mark as not heard)",
         "Hidden": "Hidden from the players",
         "Hint": "Rumors are loose texts that the players can hear. Visible rumors are shown to the players in the Rumors tab of the Quest Log, without saying which quest they belong to. When a rumor is marked as heard, an inactive quest becomes available.",
+        "Counter": "{heard} of {total} required rumors heard",
+        "MakeOptional": "Optional rumor: it doesn't count to unlock the quest",
+        "MakeRequired": "Required rumor: it counts to unlock the quest",
+        "OptionalLabel": "optional",
+        "Required": "Rumors needed to unlock the quest",
+        "RequiredHint": "0 = all the rumors that are not optional. The quest becomes available when the players hear this many rumors.",
         "NotHeard": "Not heard (click to mark as heard)",
         "Title": "Rumors",
         "Visible": "Visible to the players"

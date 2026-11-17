@@ -625,8 +625,18 @@ export class Quest
          uuidv4: typeof r.uuidv4 === 'string' && r.uuidv4 ? r.uuidv4 : foundry.utils.randomID(),
          text: r.text,
          heard: r.heard === true,
-         visible: r.visible === true
+         visible: r.visible === true,
+         optional: r.optional === true
       })) : [];
+
+      /**
+       * Number of (not optional) rumors that must be heard to unlock the quest (make it available). 0 means all of
+       * them.
+       *
+       * @type {number}
+       */
+      this.rumorsRequired = Number.isFinite(Number(data.rumorsRequired)) ?
+       Math.max(0, Math.floor(Number(data.rumorsRequired))) : 0;
 
       /**
        * The characters (and users) that accepted the quest (#138): `{ actorId, actorName, userId, userName, t }`.
@@ -998,7 +1008,7 @@ export class Quest
       const value = String(text ?? '').trim();
       if (!value) { return null; }
 
-      const rumor = { uuidv4: foundry.utils.randomID(), text: value, heard: false, visible: false };
+      const rumor = { uuidv4: foundry.utils.randomID(), text: value, heard: false, visible: false, optional: false };
       this.rumors.push(rumor);
       return rumor;
    }
@@ -1024,8 +1034,22 @@ export class Quest
    }
 
    /**
-    * Marks a rumor as heard or not heard. When a rumor is heard and the quest is inactive it becomes available.
-    * The quest must be saved afterward.
+    * Progress of the rumors that unlock the quest. Optional rumors don't count.
+    *
+    * @returns {{heard: number, total: number, needed: number}} Heard required rumors, number of required rumors and
+    *          the number of rumors that must be heard (`rumorsRequired`, or all when it is 0 or too high).
+    */
+   getRumorProgress()
+   {
+      const required = this.rumors.filter((r) => !r.optional);
+      const needed = this.rumorsRequired > 0 ? Math.min(this.rumorsRequired, required.length) : required.length;
+
+      return { heard: required.filter((r) => r.heard).length, total: required.length, needed };
+   }
+
+   /**
+    * Marks a rumor as heard or not heard. When enough rumors are heard (see {@link Quest.getRumorProgress}) and the
+    * quest is inactive it becomes available. The quest must be saved afterward.
     *
     * @param {string}   uuidv4 - The ID of a rumor.
     *
@@ -1038,7 +1062,10 @@ export class Quest
 
       rumor.heard = !rumor.heard;
 
-      if (rumor.heard && this.status === questStatus.inactive)
+      const progress = this.getRumorProgress();
+
+      if (rumor.heard && !rumor.optional && this.status === questStatus.inactive && progress.needed > 0 &&
+       progress.heard >= progress.needed)
       {
          await this.setStatus(questStatus.available);
          return true;
@@ -1185,6 +1212,7 @@ export class Quest
          order: this.order,
          history: this.history,
          rumors: this.rumors,
+         rumorsRequired: this.rumorsRequired,
          accepted: this.accepted,
          deadline: this.deadline,
          creator: this.creator,
