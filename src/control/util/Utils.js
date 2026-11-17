@@ -28,7 +28,7 @@ export class Utils
 
    /**
     * Formats a date for the history and the deadlines (#87). With the setting `dateMode` set to `world` the date of
-    * the world calendar of Foundry is used when the world time is available; otherwise the real date.
+    * the world calendar of Foundry is added to the real date when the world time is available.
     *
     * @param {number}   real - The real timestamp in milliseconds.
     *
@@ -38,17 +38,21 @@ export class Utils
     */
    static formatDate(real, world = void 0)
    {
+      const realText = new Date(real).toLocaleString(game.i18n.lang);
+
+      // The world time does not advance on its own (it can be unset or a default calendar date like 0000-01-26), so
+      // the real date is always shown and the world date is added after it.
       if (game.settings.get(constants.moduleName, settings.dateMode) === 'world' && Number.isFinite(world))
       {
          try
          {
             const text = game.time.calendar.format(world);
-            if (typeof text === 'string' && text.length) { return text; }
+            if (typeof text === 'string' && text.length) { return `${realText} (${text})`; }
          }
          catch (err) { /* The calendar can't format the time; the real date is used. */ }
       }
 
-      return new Date(real).toLocaleString(game.i18n.lang);
+      return realText;
    }
 
    /**

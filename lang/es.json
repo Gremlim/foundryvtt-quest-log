@@ -408,7 +408,7 @@
         "Enable": "Fechas de las misiones",
         "EnableHint": "Fecha que se usa en el historial de la misión y para su fecha límite: la del calendario del mundo de Foundry o la fecha real.",
         "real": "Fecha real",
-        "world": "Calendario del mundo"
+        "world": "Calendario del mundo (se añade a la fecha real)"
       },
       "historyVisibility": {
         "Enable": "Visibilidad del historial de misiones",

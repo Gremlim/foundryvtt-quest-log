@@ -422,7 +422,7 @@
         "Enable": "Quest Dates",
         "EnableHint": "Date used in the quest history and for the deadline of the quests: the date of the world calendar of Foundry or the real date.",
         "real": "Real date",
-        "world": "World calendar"
+        "world": "World calendar (added to the real date)"
       },
       "historyVisibility": {
         "Enable": "Quest History Visibility",

@@ -267,7 +267,7 @@ export class ModuleSettings
          hint: 'ForienQuestLog.Settings.dateMode.EnableHint',
          scope: this.#scope.world,
          config: true,
-         default: 'world',
+         default: 'real',
          type: String,
          choices: {
             world: 'ForienQuestLog.Settings.dateMode.world',

@@ -1,5 +1,8 @@
 # Changelog
 
+## Release 0.25.3
+- Quest history dates: many entries showed the date of the world calendar (like 0000-01-26 12:15:00) because the world time does not advance on its own. The history now always shows the real date and, only when the setting "Quest Dates" is set to the world calendar, the world date after it in parentheses. The setting is now the real date by default.
+
 ## Release 0.25.2
 - "Show in my Quest Tracker" moved from the Management tab to the 3 dots menu of the quest window, where it shows its state (Yes / No). It is available to the players too, so they can show or hide any quest in their own Quest Tracker.
 
