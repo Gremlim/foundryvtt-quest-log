@@ -233,16 +233,25 @@ export class QuestLog extends HandlebarsApplicationMixin(ApplicationV2)
 
       if ('bookmarks' !== navStyle || !dynamicBackground) { return; }
 
-      const windowContent = this.element.querySelector('.window-content');
-      if (!windowContent) { return; }
+      // In ApplicationV2 the `.window-content` is transparent and the background is drawn by the window frame.
+      const style = window.getComputedStyle(this.element);
+      const hasImage = style.backgroundImage && style.backgroundImage !== 'none';
 
-      const style = window.getComputedStyle(windowContent);
-
-      for (const item of this.element.querySelectorAll('.item'))
+      for (const item of this.element.querySelectorAll('.log-tabs .item'))
       {
-         item.style.backgroundImage = style.backgroundImage;
-         item.style.backgroundColor = style.backgroundColor;
-         item.style.backgroundBlendMode = style.backgroundBlendMode;
+         if (hasImage)
+         {
+            item.style.backgroundImage = style.backgroundImage;
+            item.style.backgroundColor = style.backgroundColor;
+            item.style.backgroundBlendMode = style.backgroundBlendMode;
+         }
+         else
+         {
+            // No image to copy; use the stylesheet fallback (parchment) so the bookmarks are never transparent.
+            item.style.backgroundImage = '';
+            item.style.backgroundColor = '';
+            item.style.backgroundBlendMode = '';
+         }
       }
    }
 

@@ -1,5 +1,8 @@
 # Changelog
 
+## Release 0.9.5
+- Fixed the Quest Log bookmark tabs being transparent: the dynamic bookmark background copied the (transparent) window content style; it now reads the window frame and falls back to the parchment image with an opaque color and dark text.
+
 ## Release 0.9.4
 - Fixed the "Show to players" button missing from the Quest Log header (it was in the window's controls menu); it is a header button again (GM only).
 - Fixed the Quest Log bookmark tabs (Available / In Progress / Completed / Failed / Inactive) not being visible: the ApplicationV2 frame clipped them, and the frame also matched the inner `.quest-log` layout class.
