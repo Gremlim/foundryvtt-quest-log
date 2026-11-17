@@ -19,6 +19,11 @@
   - SCSS: `@import` replaced by `@use`; selectors updated for V2 (`.application`, `.window-resize-handle`,
     `prose-mirror`).
   - API note: `Utils.showSheetFromUUID` now resolves with the opened sheet instead of an `appId`.
+- Fixes:
+  - The quest folder is now identified by a flag, so renaming `_fql_quests` no longer breaks "Add Quest" (#156). Failing to create a quest now shows an error instead of failing silently.
+  - Quest images are centered instead of anchored to the top-left, which cropped the right/bottom edges (#155).
+  - Text inputs have an explicit dark text color, so they stay readable with dark themes (#79).
+  - The Quest Tracker is now a standard ApplicationV2 window (core drag / close / resize), which should resolve it being stuck or jumping to the center with other modules installed (#152, #153); needs in-world confirmation.
 
 ## Release 0.9.0
 - Compatibility with Foundry v13
