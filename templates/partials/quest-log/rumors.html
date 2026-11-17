@@ -6,7 +6,11 @@
     <ul class="rumors-list">
       {{#each rumors}}
         <li class="rumor{{#if heard}} heard{{/if}}{{#unless visible}} not-visible{{/unless}}">
-          <i class="fas fa-comment-dots"></i>
+          {{#if @root.isGM}}
+            <i class="rumor-heard fas {{#if heard}}fa-ear-listen{{else}}fa-ear-deaf{{/if}}" data-quest-id="{{questId}}" data-rumor-id="{{uuidv4}}" title="{{#if heard}}{{localize 'ForienQuestLog.QuestPreview.Rumors.Heard'}}{{else}}{{localize 'ForienQuestLog.QuestPreview.Rumors.NotHeard'}}{{/if}}"></i>
+          {{else}}
+            <i class="fas fa-comment-dots"></i>
+          {{/if}}
           <span class="rumor-text">{{text}}</span>
           {{#if @root.isGM}}
             {{#unless visible}}<i class="rumor-hidden fas fa-eye-slash" title="{{localize 'ForienQuestLog.Rumors.HiddenTooltip'}}"></i>{{/unless}}

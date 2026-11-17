@@ -1,5 +1,9 @@
 # Changelog
 
+## Release 0.22.1
+- Objectives list: the space between the 3 dots menu and the sort arrows is now the same for subquests and normal objectives (the menu of a subquest had a minimum width that added extra space).
+- Rumors tab of the Quest Log: the GM can mark a rumor as heard / not heard directly in the list by clicking its ear icon (an inactive quest becomes available, as in the quest's Rumors tab).
+
 ## Release 0.22.0
 - #82 Rumors, redesigned. The "Rumor" quest status of 0.21.0 is removed. Now every quest has a new "Rumors" tab (for those who can edit the quest) where rumors can be added as text, edited and deleted. Each rumor can be marked as heard (completed: struck through and muted) or not heard, and can be shown or hidden to the players. When a rumor is marked as heard and the quest is inactive, the quest becomes available. The Quest Log has a new "Rumors" tab that is always shown: players see the visible rumors of all the quests mixed together (without saying which quest they belong to; heard rumors struck through) or "There are no rumors."; the GM sees all of them, with the hidden ones flagged and the quest name. Because quests hidden from the players are not sent to them, the GM client keeps the visible rumors in a new world setting (`rumors`) that is updated automatically.
 

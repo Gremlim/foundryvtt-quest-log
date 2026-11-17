@@ -960,7 +960,8 @@ export class QuestDB
       const list = (Array.isArray(rumors) ? rumors : []).filter((r) => r && typeof r.text === 'string' &&
        (game.user.isGM || r.visible !== false)).map((r) => ({
          uuidv4: r.uuidv4, text: r.text, heard: r.heard === true, visible: game.user.isGM ? r.visible === true : true,
-         questName: game.user.isGM ? r.questName : void 0
+         questName: game.user.isGM ? r.questName : void 0,
+         questId: game.user.isGM ? r.questId : void 0
       }));
 
       // The rumors are loose: they are not grouped by quest. A stable pseudo random order mixes them.

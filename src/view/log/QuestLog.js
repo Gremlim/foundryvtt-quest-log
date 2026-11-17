@@ -131,6 +131,26 @@ export class QuestLog extends HandlebarsApplicationMixin(ApplicationV2)
 
       Utils.on(html, domEvents.click, '.actions.quest-status i.move', HandlerLog.questStatusSet);
 
+      // The GM marks a rumor as heard / not heard directly in the rumors tab (#82).
+      Utils.on(html, domEvents.click, '.rumors-list .rumor-heard', async (event) =>
+      {
+         if (!game.user.isGM) { return; }
+
+         const quest = QuestDB.getQuest(event.currentTarget.dataset.questId);
+         if (!quest) { return; }
+
+         const statusChanged = await quest.toggleRumorHeard(event.currentTarget.dataset.rumorId);
+         await quest.save();
+
+         this.render();
+
+         if (statusChanged)
+         {
+            ui.notifications.info(game.i18n.format('ForienQuestLog.QuestPreview.Rumors.BecameAvailable',
+             { name: quest.name }));
+         }
+      });
+
       this.#contextMenu();
    }
 
