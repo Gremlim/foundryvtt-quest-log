@@ -9,10 +9,6 @@
           <button class="btn make-public-btn"><i class="fas fa-users fa-fw"></i>{{localize 'ForienQuestLog.QuestPreview.Management.MakePublic'}}</button>
         {{/if}}
       {{/if}}
-      <div class="manage-show-in-tracker" title="{{localize 'ForienQuestLog.QuestPreview.Management.ShowInTrackerHint'}}">
-        <input type="checkbox" id="show-in-tracker-{{id}}" name="show-in-tracker" {{#if showInTracker}}checked{{/if}}>
-        <label for="show-in-tracker-{{id}}">{{localize 'ForienQuestLog.QuestPreview.Management.ShowInTracker'}}</label>
-      </div>
       {{#if isGM}}
         <div class="manage-repeatable" title="{{localize 'ForienQuestLog.QuestPreview.Management.RepeatableHint'}}">
           <input type="checkbox" id="repeatable-{{id}}" name="repeatable" {{#if repeatable}}checked{{/if}}>

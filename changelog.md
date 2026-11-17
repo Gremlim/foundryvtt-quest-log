@@ -1,5 +1,8 @@
 # Changelog
 
+## Release 0.25.2
+- "Show in my Quest Tracker" moved from the Management tab to the 3 dots menu of the quest window, where it shows its state (Yes / No). It is available to the players too, so they can show or hide any quest in their own Quest Tracker.
+
 ## Release 0.25.1
 - The "Repeatable quest" option of the Management tab now has the same style as the other options.
 

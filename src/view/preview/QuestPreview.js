@@ -2,7 +2,8 @@ import {
    FVTTCompat,
    QuestDB,
    Socket,
-   Utils }                    from '../../control/index.js';
+   Utils,
+   ViewManager }              from '../../control/index.js';
 
 import {
    ActionMenu,
@@ -57,7 +58,8 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
       actions: {
          copyLink: QuestPreview.#onCopyLink,
          shareQuest: QuestPreview.#onShareQuest,
-         showSplash: QuestPreview.#onShowSplash
+         showSplash: QuestPreview.#onShowSplash,
+         toggleTracker: QuestPreview.#onToggleTracker
       }
    };
 
@@ -213,6 +215,15 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
             action: 'showSplash'
          });
       }
+
+      // Show / hide this quest in the Quest Tracker of this user; available for all the users.
+      const inTracker = !HandlerTracker.getRemovedQuests().has(this.#quest.id);
+      controls.unshift({
+         icon: inTracker ? 'fa-regular fa-square-check' : 'fa-regular fa-square',
+         label: `${game.i18n.localize('ForienQuestLog.QuestPreview.Management.ShowInTracker')}: ${
+          game.i18n.localize(`ForienQuestLog.QuestTracker.Menu.${inTracker ? 'On' : 'Off'}`)}`,
+         action: 'toggleTracker'
+      });
 
       controls.unshift({
          icon: 'fa-solid fa-link',
@@ -459,9 +470,6 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
       on(domEvents.click, '.manage-allow-player-edit input[name="allow-player-edit"]', async (event) =>
        await HandlerManage.setAllowPlayerEdit(event, this.#quest, this), edit);
 
-      on(domEvents.click, '.manage-show-in-tracker input[name="show-in-tracker"]', (event) =>
-       HandlerManage.setShowInTracker(event, this.#quest));
-
       on(domEvents.click, '.make-personal-btn', async () => await HandlerManage.makePersonal(this.#quest, this),
        () => game.user.isGM);
 
@@ -597,7 +605,6 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
          canEdit: this.canEdit,
          canEditPlayerNotes,
          playerEdit: this.playerEdit,
-         showInTracker: !HandlerTracker.getRemovedQuests().has(this.#quest.id),
          source: {
             description: this.#quest.description ?? '',
             gmnotes: this.#quest.gmnotes ?? '',
@@ -710,11 +717,22 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
    }
 
    /**
+    * Shows / hides the quest in the Quest Tracker of this user only.
+    *
+    * @this {QuestPreview}
+    */
+   static #onToggleTracker()
+   {
+      HandlerTracker.setQuestRemoved(this.#quest.id, !HandlerTracker.getRemovedQuests().has(this.#quest.id));
+
+      // Only the tracker of this user is affected; refresh it if it is open.
+      if (ViewManager.questTracker?.rendered) { ViewManager.questTracker.render(); }
+   }
+
+   /**
     * Copies the link of the quest to the clipboard.
     *
     * @this {QuestPreview}
-    *
-    * @returns {Promise<void>}
     */
    static async #onCopyLink()
    {
