@@ -1,5 +1,8 @@
 # Changelog
 
+## Release 0.9.14
+- Quest Tracker: the Quest Tracker button in the scene controls now always responds. When the tracker setting was already enabled (for example for a player with no visible in progress quests) the click did nothing because setting the same value does not trigger a refresh; it now renders the tracker or posts the "no in progress quests" notification.
+
 ## Release 0.9.13
 - Quest Tracker: a chevron button is now shown next to the title of quests that have objectives, so it is clear that the objectives can be shown / hidden. It points right when the objectives are hidden and down when they are shown, with a tooltip, and toggles immediately when clicked (the title keeps single click to toggle and double click to open the quest).
 - Added the English and Spanish tooltips for the new button.

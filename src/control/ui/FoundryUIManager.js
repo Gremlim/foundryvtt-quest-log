@@ -83,7 +83,20 @@ export class FoundryUIManager
          title: 'ForienQuestLog.QuestTracker.Title',
          icon: 'fas fa-tasks',
          visible: true,
-         onChange: async () => { await game.settings.set(constants.moduleName, settings.questTrackerEnable, true); },
+         onChange: async () =>
+         {
+            // Setting the same value does not trigger the setting `onChange`, so when the tracker is already enabled
+            // (for example when it was enabled, but there were no visible in progress quests) it must be rendered here.
+            if (game.settings.get(constants.moduleName, settings.questTrackerEnable))
+            {
+               if (ViewManager.isQuestTrackerVisible()) { ViewManager.questTracker.render({ force: true, focus: false }); }
+               else { ui.notifications.info(game.i18n.localize('ForienQuestLog.Notifications.QuestTrackerNoActive')); }
+            }
+            else
+            {
+               await game.settings.set(constants.moduleName, settings.questTrackerEnable, true);
+            }
+         },
          button: true
       }
    };
