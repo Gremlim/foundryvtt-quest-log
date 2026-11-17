@@ -78,10 +78,14 @@ export class FQLHooks
       Hooks.on('renderJournalEntrySheet', FQLHooks.renderJournalSheet);
       Hooks.on('renderJournalSheet', FQLHooks.renderJournalSheet); // Legacy ApplicationV1 sheets.
 
-      // FQL specific hooks.
-      Hooks.on('ForienQuestLog.Open.QuestLog', FQLHooks.openQuestLog);
-      Hooks.on('ForienQuestLog.Open.QuestTracker', FQLHooks.openQuestTracker);
-      Hooks.on('ForienQuestLog.Run.DBMigration', FQLHooks.runDBMigration);
+      // FQL specific hooks. These names are shared with the original Forien's Quest Log, so they are only registered
+      // when that module is not enabled; otherwise a macro would open both quest logs.
+      if (!Utils.isForienActive())
+      {
+         Hooks.on('ForienQuestLog.Open.QuestLog', FQLHooks.openQuestLog);
+         Hooks.on('ForienQuestLog.Open.QuestTracker', FQLHooks.openQuestTracker);
+         Hooks.on('ForienQuestLog.Run.DBMigration', FQLHooks.runDBMigration);
+      }
    }
 
    /**
@@ -183,7 +187,7 @@ export class FQLHooks
       ViewManager.renderOrCloseQuestTracker();
 
       // Fire our own lifecycle event to inform any other modules that depend on FQL QuestDB.
-      Hooks.callAll('ForienQuestLog.Lifecycle.ready');
+      if (!Utils.isForienActive()) { Hooks.callAll('ForienQuestLog.Lifecycle.ready'); }
    }
 
    /**
@@ -483,12 +487,15 @@ export class FQLHooks
       if (game.user.isGM || !game.settings.get(constants.moduleName, settings.hideFQLFromPlayers))
       {
          // Avoid adding the button twice if the directory is re-rendered without replacing the element.
-         if (!element.querySelector('.quest-log-btn'))
+         if (!element.querySelector('.ql-quest-log-btn'))
          {
             const button = document.createElement('button');
             button.type = 'button';
-            button.classList.add('quest-log-btn');
-            button.innerText = game.i18n.localize('ForienQuestLog.QuestLog.Title');
+            button.classList.add('ql-quest-log-btn');
+
+            // Distinguish this button from the original module's button when both are enabled.
+            const suffix = Utils.isForienActive() ? ` (${game.modules.get(constants.moduleName)?.title})` : '';
+            button.innerText = `${game.i18n.localize('ForienQuestLog.QuestLog.Title')}${suffix}`;
 
             let footer = element.querySelector('.directory-footer');
             if (!footer)

@@ -64,8 +64,8 @@ export class QuestTracker extends HandlebarsApplicationMixin(ApplicationV2)
 
    /** @inheritDoc */
    static DEFAULT_OPTIONS = {
-      id: 'quest-tracker',
-      classes: ['fql-app', 'fql-window-app'],
+      id: 'ql-quest-tracker',
+      classes: ['ql-app', 'ql-window-app'],
       position: { width: 300, height: 480 },
       window: {
          title: 'ForienQuestLog.QuestTracker.Title',
@@ -465,7 +465,7 @@ export class QuestTracker extends HandlebarsApplicationMixin(ApplicationV2)
             // state has changed.
             if (!this._pinned && this._dragHeader && currentInPinDropRect !== this._inPinDropRect)
             {
-               this.element.style.animation = this._inPinDropRect ? 'fql-jiggle 0.3s infinite' : '';
+               this.element.style.animation = this._inPinDropRect ? 'ql-jiggle 0.3s infinite' : '';
             }
          }
       }

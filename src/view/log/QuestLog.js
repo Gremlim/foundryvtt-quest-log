@@ -37,7 +37,7 @@ export class QuestLog extends HandlebarsApplicationMixin(ApplicationV2)
 {
    /** @inheritDoc */
    static DEFAULT_OPTIONS = {
-      id: constants.moduleName,
+      id: 'ql-quest-log',
       classes: [constants.moduleName],
       position: { width: 700, height: 480 },
       window: {

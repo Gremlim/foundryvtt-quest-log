@@ -1,7 +1,7 @@
 @use 'global-variables' as *;
 @use 'global-mixin' as *;
 
-.application.forien-quest-preview {
+.application.ql-quest-preview {
   min-width: 1000px;
   min-height: 640px;
 
@@ -59,6 +59,8 @@
           height: 100%;
           width: 100%;
           background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
           border-radius: 5px;
         }
 
@@ -101,6 +103,8 @@
         .splash-image-link {
           flex: 0 0 100px;
           background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
           position: relative;
           cursor: pointer;
 
@@ -488,6 +492,8 @@
             height: 25px;
             background-size: cover;
             background-position: center;
+            background-repeat: no-repeat;
+            background-position: center;
           }
 
           .reward-name {
@@ -548,6 +554,8 @@
           width: 100%;
           height: 200px;
           background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
           background-color: $primary-color-bg-drop;
           border-radius: 5px;
 

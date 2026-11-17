@@ -24,7 +24,7 @@ export class Utils
     *
     * @type {string}
     */
-   static #questDirName = '_fql_quests';
+   static #questDirName = '_ql_quests';
 
    /**
     * Uses `navigator.clipboard` if available then falls back to `document.execCommand('copy')` if available to copy
@@ -149,6 +149,15 @@ export class Utils
    }
 
    /**
+    * @returns {boolean} True if the original Forien's Quest Log is also enabled. In that case this module avoids the
+    *                    shared hooks / keybindings / UI names so both can run side by side with separate data.
+    */
+   static isForienActive()
+   {
+      return !!game.modules.get('forien-quest-log')?.active;
+   }
+
+   /**
     * A convenience method to return the module data object for FQL.
     *
     * This is a scoped location where we can store any FQL data.
@@ -239,7 +248,9 @@ export class Utils
     */
    static getQuestFolder()
    {
-      return game.journal.folders.find((f) => f.name === this.#questDirName);
+      // The folder is identified by a flag so that it can be renamed (#156). It is never matched by name so that the
+      // data is kept separate from the original Forien's Quest Log (`_fql_quests`) when both modules are enabled.
+      return game.journal.folders.find((f) => f.getFlag(constants.moduleName, 'questFolder') === true);
    }
 
    /**
@@ -286,15 +297,20 @@ export class Utils
     */
    static async initializeQuestFolder()
    {
-      const folder = game.journal.folders.find((f) => f.name === this.#questDirName);
+      const folder = this.getQuestFolder();
       if (folder !== void 0) { return folder; }
 
       if (game.user.isGM)
       {
-         await Folder.create({ name: this.#questDirName, type: 'JournalEntry', parent: null });
+         await Folder.create({
+            name: this.#questDirName,
+            type: 'JournalEntry',
+            parent: null,
+            flags: { [constants.moduleName]: { questFolder: true } }
+         });
       }
 
-      return game.journal.folders.find((f) => f.name === this.#questDirName);
+      return this.getQuestFolder();
    }
 
    /**

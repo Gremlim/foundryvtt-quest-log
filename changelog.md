@@ -1,5 +1,18 @@
 # Changelog
 
+## Release 0.9.3
+- Can now run side by side with the original Forien's Quest Log (`forien-quest-log`) with fully separate data:
+  - The quest journal folder is now `_ql_quests` and is only found by its flag, never by name, so it no longer picks up the original module's `_fql_quests` folder.
+  - Journal button, scene control tools, window ids, CSS classes / keyframes and session storage keys are now unique to this module. When both modules are enabled the journal button is labelled with this module's title.
+  - The shared hooks (`ForienQuestLog.Open.*`, `ForienQuestLog.Lifecycle.ready`) and default keybindings are not registered while the original module is enabled, so macros and shortcuts only open the original.
+- Fixed the Quest Log window styles not applying after the module id change (the stylesheet still targeted the old `#forien-quest-log` id).
+
+## Release 0.9.2
+- The quest folder is now identified by a flag, so renaming `_fql_quests` no longer breaks "Add Quest" (#156). Failing to create a quest now shows an error instead of failing silently.
+- Quest images are centered instead of anchored to the top-left, which cropped the right/bottom edges (#155).
+- Text inputs have an explicit dark text color, so they stay readable with dark themes (#79).
+- The Quest Tracker is now a standard ApplicationV2 window (core drag / close / resize), which should resolve it being stuck or jumping to the center with other modules installed (#152, #153); needs in-world confirmation.
+
 ## Release 0.9.1
 - Compatibility with Foundry v14 (verified on 14.370); minimum remains v13.
   - `module.json`: compatibility `maximum` raised to 14 (v14 refuses to load packages above their declared maximum).
@@ -19,11 +32,6 @@
   - SCSS: `@import` replaced by `@use`; selectors updated for V2 (`.application`, `.window-resize-handle`,
     `prose-mirror`).
   - API note: `Utils.showSheetFromUUID` now resolves with the opened sheet instead of an `appId`.
-- Fixes:
-  - The quest folder is now identified by a flag, so renaming `_fql_quests` no longer breaks "Add Quest" (#156). Failing to create a quest now shows an error instead of failing silently.
-  - Quest images are centered instead of anchored to the top-left, which cropped the right/bottom edges (#155).
-  - Text inputs have an explicit dark text color, so they stay readable with dark themes (#79).
-  - The Quest Tracker is now a standard ApplicationV2 window (core drag / close / resize), which should resolve it being stuck or jumping to the center with other modules installed (#152, #153); needs in-world confirmation.
 
 ## Release 0.9.0
 - Compatibility with Foundry v13

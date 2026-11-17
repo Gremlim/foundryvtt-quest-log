@@ -457,7 +457,7 @@ export class ModuleSettings
       game.keybindings.register(constants.moduleName, keybindings.openQuestLog, {
          name: `ForienQuestLog.Keybindings.openQuestLog.Name`,
          hint: `ForienQuestLog.Keybindings.openQuestLog.Hint`,
-         editable: [
+         editable: Utils.isForienActive() ? [] : [
             {
                modifiers: [CONTROL],
                key: "KeyQ",
@@ -473,7 +473,7 @@ export class ModuleSettings
          name: `ForienQuestLog.Keybindings.openPrimaryQuest.Name`,
          hint: `ForienQuestLog.Keybindings.openPrimaryQuest.Hint`,
          precedence: CONST.KEYBINDING_PRECEDENCE.DEFERRED,
-         editable: [
+         editable: Utils.isForienActive() ? [] : [
             {
                modifiers: [SHIFT, CONTROL],
                key: "KeyQ",
@@ -489,7 +489,7 @@ export class ModuleSettings
          name: `ForienQuestLog.Keybindings.toggleQuestTracker.Name`,
          hint: `ForienQuestLog.Keybindings.toggleQuestTracker.Hint`,
          precedence: CONST.KEYBINDING_PRECEDENCE.DEFERRED,
-         editable: [
+         editable: Utils.isForienActive() ? [] : [
             {
                modifiers: [SHIFT, ALT],
                key: "KeyQ",

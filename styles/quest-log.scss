@@ -1,7 +1,7 @@
 @use 'global-variables' as *;
 @use 'global-mixin' as *;
 
-#forien-quest-log {
+#ql-quest-log {
   min-width: 500px;
   min-height: 640px;
 
@@ -144,6 +144,8 @@
       height: 40px;
       border-radius: 5px;
       background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
     }
 
     .title {

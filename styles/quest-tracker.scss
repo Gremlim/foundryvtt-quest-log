@@ -1,14 +1,14 @@
 @use 'global-variables' as *;
 @use 'global-mixin' as *;
 
-#quest-tracker {
+#ql-quest-tracker {
   pointer-events: none;
   min-width: 275px;
   min-height: 72px;
   max-width: 400px;
   max-height: 750px;
 
-  @keyframes fql-jiggle {
+  @keyframes ql-jiggle {
     0% {
       transform: rotate(-0.25deg);
       animation-timing-function: ease-in;
@@ -31,7 +31,7 @@
     color: $tracker-color-text-entitylink;
   }
 
-  &.fql-app {
+  &.ql-app {
     background: $tracker-image-background;
     background-color: $tracker-color-background;
     background-blend-mode: $tracker-image-background-blend-mode;

@@ -1,9 +1,9 @@
 @use 'global-variables' as *;
 @use 'global-mixin' as *;
 
-#forien-quest-log,
-#quest-tracker,
-.application.forien-quest-preview {
+#ql-quest-log,
+#ql-quest-tracker,
+.application.ql-quest-preview {
   .pad-l-4 {
     padding-left: 4px;
   }
@@ -32,8 +32,8 @@
   }
 }
 
-#forien-quest-log,
-.application.forien-quest-preview {
+#ql-quest-log,
+.application.ql-quest-preview {
 
   // Some systems such as Blades In the Dark require this parameter.
   .window-header {
@@ -80,6 +80,8 @@
  	input[type="text"] {
     border: none;
     background: $background-color-light;
+    // Explicit text color so inputs stay readable with dark themes / dark mode modules (#79).
+    color: #191813;
     padding: 4px 8px;
     box-shadow: 0 0 3px 1px transparent inset;
     transition: box-shadow .3s ease;

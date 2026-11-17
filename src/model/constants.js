@@ -72,10 +72,10 @@ const questTabIndex = {
  * @type {FQLSessionConstants}
  */
 const sessionConstants = {
-   currentPrimaryQuest: 'forien.questlog.currentPrimaryQuest',
-   trackerFolderState: 'forien.questtracker.folderState-',
-   trackerShowBackground: 'forien.questtracker.showBackground',
-   trackerShowPrimary: 'forien.questtracker.showPrimary'
+   currentPrimaryQuest: 'quest-log.questlog.currentPrimaryQuest',
+   trackerFolderState: 'quest-log.questtracker.folderState-',
+   trackerShowBackground: 'quest-log.questtracker.showBackground',
+   trackerShowPrimary: 'quest-log.questtracker.showPrimary'
 };
 
 /**

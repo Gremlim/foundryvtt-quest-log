@@ -42,7 +42,7 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
 {
    /** @inheritDoc */
    static DEFAULT_OPTIONS = {
-      classes: ['forien-quest-preview'],
+      classes: ['ql-quest-preview'],
       position: { width: 1000, height: 640 },
       window: {
          title: 'ForienQuestLog.QuestPreview.Title',
@@ -103,7 +103,7 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
     */
    constructor(quest, options = {})
    {
-      super({ id: `quest-${quest.id}`, ...options });
+      super({ id: `ql-quest-${quest.id}`, ...options });
 
       this.#quest = quest;
 
