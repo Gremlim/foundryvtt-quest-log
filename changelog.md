@@ -1,5 +1,13 @@
 # Changelog
 
+## Release 0.27.0
+- Fixed the `module.json` of the releases 0.26.2 and 0.26.3, that was saved empty by mistake. It is restored from 0.26.1 with the new version.
+- The two macro compendiums are now named `QL Macros (GM)` and `QL Macros (Player)` (they were `FQL Macros ...`).
+- The state of the interface is now kept when the browser is closed (before it was lost): quests removed from your Quest Tracker, "show removed", "primary quest only", background, group by of the tracker and of the Quest Log, collapsed groups and collapsed objectives of the tracker. It is saved per world and per user in the browser (`Utils.storage`). The current primary quest is still stored for the session only.
+- Duplicating a quest now starts the objective counters, the counters completed state and the repeat counters of its objectives from zero.
+- The players that can edit a quest (setting "Allow players to edit") can also use "Set the counter of the objective" in the menu of the objectives.
+- Removed the jQuery compatibility code of the render hooks of the journal directory and journal sheets.
+
 ## Release 0.26.3
 - The notice to the GMs when a player drops a reward onto an actor sheet is a Foundry UI notification again (every connected GM sees it) instead of a whispered chat message. Setting `Show Reward Drop Notifications` (the texts of the setting were updated in English and Spanish).
 - Translations: the reward drop text moved from `API.Socket.Messages.RewardDrop` to `API.Socket.Notifications.RewardDrop` (plain text, no HTML) in all the languages; removed the unused `API.Socket.Messages.Alias`.

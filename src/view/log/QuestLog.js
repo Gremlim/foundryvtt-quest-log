@@ -362,7 +362,7 @@ export class QuestLog extends HandlebarsApplicationMixin(ApplicationV2)
     */
    static getGroupBy(status)
    {
-      const value = sessionStorage.getItem(`${sessionConstants.logGroupBy}${status}`);
+      const value = Utils.storage.getItem(`${sessionConstants.logGroupBy}${status}`);
       return QuestLog.GROUP_BY.includes(value) ? value : 'none';
    }
 
@@ -425,7 +425,7 @@ export class QuestLog extends HandlebarsApplicationMixin(ApplicationV2)
             name: key === '' ? noneLabel[groupBy] : key,
             isEmpty: key === '',
             count: map.get(key).length,
-            collapsed: sessionStorage.getItem(`${sessionConstants.logGroupCollapsed}${status}-${groupBy}-${key}`) === 'true',
+            collapsed: Utils.storage.getItem(`${sessionConstants.logGroupCollapsed}${status}-${groupBy}-${key}`) === 'true',
             quests: map.get(key)
          }));
       }

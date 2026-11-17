@@ -210,9 +210,9 @@ export class QuestTracker extends HandlebarsApplicationMixin(ApplicationV2)
       const loc = (key) => game.i18n.localize(`QuestLog.QuestTracker.Menu.${key}`);
       const state = (value) => loc(value ? 'On' : 'Off');
 
-      const primary = sessionStorage.getItem(sessionConstants.trackerShowPrimary) === 'true';
-      const hidden = sessionStorage.getItem(sessionConstants.trackerShowHidden) === 'true';
-      const opaque = sessionStorage.getItem(sessionConstants.trackerShowBackground) === 'true';
+      const primary = Utils.storage.getItem(sessionConstants.trackerShowPrimary) === 'true';
+      const hidden = Utils.storage.getItem(sessionConstants.trackerShowHidden) === 'true';
+      const opaque = Utils.storage.getItem(sessionConstants.trackerShowBackground) === 'true';
       const groupBy = HandlerTracker.getGroupBy();
 
       const entries = [
@@ -321,7 +321,7 @@ export class QuestTracker extends HandlebarsApplicationMixin(ApplicationV2)
       await super._onRender(context, options);
 
 
-      const showBackgroundState = sessionStorage.getItem(sessionConstants.trackerShowBackground) === 'true';
+      const showBackgroundState = Utils.storage.getItem(sessionConstants.trackerShowBackground) === 'true';
       this.element.classList.toggle('no-background', !showBackgroundState);
 
       this.#windowResizable = game.settings.get(constants.moduleName, settings.questTrackerResizable);
@@ -348,7 +348,7 @@ export class QuestTracker extends HandlebarsApplicationMixin(ApplicationV2)
    {
       const context = await super._prepareContext(options);
 
-      const showOnlyPrimary = sessionStorage.getItem(sessionConstants.trackerShowPrimary) === 'true';
+      const showOnlyPrimary = Utils.storage.getItem(sessionConstants.trackerShowPrimary) === 'true';
       const primaryQuest = QuestDB.getQuestEntry(game.settings.get(constants.moduleName, settings.primaryQuest));
 
       // Stores the primary quest ID when all in progress quests are shown so that the star icon is drawn for the
@@ -384,7 +384,7 @@ export class QuestTracker extends HandlebarsApplicationMixin(ApplicationV2)
       const primaryQuestId = !showOnlyPrimary && primaryQuest ? primaryQuest.id : '';
 
       // The folder state is stored as `false` when the objectives are shown (expanded).
-      const isExpanded = (id) => sessionStorage.getItem(`${sessionConstants.trackerFolderState}${id}`) === 'false';
+      const isExpanded = (id) => Utils.storage.getItem(`${sessionConstants.trackerFolderState}${id}`) === 'false';
 
       /**
        * Builds the list of rows (subquests, separator and tasks) displayed below an expanded quest. Subquests are
@@ -421,7 +421,7 @@ export class QuestTracker extends HandlebarsApplicationMixin(ApplicationV2)
 
       // Quests removed from the tracker by the user; they are only listed (dimmed) when the user asks for them.
       const removedIds = HandlerTracker.getRemovedQuests();
-      const showRemoved = sessionStorage.getItem(sessionConstants.trackerShowHidden) === 'true';
+      const showRemoved = Utils.storage.getItem(sessionConstants.trackerShowHidden) === 'true';
 
       const visibleEntries = showOnlyPrimary || showRemoved || removedIds.size === 0 ? questEntries :
        questEntries.filter((entry) => !removedIds.has(entry.id));
@@ -474,7 +474,7 @@ export class QuestTracker extends HandlebarsApplicationMixin(ApplicationV2)
          const groupHeader = showGroups && group !== previousGroup;
          previousGroup = group;
          const groupCollapsed = showGroups &&
-          sessionStorage.getItem(`${sessionConstants.trackerGroupCollapsed}${groupBy}-${group}`) === 'true';
+          Utils.storage.getItem(`${sessionConstants.trackerGroupCollapsed}${groupBy}-${group}`) === 'true';
 
          const rows = expanded ? buildRows(entry) : [];
 

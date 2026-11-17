@@ -218,11 +218,11 @@ export class FQLHooks
       sessionStorage.setItem(sessionConstants.currentPrimaryQuest,
        game.settings.get(constants.moduleName, settings.primaryQuest));
 
-      // Must set initial session storage state for quest tracker background if it doesn't exist.
-      const showBackgroundState = sessionStorage.getItem(sessionConstants.trackerShowBackground);
+      // Must set initial client storage state for quest tracker background if it doesn't exist.
+      const showBackgroundState = Utils.storage.getItem(sessionConstants.trackerShowBackground);
       if (showBackgroundState !== 'true' && showBackgroundState !== 'false')
       {
-         sessionStorage.setItem(sessionConstants.trackerShowBackground, 'true');
+         Utils.storage.setItem(sessionConstants.trackerShowBackground, 'true');
       }
 
       // Initialize current client based macro images based on current state.
@@ -481,7 +481,7 @@ export class FQLHooks
          // Handle setting quest tracker primary change.
          if (typeof opts.primary === 'boolean')
          {
-            sessionStorage.setItem(sessionConstants.trackerShowPrimary, (opts.primary).toString());
+            Utils.storage.setItem(sessionConstants.trackerShowPrimary, (opts.primary).toString());
          }
 
          // Select only constraint related parameters.
@@ -526,8 +526,8 @@ export class FQLHooks
     */
    static renderJournalDirectory(app, html)
    {
-      const element = FQLHooks.#toHTMLElement(html);
-      if (!element) { return; }
+      const element = html instanceof HTMLElement ? html : app?.element;
+      if (!(element instanceof HTMLElement)) { return; }
 
       if (game.user.isGM || !game.settings.get(constants.moduleName, settings.hideFQLFromPlayers))
       {
@@ -569,35 +569,20 @@ export class FQLHooks
     *
     * @param {JournalEntrySheet|JournalSheet}   app - The journal sheet app.
     *
-    * @param {HTMLElement|JQuery}                html - The element for the window content of the app.
+    * @param {HTMLElement}                html - The element for the window content of the app.
     *
     * @see https://foundryvtt.com/api/classes/client.JournalSheet.html
     */
    static renderJournalSheet(app, html)
    {
-      const element = FQLHooks.#toHTMLElement(html) ?? FQLHooks.#toHTMLElement(app?.element);
-      if (!element) { return; }
+      const element = html instanceof HTMLElement ? html : app?.element;
+      if (!(element instanceof HTMLElement)) { return; }
 
       const folder = Utils.getQuestFolder();
       if (folder)
       {
          element.querySelector(`option[value="${folder.id}"]`)?.remove();
       }
-   }
-
-   /**
-    * Normalizes the `html` argument of render hooks, which is an `HTMLElement` for ApplicationV2 and a jQuery object
-    * for legacy ApplicationV1.
-    *
-    * @param {HTMLElement|JQuery|undefined}  html - Render hook element.
-    *
-    * @returns {HTMLElement|undefined} The raw HTMLElement or undefined.
-    */
-   static #toHTMLElement(html)
-   {
-      if (html instanceof HTMLElement) { return html; }
-      if (html?.[0] instanceof HTMLElement) { return html[0]; }
-      return void 0;
    }
 
    /**

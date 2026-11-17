@@ -419,7 +419,7 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
        await HandlerDetails.taskCounterAdjust(event, this.#quest, this), editOrPlayerEdit);
 
       on(domEvents.click, '.actions.tasks .editCounter', async (event) =>
-       await HandlerDetails.taskEditCounter(event, this.#quest, this), edit);
+       await HandlerDetails.taskEditCounter(event, this.#quest, this), editOrPlayerEdit);
 
       on(domEvents.click, '.actions.quest-status .toggleSubquestOptional', async (event) =>
        await HandlerDetails.subquestToggleOptional(event, this), edit);

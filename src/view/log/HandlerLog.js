@@ -98,7 +98,7 @@ export class HandlerLog
       const status = event.target.dataset.tab;
       if (!status) { return; }
 
-      sessionStorage.setItem(`${sessionConstants.logGroupBy}${status}`, event.target.value);
+      Utils.storage.setItem(`${sessionConstants.logGroupBy}${status}`, event.target.value);
 
       questLog.render();
    }
@@ -116,10 +116,10 @@ export class HandlerLog
       if (!header) { return; }
 
       const key = `${sessionConstants.logGroupCollapsed}${header.dataset.tab}-${header.dataset.groupBy}-${header.dataset.groupKey}`;
-      const collapsed = sessionStorage.getItem(key) === 'true';
+      const collapsed = Utils.storage.getItem(key) === 'true';
 
-      if (collapsed) { sessionStorage.removeItem(key); }
-      else { sessionStorage.setItem(key, 'true'); }
+      if (collapsed) { Utils.storage.removeItem(key); }
+      else { Utils.storage.setItem(key, 'true'); }
 
       questLog.render();
    }

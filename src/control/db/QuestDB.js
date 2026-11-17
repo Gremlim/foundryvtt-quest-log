@@ -566,7 +566,19 @@ export class QuestDB
       delete data.date;
 
       // New IDs are generated for the objectives and rewards by the Task / Reward constructors.
-      for (const task of data.tasks ?? []) { delete task.uuidv4; }
+      for (const task of data.tasks ?? [])
+      {
+         delete task.uuidv4;
+
+         // The counters and the number of times of the objectives start from zero in the copy.
+         task.times = 0;
+         if (task.target > 0)
+         {
+            task.count = 0;
+            task.completed = false;
+            task.failed = false;
+         }
+      }
       for (const reward of data.rewards ?? []) { delete reward.uuidv4; reward.closed = false; }
 
       const ownership = source.entry ? foundry.utils.deepClone(FVTTCompat.ownership(source.entry)) : void 0;

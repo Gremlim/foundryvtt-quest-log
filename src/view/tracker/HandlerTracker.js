@@ -1,7 +1,8 @@
 import {
    FoundryUIManager,
    QuestDB,
-   Socket }          from '../../control/index.js';
+   Socket,
+   Utils }           from '../../control/index.js';
 
 import { QuestAPI }  from '../../control/public/index.js';
 
@@ -82,7 +83,7 @@ export class HandlerTracker
    }
 
    /**
-    * Data for the quest folder open / close state is saved in {@link sessionStorage}.
+    * Data for the quest folder open / close state is saved in {@link Utils.storage}.
     *
     * @param {MouseEvent} event - MouseEvent
     *
@@ -95,9 +96,9 @@ export class HandlerTracker
       const questEntry = QuestDB.getQuestEntry(questId);
       if (questEntry && questEntry.enrich.hasObjectives)
       {
-         const folderState = sessionStorage.getItem(`${sessionConstants.trackerFolderState}${questId}`);
+         const folderState = Utils.storage.getItem(`${sessionConstants.trackerFolderState}${questId}`);
          const collapsed = folderState !== 'false';
-         sessionStorage.setItem(`${sessionConstants.trackerFolderState}${questId}`, (!collapsed).toString());
+         Utils.storage.setItem(`${sessionConstants.trackerFolderState}${questId}`, (!collapsed).toString());
 
          questTracker.render();
       }
@@ -112,7 +113,7 @@ export class HandlerTracker
    {
       try
       {
-         const ids = JSON.parse(sessionStorage.getItem(sessionConstants.trackerHiddenQuests) || '[]');
+         const ids = JSON.parse(Utils.storage.getItem(sessionConstants.trackerHiddenQuests) || '[]');
          return new Set(Array.isArray(ids) ? ids : []);
       }
       catch (err) { return new Set(); }
@@ -148,7 +149,7 @@ export class HandlerTracker
       if (removed) { ids.add(questId); }
       else { ids.delete(questId); }
 
-      sessionStorage.setItem(sessionConstants.trackerHiddenQuests, JSON.stringify([...ids]));
+      Utils.storage.setItem(sessionConstants.trackerHiddenQuests, JSON.stringify([...ids]));
    }
 
    /**
@@ -165,7 +166,7 @@ export class HandlerTracker
     */
    static getGroupBy()
    {
-      const value = sessionStorage.getItem(sessionConstants.trackerGroupBy);
+      const value = Utils.storage.getItem(sessionConstants.trackerGroupBy);
       return HandlerTracker.GROUP_BY.includes(value) ? value : 'none';
    }
 
@@ -178,7 +179,7 @@ export class HandlerTracker
    {
       const order = HandlerTracker.GROUP_BY;
       const next = order[(order.indexOf(HandlerTracker.getGroupBy()) + 1) % order.length];
-      sessionStorage.setItem(sessionConstants.trackerGroupBy, next);
+      Utils.storage.setItem(sessionConstants.trackerGroupBy, next);
 
       // The header button icon / tooltip is updated in `QuestTracker._onRender`.
       questTracker.render();
@@ -196,8 +197,8 @@ export class HandlerTracker
       const header = event.currentTarget;
       const key = `${sessionConstants.trackerGroupCollapsed}${HandlerTracker.getGroupBy()}-${header.dataset.groupKey ?? ''}`;
 
-      if (sessionStorage.getItem(key) === 'true') { sessionStorage.removeItem(key); }
-      else { sessionStorage.setItem(key, 'true'); }
+      if (Utils.storage.getItem(key) === 'true') { Utils.storage.removeItem(key); }
+      else { Utils.storage.setItem(key, 'true'); }
 
       questTracker.render();
    }
@@ -209,8 +210,8 @@ export class HandlerTracker
     */
    static showHiddenQuests(questTracker)
    {
-      const newState = !(sessionStorage.getItem(sessionConstants.trackerShowHidden) === 'true');
-      sessionStorage.setItem(sessionConstants.trackerShowHidden, (newState).toString());
+      const newState = !(Utils.storage.getItem(sessionConstants.trackerShowHidden) === 'true');
+      Utils.storage.setItem(sessionConstants.trackerShowHidden, (newState).toString());
 
       // The header button icon / tooltip is updated in `QuestTracker._onRender`.
       questTracker.render();
@@ -223,8 +224,8 @@ export class HandlerTracker
     */
    static questPrimaryShow(questTracker)
    {
-      const newPrimary = !(sessionStorage.getItem(sessionConstants.trackerShowPrimary) === 'true');
-      sessionStorage.setItem(sessionConstants.trackerShowPrimary, (newPrimary).toString());
+      const newPrimary = !(Utils.storage.getItem(sessionConstants.trackerShowPrimary) === 'true');
+      Utils.storage.setItem(sessionConstants.trackerShowPrimary, (newPrimary).toString());
 
       // The header button icon / tooltip is updated in `QuestTracker._onRender`.
       questTracker.render();
@@ -288,8 +289,8 @@ export class HandlerTracker
     */
    static showBackground(questTracker)
    {
-      const newBackgroundState = !(sessionStorage.getItem(sessionConstants.trackerShowBackground) === 'true');
-      sessionStorage.setItem(sessionConstants.trackerShowBackground, (newBackgroundState).toString());
+      const newBackgroundState = !(Utils.storage.getItem(sessionConstants.trackerShowBackground) === 'true');
+      Utils.storage.setItem(sessionConstants.trackerShowBackground, (newBackgroundState).toString());
 
       // The header button icon / tooltip is updated in `QuestTracker._onRender`.
       questTracker.render();

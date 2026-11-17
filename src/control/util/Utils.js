@@ -20,6 +20,29 @@ export class Utils
    }
 
    /**
+    * Client side storage for the state of the interface (quests removed from the tracker, groupings, collapsed groups,
+    * ...). Same methods as `sessionStorage`, but saved in `localStorage` so it is kept when the browser is closed. The
+    * keys include the world and the user, so each user of a browser keeps its own state.
+    *
+    * @type {{getItem: Function, setItem: Function, removeItem: Function}}
+    */
+   static storage = {
+      getItem: (key) => { try { return localStorage.getItem(Utils.#storageKey(key)); } catch (err) { return null; } },
+      setItem: (key, value) => { try { localStorage.setItem(Utils.#storageKey(key), String(value)); } catch (err) { /**/ } },
+      removeItem: (key) => { try { localStorage.removeItem(Utils.#storageKey(key)); } catch (err) { /**/ } }
+   };
+
+   /**
+    * @param {string} key - Storage key.
+    *
+    * @returns {string} The key with the world ID and the user ID.
+    */
+   static #storageKey(key)
+   {
+      return `${key}.${game.world?.id ?? 'world'}.${game.user?.id ?? 'user'}`;
+   }
+
+   /**
     * The hidden FQL quests folder name.
     *
     * @type {string}
