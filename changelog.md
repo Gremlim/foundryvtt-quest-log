@@ -1,5 +1,8 @@
 # Changelog
 
+## Release 0.13.1
+- The hidden and personal icons of the quest window tab bar are now aligned with the primary quest star instead of sitting higher.
+
 ## Release 0.13.0
 - Personal quests. A personal quest is only seen by the players it belongs to and by the GMs. It is based on the permissions of the quest (default permission none, and one or more players with access), so it works with the existing "Configure Permissions".
 - Everyone that can see a personal quest now sees a "Personal" label in the quest list and in the quest window, and the personal icon in the Quest Tracker (before only the GM saw the icon). The names of the players are only shown to the GM, in the tooltip of the icon.

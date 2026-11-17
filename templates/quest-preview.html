@@ -18,10 +18,10 @@
         {{/if}}
       {{/if}}
       {{#if isHidden}}
-        <i class="is-hidden fas fa-eye-slash pad-l-8" title="{{localize 'ForienQuestLog.Tooltips.HiddenQuestNoPlayers'}}"></i>
+        <a class="icon-button"><i class="is-hidden fas fa-eye-slash pad-l-8" title="{{localize 'ForienQuestLog.Tooltips.HiddenQuestNoPlayers'}}"></i></a>
       {{/if}}
       {{#if isPersonal}}
-        <i class="is-personal fas fa-user-shield pad-l-8" title="{{{personalActors}}}"></i>
+        <a class="icon-button"><i class="is-personal fas fa-user-shield pad-l-8" title="{{{personalActors}}}"></i></a>
       {{/if}}
     {{/if}}
   </nav>
