@@ -1,5 +1,8 @@
 # Changelog
 
+## Release 0.26.2
+- The notice to the players when a quest is unlocked by rumors is a Foundry UI notification again (sent by socket to the connected players) instead of a whispered chat message. The earlier problem was caused by another installed module, not by Quest Log.
+
 ## Release 0.26.1
 - Translations: the 13 languages besides English and Spanish (Chinese simplified and traditional, Dutch, Finnish, French, German, Italian, Japanese, Korean, Polish, Portuguese (Brazil), Russian and Swedish) now have all the keys of the English file (173 new strings each, translated by Claude without review by native speakers). Spanish got the missing keybinding texts.
 - Translations: removed 19 unused keys (old Quest Tracker header tooltips, the removed `navStyle` and `dynamicBookmarkBackground` settings, `ShowInTrackerHint`, ...) and fixed outdated texts of `QuestPreview.Title`, `Notifications.QuestMoved` and `DeleteDialog.TitleDel` that did not match the placeholders of the English text.

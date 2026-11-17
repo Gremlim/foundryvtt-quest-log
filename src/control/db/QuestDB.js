@@ -1034,21 +1034,14 @@ export class QuestDB
    }
 
    /**
-    * Tells the players in the chat that a new quest is available because enough rumors were heard (#82). It is a
-    * whisper to all the players (they get it even if they connect later).
+    * Tells the players with a UI notification (sent by socket) that a new quest is available because enough rumors
+    * were heard (#82). Only the players that are connected get it.
     *
     * @returns {Promise<void>}
     */
    static async announceUnlockedByRumors()
    {
-      const whisper = game.users.filter((u) => !u.isGM).map((u) => u.id);
-      if (!whisper.length) { return; }
-
-      await ChatMessage.create({
-         content: `<p><i class="fas fa-scroll"></i> ${game.i18n.localize('QuestLog.Notifications.QuestUnlocked')}</p>`,
-         whisper,
-         speaker: { alias: 'Quest Log' }
-      });
+      Socket.questUnlocked();
    }
 
    /**
