@@ -145,6 +145,10 @@ export class HandlerDetails
             case 'name':
                quest.name = valueOut;
                break;
+
+            case 'location':
+               quest.location = valueOut.trim();
+               break;
          }
          await questPreview.saveQuest(saveOptions);
       };
@@ -1167,6 +1171,26 @@ export class HandlerDetails
          questPreview._activeFocusOutFunction = void 0;
          questPreview.render({ force: true, focus: true });
       });
+   }
+
+   /**
+    * @param {MouseEvent} event - The click event.
+    *
+    * @param {Quest}             quest - The current quest being manipulated.
+    *
+    * @param {QuestPreview}      questPreview - The QuestPreview being manipulated.
+    *
+    * @returns {Promise<void>}
+    */
+   static async taskToggleOptional(event, quest, questPreview)
+   {
+      const uuidv4 = Utils.data(event.target, 'uuidv4');
+      const task = quest.getTask(uuidv4);
+      if (task)
+      {
+         task.optional = !task.optional;
+         await questPreview.saveQuest();
+      }
    }
 
    /**

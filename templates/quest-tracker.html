@@ -1,7 +1,7 @@
 <div class="quest-tracker-content">
     {{#if hasQuests}}<div class="quests">{{/if}}
       {{#each quests}}
-      <div class="quest{{#if (eq id ../primaryQuestId)}} is-primary{{/if}}">
+      <div class="quest{{#if (eq id ../primaryQuestId)}} is-primary{{/if}}{{#if isRemoved}} is-removed{{/if}}">
         <div class="title" {{#if (or isHidden isInactive)}}id="hidden"{{/if}}>
         {{#if hasObjectives}}
         <i class="quest-tracker-toggle fas {{#if expanded}}fa-chevron-down{{else}}fa-chevron-right{{/if}}" data-quest-id="{{id}}" title="{{#if expanded}}{{localize 'ForienQuestLog.QuestTracker.Tooltips.CollapseObjectives'}}{{else}}{{localize 'ForienQuestLog.QuestTracker.Tooltips.ExpandObjectives'}}{{/if}}"></i>
@@ -13,6 +13,7 @@
         </div>
         <span class="quest-tracker-span"></span>
         <span class="quest-tracker-icons">
+        <i class="quest-tracker-remove fas {{#if isRemoved}}fa-eye{{else}}fa-xmark{{/if}}" data-quest-id="{{id}}" title="{{#if isRemoved}}{{localize 'ForienQuestLog.QuestTracker.Tooltips.RestoreQuest'}}{{else}}{{localize 'ForienQuestLog.QuestTracker.Tooltips.RemoveQuest'}}{{/if}}"></i>
         {{#if (eq id ../primaryQuestId)}}<i class="is-primary fas fa-star" title="{{localize 'ForienQuestLog.Tooltips.PrimaryQuest'}}"></i>{{/if}}
         {{#if isGM}}
           {{#if isHidden}}<i class="is-hidden fas fa-eye-slash" title="{{localize 'ForienQuestLog.Tooltips.HiddenQuestNoPlayers'}}"></i>{{/if}}
@@ -41,10 +42,10 @@
           {{else}}
           {{#if (or canEdit playerEdit)}}
             <li class="quest-tracker-task" data-quest-id="{{questId}}" data-uuidv4="{{uuidv4}}">
-              <div class="task {{state}}" {{#if hidden}}id="hidden"{{/if}}><span class="task-label {{state}}" title="{{#if (eq state 'check-square')}}{{localize 'ForienQuestLog.QuestTracker.Tooltips.TaskCompleted'}}{{else if (eq state 'minus-square')}}{{localize 'ForienQuestLog.QuestTracker.Tooltips.TaskFailed'}}{{else}}{{localize 'ForienQuestLog.QuestTracker.Tooltips.TaskPending'}}{{/if}}">{{#if (eq state 'check-square')}}C{{else if (eq state 'minus-square')}}F{{else}}P{{/if}}</span><span class="{{state}}">{{{name}}}</span></div>
+              <div class="task {{state}}" {{#if hidden}}id="hidden"{{/if}}><span class="task-label {{state}}" title="{{#if (eq state 'check-square')}}{{localize 'ForienQuestLog.QuestTracker.Tooltips.TaskCompleted'}}{{else if (eq state 'minus-square')}}{{localize 'ForienQuestLog.QuestTracker.Tooltips.TaskFailed'}}{{else}}{{localize 'ForienQuestLog.QuestTracker.Tooltips.TaskPending'}}{{/if}}">{{#if (eq state 'check-square')}}C{{else if (eq state 'minus-square')}}F{{else}}P{{/if}}</span><span class="{{state}}">{{{name}}}{{#if optional}} <em class="task-optional-label">({{localize 'ForienQuestLog.QuestTracker.Optional'}})</em>{{/if}}</span></div>
             </li>
           {{else}}
-            <li class="task {{state}}" {{#if hidden}}id="hidden"{{/if}}><span class="task-label {{state}}" title="{{#if (eq state 'check-square')}}{{localize 'ForienQuestLog.QuestTracker.Tooltips.TaskCompleted'}}{{else if (eq state 'minus-square')}}{{localize 'ForienQuestLog.QuestTracker.Tooltips.TaskFailed'}}{{else}}{{localize 'ForienQuestLog.QuestTracker.Tooltips.TaskPending'}}{{/if}}">{{#if (eq state 'check-square')}}C{{else if (eq state 'minus-square')}}F{{else}}P{{/if}}</span><span class="{{state}}">{{{name}}}</span></li>
+            <li class="task {{state}}" {{#if hidden}}id="hidden"{{/if}}><span class="task-label {{state}}" title="{{#if (eq state 'check-square')}}{{localize 'ForienQuestLog.QuestTracker.Tooltips.TaskCompleted'}}{{else if (eq state 'minus-square')}}{{localize 'ForienQuestLog.QuestTracker.Tooltips.TaskFailed'}}{{else}}{{localize 'ForienQuestLog.QuestTracker.Tooltips.TaskPending'}}{{/if}}">{{#if (eq state 'check-square')}}C{{else if (eq state 'minus-square')}}F{{else}}P{{/if}}</span><span class="{{state}}">{{{name}}}{{#if optional}} <em class="task-optional-label">({{localize 'ForienQuestLog.QuestTracker.Optional'}})</em>{{/if}}</span></li>
           {{/if}}
           {{/if}}
           {{/each}}

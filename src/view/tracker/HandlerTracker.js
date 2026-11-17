@@ -104,6 +104,56 @@ export class HandlerTracker
    }
 
    /**
+    * Gets the IDs of the quests that the user removed from the tracker.
+    *
+    * @returns {Set<string>} Set of quest IDs.
+    */
+   static getRemovedQuests()
+   {
+      try
+      {
+         const ids = JSON.parse(sessionStorage.getItem(sessionConstants.trackerHiddenQuests) || '[]');
+         return new Set(Array.isArray(ids) ? ids : []);
+      }
+      catch (err) { return new Set(); }
+   }
+
+   /**
+    * Removes a quest from the tracker of this user or restores it.
+    *
+    * @param {MouseEvent}     event - The click event.
+    *
+    * @param {QuestTracker}   questTracker - The QuestTracker.
+    */
+   static questRemoveToggle(event, questTracker)
+   {
+      const questId = event.currentTarget.dataset.questId;
+      if (!questId) { return; }
+
+      const removed = HandlerTracker.getRemovedQuests();
+      if (removed.has(questId)) { removed.delete(questId); }
+      else { removed.add(questId); }
+
+      sessionStorage.setItem(sessionConstants.trackerHiddenQuests, JSON.stringify([...removed]));
+
+      questTracker.render();
+   }
+
+   /**
+    * Handles the header button to also show the quests removed from the tracker.
+    *
+    * @param {QuestTracker}   questTracker - The QuestTracker.
+    */
+   static showHiddenQuests(questTracker)
+   {
+      const newState = !(sessionStorage.getItem(sessionConstants.trackerShowHidden) === 'true');
+      sessionStorage.setItem(sessionConstants.trackerShowHidden, (newState).toString());
+
+      // The header button icon / tooltip is updated in `QuestTracker._onRender`.
+      questTracker.render();
+   }
+
+   /**
     * Handles the header button to show the primary quest or all quests.
     *
     * @param {QuestTracker}   questTracker - The QuestTracker.

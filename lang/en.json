@@ -142,7 +142,10 @@
         "DragDropRewards": "Drag & drop items here to add them as rewards.",
         "GMNotes": "GM Notes:",
         "Objective": "Objective",
+        "Location": "Location",
+        "NoLocation": "No location",
         "Objectives": "Objectives:",
+        "Optional": "optional",
         "PlayerNotes": "Player Notes:",
         "Quantity": "Quantity",
         "QuantityTake": "Quantity to take:",
@@ -219,6 +222,8 @@
         "RewardVisible": "Reward is visible. Click to hide.",
         "ShowAll": "Show All",
         "TaskHidden": "Objective is hidden. Click to show.",
+        "TaskOptional": "Optional (bonus) objective. Click to make it required.",
+        "TaskRequired": "Required objective. Click to make it optional (bonus).",
         "TaskVisible": "Objective is visible. Click to hide.",
         "ToggleImage": "Toggle Token/Actor image.",
         "UnlockAll": "Unlock All",
@@ -228,6 +233,7 @@
     "QuestTracker": {
       "NoPrimary": "No primary quest available.",
       "NoQuests": "No quests available.",
+      "Optional": "optional",
       "Title": "Quest Tracker",
       "Tooltips": {
         "BackgroundShow": "Click to show background.",
@@ -239,7 +245,11 @@
         "TaskPending": "Pending",
         "ExpandObjectives": "Click to show the objectives.",
         "PrimaryQuestShow": "Click to show primary quest.",
-        "PrimaryQuestUnshow": "Click to show all quests."
+        "PrimaryQuestUnshow": "Click to show all quests.",
+        "RemoveQuest": "Remove this quest from your tracker.",
+        "RemovedShow": "Click to also show the quests removed from your tracker.",
+        "RemovedUnshow": "Click to hide the quests removed from your tracker.",
+        "RestoreQuest": "Show this quest again in your tracker."
       }
     },
     "QuestTypes": {

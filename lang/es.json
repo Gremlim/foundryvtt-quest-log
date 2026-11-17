@@ -128,7 +128,10 @@
         "DragDropRewards": "Arrastra y Suelta elementos aquí para añadirlos como recompensas.",
         "GMNotes": "Notas del GM:",
         "Objective": "Objetivo",
+        "Location": "Ubicación",
+        "NoLocation": "Sin ubicación",
         "Objectives": "Objetivos:",
+        "Optional": "opcional",
         "PlayerNotes": "Notas del jugador:",
         "Quantity": "Cantidad",
         "QuantityTake": "Cantidad a coger:",
@@ -205,6 +208,8 @@
         "RewardVisible": "La recompensa está visible. Haz clic para ocultar.",
         "ShowAll": "Mostrar Todo",
         "TaskHidden": "El objetivo está oculto. Haz clic para mostrar.",
+        "TaskOptional": "Objetivo opcional (extra). Haz clic para hacerlo obligatorio.",
+        "TaskRequired": "Objetivo obligatorio. Haz clic para hacerlo opcional (extra).",
         "TaskVisible": "La tarea está visible. Haz clic para ocultar.",
         "ToggleImage": "Alternar entre imagen de token o actor.",
         "UnlockAll": "Desbloquear Todo",
@@ -214,6 +219,7 @@
     "QuestTracker": {
       "NoPrimary": "No hay misión principal disponible.",
       "NoQuests": "No hay misiones disponibles.",
+      "Optional": "opcional",
       "Title": "Seguimiento de Misiones",
       "Tooltips": {
         "BackgroundShow": "Haz clic para mostrar el fondo.",
@@ -225,7 +231,11 @@
         "TaskPending": "Pendiente",
         "ExpandObjectives": "Haz clic para mostrar los objetivos.",
         "PrimaryQuestShow": "Haz clic para mostrar la misión principal.",
-        "PrimaryQuestUnshow": "Haz clic para mostrar todas las misiones."
+        "PrimaryQuestUnshow": "Haz clic para mostrar todas las misiones.",
+        "RemoveQuest": "Quitar esta misión de tu tracker.",
+        "RemovedShow": "Haz clic para mostrar también las misiones quitadas de tu tracker.",
+        "RemovedUnshow": "Haz clic para ocultar las misiones quitadas de tu tracker.",
+        "RestoreQuest": "Volver a mostrar esta misión en tu tracker."
       }
     },
     "QuestTypes": {

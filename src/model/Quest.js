@@ -592,6 +592,13 @@ export class Quest
       this.allowPlayerEdit = data.allowPlayerEdit === true;
 
       /**
+       * Optional location where the quest takes place (free text).
+       *
+       * @type {string}
+       */
+      this.location = typeof data.location === 'string' ? data.location : '';
+
+      /**
        * Who created the quest: `{ id, name, gm }`. Quests without this data (created before the creator was stored)
        * are considered created by a GM.
        *
@@ -1012,6 +1019,7 @@ export class Quest
          history: this.history,
          creator: this.creator,
          allowPlayerEdit: this.allowPlayerEdit,
+         location: this.location,
          tasks: this.tasks,
          rewards: this.rewards,
          date: this.date
@@ -1192,6 +1200,13 @@ export class Task
       this.hidden = data.hidden || false;
 
       /**
+       * Optional (bonus) objective. It does not count in the completed / total objectives of the quest.
+       *
+       * @type {boolean}
+       */
+      this.optional = data.optional || false;
+
+      /**
        * @type {string}
        */
       this.uuidv4 = data.uuidv4 || Utils.uuidv4();
@@ -1227,6 +1242,7 @@ export class Task
          completed: this.completed,
          failed: this.failed,
          hidden: this.hidden,
+         optional: this.optional,
          state: this.state,
          uuidv4: this.uuidv4
       }));
@@ -1305,6 +1321,8 @@ export class Task
  * @property {object[]}          [history] - Activity log entries (`t`, `user`, `type` and details).
  * @property {object|null}       [creator] - Who created the quest (`id`, `name`, `gm`).
  * @property {boolean}           [allowPlayerEdit] - Owners can edit a quest created by a GM.
+ *
+ * @property {string}            [location] - Optional location where the quest takes place.
  *
  * @property {QuestTaskData[]}   tasks - An array of tasks.
  *

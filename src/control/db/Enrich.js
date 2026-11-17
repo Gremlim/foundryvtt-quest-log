@@ -340,24 +340,24 @@ export class Enrich
 
       if (countHidden)
       {
-         data.checkedTasks = data.tasks.filter((t) => t.completed).length;
+         data.checkedTasks = data.tasks.filter((t) => !t.optional && t.completed).length;
 
          const finishedSubquests = data.data_subquest.filter((s) => questStatus.completed === s.status).length;
 
          data.checkedTasks += finishedSubquests;
 
-         data.totalTasks = data.tasks.length + data.subquests.length;
+         data.totalTasks = data.tasks.filter((t) => !t.optional).length + data.subquests.length;
       }
       else
       {
-         data.checkedTasks = data.tasks.filter((t) => !t.hidden && t.completed).length;
+         data.checkedTasks = data.tasks.filter((t) => !t.hidden && !t.optional && t.completed).length;
 
          const finishedSubquests = data.data_subquest.filter(
           (s) => !s.isObservable && !s.isInactive && questStatus.completed === s.status).length;
 
          data.checkedTasks += finishedSubquests;
 
-         data.totalTasks = data.tasks.filter((t) => !t.hidden).length +
+         data.totalTasks = data.tasks.filter((t) => !t.hidden && !t.optional).length +
           data.data_subquest.filter((s) => !s.isObservable && !s.isInactive).length;
       }
 

@@ -1,5 +1,14 @@
 # Changelog
 
+## Release 0.15.2
+- Quest Tracker: each quest has a new button (visible when hovering it) to remove it from your own tracker, and a new header button to also show the quests you removed (dimmed, with a button to restore them). It only affects your tracker; the quest and the other users are not changed. (Forien #121)
+
+## Release 0.15.1
+- Quests now have an optional Location (free text, for example a city or region). It is edited with the pencil below the quest giver name in the quest window (GM or players who can edit the quest) and it is shown in the quest window and in the Quest Log list. Duplicated quests keep their location. (Forien #100)
+
+## Release 0.15.0
+- Objectives can now be marked as optional (bonus) with a star button in the quest window (GM or players who can edit the quest). Optional objectives show an "(optional)" label in the quest window and in the Quest Tracker, and they are not counted in the completed / total objectives of the quest. (Forien #102)
+
 ## Release 0.14.0
 - Redesigned the look of the Quest Tracker. Each quest is now a card (a slightly darker block with an accent line at the left; with the window background removed only the line remains) so quests are easy to tell apart, and the primary quest has its line in the accent color.
 - All the quest titles are aligned: a quest without objectives reserves the space of the chevron, and the objectives and subquests are aligned with the title text instead of being indented differently.

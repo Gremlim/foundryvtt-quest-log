@@ -178,6 +178,32 @@
           }
         }
 
+        .quest-location {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          padding-left: 6px;
+
+          .editable-container {
+            flex: 0 0 auto;
+
+            input {
+              margin-bottom: 2px;
+              padding: 0;
+              height: 22px;
+            }
+          }
+
+          p.location {
+            margin: 0;
+
+            .no-location {
+              font-style: italic;
+              opacity: .6;
+            }
+          }
+        }
+
         .quest-giver-name .action-single {
           flex: 0 0 1px;
         }
@@ -412,6 +438,14 @@
               width: 18px;
             }
           }
+
+          .task-optional-label {
+            font-style: italic;
+            opacity: .7;
+            font-size: .9em;
+          }
+
+          .toggleOptional.far { opacity: .6; }
 
           .task-hidden {
             background: $primary-color-bg-li-hidden;

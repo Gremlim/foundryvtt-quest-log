@@ -76,6 +76,7 @@ export class QuestTracker extends HandlebarsApplicationMixin(ApplicationV2)
       actions: {
          shareTracker: QuestTracker.#onShareTracker,
          showBackground: QuestTracker.#onShowBackground,
+         showHidden: QuestTracker.#onShowHidden,
          showPrimary: QuestTracker.#onShowPrimary
       }
    };
@@ -208,7 +209,7 @@ export class QuestTracker extends HandlebarsApplicationMixin(ApplicationV2)
       {
          const first = header.querySelector('.header-control');
 
-         const actions = ['showPrimary', 'showBackground'];
+         const actions = ['showPrimary', 'showHidden', 'showBackground'];
 
          // Share the tracker w/ remote clients.
          if (game.user.isGM) { actions.push('shareTracker'); }
@@ -252,6 +253,9 @@ export class QuestTracker extends HandlebarsApplicationMixin(ApplicationV2)
 
       // The toggle button next to the quest title shows / hides the objectives without the double click delay.
       Utils.on(html, domEvents.click, '.quest-tracker-toggle', (event) => HandlerTracker.questClick(event, this));
+
+      // Removes / restores a quest in the tracker of this user.
+      Utils.on(html, domEvents.click, '.quest-tracker-remove', (event) => HandlerTracker.questRemoveToggle(event, this));
 
       Utils.on(html, domEvents.click, '.quest-tracker-task', async (event) =>
        await HandlerTracker.questTaskToggle(event));
@@ -386,7 +390,14 @@ export class QuestTracker extends HandlebarsApplicationMixin(ApplicationV2)
          return rows;
       };
 
-      return questEntries.transform((entry) =>
+      // Quests removed from the tracker by the user; they are only listed (dimmed) when the user asks for them.
+      const removedIds = HandlerTracker.getRemovedQuests();
+      const showRemoved = sessionStorage.getItem(sessionConstants.trackerShowHidden) === 'true';
+
+      const visibleEntries = showOnlyPrimary || showRemoved || removedIds.size === 0 ? questEntries :
+       questEntries.filter((entry) => !removedIds.has(entry.id));
+
+      return visibleEntries.transform((entry) =>
       {
          const q = entry.enrich;
          const expanded = isExpanded(q.id);
@@ -395,6 +406,7 @@ export class QuestTracker extends HandlebarsApplicationMixin(ApplicationV2)
 
          return {
             id: q.id,
+            isRemoved: removedIds.has(q.id),
             canEdit: isGM || (entry.quest.isEditOwner && isTrustedPlayerEdit),
             playerEdit: entry.quest.isEditOwner,
             source: q.giver,
@@ -559,6 +571,16 @@ export class QuestTracker extends HandlebarsApplicationMixin(ApplicationV2)
    }
 
    /**
+    * Toggles showing the quests that the user removed from the tracker.
+    *
+    * @this {QuestTracker}
+    */
+   static #onShowHidden()
+   {
+      HandlerTracker.showHiddenQuests(this);
+   }
+
+   /**
     * Toggles showing only the primary quest.
     *
     * @this {QuestTracker}
@@ -645,6 +667,7 @@ export class QuestTracker extends HandlebarsApplicationMixin(ApplicationV2)
 
       const showBackgroundState = sessionStorage.getItem(sessionConstants.trackerShowBackground) === 'true';
       const primaryState = sessionStorage.getItem(sessionConstants.trackerShowPrimary) === 'true';
+      const showHiddenState = sessionStorage.getItem(sessionConstants.trackerShowHidden) === 'true';
 
       const buttons = {
          shareTracker: {
@@ -655,6 +678,11 @@ export class QuestTracker extends HandlebarsApplicationMixin(ApplicationV2)
             icon: showBackgroundState ? 'fas fa-fill on' : 'fas fa-fill off',
             tooltip: game.i18n.localize(showBackgroundState ? 'ForienQuestLog.QuestTracker.Tooltips.BackgroundUnshow' :
              'ForienQuestLog.QuestTracker.Tooltips.BackgroundShow')
+         },
+         showHidden: {
+            icon: showHiddenState ? 'fas fa-list-check on' : 'fas fa-list-check off',
+            tooltip: game.i18n.localize(showHiddenState ? 'ForienQuestLog.QuestTracker.Tooltips.RemovedUnshow' :
+             'ForienQuestLog.QuestTracker.Tooltips.RemovedShow')
          },
          showPrimary: {
             icon: primaryState ? 'fas fa-star' : 'far fa-star',

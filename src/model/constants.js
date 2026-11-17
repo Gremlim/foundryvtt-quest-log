@@ -74,7 +74,9 @@ const questTabIndex = {
 const sessionConstants = {
    currentPrimaryQuest: 'quest-log.questlog.currentPrimaryQuest',
    trackerFolderState: 'quest-log.questtracker.folderState-',
+   trackerHiddenQuests: 'quest-log.questtracker.hiddenQuests',
    trackerShowBackground: 'quest-log.questtracker.showBackground',
+   trackerShowHidden: 'quest-log.questtracker.showHidden',
    trackerShowPrimary: 'quest-log.questtracker.showPrimary'
 };
 
@@ -120,6 +122,10 @@ export { constants, domEvents, questStatus, questStatusI18n, questTabIndex, sess
  * @property {string}   currentPrimaryQuest - Stores current primary quest set from {@link FQLSettings.primaryQuest}.
  *
  * @property {string}   trackerFolderState - Stores a boolean with tacked on quest ID for whether objectives are shown.
+ *
+ * @property {string}   trackerHiddenQuests - Stores a JSON array of the IDs of the quests the user removed from the tracker.
+ *
+ * @property {string}   trackerShowHidden - Stores a boolean if the tracker also shows the quests removed from it.
  *
  * @property {string}   trackerShowBackground - Shows / hides the quest tracker background.
  *

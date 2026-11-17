@@ -137,6 +137,21 @@
       border-left-color: $primary-color-accent;
     }
 
+    // Quests the user removed from the tracker (only listed when requested) are dimmed.
+    &.is-removed {
+      opacity: .5;
+    }
+
+    // The remove button only appears when hovering the quest.
+    .quest-tracker-remove {
+      opacity: 0;
+      transition: opacity .2s ease;
+    }
+
+    &:hover .quest-tracker-remove, &.is-removed .quest-tracker-remove {
+      opacity: .8;
+    }
+
     .title {
       a, i {
         // Must specifically target elements to support context menu.
@@ -244,6 +259,11 @@
           height: 16px;
           font-size: 11px;
         }
+      }
+
+      .task-optional-label {
+        font-style: italic;
+        opacity: .75;
       }
 
       .quest-tracker-task {

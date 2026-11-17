@@ -26,6 +26,7 @@
           <p class="subquest">{{fql_format 'ForienQuestLog.QuestLog.Labels.SubTitle' data_parent.name}}</p>
         {{/if}}
         {{#if isPersonal}}<p class="personal">{{localize 'ForienQuestLog.QuestLog.Labels.Personal'}}</p>{{/if}}
+        {{#if location}}<p class="location"><i class="fas fa-location-dot"></i> {{location}}</p>{{/if}}
         {{#if creatorLabel}}<p class="creator">{{creatorLabel}}</p>{{/if}}
       </div>
       {{#unless (eq ../../showTasks 'no')}}
