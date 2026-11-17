@@ -33,7 +33,7 @@ export class QuestPreviewShim
    /**
     * Noop shim
     */
-   bringToTop() {}
+   bringToFront() {}
 
    /**
     * Noop shim

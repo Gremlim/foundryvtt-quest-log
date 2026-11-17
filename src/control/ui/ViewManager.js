@@ -110,9 +110,9 @@ export class ViewManager
     *
     * @param {boolean}  [opts.questPreview=false] - If true closes all QuestPreview apps.
     *
-    * @param {...*}     [opts.options] - Optional parameters passed onto {@link Application.close}
+    * @param {...*}     [opts.options] - Optional parameters passed onto {@link ApplicationV2.close}
     *
-    * @see https://foundryvtt.com/api/classes/client.Application.html#close
+    * @see https://foundryvtt.com/api/classes/foundry.applications.api.ApplicationV2.html#close
     */
    static closeAll({ questPreview = false, ...options } = {})
    {
@@ -154,13 +154,13 @@ export class ViewManager
          for (const id of questId)
          {
             const questPreview = ViewManager.questPreview.get(id);
-            if (questPreview !== void 0) { questPreview.render(true, options); }
+            if (questPreview !== void 0) { questPreview.render({ force: true, ...options }); }
          }
       }
       else
       {
          const questPreview = ViewManager.questPreview.get(questId);
-         if (questPreview !== void 0) { questPreview.render(true, options); }
+         if (questPreview !== void 0) { questPreview.render({ force: true, ...options }); }
       }
    }
 
@@ -175,14 +175,14 @@ export class ViewManager
     *
     * @param {boolean}  [opts.questPreview] - Render all open QuestPreview apps.
     *
-    * @param {...*}     [opts.options] - Remaining options for the {@link Application.render} method.
+    * @param {...*}     [opts.options] - Remaining options for the {@link ApplicationV2.render} method.
     *
-    * @see https://foundryvtt.com/api/classes/client.Application.html#render
+    * @see https://foundryvtt.com/api/classes/foundry.applications.api.ApplicationV2.html#render
     */
    static renderAll({ force = false, questPreview = false, ...options } = {})
    {
       // Never force render the quest log to maintain quest details pages above the log.
-      if (ViewManager.questLog.rendered) { ViewManager.questLog.render(false, options); }
+      if (ViewManager.questLog.rendered) { ViewManager.questLog.render(options); }
 
       ViewManager.renderOrCloseQuestTracker({ updateSetting: false });
 
@@ -190,7 +190,7 @@ export class ViewManager
       {
          for (const qp of ViewManager.questPreview.values())
          {
-            if (qp.rendered) { qp.render(force, options); }
+            if (qp.rendered) { qp.render({ force, ...options }); }
          }
       }
    }
@@ -207,7 +207,7 @@ export class ViewManager
    {
       if (ViewManager.isQuestTrackerVisible())
       {
-         ViewManager.questTracker.render(true, { focus: false });
+         ViewManager.questTracker.render({ force: true, focus: false });
       }
       else
       {
@@ -240,16 +240,16 @@ export class ViewManager
       if (swapTab)
       {
          const questLog = ViewManager.questLog;
-         if (questLog._tabs[0] && quest.status !== questLog?._tabs[0]?.active && null !== questLog?._tabs[0]?._nav)
+         if (questLog.rendered && quest.status !== questLog.tabGroups.primary)
          {
-            questLog._tabs[0].activate(quest.status);
+            questLog.changeTab(quest.status, 'primary', { force: true, updatePosition: false });
          }
       }
 
       if (quest.isObservable)
       {
          const questSheet = quest.sheet;
-         questSheet.render(true, { focus: true });
+         questSheet.render({ force: true, focus: true });
 
          // Set current QuestPreview being tracked as the add app.
          this.#newQuestPreviewApp = questSheet;
@@ -269,7 +269,7 @@ export class ViewManager
       {
          if (this.#newQuestPreviewApp.rendered)
          {
-            this.#newQuestPreviewApp.bringToTop();
+            this.#newQuestPreviewApp.bringToFront();
             ViewManager.notifications.warn(game.i18n.localize('ForienQuestLog.Notifications.FinishQuestAdded'));
             return false;
          }

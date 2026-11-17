@@ -1,5 +1,25 @@
 # Changelog
 
+## Release 0.9.1
+- Compatibility with Foundry v14 (verified on 14.370); minimum remains v13.
+  - `module.json`: compatibility `maximum` raised to 14 (v14 refuses to load packages above their declared maximum).
+  - Macro compendium pack paths now point to the LevelDB folders (`packs/macro-gm`, `packs/macro-player`).
+  - Replaced bare globals deprecated in v13 (`FilePicker`, `Application.RENDER_STATES`) with their `foundry.*` namespaces.
+  - Removed the `async` option from `TextEditor.enrichHTML` calls (always async).
+  - Removed the `engine="prosemirror"` parameter from the `{{editor}}` helper (TinyMCE was removed in v14).
+  - Fixed the Journal Directory hook throwing when the footer / quest folder element was missing, and made the
+    "hide quest folder" journal sheet hook work with the ApplicationV2 `JournalEntrySheet`.
+- Migrated every window to ApplicationV2 (ApplicationV1 is deprecated and slated for removal):
+  - Quest Log, Quest Tracker and Quest Preview now use `ApplicationV2` + `HandlebarsApplicationMixin` (tabs, header
+    controls and actions use the V2 APIs). The Quest Preview is no longer a `FormApplication`.
+  - Rich text fields use the core `<prose-mirror>` element instead of the `{{editor}}` helper.
+  - Confirmation dialogs use `DialogV2`; the ownership configuration uses `DocumentOwnershipConfig` (V2).
+  - Context menus use the v14 `ContextMenu` API (`label` / `onClick`, no jQuery).
+  - `ImagePopout` and `FilePicker` are used through `foundry.applications.apps`.
+  - SCSS: `@import` replaced by `@use`; selectors updated for V2 (`.application`, `.window-resize-handle`,
+    `prose-mirror`).
+  - API note: `Utils.showSheetFromUUID` now resolves with the opened sheet instead of an `appId`.
+
 ## Release 0.9.0
 - Compatibility with Foundry v13
   - This does not include migration to ApplicationV2 as that will take longer and 

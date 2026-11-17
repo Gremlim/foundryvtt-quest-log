@@ -111,12 +111,10 @@ export class FVTTCompat
 
       try
       {
-         // Attempt to retrieve content from TinyMCE editor instance.
-         content = editor?.mce?.getContent?.();
+         // `<prose-mirror>` form element (Foundry v14) provides the serialized HTML in `value`.
+         if (typeof editor?.value === 'string') { return editor.value; }
 
-         if (typeof content === 'string') { return content; }
-
-         // Attempt to retrieve content from ProseMirror editor instance.
+         // Legacy ProseMirror editor instance.
          if (editor?.instance?.view)
          {
             content = globalThis.ProseMirror.dom.serializeString(editor.instance.view.state.doc.content);

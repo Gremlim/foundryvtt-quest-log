@@ -56,7 +56,7 @@ class QuestAPI
          // app / view.
          if (questPreview !== void 0)
          {
-            questPreview.render(true, { focus: true });
+            questPreview.render({ force: true, focus: true });
             return;
          }
 
@@ -77,7 +77,7 @@ class QuestAPI
 
          if (quest.isObservable)
          {
-            quest.sheet.render(true, { focus: true });
+            quest.sheet.render({ force: true, focus: true });
          }
       }
       catch (error)

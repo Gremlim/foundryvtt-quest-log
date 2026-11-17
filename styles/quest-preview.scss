@@ -1,4 +1,7 @@
-.window-app.forien-quest-preview {
+@use 'global-variables' as *;
+@use 'global-mixin' as *;
+
+.application.forien-quest-preview {
   min-width: 1000px;
   min-height: 640px;
 
@@ -670,11 +673,11 @@
       }
     }
 
-    .editor {
+    prose-mirror {
       height: calc(100% - 30px);
     }
 
-    .gmnotes .editor {
+    .gmnotes prose-mirror {
       height: calc(100% - 36px);
     }
   }

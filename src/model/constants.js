@@ -4,7 +4,7 @@
  * @type {{folderState: string, flagDB: string, moduleName: string, moduleLabel: string, primaryState: string}}
  */
 const constants = {
-   moduleName: 'forien-quest-log',
+   moduleName: 'quest-log',
    moduleLabel: `Forien's Quest Log`,
    flagDB: 'json'
 };

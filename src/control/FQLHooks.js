@@ -37,7 +37,8 @@ import {
  * - `getSceneControlButtons` - {@link FQLHooks.getSceneControlButtons} - Add FQL scene controls to 'note'.
  * - `hotbarDrop` - {@link FQLHooks.hotbarDrop} - Handle {@link Quest} drops to the macro hotbar.
  * - `renderJournalDirectory` - {@link FQLHooks.renderJournalDirectory} - Add 'open quest log' / show FQL folder.
- * - `renderJournalSheet` - {@link FQLHooks.renderJournalSheet} - Hide FQL directory from journal sheet option items.
+ * - `renderJournalEntrySheet` / `renderJournalSheet` - {@link FQLHooks.renderJournalSheet} - Hide FQL directory from
+ * journal sheet option items (ApplicationV2 / legacy ApplicationV1 sheets respectively).
  *
  * FQL hooks (response):
  * - `ForienQuestLog.Open.QuestLog` - {@link FQLHooks.openQuestLog} - Open the quest log.
@@ -74,7 +75,8 @@ export class FQLHooks
       Hooks.on('getSceneControlButtons', FQLHooks.getSceneControlButtons);
       Hooks.on('hotbarDrop', FQLHooks.hotbarDrop);
       Hooks.on('renderJournalDirectory', FQLHooks.renderJournalDirectory);
-      Hooks.on('renderJournalSheet', FQLHooks.renderJournalSheet);
+      Hooks.on('renderJournalEntrySheet', FQLHooks.renderJournalSheet);
+      Hooks.on('renderJournalSheet', FQLHooks.renderJournalSheet); // Legacy ApplicationV1 sheets.
 
       // FQL specific hooks.
       Hooks.on('ForienQuestLog.Open.QuestLog', FQLHooks.openQuestLog);
@@ -186,7 +188,7 @@ export class FQLHooks
 
    /**
     * Provides the setup FQL initialization during the `setup` Foundry lifecycle hook. Make the public QuestAPI
-    * accessible from `game.modules('forien-quest-log').public.QuestAPI`.
+    * accessible from `game.modules.get('quest-log').public.QuestAPI`.
     */
    static foundrySetup()
    {
@@ -396,7 +398,7 @@ export class FQLHooks
          if (typeof opts.tabId === 'string') { tabId = opts.tabId; }
       }
 
-      ViewManager.questLog.render(true, { focus: true, ...constraints, tabId });
+      ViewManager.questLog.render({ force: true, focus: true, ...constraints, tabId });
    }
 
    /**
@@ -475,34 +477,38 @@ export class FQLHooks
     */
    static renderJournalDirectory(app, html)
    {
+      const element = FQLHooks.#toHTMLElement(html);
+      if (!element) { return; }
+
       if (game.user.isGM || !game.settings.get(constants.moduleName, settings.hideFQLFromPlayers))
       {
-         const button = document.createElement('button');
-         button.classList.add("quest-log-btn");
-         button.innerText = game.i18n.localize('ForienQuestLog.QuestLog.Title');
-
-         let footer = html.querySelector('.directory-footer');
-         if (footer.length === 0)
+         // Avoid adding the button twice if the directory is re-rendered without replacing the element.
+         if (!element.querySelector('.quest-log-btn'))
          {
-            footer = document.createElement("footer");
-            footer.classList.add("directory-footer");
-            html.append(footer);
-         }
-         footer.append(button);
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.classList.add('quest-log-btn');
+            button.innerText = game.i18n.localize('ForienQuestLog.QuestLog.Title');
 
-         button.addEventListener("click", () => ViewManager.questLog.render(true));
+            let footer = element.querySelector('.directory-footer');
+            if (!footer)
+            {
+               footer = document.createElement('footer');
+               footer.classList.add('directory-footer');
+               element.append(footer);
+            }
+            footer.append(button);
+
+            button.addEventListener('click', () => ViewManager.questLog.render({ force: true }));
+         }
       }
 
       if (!(game.user.isGM && game.settings.get(constants.moduleName, settings.showFolder)))
       {
          const folder = Utils.getQuestFolder();
-         if (folder !== void 0)
+         if (folder)
          {
-            const element = html.querySelector(`.folder[data-folder-id="${folder.id}"]`);
-            if (element !== void 0)
-            {
-               element.remove();
-            }
+            element.querySelector(`.folder[data-folder-id="${folder.id}"]`)?.remove();
          }
       }
    }
@@ -511,21 +517,37 @@ export class FQLHooks
     * Remove option item for quest journal folder when any journal entry is rendered. This prevents users from placing
     * non-quest journals into the quest journal folder.
     *
-    * @param {JournalSheet}   app - The JournalSheet app.
+    * @param {JournalEntrySheet|JournalSheet}   app - The journal sheet app.
     *
-    * @param {JQuery}         html - The jQuery element for the window content of the app.
+    * @param {HTMLElement|JQuery}                html - The element for the window content of the app.
     *
     * @see https://foundryvtt.com/api/classes/client.JournalSheet.html
     */
    static renderJournalSheet(app, html)
    {
+      const element = FQLHooks.#toHTMLElement(html) ?? FQLHooks.#toHTMLElement(app?.element);
+      if (!element) { return; }
+
       const folder = Utils.getQuestFolder();
       if (folder)
       {
-         const option = html.find(`option[value="${folder.id}"]`);
-
-         if (option) { option.remove(); }
+         element.querySelector(`option[value="${folder.id}"]`)?.remove();
       }
+   }
+
+   /**
+    * Normalizes the `html` argument of render hooks, which is an `HTMLElement` for ApplicationV2 and a jQuery object
+    * for legacy ApplicationV1.
+    *
+    * @param {HTMLElement|JQuery|undefined}  html - Render hook element.
+    *
+    * @returns {HTMLElement|undefined} The raw HTMLElement or undefined.
+    */
+   static #toHTMLElement(html)
+   {
+      if (html instanceof HTMLElement) { return html; }
+      if (html?.[0] instanceof HTMLElement) { return html[0]; }
+      return void 0;
    }
 
    /**

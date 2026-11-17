@@ -1,37 +1,23 @@
-import {QuestDB, Socket, Utils} from "../../control/index.js";
+import { QuestDB, Socket, Utils } from "../../control/index.js";
 
 /**
+ * @param {HTMLElement} element - The element the context menu was opened for.
  *
- * @param {jQuery|HTMLElement} element
  * @returns {Quest|void} Quest associated with the element, if any.
  */
 function getQuestFromElement(element)
 {
-   let questId;
-
-   if (!element)
-   {
-      return void 0;
-   }
-
-   if (element instanceof jQuery)
-   {
-      questId = element.closest('[data-quest-id]')?.data('quest-id');
-   }
-   else
-   {
-      questId = element.closest('[data-quest-id]')?.dataset.questId;
-   }
+   const questId = element?.closest?.('[data-quest-id]')?.dataset?.questId;
 
    return questId ? QuestDB.getQuest(questId) : void 0;
 }
 
 export const menuItemCopyLink = {
-   name: 'ForienQuestLog.QuestLog.ContextMenu.CopyEntityLink',
-   icon: '<i class="fas fa-link"></i>',
-   callback: async (menu) =>
+   label: 'ForienQuestLog.QuestLog.ContextMenu.CopyEntityLink',
+   icon: 'fa-solid fa-link',
+   onClick: async (event, target) =>
    {
-      const quest = getQuestFromElement(menu);
+      const quest = getQuestFromElement(target);
 
       if (quest && await Utils.copyTextToClipboard(`@JournalEntry[${quest.id}]{${quest.name}}`))
       {
@@ -41,11 +27,11 @@ export const menuItemCopyLink = {
 };
 
 export const copyQuestId = {
-   name: 'ForienQuestLog.QuestLog.ContextMenu.CopyQuestID',
-   icon: '<i class="fas fa-key"></i>',
-   callback: async (menu) =>
+   label: 'ForienQuestLog.QuestLog.ContextMenu.CopyQuestID',
+   icon: 'fa-solid fa-key',
+   onClick: async (event, target) =>
    {
-      const quest = getQuestFromElement(menu);
+      const quest = getQuestFromElement(target);
 
       if (quest && await Utils.copyTextToClipboard(quest.id))
       {
@@ -55,22 +41,22 @@ export const copyQuestId = {
 };
 
 export const togglePrimaryQuest = {
-   name: 'ForienQuestLog.QuestLog.ContextMenu.PrimaryQuest',
-   icon: '<i class="fas fa-star"></i>',
-   callback: (menu) =>
+   label: 'ForienQuestLog.QuestLog.ContextMenu.PrimaryQuest',
+   icon: 'fa-solid fa-star',
+   onClick: (event, target) =>
    {
-      const quest = getQuestFromElement(menu);
+      const quest = getQuestFromElement(target);
       if (quest) { Socket.setQuestPrimary({ quest }); }
    }
 };
 
 export const jumpToPin = {
-   name: "SIDEBAR.JumpPin",
-   icon: '<i class="fa-solid fa-crosshairs"></i>',
-   condition: (menu) => !!getQuestFromElement(menu)?.entry.sceneNote,
-   callback: (menu) =>
+   label: "SIDEBAR.JumpPin",
+   icon: 'fa-solid fa-crosshairs',
+   visible: (target) => !!getQuestFromElement(target)?.entry.sceneNote,
+   onClick: (event, target) =>
    {
-      const quest = getQuestFromElement(menu);
-      quest.entry.panToNote();
+      const quest = getQuestFromElement(target);
+      quest?.entry.panToNote();
    }
 };

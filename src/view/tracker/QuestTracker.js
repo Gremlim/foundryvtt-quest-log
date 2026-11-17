@@ -19,85 +19,111 @@ import {
 
 import * as contextOptions from "../internal/context-options.js";
 
+const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
+
 /**
- * Provides the quest tracker which provides an overview of active quests and objectives which can be opened / closed
- * to show all objectives for a given quest. The folder / open state is stored in {@link sessionStorage}.
+ * Provides the quest tracker app which is a framed ApplicationV2 that docks to the Foundry sidebar. The position is
+ * constrained by {@link FoundryUIManager.checkPosition} in {@link QuestTracker._updatePosition} and the tracker may be
+ * pinned to the top left of the sidebar.
  *
- * In the {@link QuestTracker.getData} method {@link QuestTracker.prepareQuests} is invoked which gets all sorted
- * {@link questStatus.active} via {@link QuestDB.sortCollect}. They are then mapped creating the specific data which is
- * used in the {@link Handlebars} template. In the future this may be cached in a similar way that {@link Quest} data
- * is cached for {@link QuestLog}.
+ * The icon buttons in the window header (share, primary quest, background) are added to the frame in
+ * {@link QuestTracker._renderFrame} and are handled through the ApplicationV2 `actions` system.
+ *
+ * Control callbacks are setup once in {@link QuestTracker._onFirstRender} as delegated event listeners and are located
+ * in a separate static control class {@link HandlerTracker}.
  */
-export class QuestTracker extends foundry.appv1.api.Application
+export class QuestTracker extends HandlebarsApplicationMixin(ApplicationV2)
 {
    /**
-    * Provides the default width for the QuestTracker if not defined.
+    * Default width of the tracker.
     *
-    * @type {Readonly<number>}
+    * @type {number}
     */
    static #DEFAULT_WIDTH = 296;
 
    /**
-    * Provides the default position for the QuestTracker if not defined.
+    * Default position of the tracker.
     *
-    * @type {Readonly<{top: number, width: number}>}
+    * @type {{top: number, width: number}}
     */
    static #DEFAULT_POSITION = { top: 80, width: QuestTracker.#DEFAULT_WIDTH };
 
    /**
-    * Defines the timeout length to gate saving position to settings.
+    * Delay in ms before storing the position in the module settings.
     *
-    * @type {Readonly<number>}
+    * @type {number}
     */
    static #TIMEOUT_POSITION = 1000;
 
    /**
-    * Stores the app / window extents from styles.
+    * The z-index of the tracker. The tracker is never brought to the front of other windows.
     *
-    * @type {{minHeight: number, maxHeight: number, minWidth: number, maxWidth: number}}
+    * @type {number}
     */
-   #appExtents;
+   static #Z_INDEX = 99;
+
+   /** @inheritDoc */
+   static DEFAULT_OPTIONS = {
+      id: 'quest-tracker',
+      classes: ['fql-app', 'fql-window-app'],
+      position: { width: 300, height: 480 },
+      window: {
+         title: 'ForienQuestLog.QuestTracker.Title',
+         icon: false,
+         minimizable: false,
+         resizable: true
+      },
+      actions: {
+         shareTracker: QuestTracker.#onShareTracker,
+         showBackground: QuestTracker.#onShowBackground,
+         showPrimary: QuestTracker.#onShowPrimary
+      }
+   };
+
+   /** @inheritDoc */
+   static PARTS = {
+      main: { template: 'modules/quest-log/templates/quest-tracker.html' }
+   };
 
    /**
-    * @type {JQuery} The window header element.
+    * Stores the min / max extents of the app from the CSS.
+    *
+    * @type {{minWidth: number, maxWidth: number, minHeight: number, maxHeight: number}}
     */
-   #elemWindowHeader;
+   #appExtents = { minWidth: NaN, maxWidth: NaN, minHeight: NaN, maxHeight: NaN };
 
    /**
-    * @type {JQuery} The window content element.
+    * The last resolved size of the tracker.
+    *
+    * @type {{width: number, height: number}}
     */
-   #elemWindowContent;
+   #lastSize = { width: 0, height: 0 };
 
    /**
-    * @type {JQuery} The window resize handle.
-    */
-   #elemResizeHandle;
-
-   /**
-    * Stores whether the scroll bar is active.
+    * Tracks the last state of the scrollbar.
     *
     * @type {boolean}
     */
-   #scrollbarActive;
+   #scrollbarActive = false;
 
    /**
-    * Stores the last call to setTimeout for {@link QuestTracker.setPosition} changes, so that they can be cancelled as
-    * new updates arrive gating the calls to saving position to settings.
+    * Timeout ID for storing the position in the module settings.
     *
     * @type {number}
     */
    #timeoutPosition = void 0;
 
    /**
-    * Stores the state of {@link FQLSettings.questTrackerResizable}.
+    * Stores the module setting for the resizable state.
     *
     * @type {boolean}
     */
-   #windowResizable;
+   #windowResizable = false;
 
    /**
-    * @inheritDoc
-    * @see https://foundryvtt.com/api/classes/client.Application.html
+    * Sets the initial position from the module settings.
+    *
+    * @param {object}   [options] - Application options.
     */
    constructor(options = {})
    {
@@ -105,287 +131,187 @@ export class QuestTracker extends foundry.appv1.api.Application
 
       try
       {
-         /**
-          * Stores the current position of the quest tracker.
-          *
-          * @type {object}
-          * {@link Application.position}
-          */
-         this.position = JSON.parse(game.settings.get(constants.moduleName, settings.questTrackerPosition));
+         const position = JSON.parse(game.settings.get(constants.moduleName, settings.questTrackerPosition));
+
+         for (const key of ['top', 'left', 'width', 'height'])
+         {
+            if (Number.isFinite(position?.[key])) { this.position[key] = position[key]; }
+         }
 
          // When upgrading to `v0.7.7` it is necessary to set the default width.
-         if (!this.position?.width) { this.position.width = QuestTracker.#DEFAULT_WIDTH; }
-
+         if (!position?.width) { this.position.width = QuestTracker.#DEFAULT_WIDTH; }
       }
       catch (err)
       {
-         this.position = QuestTracker.#DEFAULT_POSITION;
+         Object.assign(this.position, QuestTracker.#DEFAULT_POSITION);
       }
 
-      /**
-       * Stores whether the header is being dragged.
-       *
-       * @type {boolean}
-       * @package
-       */
       this._dragHeader = false;
 
-      /**
-       * Stores whether the QuestTracker is pinned to the sidebar.
-       *
-       * @type {boolean}
-       * @package
-       */
       this._pinned = game.settings.get(constants.moduleName, settings.questTrackerPinned);
 
-      /**
-       * Stores whether the current position is in the sidebar pin drop rectangle.
-       *
-       * @type {boolean}
-       * @package
-       */
       this._inPinDropRect = false;
+
+      // Must be set before the first render so the stored height isn't overridden when positioning.
+      this.#windowResizable = game.settings.get(constants.moduleName, settings.questTrackerResizable);
    }
 
    /**
-    * Default {@link Application} options
-    *
-    * @returns {object} options - Application options.
-    * @see https://foundryvtt.com/api/classes/client.Application.html#options
-    */
-   static get defaultOptions()
-   {
-      return foundry.utils.mergeObject(super.defaultOptions, {
-         id: 'quest-tracker',
-         template: 'modules/forien-quest-log/templates/quest-tracker.html',
-         minimizable: false,
-         resizable: true,
-         popOut: false,
-         width: 300,
-         height: 480,
-         title: game.i18n.localize('ForienQuestLog.QuestTracker.Title')
-      });
-   }
-
-   /**
-    * Create the context menu. There are two separate context menus for the active / in progress tab and all other tabs.
-    *
-    * @param {JQuery}   html - JQuery element for this application.
-    */
-   #contextMenu(html)
-   {
-      /**
-       * @type {object[]}
-       */
-      const menuItems = [
-       contextOptions.menuItemCopyLink,
-       contextOptions.jumpToPin
-      ];
-
-      if (game.user.isGM)
-      {
-         menuItems.push(
-          contextOptions.copyQuestId,
-          contextOptions.togglePrimaryQuest
-         );
-      }
-
-      new FQLContextMenu(html, '.quest-tracker-header', menuItems, { fixed: true });
-   }
-
-   /**
-    * Specify the set of config buttons which should appear in the Application header. Buttons should be returned as an
-    * Array of objects.
-    *
-    * Provides an explicit override of Application._getHeaderButtons to add
-    *
-    * @returns {ApplicationHeaderButton[]} The app header buttons.
-    * @override
-    */
-   _getHeaderButtons()
-   {
-      const buttons = super._getHeaderButtons();
-
-      // Remove default `Close` label for close button.
-      const closeButton = buttons.find((button) => button?.class === 'close');
-      if (closeButton) { closeButton.label = void 0; }
-
-      const showBackgroundState = sessionStorage.getItem(sessionConstants.trackerShowBackground) === 'true';
-      const showBackgroundIcon = showBackgroundState ? 'fas fa-fill on' : 'fas fa-fill off';
-      const showBackgroundTitle = showBackgroundState ? 'ForienQuestLog.QuestTracker.Tooltips.BackgroundUnshow' :
-       'ForienQuestLog.QuestTracker.Tooltips.BackgroundShow';
-
-      buttons.unshift({
-         title: showBackgroundTitle,
-         class: 'show-background',
-         icon: showBackgroundIcon
-      });
-
-      const primaryState = sessionStorage.getItem(sessionConstants.trackerShowPrimary) === 'true';
-      const primaryIcon = primaryState ? 'fas fa-star' : 'far fa-star';
-      const primaryTitle = primaryState ? 'ForienQuestLog.QuestTracker.Tooltips.PrimaryQuestUnshow' :
-       'ForienQuestLog.QuestTracker.Tooltips.PrimaryQuestShow';
-
-      buttons.unshift({
-         title: primaryTitle,
-         class: 'show-primary',
-         icon: primaryIcon
-      });
-
-      // Share QuestLog w/ remote clients.
-      if (game.user.isGM)
-      {
-         buttons.unshift({
-            title: game.i18n.localize('ForienQuestLog.Labels.AppHeader.ShowPlayers'),
-            class: 'share-tracker',
-            icon: 'fas fa-eye'
-         });
-      }
-
-      return buttons;
-   }
-
-   /**
-    * Gets the minimum width of this Application.
-    *
-    * @returns {number} Minimum width.
+    * @returns {number} The minimum width of the tracker.
     */
    get minWidth() { return this.#appExtents.minWidth || 275; }
 
    /**
-    * Is the QuestTracker pinned to the sidebar.
-    *
-    * @returns {boolean} QuestTracker pinned.
+    * @returns {boolean} Whether the tracker is pinned.
     */
    get pinned() { return this._pinned; }
 
    /**
-    * Defines all {@link JQuery} control callbacks with event listeners for click, drag, drop via various CSS selectors.
+    * The tracker never takes focus away from other windows.
     *
-    * @param {JQuery}  html - The jQuery instance for the window content of this Application.
-    *
-    * @see https://foundryvtt.com/api/classes/client.FormApplication.html#activateListeners
+    * @inheritDoc
     */
-   activateListeners(html)
+   bringToFront() {}
+
+   /**
+    * Closes the tracker and by default disables the tracker module setting.
+    *
+    * @param {object}   [options] - Close options.
+    *
+    * @param {boolean}  [options.updateSetting=true] - Update the module setting for enabling the tracker.
+    *
+    * @returns {Promise<QuestTracker>} This instance.
+    */
+   async close({ updateSetting = true, ...options } = {})
    {
-      super.activateListeners(html);
+      const result = await super.close(options);
 
-      const showBackgroundState = sessionStorage.getItem(sessionConstants.trackerShowBackground) === 'true';
-      if (!showBackgroundState)
+      if (updateSetting)
       {
-         this.element[0].classList.add('no-background');
+         await game.settings.set(constants.moduleName, settings.questTrackerEnable, false);
       }
 
-      // Make the window draggable
-      const header = html.find('header');
-      new Draggable(this, html, header[0], this.options.resizable);
+      return result;
+   }
 
-      header[0].addEventListener('pointerdown', async (event) =>
-       HandlerTracker.headerPointerDown(event, header[0], this));
+   /**
+    * Adds the icon buttons to the window header. Buttons are updated in {@link QuestTracker.#updateHeaderButtons}.
+    *
+    * @inheritDoc
+    */
+   async _renderFrame(options)
+   {
+      const frame = await super._renderFrame(options);
 
-      header[0].addEventListener('pointerup', async (event) =>
-       HandlerTracker.headerPointerUp(event, header[0], this));
-
-      html.on(jquery.click, '.header-button.close', void 0, this.close);
-
-      if (game.user.isGM)
+      const header = frame.querySelector('.window-header');
+      if (header)
       {
-         html.on(jquery.click, '.header-button.share-tracker i', void 0, () => Socket.showQuestTracker());
+         const first = header.querySelector('.header-control');
+
+         const actions = ['showPrimary', 'showBackground'];
+
+         // Share the tracker w/ remote clients.
+         if (game.user.isGM) { actions.push('shareTracker'); }
+
+         for (const action of actions.reverse())
+         {
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.dataset.action = action;
+            button.classList.add('header-control', 'icon');
+
+            first ? first.before(button) : header.append(button);
+         }
       }
 
-      html.on(jquery.click, '.header-button.show-background i', void 0, () => HandlerTracker.showBackground(this));
+      return frame;
+   }
 
-      html.on(jquery.click, '.header-button.show-primary i', void 0, () => HandlerTracker.questPrimaryShow(this));
+   /**
+    * Sets up all delegated control callbacks with event listeners for click, drag, drop via various CSS selectors, the
+    * header pointer events used for pinning and the context menu. This is done once as the root element of the
+    * application persists between renders.
+    *
+    * @inheritDoc
+    */
+   async _onFirstRender(context, options)
+   {
+      await super._onFirstRender(context, options);
 
-      // Add context menu.
-      this.#contextMenu(html);
+      const header = this.window.header;
 
-      Utils.createJQueryDblClick({
-         selector: '#quest-tracker .quest-tracker-header',
-         singleCallback: (event) => HandlerTracker.questClick(event, this),
-         doubleCallback: HandlerTracker.questOpen,
-      });
+      header.addEventListener('pointerdown', async (event) =>
+       HandlerTracker.headerPointerDown(event, header, this));
+
+      header.addEventListener('pointerup', async (event) =>
+       HandlerTracker.headerPointerUp(event, header, this));
+
+      const html = $(this.element);
 
       html.on(jquery.click, '.quest-tracker-link', void 0, HandlerTracker.questOpen);
 
       html.on(jquery.click, '.quest-tracker-task', void 0, async (event) =>
        await HandlerTracker.questTaskToggle(event));
 
-      this.#elemWindowHeader = $('#quest-tracker .window-header');
-      this.#elemWindowContent = $('#quest-tracker .window-content');
-      this.#elemResizeHandle = $('#quest-tracker .window-resizable-handle');
+      // Single click toggles the quest objectives; double click opens the quest.
+      Utils.createJQueryDblClick({
+         root: this.element,
+         selector: '.quest-tracker-header',
+         singleCallback: (event) => HandlerTracker.questClick(event, this),
+         doubleCallback: HandlerTracker.questOpen,
+      });
+
+      this.#contextMenu();
+
+      // Store the min / max extents defined in the CSS.
+      const style = window.getComputedStyle(this.element);
 
       this.#appExtents = {
-         minWidth: parseInt(this.element.css('min-width')),
-         maxWidth: parseInt(this.element.css('max-width')),
-         minHeight: parseInt(this.element.css('min-height')),
-         maxHeight: parseInt(this.element.css('max-height'))
+         minWidth: parseInt(style.minWidth),
+         maxWidth: parseInt(style.maxWidth),
+         minHeight: parseInt(style.minHeight),
+         maxHeight: parseInt(style.maxHeight)
       };
+   }
+
+   /**
+    * Updates the header buttons, background state and the resizable state of the window.
+    *
+    * @inheritDoc
+    */
+   async _onRender(context, options)
+   {
+      await super._onRender(context, options);
+
+      this.#updateHeaderButtons();
+
+      const showBackgroundState = sessionStorage.getItem(sessionConstants.trackerShowBackground) === 'true';
+      this.element.classList.toggle('no-background', !showBackgroundState);
 
       this.#windowResizable = game.settings.get(constants.moduleName, settings.questTrackerResizable);
 
-      if (this.#windowResizable)
-      {
-         this.#elemResizeHandle.show();
-         this.element.css('min-height', this.#appExtents.minHeight);
-      }
-      else
-      {
-         this.#elemResizeHandle.hide();
-         this.element.css('min-height', this.#elemWindowHeader[0].scrollHeight);
+      // Only show the resize handle when resizable. When not resizable the height of the tracker always fits the
+      // content which is handled in `_updatePosition`.
+      if (this.window.resize) { this.window.resize.style.display = this.#windowResizable ? '' : 'none'; }
 
-         // A bit of a hack. We need to call the Application setPosition now to make sure the element parameters
-         // are correctly set as the exact height for the element is calculated in this.setPosition which is called
-         // by Application right after this method completes.
-         // Must set popOut temporarily to true as there is a gate in `Application.setPosition`.
-         this.options.popOut = true;
-         super.setPosition(this.position);
-         this.options.popOut = false;
-      }
+      this.element.style.minHeight = this.#windowResizable && Number.isFinite(this.#appExtents.minHeight) ?
+       `${this.#appExtents.minHeight}px` : `${this.window.header.scrollHeight}px`;
 
-      this.#scrollbarActive = this.#elemWindowContent[0].scrollHeight > this.#elemWindowContent[0].clientHeight;
+      // The content may have changed, so the position (height) must be recalculated.
+      this.setPosition();
 
-      // Set current scrollbar active state and potentially set 'point-events' to 'auto'.
-      if (this.#scrollbarActive) { this.element.css('pointer-events', 'auto'); }
+      this.#updateScrollbarState();
    }
 
    /**
-    * Override default Application `bringToTop` to stop adjustment of z-index.
+    * Provides the quest data to the template.
     *
-    * @override
     * @inheritDoc
-    * @see https://foundryvtt.com/api/classes/client.Application.html#bringToTop
     */
-   bringToTop() {}
-
-   /**
-    * Sets `questTrackerEnable` to false.
-    *
-    * @param {object}   [options] - Optional parameters.
-    *
-    * @param {boolean}  [options.updateSetting=true] - If true then {@link settings.questTrackerEnable} is set to false.
-    *
-    * @returns {Promise<void>}
-    */
-   async close({ updateSetting = true } = {})
+   async _prepareContext(options = {})
    {
-      await super.close();
+      const context = await super._prepareContext(options);
 
-      if (updateSetting)
-      {
-         await game.settings.set(constants.moduleName, settings.questTrackerEnable, false);
-      }
-   }
-
-   /**
-    * Parses quest data in {@link QuestTracker.prepareQuests}.
-    *
-    * @override
-    * @inheritDoc
-    * @see https://foundryvtt.com/api/classes/client.FormApplication.html#getData
-    */
-   async getData(options = {})
-   {
       const showOnlyPrimary = sessionStorage.getItem(sessionConstants.trackerShowPrimary) === 'true';
       const primaryQuest = QuestDB.getQuestEntry(game.settings.get(constants.moduleName, settings.primaryQuest));
 
@@ -395,9 +321,7 @@ export class QuestTracker extends foundry.appv1.api.Application
 
       const quests = await this.prepareQuests(showOnlyPrimary, primaryQuest);
 
-      return foundry.utils.mergeObject(super.getData(options), {
-         title: this.options.title,
-         headerButtons: this._getHeaderButtons(),
+      return foundry.utils.mergeObject(context, {
          hasQuests: quests.count() > 0,
          primaryQuestId,
          quests
@@ -405,23 +329,16 @@ export class QuestTracker extends foundry.appv1.api.Application
    }
 
    /**
-    * Transforms the quest data from sorted active quests. In this case we need to determine which quests can be
-    * manipulated for trusted player edit.
+    * Prepares the quests to display in the tracker.
     *
-    * @param {boolean}           showOnlyPrimary - Shows only the primary quest.
+    * @param {boolean}      showOnlyPrimary - Show only the primary quest.
     *
-    * @param {QuestEntry|void}   primaryQuest - Any currently set primary quest.
+    * @param {QuestEntry}   primaryQuest - The primary quest entry.
     *
-    * @returns {Promise<Collection<object>>} Sorted active quests.
+    * @returns {Promise<Collection>} The collection of quest data for the template.
     */
    async prepareQuests(showOnlyPrimary, primaryQuest)
    {
-      /**
-       * If showOnlyPrimary and the primaryQuest exists then build a Collection with just the primary quest otherwise
-       * get all sorted in progress quests from the QuestDB.
-       *
-       * @type {Collection}
-       */
       const questEntries = showOnlyPrimary ? collect(primaryQuest ? [primaryQuest] : []) :
        QuestDB.sortCollect({ status: questStatus.active });
 
@@ -455,32 +372,18 @@ export class QuestTracker extends foundry.appv1.api.Application
    }
 
    /**
-    * Some game systems and custom UI theming modules provide hard overrides on overflow-x / overflow-y styles. Alas we
-    * need to set these for '.window-content' to 'visible' which will cause an issue for very long tables. Thus we must
-    * manually set the table max-heights based on the position / height of the {@link Application}.
+    * Overrides the position handling to support forcing / overriding the pinned state. This is done from
+    * {@link FQLHooks.openQuestTracker}.
     *
-    * @param {object}               [opts] - Optional parameters.
+    * @param {object}   [position] - The requested position with optional `override` and `pinned` parameters.
     *
-    * @param {number|null}          [opts.left] - The left offset position in pixels.
+    * @returns {object} The resolved position.
     *
-    * @param {number|null}          [opts.top] - The top offset position in pixels.
-    *
-    * @param {number|null}          [opts.width] - The application width in pixels.
-    *
-    * @param {number|string|null}   [opts.height] - The application height in pixels.
-    *
-    * @param {number|null}          [opts.scale] - The application scale as a numeric factor where 1.0 is default.
-    *
-    * @param {boolean}              [opts.override] - Forces any manual pinned setting to take effect.
-    *
-    * @param {boolean}              [opts.pinned] - Sets the pinned state.
-    *
-    * @returns {{left: number, top: number, width: number, height: number, scale:number}}
-    * The updated position object for the application containing the new values.
+    * @inheritDoc
     */
    setPosition({ override, pinned = this._pinned, ...opts } = {})
    {
-      // Potentially force override any pinned state. This is done from FQLHooks.openQuestTracker.
+      // Potentially force override any pinned state.
       if (typeof override === 'boolean')
       {
          if (pinned)
@@ -488,8 +391,9 @@ export class QuestTracker extends foundry.appv1.api.Application
             this._pinned = true;
             this._inPinDropRect = true;
             game.settings.set(constants.moduleName, settings.questTrackerPinned, true);
+
             FoundryUIManager.updateTracker();
-            return opts; // Early out as updateTracker above calls setPosition again.
+            return this.position; // Early out as updateTracker above calls setPosition again.
          }
          else
          {
@@ -499,9 +403,7 @@ export class QuestTracker extends foundry.appv1.api.Application
          }
       }
 
-      const initialWidth = this.position.width;
-      const initialHeight = this.position.height;
-
+      // When pinned the position is always determined by the sidebar.
       if (pinned)
       {
          if (typeof opts.left === 'number') { opts.left = this.position.left; }
@@ -509,66 +411,216 @@ export class QuestTracker extends foundry.appv1.api.Application
          if (typeof opts.width === 'number') { opts.width = this.position.width; }
       }
 
-      // Must set popOut temporarily to true as there is a gate in `Application.setPosition`.
-      this.options.popOut = true;
-      const currentPosition = super.setPosition(opts);
-      this.options.popOut = false;
+      return super.setPosition(opts);
+   }
 
-      if (!this.#windowResizable)
+   /**
+    * Constrains the requested position by the Foundry UI (sidebar / hotbar / controls), the min / max extents, and
+    * the height of the content when the tracker is not resizable.
+    *
+    * @param {object}   position - Requested application position.
+    *
+    * @returns {object} The resolved application position.
+    *
+    * @inheritDoc
+    */
+   _updatePosition(position)
+   {
+      const hasFrame = !!this.window?.header;
+
+      if (hasFrame)
       {
-         // Add the extra `2` for small format (1080P and below screen size).
-         currentPosition.height = this.#elemWindowHeader[0].scrollHeight + this.#elemWindowContent[0].scrollHeight + 2;
+         // When not resizable the height always matches the header and content.
+         if (!this.#windowResizable)
+         {
+            const height = this.#contentHeight();
+            if (height > 0) { position.height = height; }
+         }
+
+         // Pin width / height to min / max styles if defined.
+         if (Number.isFinite(position.width))
+         {
+            const { minWidth, maxWidth } = this.#appExtents;
+            if (position.width < minWidth) { position.width = minWidth; }
+            if (position.width > maxWidth) { position.width = maxWidth; }
+         }
+
+         if (Number.isFinite(position.height))
+         {
+            const { minHeight, maxHeight } = this.#appExtents;
+            if (position.height < minHeight) { position.height = minHeight; }
+            if (position.height > maxHeight) { position.height = maxHeight; }
+         }
+
+         if (Number.isFinite(position.width) && Number.isFinite(position.height))
+         {
+            position.resizeWidth = this.#lastSize.width < position.width;
+            position.resizeHeight = this.#lastSize.height < position.height;
+
+            // Mutates `position` to set the maximum left position / pin the position.
+            const currentInPinDropRect = this._inPinDropRect;
+            this._inPinDropRect = FoundryUIManager.checkPosition(position);
+
+            // Set the jiggle animation if the position movement is coming from dragging the header and the pin drop
+            // state has changed.
+            if (!this._pinned && this._dragHeader && currentInPinDropRect !== this._inPinDropRect)
+            {
+               this.element.style.animation = this._inPinDropRect ? 'fql-jiggle 0.3s infinite' : '';
+            }
+         }
       }
 
-      // Pin width / height to min / max styles if defined.
-      if (currentPosition.width < this.#appExtents.minWidth) { currentPosition.width = this.#appExtents.minWidth; }
-      if (currentPosition.width > this.#appExtents.maxWidth) { currentPosition.width = this.#appExtents.maxWidth; }
-      if (currentPosition.height < this.#appExtents.minHeight) { currentPosition.height = this.#appExtents.minHeight; }
-      if (currentPosition.height > this.#appExtents.maxHeight) { currentPosition.height = this.#appExtents.maxHeight; }
+      position.zIndex = QuestTracker.#Z_INDEX;
 
-      const el = this.element[0];
+      const resolved = super._updatePosition(position);
 
-      currentPosition.resizeWidth = initialWidth < currentPosition.width;
-      currentPosition.resizeHeight = initialHeight < currentPosition.height;
-
-      // Mutates `checkPosition` to set maximum left position. Must do this calculation after `super.setPosition`
-      // as in some cases `super.setPosition` will override the changes of `FoundryUIManager.checkPosition`.
-      const currentInPinDropRect = this._inPinDropRect;
-      this._inPinDropRect = FoundryUIManager.checkPosition(currentPosition);
-
-      // Set the jiggle animation if the position movement is coming from dragging the header and the pin drop state
-      // has changed.
-      if (!this._pinned && this._dragHeader && currentInPinDropRect !== this._inPinDropRect)
+      if (Number.isFinite(resolved?.width) && Number.isFinite(resolved?.height))
       {
-         this.element.css('animation', this._inPinDropRect ? 'fql-jiggle 0.3s infinite' : '');
+         this.#lastSize = { width: resolved.width, height: resolved.height };
       }
 
-      el.style.top = `${currentPosition.top}px`;
-      el.style.left = `${currentPosition.left}px`;
-      el.style.width = `${currentPosition.width}px`;
-      el.style.height = `${currentPosition.height}px`;
+      return resolved;
+   }
 
-      const scrollbarActive = this.#elemWindowContent[0].scrollHeight > this.#elemWindowContent[0].clientHeight;
+   /**
+    * Updates the scrollbar state and stores the position in the module settings after a short delay.
+    *
+    * @inheritDoc
+    */
+   _onPosition(position)
+   {
+      super._onPosition(position);
+
+      this.#updateScrollbarState();
+
+      const { top, left, width, height } = position;
+
+      if (Number.isFinite(width) && Number.isFinite(height))
+      {
+         clearTimeout(this.#timeoutPosition);
+
+         this.#timeoutPosition = setTimeout(() =>
+         {
+            game.settings.set(constants.moduleName, settings.questTrackerPosition,
+             JSON.stringify({ top, left, width, height }));
+         }, QuestTracker.#TIMEOUT_POSITION);
+      }
+   }
+
+   /**
+    * Toggles the background of the tracker.
+    *
+    * @this {QuestTracker}
+    */
+   static #onShowBackground()
+   {
+      HandlerTracker.showBackground(this);
+   }
+
+   /**
+    * Toggles showing only the primary quest.
+    *
+    * @this {QuestTracker}
+    */
+   static #onShowPrimary()
+   {
+      HandlerTracker.questPrimaryShow(this);
+   }
+
+   /**
+    * Shares the tracker w/ remote clients.
+    */
+   static #onShareTracker()
+   {
+      Socket.showQuestTracker();
+   }
+
+   /**
+    * Create the context menu.
+    */
+   #contextMenu()
+   {
+      const menuItems = [
+       contextOptions.menuItemCopyLink,
+       contextOptions.jumpToPin
+      ];
+
+      if (game.user.isGM)
+      {
+         menuItems.push(
+          contextOptions.copyQuestId,
+          contextOptions.togglePrimaryQuest
+         );
+      }
+
+      new FQLContextMenu(this.element, '.quest-tracker-header', menuItems, { fixed: true });
+   }
+
+   /**
+    * @returns {number} The height of the window header and content.
+    */
+   #contentHeight()
+   {
+      const header = this.window.header;
+      const content = this.window.content;
+
+      // Add the extra `2` for small format (1080P and below screen size).
+      return header && content ? header.scrollHeight + content.scrollHeight + 2 : 0;
+   }
+
+   /**
+    * The tracker is click through unless there is a scrollbar. Sets `pointer-events` based on the scrollbar state.
+    */
+   #updateScrollbarState()
+   {
+      const content = this.window?.content;
+      if (!content) { return; }
+
+      const scrollbarActive = content.scrollHeight > content.clientHeight;
 
       if (scrollbarActive !== this.#scrollbarActive)
       {
          this.#scrollbarActive = scrollbarActive;
-         this.element.css('pointer-events', scrollbarActive ? 'auto' : 'none');
+         this.element.style.pointerEvents = scrollbarActive ? 'auto' : 'none';
       }
+   }
 
-      if (currentPosition && currentPosition.width && currentPosition.height)
-      {
-         if (this.#timeoutPosition)
-         {
-            clearTimeout(this.#timeoutPosition);
+   /**
+    * Updates the icon, state and tooltip of the header buttons from the session storage state.
+    */
+   #updateHeaderButtons()
+   {
+      const header = this.window.header;
+      if (!header) { return; }
+
+      const showBackgroundState = sessionStorage.getItem(sessionConstants.trackerShowBackground) === 'true';
+      const primaryState = sessionStorage.getItem(sessionConstants.trackerShowPrimary) === 'true';
+
+      const buttons = {
+         shareTracker: {
+            icon: 'fas fa-eye',
+            tooltip: game.i18n.localize('ForienQuestLog.Labels.AppHeader.ShowPlayers')
+         },
+         showBackground: {
+            icon: showBackgroundState ? 'fas fa-fill on' : 'fas fa-fill off',
+            tooltip: game.i18n.localize(showBackgroundState ? 'ForienQuestLog.QuestTracker.Tooltips.BackgroundUnshow' :
+             'ForienQuestLog.QuestTracker.Tooltips.BackgroundShow')
+         },
+         showPrimary: {
+            icon: primaryState ? 'fas fa-star' : 'far fa-star',
+            tooltip: game.i18n.localize(primaryState ? 'ForienQuestLog.QuestTracker.Tooltips.PrimaryQuestUnshow' :
+             'ForienQuestLog.QuestTracker.Tooltips.PrimaryQuestShow')
          }
+      };
 
-         this.#timeoutPosition = setTimeout(() =>
-         {
-            game.settings.set(constants.moduleName, settings.questTrackerPosition, JSON.stringify(currentPosition));
-         }, QuestTracker.#TIMEOUT_POSITION);
+      for (const [action, data] of Object.entries(buttons))
+      {
+         const button = header.querySelector(`button[data-action="${action}"]`);
+         if (!button) { continue; }
+
+         button.className = `header-control icon ${data.icon}`;
+         button.dataset.tooltip = data.tooltip;
+         button.setAttribute('aria-label', data.tooltip);
       }
-
-      return currentPosition;
    }
 }

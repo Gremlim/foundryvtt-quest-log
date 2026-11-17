@@ -14,116 +14,91 @@ import {
    jquery,
    questStatus,
    questStatusI18n,
-   questTabIndex,
    settings }           from '../../model/constants.js';
 import * as contextOptions from "../internal/context-options.js";
+
+const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
 /**
  * Provides the main quest log app which shows the quests separated by status either with bookmark or classic tabs.
  *
- * In {@link QuestLog.getData} the {@link QuestsCollect} data is retrieved from {@link QuestDB.sortCollect} which
- * provides automatic sorting of each quest status category by either {@link SortFunctions.ALPHA} or
+ * In {@link QuestLog._prepareContext} the {@link QuestsCollect} data is retrieved from {@link QuestDB.sortCollect}
+ * which provides automatic sorting of each quest status category by either {@link SortFunctions.ALPHA} or
  * {@link SortFunctions.DATE_END} for status categories {@link questStatus.completed} and {@link questStatus.failed}.
  * Several module settings and whether the current user is a GM is also passed back as data to be used in rendering the
  * {@link Handlebars} template.
  *
- * {@link JQuery} control callbacks are setup in {@link QuestLog.activateListeners} and are located in a separate static
- * control class {@link HandlerLog}.
+ * Control callbacks are setup once in {@link QuestLog._onFirstRender} as delegated event listeners and are located in
+ * a separate static control class {@link HandlerLog}.
+ *
+ * This is an ApplicationV2 application. The tab group is `primary`; the active tab is stored in `tabGroups.primary`.
  */
-export class QuestLog extends foundry.appv1.api.Application
+export class QuestLog extends HandlebarsApplicationMixin(ApplicationV2)
 {
-   /**
-    * @inheritDoc
-    * @see https://foundryvtt.com/api/classes/client.Application.html
-    */
-   constructor(options = {})
-   {
-      super(options);
-   }
-
-   /**
-    * Default Application options
-    *
-    * @returns {object} options - Application options.
-    * @see https://foundryvtt.com/api/classes/client.Application.html#options
-    */
-   static get defaultOptions()
-   {
-      return foundry.utils.mergeObject(super.defaultOptions, {
-         id: constants.moduleName,
-         classes: [constants.moduleName],
-         template: 'modules/forien-quest-log/templates/quest-log.html',
-         width: 700,
-         height: 480,
+   /** @inheritDoc */
+   static DEFAULT_OPTIONS = {
+      id: constants.moduleName,
+      classes: [constants.moduleName],
+      position: { width: 700, height: 480 },
+      window: {
+         title: 'ForienQuestLog.QuestLog.Title',
+         icon: 'fa-solid fa-scroll',
          minimizable: true,
          resizable: true,
-         title: game.i18n.localize('ForienQuestLog.QuestLog.Title'),
-         tabs: [{ navSelector: '.log-tabs', contentSelector: '.log-body', initial: 'active' }]
-      });
-   }
-
-   /**
-    * Specify the set of config buttons which should appear in the Application header. Buttons should be returned as an
-    * Array of objects.
-    *
-    * Provides an explicit override of Application._getHeaderButtons to add one additional buttons for the app header
-    * for showing the quest log to users via {@link Socket.showQuestLog}
-    *
-    * @returns {ApplicationHeaderButton[]} The app header buttons.
-    * @override
-    */
-   _getHeaderButtons()
-   {
-      const buttons = super._getHeaderButtons();
-
-      // Share QuestLog w/ remote clients.
-      if (game.user.isGM)
-      {
-         buttons.unshift({
-            label: game.i18n.localize('ForienQuestLog.Labels.AppHeader.ShowPlayers'),
-            class: 'share-quest',
-            icon: 'fas fa-eye',
-            onclick: () =>
+         controls: [
             {
-               Socket.showQuestLog(this._tabs[0].active);
+               icon: 'fa-solid fa-eye',
+               label: 'ForienQuestLog.Labels.AppHeader.ShowPlayers',
+               action: 'showPlayers',
+               visible: () => game.user.isGM
             }
-         });
+         ]
+      },
+      actions: {
+         showPlayers: QuestLog.#onShowPlayers
       }
+   };
 
-      return buttons;
-   }
+   /** @inheritDoc */
+   static PARTS = {
+      main: { template: 'modules/quest-log/templates/quest-log.html' }
+   };
 
+   /** @inheritDoc */
+   static TABS = {
+      primary: {
+         tabs: [
+            { id: 'available' },
+            { id: 'active' },
+            { id: 'completed' },
+            { id: 'failed' },
+            { id: 'inactive' }
+         ],
+         initial: 'active'
+      }
+   };
 
    /**
-    * Defines all jQuery control callbacks with event listeners for click, drag, drop via various CSS selectors.
+    * Share the QuestLog w/ remote clients via {@link Socket.showQuestLog}.
     *
-    * @param {JQuery}  html - The jQuery instance for the window content of this Application.
-    *
-    * @see https://foundryvtt.com/api/classes/client.FormApplication.html#activateListeners
+    * @this {QuestLog}
     */
-   activateListeners(html)
+   static #onShowPlayers()
    {
-      super.activateListeners(html);
+      Socket.showQuestLog(this.tabGroups.primary);
+   }
 
-      // Here we use a bit of jQuery to retrieve the background image of .window-content to match the game system
-      // background image for the bookmark tabs. This is only done if the module setting is checked which it is by
-      // default and the background image actually exists. The fallback is the default parchment image set in the
-      // FQL styles.
-      const navStyle = game.settings.get(constants.moduleName, settings.navStyle);
-      const dynamicBackground = game.settings.get(constants.moduleName, settings.dynamicBookmarkBackground);
-      if ('bookmarks' === navStyle && dynamicBackground)
-      {
-         const windowContent = $('#forien-quest-log .window-content');
-         const fqlBookmarkItem = $('#forien-quest-log .item');
+   /**
+    * Sets up all delegated control callbacks with event listeners for click, drag, drop via various CSS selectors and
+    * the context menus. This is done once as the root element of the application persists between renders.
+    *
+    * @inheritDoc
+    */
+   async _onFirstRender(context, options)
+   {
+      await super._onFirstRender(context, options);
 
-         const backImage = windowContent.css('background-image');
-         const backBlendMode = windowContent.css('background-blend-mode');
-         const backColor = windowContent.css('background-color');
-
-         fqlBookmarkItem.css('background-image', backImage);
-         fqlBookmarkItem.css('background-color', backColor);
-         fqlBookmarkItem.css('background-blend-mode', backBlendMode);
-      }
+      const html = $(this.element);
 
       html.on(jquery.click, '.new-quest-btn', HandlerLog.questAdd);
 
@@ -138,7 +113,56 @@ export class QuestLog extends foundry.appv1.api.Application
 
       html.on(jquery.click, '.actions.quest-status i.move', HandlerLog.questStatusSet);
 
-      this.#contextMenu(html);
+      this.#contextMenu();
+   }
+
+   /**
+    * Applies the dynamic bookmark background, selects any requested tab and sets the table heights.
+    *
+    * Supports the optional render option `tabId` that matches an entry in `constants.questStatus` to select the
+    * given tab. This comes into play as when a GM uses the `show to players` button in the app header as not only
+    * will the quest log open for players, but the specific tab selected by the GM will show. It is also possible to
+    * add `tabId` to the `ForienQuestLog.Open.QuestLog` hook to open a specific tab.
+    *
+    * @inheritDoc
+    */
+   async _onRender(context, options)
+   {
+      await super._onRender(context, options);
+
+      this.#applyDynamicBookmarkBackground();
+
+      // Determine the tab to show. Only GMs or trusted players w/ edit may view the inactive tab.
+      const canViewInactive = game.user.isGM || Utils.isTrustedPlayerEdit();
+
+      let tabId = this.tabGroups.primary ?? 'active';
+
+      if (typeof options.tabId === 'string' && options.tabId in questStatus &&
+       (options.tabId !== questStatus.inactive || canViewInactive))
+      {
+         tabId = options.tabId;
+      }
+
+      if (tabId === questStatus.inactive && !canViewInactive) { tabId = questStatus.active; }
+
+      this.changeTab(tabId, 'primary', { force: true, updatePosition: false });
+
+      this.#updateTableHeight();
+
+      if (options.focus) { this.bringToFront(); }
+   }
+
+   /**
+    * Some game systems and custom UI theming modules provide hard overrides on overflow-x / overflow-y styles. Alas, we
+    * need to set these for '.window-content' to 'visible' which will cause an issue for very long tables. Thus, we must
+    * manually set the table max-heights based on the position / height of the {@link ApplicationV2}.
+    *
+    * @inheritDoc
+    */
+   _onPosition(position)
+   {
+      super._onPosition(position);
+      this.#updateTableHeight();
    }
 
    /**
@@ -154,11 +178,60 @@ export class QuestLog extends foundry.appv1.api.Application
    }
 
    /**
-    * Create the context menu. There are two separate context menus for the active / in progress tab and all other tabs.
+    * Retrieves the sorted quest collection from the {@link QuestDB.sortCollect} and sets several state parameters for
+    * GM / player / trusted player edit along with several module settings: {@link FQLSettings.allowPlayersAccept},
+    * {@link FQLSettings.allowPlayersCreate}, {@link FQLSettings.showTasks} and {@link FQLSettings.navStyle}.
     *
-    * @param {JQuery}   html - JQuery element for this application.
+    * @override
+    * @inheritDoc
     */
-   #contextMenu(html)
+   async _prepareContext(options = {})
+   {
+      const context = await super._prepareContext(options);
+
+      return foundry.utils.mergeObject(context, {
+         options,
+         isGM: game.user.isGM,
+         isPlayer: !game.user.isGM,
+         isTrustedPlayerEdit: Utils.isTrustedPlayerEdit(),
+         canAccept: game.settings.get(constants.moduleName, settings.allowPlayersAccept),
+         canCreate: game.settings.get(constants.moduleName, settings.allowPlayersCreate),
+         showTasks: game.settings.get(constants.moduleName, settings.showTasks),
+         style: game.settings.get(constants.moduleName, settings.navStyle),
+         questStatusI18n,
+         quests: QuestDB.sortCollect()
+      });
+   }
+
+   /**
+    * Retrieves the background image of `.window-content` to match the game system background image for the bookmark
+    * tabs. This is only done if the module setting is checked which it is by default and the background image actually
+    * exists. The fallback is the default parchment image set in the FQL styles.
+    */
+   #applyDynamicBookmarkBackground()
+   {
+      const navStyle = game.settings.get(constants.moduleName, settings.navStyle);
+      const dynamicBackground = game.settings.get(constants.moduleName, settings.dynamicBookmarkBackground);
+
+      if ('bookmarks' !== navStyle || !dynamicBackground) { return; }
+
+      const windowContent = this.element.querySelector('.window-content');
+      if (!windowContent) { return; }
+
+      const style = window.getComputedStyle(windowContent);
+
+      for (const item of this.element.querySelectorAll('.item'))
+      {
+         item.style.backgroundImage = style.backgroundImage;
+         item.style.backgroundColor = style.backgroundColor;
+         item.style.backgroundBlendMode = style.backgroundBlendMode;
+      }
+   }
+
+   /**
+    * Create the context menu. There are two separate context menus for the active / in progress tab and all other tabs.
+    */
+   #contextMenu()
    {
       /**
        * @type {object[]}
@@ -188,104 +261,32 @@ export class QuestLog extends foundry.appv1.api.Application
 
       // Must show two different context menus as only the active / in progress tab potentially has the menu option to
       // allow the GM to set the primary quest.
-      new FQLContextMenu(html, '.tab:not([data-tab="active"]) .drag-quest', menuItemsOther, { fixed: true });
-      new FQLContextMenu(html, '.tab[data-tab="active"] .drag-quest', menuItemsActive, { fixed: true });
+      new FQLContextMenu(this.element, '.tab:not([data-tab="active"]) .drag-quest', menuItemsOther, { fixed: true });
+      new FQLContextMenu(this.element, '.tab[data-tab="active"] .drag-quest', menuItemsActive, { fixed: true });
    }
 
    /**
-    * Retrieves the sorted quest collection from the {@link QuestDB.sortCollect} and sets several state parameters for
-    * GM / player / trusted player edit along with several module settings: {@link FQLSettings.allowPlayersAccept},
-    * {@link FQLSettings.allowPlayersCreate}, {@link FQLSettings.showTasks} and {@link FQLSettings.navStyle}.
-    *
-    * @override
-    * @inheritDoc
-    * @see https://foundryvtt.com/api/classes/client.FormApplication.html#getData
+    * Manually sets the max height of the quest tables based on the position / height of the application.
     */
-   async getData(options = {})
+   #updateTableHeight()
    {
-      return foundry.utils.mergeObject(super.getData(), {
-         options,
-         isGM: game.user.isGM,
-         isPlayer: !game.user.isGM,
-         isTrustedPlayerEdit: Utils.isTrustedPlayerEdit(),
-         canAccept: game.settings.get(constants.moduleName, settings.allowPlayersAccept),
-         canCreate: game.settings.get(constants.moduleName, settings.allowPlayersCreate),
-         showTasks: game.settings.get(constants.moduleName, settings.showTasks),
-         style: game.settings.get(constants.moduleName, settings.navStyle),
-         questStatusI18n,
-         quests: QuestDB.sortCollect()
-      });
-   }
+      const element = this.element;
+      if (!element || !this.rendered) { return; }
 
-   /**
-    * Overrides the internal Application._render method to select the tab if the quest log is rendered with optional:
-    * `tabId` data that matches an entry in `constants.questStatus`. This comes into play as when a GM uses the
-    * `show to players` button in the app header as not only will the quest log open for players, but the specific tab
-    * selected by the GM will show. It is also possible to add `tabId` to the `ForienQuestLog.Open.QuestLog` hook to
-    * open a specific tab.
-    *
-    * @inheritDoc
-    */
-   async _render(force = false, options = {})
-   {
-      await super._render(force, options);
+      const tableElements = element.querySelectorAll('.table');
 
-      if (this._state === Application.RENDER_STATES.RENDERED && typeof options.tabId === 'string' &&
-       options.tabId in questStatus)
+      const table = element.querySelector('.tab.active .table');
+      if (!table) { return; }
+
+      const fqlPosition = element.getBoundingClientRect();
+      const tablePosition = table.getBoundingClientRect();
+
+      // Manually calculate the max height for the table based on the position of the main window div and table.
+      const height = typeof this.position.height === 'number' ? this.position.height : fqlPosition.height;
+
+      for (const tableElement of tableElements)
       {
-         if (options.tabId === questStatus.inactive)
-         {
-            // Only switch to inactive tab if GM or trusted player w/ edit.
-            if (game.user.isGM || Utils.isTrustedPlayerEdit())
-            { this._tabs[0].activate(options.tabId); }
-         }
-         else
-         {
-            this._tabs[0].activate(options.tabId);
-         }
+         tableElement.style.maxHeight = `${height - (tablePosition.top - fqlPosition.top + 16)}px`;
       }
-   }
-
-   /**
-    * Some game systems and custom UI theming modules provide hard overrides on overflow-x / overflow-y styles. Alas, we
-    * need to set these for '.window-content' to 'visible' which will cause an issue for very long tables. Thus, we must
-    * manually set the table max-heights based on the position / height of the {@link Application}.
-    *
-    * @param {object}               opts - Optional parameters.
-    *
-    * @param {number|null}          opts.left - The left offset position in pixels.
-    *
-    * @param {number|null}          opts.top - The top offset position in pixels.
-    *
-    * @param {number|null}          opts.width - The application width in pixels.
-    *
-    * @param {number|string|null}   opts.height - The application height in pixels.
-    *
-    * @param {number|null}          opts.scale - The application scale as a numeric factor where 1.0 is default.
-    *
-    * @returns {{left: number, top: number, width: number, height: number, scale:number}}
-    * The updated position object for the application containing the new values.
-    */
-   setPosition(opts)
-   {
-      const currentPosition = super.setPosition(opts);
-
-      // Retrieve all the table elements.
-      const tableElements = $('#forien-quest-log .table');
-
-      // Retrieve the active table.
-      const tabIndex = questTabIndex[this?._tabs[0]?.active];
-      const table = tableElements[tabIndex];
-
-      if (table)
-      {
-         const fqlPosition = $('#forien-quest-log')[0].getBoundingClientRect();
-         const tablePosition = table.getBoundingClientRect();
-
-         // Manually calculate the max height for the table based on the position of the main window div and table.
-         tableElements.css('max-height', `${currentPosition.height - (tablePosition.top - fqlPosition.top + 16)}px`);
-      }
-
-      return currentPosition;
    }
 }

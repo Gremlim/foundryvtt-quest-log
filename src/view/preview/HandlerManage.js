@@ -53,17 +53,16 @@ export class HandlerManage
       {
          if (!questPreview._ownershipControl)
          {
-            questPreview._ownershipControl = new FQLDocumentOwnershipConfig(quest.entry, {
-               top: Math.min(questPreview.position.top, window.innerHeight - 350),
-               left: questPreview.position.left + 125
+            questPreview._ownershipControl = new FQLDocumentOwnershipConfig({
+               document: quest.entry,
+               position: {
+                  top: Math.min(questPreview.position.top, window.innerHeight - 350),
+                  left: questPreview.position.left + 125
+               }
             });
          }
 
-         questPreview._ownershipControl.render(true, {
-            top: Math.min(questPreview.position.top, window.innerHeight - 350),
-            left: questPreview.position.left + 125,
-            focus: true
-         });
+         questPreview._ownershipControl.render({ force: true, focus: true });
       }
    }
 
@@ -105,7 +104,7 @@ export class HandlerManage
    static async setSplashImage(quest, questPreview)
    {
       const currentPath = quest.splash;
-      await new FilePicker({
+      await new foundry.applications.apps.FilePicker.implementation({
          type: 'image',
          current: currentPath,
          callback: async (path) =>

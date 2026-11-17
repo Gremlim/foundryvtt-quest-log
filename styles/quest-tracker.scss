@@ -1,3 +1,6 @@
+@use 'global-variables' as *;
+@use 'global-mixin' as *;
+
 #quest-tracker {
   pointer-events: none;
   min-width: 275px;
@@ -48,7 +51,7 @@
         border: rgba(80, 80, 80, 0.7);
       }
 
-      .window-resizable-handle {
+      .window-resize-handle {
         opacity: 0.4;
       }
     }
@@ -75,7 +78,7 @@
     }
   }
 
-  .window-resizable-handle {
+  .window-resize-handle {
     pointer-events: auto;
   }
 

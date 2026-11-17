@@ -271,7 +271,7 @@ export class ModuleSettings
                   }
                }
 
-               ui?.controls?.render(true);
+               ui?.controls?.render({ force: true });
             }
 
             // Render the journal to show / hide open quest log button & folder.
@@ -465,7 +465,7 @@ export class ModuleSettings
          ],
          onDown: () =>
          {
-            ViewManager.questLog.render(true);
+            ViewManager.questLog.render({ force: true });
          }
       });
 

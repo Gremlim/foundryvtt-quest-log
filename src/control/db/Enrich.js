@@ -161,13 +161,12 @@ export class Enrich
 
       // Enrich w/ TextEditor, but first sanitize w/ DOMPurify, allowing only iframes with YouTube embed.
       data.description = await TextEditor.enrichHTML(DOMPurify.sanitize(data.description), {
-         secrets: canEdit || playerEdit,
-         async: true
+         secrets: canEdit || playerEdit
       });
 
-      data.gmnotes = await TextEditor.enrichHTML(DOMPurify.sanitize(data.gmnotes), { async: true });
+      data.gmnotes = await TextEditor.enrichHTML(DOMPurify.sanitize(data.gmnotes));
 
-      data.playernotes = await TextEditor.enrichHTML(DOMPurify.sanitize(data.playernotes), { async: true });
+      data.playernotes = await TextEditor.enrichHTML(DOMPurify.sanitize(data.playernotes));
 
       data.questIconType = void 0;
 
@@ -306,7 +305,7 @@ export class Enrich
       {
          return {
             ...task,
-            name: await TextEditor.enrichHTML(DOMPurify.sanitize(task.name), { async: true })
+            name: await TextEditor.enrichHTML(DOMPurify.sanitize(task.name))
          };
       }));
 
@@ -331,7 +330,7 @@ export class Enrich
          const itemLink = type === 'item' && !canEdit && !canPlayerDrag && !item.locked;
 
          return {
-            name: await TextEditor.enrichHTML(DOMPurify.sanitize(item.data.name), { async: true }),
+            name: await TextEditor.enrichHTML(DOMPurify.sanitize(item.data.name)),
             img: item.data.img,
             type,
             hidden: item.hidden,

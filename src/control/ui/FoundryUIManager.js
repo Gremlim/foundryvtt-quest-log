@@ -75,7 +75,7 @@ export class FoundryUIManager
          title: 'ForienQuestLog.QuestLog.Title',
          icon: 'fas fa-scroll',
          visible: true,
-         onChange: () => ViewManager.questLog.render(true, { focus: true }),
+         onChange: () => ViewManager.questLog.render({ force: true, focus: true }),
          button: true
       },
       quest_tracker: {
@@ -318,7 +318,7 @@ export class FoundryUIManager
       const tracker = ViewManager.questTracker;
 
       // Make sure the tracker is rendered or rendering.
-      if (!tracker.rendered && Application.RENDER_STATES.RENDERING !== tracker._state) { return; }
+      if (!tracker.rendered && foundry.applications.api.ApplicationV2.RENDER_STATES.RENDERING !== tracker.state) { return; }
 
       const boundaries = FoundryUIManager.#uiState.boundaries;
 

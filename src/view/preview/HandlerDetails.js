@@ -75,7 +75,6 @@ export class HandlerDetails
          {
             case 'name':
                quest.name = valueOut;
-               questPreview.options.title = game.i18n.format('ForienQuestLog.QuestPreview.Title', quest);
                break;
          }
          await questPreview.saveQuest(saveOptions);
@@ -88,7 +87,7 @@ export class HandlerDetails
          if (event.which === 27)
          {
             questPreview._activeFocusOutFunction = void 0;
-            questPreview.render(true, { focus: true });
+            questPreview.render({ force: true, focus: true });
             return false;
          }
       });
@@ -147,7 +146,6 @@ export class HandlerDetails
             case 'giverName':
                quest.giverName = valueOut;
                if (typeof quest.giverData === 'object') { quest.giverData.name = valueOut; }
-               questPreview.options.title = game.i18n.format('ForienQuestLog.QuestPreview.Title', quest);
                await questPreview.saveQuest(saveOptions);
                break;
          }
@@ -160,7 +158,7 @@ export class HandlerDetails
          if (event.which === 27)
          {
             questPreview._activeFocusOutFunction = void 0;
-            questPreview.render(true, { focus: true });
+            questPreview.render({ force: true, focus: true });
             return false;
          }
       });
@@ -175,7 +173,7 @@ export class HandlerDetails
    {
       const currentPath = quest.giver === 'abstract' ? quest.image : void 0;
 
-      new FilePicker({
+      new foundry.applications.apps.FilePicker.implementation({
          type: 'image',
          current: currentPath,
          callback: async (path) =>
@@ -268,10 +266,10 @@ export class HandlerDetails
 
       if (typeof uuid === 'string' && uuid.length)
       {
-         const appId = await Utils.showSheetFromUUID(uuid, { editable: false });
+         const sheet = await Utils.showSheetFromUUID(uuid, { editable: false });
 
-         // If a new sheet is rendered push it to the opened appIds.
-         if (appId && !questPreview._openedAppIds.includes(appId)) { questPreview._openedAppIds.push(appId); }
+         // If a new sheet is rendered track it so it is closed with the preview.
+         if (sheet && !questPreview._openedApps.includes(sheet)) { questPreview._openedApps.push(sheet); }
       }
    }
 
@@ -378,7 +376,7 @@ export class HandlerDetails
          if (event.which === 27)
          {
             questPreview._activeFocusOutFunction = void 0;
-            questPreview.render(true, { focus: true });
+            questPreview.render({ force: true, focus: true });
             return false;
          }
       });
@@ -429,7 +427,7 @@ export class HandlerDetails
          // Handle `Esc` key down to cancel editing.
          if (event.which === 27)
          {
-            questPreview.render(true, { focus: true });
+            questPreview.render({ force: true, focus: true });
             return false;
          }
       });
@@ -640,7 +638,7 @@ export class HandlerDetails
       if (!reward) { return; }
 
       const currentPath = reward.data.img;
-      await new FilePicker({
+      await new foundry.applications.apps.FilePicker.implementation({
          type: 'image',
          current: currentPath,
          callback: async (path) =>
@@ -692,22 +690,17 @@ export class HandlerDetails
 
       if (reward && (questPreview.canEdit || !reward.locked))
       {
-         if (questPreview._rewardImagePopup !== void 0 && questPreview._rewardImagePopup.rendered)
+         if (reward.data?.img?.length)
          {
-            if (reward.data?.img?.length)
-            {
-               questPreview._rewardImagePopup.object = reward.data.img;
-               questPreview._rewardImagePopup.render(true);
-               questPreview._rewardImagePopup.bringToTop();
-            }
-         }
-         else
-         {
-            if (reward.data?.img?.length)
-            {
-               questPreview._rewardImagePopup = new ImagePopout(reward.data.img, { shareable: true });
-               questPreview._rewardImagePopup.render(true);
-            }
+            // ImagePopout options are frozen once created, so a visible popout is replaced.
+            if (questPreview._rewardImagePopup?.rendered) { await questPreview._rewardImagePopup.close(); }
+
+            questPreview._rewardImagePopup = new foundry.applications.apps.ImagePopout({
+               src: reward.data.img,
+               window: { title: reward.name ?? quest.name },
+               shareable: true
+            });
+            await questPreview._rewardImagePopup.render({ force: true });
          }
       }
    }
@@ -731,10 +724,10 @@ export class HandlerDetails
 
       if (reward && (questPreview.canEdit || !reward.locked))
       {
-         const appId = await Utils.showSheetFromUUID(data, { permissionCheck: false, editable: questPreview.canEdit });
+         const sheet = await Utils.showSheetFromUUID(data, { permissionCheck: false, editable: questPreview.canEdit });
 
-         // If a new sheet is rendered push it to the opened appIds.
-         if (appId && !questPreview._openedAppIds.includes(appId)) { questPreview._openedAppIds.push(appId); }
+         // If a new sheet is rendered track it so it is closed with the preview.
+         if (sheet && !questPreview._openedApps.includes(sheet)) { questPreview._openedApps.push(sheet); }
       }
    }
 
@@ -798,14 +791,18 @@ export class HandlerDetails
     */
    static async splashImagePopupShow(quest, questPreview)
    {
-      if (questPreview._splashImagePopup !== void 0 && questPreview._splashImagePopup.rendered)
+      if (questPreview._splashImagePopup?.rendered)
       {
-         questPreview._splashImagePopup.bringToTop();
+         questPreview._splashImagePopup.bringToFront();
       }
       else
       {
-         questPreview._splashImagePopup = new ImagePopout(quest.splash, { shareable: true });
-         questPreview._splashImagePopup.render(true);
+         questPreview._splashImagePopup = new foundry.applications.apps.ImagePopout({
+            src: quest.splash,
+            window: { title: quest.name },
+            shareable: true
+         });
+         await questPreview._splashImagePopup.render({ force: true });
       }
    }
 
@@ -848,7 +845,7 @@ export class HandlerDetails
          // Handle `Esc` key down to cancel editing.
          if (event.which === 27)
          {
-            questPreview.render(true, { focus: true });
+            questPreview.render({ force: true, focus: true });
             return false;
          }
       });
@@ -1001,7 +998,7 @@ export class HandlerDetails
          if (event.which === 27)
          {
             questPreview._activeFocusOutFunction = void 0;
-            questPreview.render(true, { focus: true });
+            questPreview.render({ force: true, focus: true });
             return false;
          }
       });

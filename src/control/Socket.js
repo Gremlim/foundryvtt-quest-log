@@ -37,7 +37,7 @@ export class Socket
     *
     * @type {string}
     */
-   static #eventName = 'module.forien-quest-log';
+   static #eventName = 'module.quest-log';
 
    /**
     * Defines the different message types that FQL sends over `game.socket`.
@@ -626,7 +626,7 @@ export class Socket
                   continue;
                }
 
-               if (quest.isObservable) { questPreview.render(true, options); }
+               if (quest.isObservable) { questPreview.render({ force: true, ...options }); }
                else { questPreview.close(); }
             }
          }
@@ -643,7 +643,7 @@ export class Socket
                return;
             }
 
-            if (quest.isObservable) { questPreview.render(true, options); }
+            if (quest.isObservable) { questPreview.render({ force: true, ...options }); }
             else { questPreview.close(); }
          }
       }
@@ -683,7 +683,7 @@ export class Socket
     */
    static #handleShowQuestLog(data)
    {
-      ViewManager.questLog.render(true, { focus: true, tabId: data.payload.tabId });
+      ViewManager.questLog.render({ force: true, focus: true, tabId: data.payload.tabId });
    }
 
    /**

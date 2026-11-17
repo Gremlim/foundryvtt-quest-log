@@ -65,7 +65,7 @@ export class HandlerTracker
       {
          questTracker._pinned = true;
          await game.settings.set(constants.moduleName, settings.questTrackerPinned, true);
-         questTracker.element.css('animation', '');
+         questTracker.element.style.animation = '';
          FoundryUIManager.updateTracker();
       }
    }
@@ -113,12 +113,7 @@ export class HandlerTracker
       const newPrimary = !(sessionStorage.getItem(sessionConstants.trackerShowPrimary) === 'true');
       sessionStorage.setItem(sessionConstants.trackerShowPrimary, (newPrimary).toString());
 
-      const showPrimaryIcon = $('#quest-tracker .header-button.show-primary i');
-      showPrimaryIcon.attr('class', newPrimary ? 'fas fa-star' : 'far fa-star');
-      showPrimaryIcon.attr('title', game.i18n.localize(newPrimary ?
-       'ForienQuestLog.QuestTracker.Tooltips.PrimaryQuestShow' :
-        'ForienQuestLog.QuestTracker.Tooltips.PrimaryQuestUnshow'));
-
+      // The header button icon / tooltip is updated in `QuestTracker._onRender`.
       questTracker.render();
    }
 
@@ -163,12 +158,7 @@ export class HandlerTracker
       const newBackgroundState = !(sessionStorage.getItem(sessionConstants.trackerShowBackground) === 'true');
       sessionStorage.setItem(sessionConstants.trackerShowBackground, (newBackgroundState).toString());
 
-      const showBackgroundIcon = $('#quest-tracker .header-button.show-background i');
-      showBackgroundIcon.attr('class', newBackgroundState ? 'fas fa-star' : 'far fa-star');
-      showBackgroundIcon.attr('title', game.i18n.localize(newBackgroundState ?
-       'ForienQuestLog.QuestTracker.Tooltips.BackgroundUnshow' :
-        'ForienQuestLog.QuestTracker.Tooltips.BackgroundShow'));
-
+      // The header button icon / tooltip is updated in `QuestTracker._onRender`.
       questTracker.render();
    }
 }

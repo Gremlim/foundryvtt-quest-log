@@ -100,7 +100,10 @@ export class Utils
     *
     * @param {object}   [opts] - Optional parameters.
     *
-    * @param {string}   [opts.selector] - Data to pass to callbacks.
+    * @param {string}   [opts.selector] - CSS selector of the clickable elements.
+    *
+    * @param {HTMLElement} [opts.root] - When provided the click handlers are delegated from this persistent element
+    *        to `selector` (use this for elements inside of ApplicationV2 parts that are replaced on render).
     *
     * @param {Function} [opts.singleCallback] - Single click callback.
     *
@@ -114,12 +117,15 @@ export class Utils
     *
     * @returns {JQuery} The JQuery element.
     */
-   static createJQueryDblClick({ selector, singleCallback, doubleCallback, delay = 400, _clicks = 0,
+   static createJQueryDblClick({ selector, root, singleCallback, doubleCallback, delay = 400, _clicks = 0,
     _timer = void 0 } = {})
    {
-      const elem = $(selector);
+      const elem = root ? $(root) : $(selector);
 
-      elem.on(jquery.click, (event) =>
+      // Delegate from `root` when provided otherwise bind directly to the selected elements.
+      const delegate = root ? [selector] : [];
+
+      elem.on(jquery.click, ...delegate, (event) =>
       {
          _clicks++;
 
@@ -137,7 +143,7 @@ export class Utils
             if (typeof doubleCallback === 'function') { doubleCallback(event); }
             _clicks = 0;
          }
-      }).on(jquery.dblclick, (event) => event.preventDefault());
+      }).on(jquery.dblclick, ...delegate, (event) => event.preventDefault());
 
       return elem;
    }
@@ -346,8 +352,8 @@ export class Utils
 
             // Pick the correct image for the current state.
             const img = typeof state === 'boolean' && state ?
-             `modules/forien-quest-log/assets/icons/macros/${currentSetting}On.png` :
-             `modules/forien-quest-log/assets/icons/macros/${currentSetting}Off.png`;
+             `modules/quest-log/assets/icons/macros/${currentSetting}On.png` :
+             `modules/quest-log/assets/icons/macros/${currentSetting}Off.png`;
 
             await macroEntry.update({ img }, { diff: false });
          }
@@ -366,7 +372,7 @@ export class Utils
     *
     * @param {...*}           [opts.options] - Options to pass to sheet render method.
     *
-    * @returns {Promise<number|null>} The appId if rendered otherwise null.
+    * @returns {Promise<foundry.applications.api.ApplicationV2|null>} The sheet if newly rendered otherwise null.
     */
    static async showSheetFromUUID(data, { permissionCheck = true, ...options } = {})
    {
@@ -392,13 +398,13 @@ export class Utils
          {
             if (document.sheet.rendered)
             {
-               document.sheet.bringToTop();
+               document.sheet.bringToFront();
                return null;
             }
             else
             {
-               document.sheet.render(true, options);
-               return document.sheet.appId;
+               document.sheet.render({ force: true, ...options });
+               return document.sheet;
             }
          }
       }
@@ -423,7 +429,7 @@ export class Utils
          "templates/partials/quest-preview/playernotes.html"
       ];
 
-      templates = templates.map((t) => `modules/forien-quest-log/${t}`);
+      templates = templates.map((t) => `modules/quest-log/${t}`);
       foundry.applications.handlebars.loadTemplates(templates);
    }
 

@@ -1,6 +1,9 @@
+@use 'global-variables' as *;
+@use 'global-mixin' as *;
+
 #forien-quest-log,
 #quest-tracker,
-.window-app.forien-quest-preview {
+.application.forien-quest-preview {
   .pad-l-4 {
     padding-left: 4px;
   }
@@ -30,7 +33,7 @@
 }
 
 #forien-quest-log,
-.window-app.forien-quest-preview {
+.application.forien-quest-preview {
 
   // Some systems such as Blades In the Dark require this parameter.
   .window-header {
@@ -145,7 +148,7 @@
     flex: none;
   }
 
-  .editor {
+  prose-mirror {
     height: 100%;
     padding: 8px;
     background: $background-color-light;

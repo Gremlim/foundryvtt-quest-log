@@ -1,2 +1,7 @@
-@import 'global-mixin', 'global-variables', 'basicapp', 'quest-general', 'quest-log', 'quest-preview',
- 'quest-tracker';
+@use 'global-mixin';
+@use 'global-variables';
+@use 'basicapp';
+@use 'quest-general';
+@use 'quest-log';
+@use 'quest-preview';
+@use 'quest-tracker';

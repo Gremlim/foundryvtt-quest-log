@@ -1,3 +1,6 @@
+@use 'global-variables' as *;
+@use 'global-mixin' as *;
+
 #forien-quest-log {
   min-width: 500px;
   min-height: 640px;
@@ -5,7 +8,7 @@
   // Necessary to ensure the bookmark tabs show. See `QuestLog.setPosition` for the manual positioning necessary.
   // Some game systems and UI theming modules override `overflow`, so we must visible, but then handle very long
   // list of quests / `.table` below manually based on the Application / setPosition.
-  &.window-app .window-content {
+  &.application .window-content {
     overflow: visible;
   }
 
