@@ -1,5 +1,8 @@
 # Changelog
 
+## Release 0.20.2
+- 3 dots menu: the entries of the dropdown menus are aligned to the left (the icons in a column followed by the text), instead of centered.
+
 ## Release 0.20.1
 - 3 dots menu: the menu is now placed before the sort handle (arrows) in the objectives, the subquests and the rewards, with the same order and spacing in all of them. The rewards no longer have the divider lines around the buttons. The menu is always shown, even when there is only one action available (for example a player accepting a quest), so the look of the lists is the same.
 
