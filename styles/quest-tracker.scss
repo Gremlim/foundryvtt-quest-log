@@ -233,27 +233,34 @@
           }
         }
 
-        // Plain text markers so no icon font is required: [ ] pending, [+] completed, [-] failed.
-        &::before {
-          content: "[ ]";
-          display: inline-block;
-          padding-right: 4px;
-          white-space: pre;
-          font-family: monospace;
-          pointer-events: auto;
+        // Status label: P (pending, white), C (completed, green), F (failed, red).
+        .task-label {
+          flex: 0 0 auto;
           align-self: flex-start;
-        }
+          box-sizing: border-box;
+          min-width: 16px;
+          margin-right: 5px;
+          padding: 0 4px;
+          border-radius: 3px;
+          font-size: 11px;
+          font-weight: 700;
+          line-height: 16px;
+          text-align: center;
+          text-decoration: none;
+          cursor: default;
+          pointer-events: auto;
+          color: #111;
+          background: #fff;
 
-        &.minus-square {
-          color: $tracker-task-failed;
+          &.check-square {
+            color: #fff;
+            background: $tracker-task-completed;
+          }
 
-          &::before { content: "[-]"; }
-        }
-
-        &.check-square {
-          color: $tracker-task-completed;
-
-          &::before { content: "[+]"; }
+          &.minus-square {
+            color: #fff;
+            background: $tracker-task-failed;
+          }
         }
       }
     }

@@ -44,5 +44,5 @@ $tracker-color-text-entitylink: var(--palette-fql-qt-color-background-entitylink
 // Doesn't work quite right as game systems can provide style overrides.
 //$tracker-color-text-hover: var(--palette-fql-qt-text-color-light, #{$primary-color-text-hover});
 
-$tracker-task-completed: #7fd67f;
-$tracker-task-failed: #ff7b7b;
+$tracker-task-completed: #2e9e4f;
+$tracker-task-failed: #c93b3b;

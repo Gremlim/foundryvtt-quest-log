@@ -1,5 +1,9 @@
 # Changelog
 
+## Release 0.9.16
+- Quest Tracker: the objective status is now shown as a small label instead of `[ ]` / `[+]` / `[-]`: a white `P` (pending), a green `C` (completed) and a red `F` (failed), each with a tooltip ("Pending" / "Completed" / "Failed"). Completed and failed objectives keep the strike through. Subquests use the same labels.
+- Added the English and Spanish tooltips for the labels.
+
 ## Release 0.9.15
 - Quest Tracker: the window now opens even when there are no in progress quests (previously it did not open, which left players without visible quests with a button that did nothing). It shows "No quests available." instead.
 - Quest Tracker: objectives no longer depend on an icon font for their marker (it displayed as an empty box). They now show `[ ]` when pending, `[+]` when completed and `[-]` when failed, in addition to the strike through; completed objectives are green and failed ones red.
