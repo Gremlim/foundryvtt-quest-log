@@ -33,9 +33,9 @@
     "Currency": {
       "Notifications": {
         "Failed": "Could not add the currency to the actor.",
-        "NoCharacter": "You do not have an assigned character to receive the currency.",
+        "NoCharacter": "You do not have an assigned character to receive the reward.",
         "NotOwner": "You do not have permission to edit that actor.",
-        "SelectToken": "Select one token to receive the currency.",
+        "SelectToken": "Select one token to receive the reward.",
         "Unsupported": "The game system of this world does not support that currency."
       }
     },

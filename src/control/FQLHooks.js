@@ -15,6 +15,8 @@ import { QuestPreview } from '../view/index.js';
 
 import { FQLDialog }    from '../view/internal/index.js';
 
+import { RewardItem }   from './util/RewardItem.js';
+
 import { DBMigration }  from '../../database/DBMigration.js';
 
 import {
@@ -152,33 +154,7 @@ export class FQLHooks
 
       if (!amount) { return; }
 
-      try
-      {
-         const item = await fromUuid(data.uuid);
-         if (!item)
-         {
-            ui.notifications.warn(game.i18n.format('ForienQuestLog.QuestPreview.Notifications.BadUUID',
-             { uuid: data.uuid }));
-            return;
-         }
-
-         const itemData = Item.implementation.fromCompendium?.(item) ?? item.toObject();
-         delete itemData._id;
-
-         // Set the amount on the new item if the game system stores a quantity.
-         if (foundry.utils.hasProperty(itemData, 'system.quantity'))
-         {
-            foundry.utils.setProperty(itemData, 'system.quantity', amount);
-         }
-
-         await actor.createEmbeddedDocuments('Item', [itemData]);
-      }
-      catch (err)
-      {
-         console.error('ForienQuestLog - Failed to add the reward item to the actor:', err);
-         ui.notifications.error(game.i18n.localize('ForienQuestLog.QuestPreview.Notifications.RewardAddFailed'));
-         return;
-      }
+      if (!await RewardItem.giveToActor(actor, data.uuid, amount)) { return; }
 
       await Socket.questRewardDrop({
          actor: { id: actor.id, name: FVTTCompat.get(actor, 'name') },

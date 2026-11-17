@@ -33,9 +33,9 @@
     "Currency": {
       "Notifications": {
         "Failed": "No se pudo añadir la moneda al actor.",
-        "NoCharacter": "No tienes un personaje asignado para recibir la moneda.",
+        "NoCharacter": "No tienes un personaje asignado para recibir la recompensa.",
         "NotOwner": "No tienes permiso para editar ese actor.",
-        "SelectToken": "Selecciona un token para recibir la moneda.",
+        "SelectToken": "Selecciona un token para recibir la recompensa.",
         "Unsupported": "El sistema de juego de este mundo no admite esa moneda."
       }
     },

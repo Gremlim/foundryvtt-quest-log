@@ -1,5 +1,10 @@
 # Changelog
 
+## Release 0.10.4
+- Item rewards now have the same "Take all" and "Take an amount" buttons as currency rewards ("Take an amount" only when there is more than one unit), so an item can be given to an actor without dragging it. The item goes to the assigned character of a player or to the actor of the single selected token for a GM, and the quest and the GM chat message are updated as when dragging. A reward with a single unit keeps the quantity of the original item.
+- A small space now separates the take buttons from the rest of the reward buttons.
+- The warnings for a missing character / token now refer to the reward instead of the currency.
+
 ## Release 0.10.3
 - Added currency rewards. In a game system with supported currencies (currently dnd5e: platinum, gold, electrum, silver and copper, read from the system configuration) the GM gets a new "Currency" button next to "Custom" in the rewards. It asks for the currency and the amount, and adding more of a currency already in the quest increases its amount. The amount can be edited with the `#` button.
 - Currency rewards show their amount and have "Take all" and "Take an amount" buttons (the second only when there is more than one unit). The currency is added to the assigned character of a player, or to the actor of the single selected token for a GM. Players can take currency when they are allowed to drag rewards and the reward is unlocked. The amount taken is removed from the quest (the reward disappears when nothing remains) and the GMs get the usual reward chat message.

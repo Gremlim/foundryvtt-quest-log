@@ -6,6 +6,8 @@ import { Quest }     from '../../model/index.js';
 
 import { Currency }  from '../../control/util/Currency.js';
 
+import { RewardItem } from '../../control/util/RewardItem.js';
+
 import { FQLDialog } from '../internal/index.js';
 
 import {
@@ -809,8 +811,8 @@ export class HandlerDetails
    }
 
    /**
-    * Takes all or an amount of a currency reward and gives it to the actor of the user: the assigned character of a
-    * player or the actor of the selected token of a GM.
+    * Takes all or an amount of a currency or item reward and gives it to the actor of the user: the assigned character
+    * of a player or the actor of the selected token of a GM.
     *
     * @param {MouseEvent} event - The click event.
     *
@@ -820,18 +822,26 @@ export class HandlerDetails
     *
     * @returns {Promise<void>}
     */
-   static async rewardTakeCurrency(event, quest, all)
+   static async rewardTake(event, quest, all)
    {
       const uuidv4 = Utils.data(event.target, 'uuidv4');
       const reward = quest.getReward(uuidv4);
-      if (!reward || reward.type?.toLowerCase() !== 'currency') { return; }
+
+      const type = reward?.type?.toLowerCase();
+      if (type !== 'currency' && type !== 'item') { return; }
 
       // Players can only take unlocked rewards when they can drag rewards.
       if (!game.user.isGM && (reward.locked ||
        !game.settings.get(constants.moduleName, settings.allowPlayersDrag))) { return; }
 
-      const currency = Currency.get(reward.data.currency);
-      if (!currency) { return; }
+      const isCurrency = type === 'currency';
+
+      const currency = isCurrency ? Currency.get(reward.data.currency) : void 0;
+      if (isCurrency && !currency) { return; }
+
+      if (!isCurrency && typeof reward.data.uuid !== 'string') { return; }
+
+      const name = isCurrency ? currency.label : reward.name;
 
       const actor = Currency.getRecipientActor();
       if (!actor) { return; }
@@ -841,7 +851,7 @@ export class HandlerDetails
       if (!all && reward.quantity > 1)
       {
          amount = await FQLDialog.promptAmount({
-            title: currency.label,
+            title: name,
             label: game.i18n.localize('ForienQuestLog.QuestPreview.Labels.QuantityTake'),
             value: reward.quantity,
             min: 1,
@@ -851,7 +861,11 @@ export class HandlerDetails
 
       if (!amount) { return; }
 
-      if (!await Currency.giveToActor(actor, currency.id, amount)) { return; }
+      // An item reward with a single unit keeps the quantity of the original item.
+      const given = isCurrency ? await Currency.giveToActor(actor, currency.id, amount) :
+       await RewardItem.giveToActor(actor, reward.data.uuid, reward.quantity > 1 ? amount : void 0);
+
+      if (!given) { return; }
 
       await Socket.questRewardDrop({
          actor: { id: actor.id, name: actor.name },
@@ -861,7 +875,7 @@ export class HandlerDetails
                type: 'reward',
                questId: quest.id,
                uuidv4,
-               itemName: currency.label,
+               itemName: name,
                userName: game.user.name,
                quantity: reward.quantity,
                amount

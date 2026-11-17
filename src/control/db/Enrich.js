@@ -334,11 +334,11 @@ export class Enrich
          const quantity = item.quantity ?? 1;
          const isCurrency = type === 'currency';
 
-         // Currency rewards show the current localized name of the currency and can be taken by the GM or by players
-         // when they can drag rewards and the reward is unlocked.
+         // Currency and item rewards can be taken (without dragging) by the GM or by players when they can drag
+         // rewards and the reward is unlocked. Currency rewards show the current localized name of the currency.
          const currency = isCurrency ? Currency.get(item.data.currency) : void 0;
          const rewardName = isCurrency && currency ? currency.label : item.data.name;
-         const canTake = isCurrency && (canEdit || (canPlayerDrag && !item.locked));
+         const canTake = (isCurrency || type === 'item') && (canEdit || (canPlayerDrag && !item.locked));
 
          return {
             name: await TextEditor.enrichHTML(DOMPurify.sanitize(rewardName)),
