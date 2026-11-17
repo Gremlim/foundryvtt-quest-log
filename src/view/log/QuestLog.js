@@ -70,6 +70,7 @@ export class QuestLog extends HandlebarsApplicationMixin(ApplicationV2)
    static TABS = {
       primary: {
          tabs: [
+            { id: 'rumor' },
             { id: 'available' },
             { id: 'active' },
             { id: 'completed' },
@@ -162,6 +163,9 @@ export class QuestLog extends HandlebarsApplicationMixin(ApplicationV2)
 
       if (tabId === questStatus.inactive && !canViewInactive) { tabId = questStatus.active; }
 
+      // The rumors tab is only shown to players when there are rumors.
+      if (tabId === questStatus.rumor && !context.showRumors) { tabId = questStatus.active; }
+
       this.changeTab(tabId, 'primary', { force: true, updatePosition: false });
 
       this.#updateTableHeight();
@@ -218,6 +222,7 @@ export class QuestLog extends HandlebarsApplicationMixin(ApplicationV2)
          canCreate: game.settings.get(constants.moduleName, settings.allowPlayersCreate),
          showTasks: game.settings.get(constants.moduleName, settings.showTasks),
          questStatusI18n,
+         showRumors: game.user.isGM || QuestDB.getCount({ status: questStatus.rumor }) > 0,
          quests: QuestDB.sortCollect(),
          groupBy: Object.fromEntries(Object.keys(questStatus).map((status) => [status, QuestLog.getGroupBy(status)])),
          search: this.#search,

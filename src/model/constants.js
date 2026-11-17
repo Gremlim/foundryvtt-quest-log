@@ -38,7 +38,8 @@ const questStatus = {
    available: 'available',
    completed: 'completed',
    failed: 'failed',
-   inactive: 'inactive'
+   inactive: 'inactive',
+   rumor: 'rumor'
 };
 
 /**
@@ -51,7 +52,8 @@ const questStatusI18n = {
    available: 'ForienQuestLog.QuestTypes.Labels.Available',
    completed: 'ForienQuestLog.QuestTypes.Labels.Completed',
    failed: 'ForienQuestLog.QuestTypes.Labels.Failed',
-   inactive: 'ForienQuestLog.QuestTypes.Labels.InActive'
+   inactive: 'ForienQuestLog.QuestTypes.Labels.InActive',
+   rumor: 'ForienQuestLog.QuestTypes.Labels.Rumor'
 };
 
 /**
@@ -65,7 +67,8 @@ const questTabIndex = {
    available: 0,
    completed: 2,
    failed: 3,
-   inactive: 4
+   inactive: 4,
+   rumor: 5
 };
 
 /**

@@ -685,6 +685,7 @@ export class Quest
 
             case questStatus.inactive:
             case questStatus.available:
+            case questStatus.rumor:
             default:
                this.date.start = null;
                this.date.end = null;
@@ -868,6 +869,7 @@ export class Quest
 
          case questStatus.inactive:
          case questStatus.available:
+         case questStatus.rumor:
          default:
             this.date.start = null;
             this.date.end = null;

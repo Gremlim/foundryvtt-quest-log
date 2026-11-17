@@ -309,6 +309,8 @@
         "failed": "fallida",
         "InActive": "Inactivas",
         "inactive": "inactiva",
+        "Rumor": "Rumores",
+        "rumor": "un rumor",
         "Status": "La Misión está {statusLabel}."
       },
       "Tooltips": {
@@ -318,6 +320,7 @@
         "SetCompleted": "Establecer como Completada",
         "SetFailed": "Establecer como Fallida",
         "SetInactive": "Establecer como Inactiva",
+        "SetRumor": "Establecer como Rumor",
         "Status": "Estado: {statusI18n}"
       }
     },

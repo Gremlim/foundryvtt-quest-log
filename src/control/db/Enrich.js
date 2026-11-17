@@ -91,7 +91,8 @@ export class Enrich
             addedAction = true;
          }
 
-         if ((canEdit && questStatus.inactive === quest.status) || questStatus.available === quest.status)
+         if ((canEdit && (questStatus.inactive === quest.status || questStatus.rumor === quest.status)) ||
+          questStatus.available === quest.status)
          {
             items += `<i class="move fas fa-play" title="${game.i18n.localize(
              'ForienQuestLog.QuestTypes.Tooltips.SetActive')}" data-target="active" data-quest-id="${quest.id}"></i>\n`;
@@ -107,10 +108,20 @@ export class Enrich
             addedAction = true;
          }
 
-         if ((canEdit && questStatus.inactive === quest.status) || questStatus.active === quest.status)
+         if ((canEdit && (questStatus.inactive === quest.status || questStatus.rumor === quest.status)) ||
+          questStatus.active === quest.status)
          {
             items += `<i class="move fas fa-clipboard" title="${game.i18n.localize(
              'ForienQuestLog.QuestTypes.Tooltips.SetAvailable')}" data-target="available" data-quest-id="${quest.id}"></i>\n`;
+
+            addedAction = true;
+         }
+
+         // A rumor is a quest that the players only heard about (#82); the GM can turn any quest into a rumor.
+         if (canEdit && questStatus.rumor !== quest.status)
+         {
+            items += `<i class="move fas fa-comment-dots" title="${game.i18n.localize(
+             'ForienQuestLog.QuestTypes.Tooltips.SetRumor')}" data-target="rumor" data-quest-id="${quest.id}"></i>\n`;
 
             addedAction = true;
          }

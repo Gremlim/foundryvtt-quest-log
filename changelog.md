@@ -1,5 +1,8 @@
 # Changelog
 
+## Release 0.21.0
+- #82 Rumors. New quest status "Rumor" with its own tab in the Quest Log (the first tab), for quests that the characters have only heard about. The GM can set any quest as a rumor with a new entry in the 3 dots menu (the speech bubble icon, "Set as Rumor"), and a rumor can be turned into a normal quest with the usual entries of the menu: "Set as Available", "Set as In Progress" or "Set as Inactive". Rumors work like any other quest (details, objectives, rewards, notes, history, groups, search, hidden quests, personal quests), players can see and open the rumors that are not hidden but can't change their status, and the tab is only shown to players when there is at least one rumor they can see (it is always shown to the GM). Rumors are not shown in the Quest Tracker, which only shows the quests in progress.
+
 ## Release 0.20.2
 - 3 dots menu: the entries of the dropdown menus are aligned to the left (the icons in a column followed by the text), instead of centered.
 

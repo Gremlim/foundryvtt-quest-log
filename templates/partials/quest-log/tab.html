@@ -1,5 +1,5 @@
 <header>
-  <h1 style="flex: 1;">{{fql_format 'ForienQuestLog.QuestLog.Labels.TableHeader' (localize (lookup questStatusI18n tab))}}</h1>
+  <h1 style="flex: 1;">{{#if (eq tab 'rumor')}}{{localize 'ForienQuestLog.QuestTypes.Labels.Rumor'}}{{else}}{{fql_format 'ForienQuestLog.QuestLog.Labels.TableHeader' (localize (lookup questStatusI18n tab))}}{{/if}}</h1>
   <label class="quest-search-label" title="{{localize 'ForienQuestLog.QuestLog.Tooltips.Search'}}">
     <i class="fas fa-magnifying-glass"></i>
     <input type="search" class="quest-search" value="{{@root.search}}" placeholder="{{localize 'ForienQuestLog.QuestLog.Labels.Search'}}" autocomplete="off">

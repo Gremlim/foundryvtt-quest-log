@@ -1,5 +1,8 @@
 <div class="quest-log">
   <nav class="log-tabs tabs" data-group="primary">
+    {{#if showRumors}}
+      <a class="item" data-action="tab" data-group="primary" data-tab="rumor">{{localize 'ForienQuestLog.QuestTypes.Labels.Rumor'}}</a>
+    {{/if}}
     <a class="item" data-action="tab" data-group="primary" data-tab="available">{{localize 'ForienQuestLog.QuestTypes.Labels.Available'}}</a>
     <a class="item" data-action="tab" data-group="primary" data-tab="active">{{localize 'ForienQuestLog.QuestTypes.Labels.Active'}}</a>
     <a class="item" data-action="tab" data-group="primary" data-tab="completed">{{localize 'ForienQuestLog.QuestTypes.Labels.Completed'}}</a>
@@ -9,6 +12,11 @@
     {{/if}}
   </nav>
   <section class="log-body">
+    {{#if showRumors}}
+      <div class="tab rumor" data-group="primary" data-tab="rumor">
+        {{> "modules/quest-log/templates/partials/quest-log/tab.html" tab="rumor" groups=groups.rumor groupBy=groupBy.rumor}}
+      </div>
+    {{/if}}
     <div class="tab available" data-group="primary" data-tab="available">
       {{> "modules/quest-log/templates/partials/quest-log/tab.html" tab="available" groups=groups.available groupBy=groupBy.available}}
     </div>
