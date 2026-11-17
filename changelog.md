@@ -1,5 +1,8 @@
 # Changelog
 
+## Release 0.9.17
+- Quest Tracker: subquests now show their own objectives (and their own subquests) and can be shown / hidden with a chevron button next to the subquest, just like quests. Objectives of a subquest can be toggled by the GM / owners as before, and nested content is indented.
+
 ## Release 0.9.16
 - Quest Tracker: the objective status is now shown as a small label instead of `[ ]` / `[+]` / `[-]`: a white `P` (pending), a green `C` (completed) and a red `F` (failed), each with a tooltip ("Pending" / "Completed" / "Failed"). Completed and failed objectives keep the strike through. Subquests use the same labels.
 - Added the English and Spanish tooltips for the labels.

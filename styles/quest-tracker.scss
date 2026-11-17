@@ -195,6 +195,18 @@
       .subquest {
         // Must specifically target elements to support context menu.
         filter: drop-shadow(1px 1px 1px #000);
+
+        // Chevron to show / hide the objectives of the subquest.
+        i.quest-tracker-toggle,
+        i.quest-tracker-toggle:last-of-type {
+          flex: 0 0 14px;
+          width: 14px;
+          margin-right: 3px;
+          font-size: 11px;
+          line-height: 16px;
+          text-align: left;
+          align-self: flex-start;
+        }
       }
 
       .quest-tracker-task {

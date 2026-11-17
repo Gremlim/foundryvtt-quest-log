@@ -348,15 +348,68 @@ export class QuestTracker extends HandlebarsApplicationMixin(ApplicationV2)
 
       const isGM = game.user.isGM;
       const isTrustedPlayerEdit = Utils.isTrustedPlayerEdit();
+      const primaryQuestId = !showOnlyPrimary && primaryQuest ? primaryQuest.id : '';
+
+      // The folder state is stored as `false` when the objectives are shown (expanded).
+      const isExpanded = (id) => sessionStorage.getItem(`${sessionConstants.trackerFolderState}${id}`) === 'false';
+
+      /**
+       * Builds the flat list of rows (subquests, separators and tasks) to display for an expanded quest. Subquests
+       * that are expanded include their own objectives indented below them.
+       *
+       * @param {QuestEntry}  entry - The quest entry to build rows for.
+       *
+       * @param {number}      depth - The nesting depth.
+       *
+       * @param {Set}         visited - Quest IDs already in the current branch; prevents circular subquests.
+       *
+       * @returns {object[]} The rows.
+       */
+      const buildRows = (entry, depth, visited) =>
+      {
+         const q = entry.enrich;
+         const indent = depth * 16;
+         const rows = [];
+
+         for (const sub of q.data_subquest)
+         {
+            const subEntry = QuestDB.getQuestEntry(sub.id);
+            const subEnrich = subEntry?.enrich;
+            const hasObjectives = !!subEnrich?.hasObjectives && !visited.has(sub.id);
+            const expanded = hasObjectives && isExpanded(sub.id);
+
+            rows.push({
+               kind: 'subquest',
+               indent,
+               isGM,
+               isPrimary: sub.id === primaryQuestId,
+               hasObjectives,
+               expanded,
+               ...sub
+            });
+
+            if (expanded) { rows.push(...buildRows(subEntry, depth + 1, new Set([...visited, sub.id]))); }
+         }
+
+         if (q.data_subquest.length && q.data_tasks.length) { rows.push({ kind: 'separator', indent }); }
+
+         const canEdit = isGM || (entry.isOwner && isTrustedPlayerEdit);
+         const playerEdit = !!entry.isOwner;
+
+         for (const task of q.data_tasks)
+         {
+            rows.push({ kind: 'task', indent, questId: q.id, canEdit, playerEdit, ...task });
+         }
+
+         return rows;
+      };
 
       return questEntries.transform((entry) =>
       {
          const q = entry.enrich;
-         // The folder state is stored as `false` when the objectives are shown (expanded).
-         const expanded = sessionStorage.getItem(`${sessionConstants.trackerFolderState}${q.id}`) === 'false';
+         const expanded = isExpanded(q.id);
 
-         const tasks = expanded ? q.data_tasks : [];
-         const subquests = expanded ? q.data_subquest : [];
+         const rows = expanded ? buildRows(entry, 0, new Set([q.id])) : [];
 
          return {
             id: q.id,
@@ -371,8 +424,7 @@ export class QuestTracker extends HandlebarsApplicationMixin(ApplicationV2)
             personalActors: q.personalActors,
             hasObjectives: q.hasObjectives,
             expanded,
-            subquests,
-            tasks
+            rows
          };
       });
    }
