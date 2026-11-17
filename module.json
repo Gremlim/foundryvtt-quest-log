@@ -1,8 +1,12 @@
 {
-  "id": "forien-quest-log",
-  "title": "Forien's Quest Log",
+  "id": "quest-log",
+  "title": "Quest Log",
   "description": "Provides comprehensive Quest Log system for players and Game Masters",
   "authors": [
+    {
+      "name": "Gremlim",
+      "url": "https://github.com/Gremlim"
+    },
     {
       "name": "Forien",
       "url": "https://www.patreon.com/foundryworkshop"
@@ -12,10 +16,10 @@
       "url": "https://www.typhonjs.io"
     }
   ],
-  "url": "https://github.com/Forien/foundryvtt-forien-quest-log",
-  "readme": "https://github.com/Forien/foundryvtt-forien-quest-log/blob/master/README.md",
-  "bugs": "https://github.com/Forien/foundryvtt-forien-quest-log/issues",
-  "changelog": "https://github.com/Forien/foundryvtt-forien-quest-log/releases/latest/",
+  "url": "https://github.com/Gremlim/foundryvtt-quest-log",
+  "readme": "https://github.com/Gremlim/foundryvtt-quest-log/blob/master/README.md",
+  "bugs": "https://github.com/Gremlim/foundryvtt-quest-log/issues",
+  "changelog": "https://github.com/Gremlim/foundryvtt-quest-log/releases/latest/",
   "version": "0.9.0",
   "compatibility": {
     "minimum": "13",
@@ -109,7 +113,7 @@
     {
       "name": "macros-gm",
       "label": "FQL Macros (GM)",
-      "module": "forien-quest-log",
+      "module": "quest-log",
       "path": "./packs/macro-gm.db",
       "type": "Macro",
       "ownership": {
@@ -120,14 +124,14 @@
     {
       "name": "macros-player",
       "label": "FQL Macros (Player)",
-      "module": "forien-quest-log",
+      "module": "quest-log",
       "path": "./packs/macro-player.db",
       "type": "Macro"
     }
   ],
   "socket": true,
-  "manifest": "https://github.com/Forien/foundryvtt-forien-quest-log/releases/latest/download/module.json",
-  "download": "https://github.com/Forien/foundryvtt-forien-quest-log/releases/download/0.9.0/module.zip",
+  "manifest": "https://github.com/Gremlim/foundryvtt-quest-log/releases/latest/download/module.json",
+  "download": "https://github.com/Gremlim/foundryvtt-quest-log/releases/download/0.9.0/module.zip",
   "protected": false,
   "coreTranslation": false,
   "library": false
