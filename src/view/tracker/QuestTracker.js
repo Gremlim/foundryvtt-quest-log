@@ -250,6 +250,9 @@ export class QuestTracker extends HandlebarsApplicationMixin(ApplicationV2)
 
       Utils.on(html, domEvents.click, '.quest-tracker-link', HandlerTracker.questOpen);
 
+      // The toggle button next to the quest title shows / hides the objectives without the double click delay.
+      Utils.on(html, domEvents.click, '.quest-tracker-toggle', (event) => HandlerTracker.questClick(event, this));
+
       Utils.on(html, domEvents.click, '.quest-tracker-task', async (event) =>
        await HandlerTracker.questTaskToggle(event));
 
@@ -348,10 +351,11 @@ export class QuestTracker extends HandlebarsApplicationMixin(ApplicationV2)
       return questEntries.transform((entry) =>
       {
          const q = entry.enrich;
-         const collapsed = sessionStorage.getItem(`${sessionConstants.trackerFolderState}${q.id}`) === 'false';
+         // The folder state is stored as `false` when the objectives are shown (expanded).
+         const expanded = sessionStorage.getItem(`${sessionConstants.trackerFolderState}${q.id}`) === 'false';
 
-         const tasks = collapsed ? q.data_tasks : [];
-         const subquests = collapsed ? q.data_subquest : [];
+         const tasks = expanded ? q.data_tasks : [];
+         const subquests = expanded ? q.data_subquest : [];
 
          return {
             id: q.id,
@@ -365,6 +369,7 @@ export class QuestTracker extends HandlebarsApplicationMixin(ApplicationV2)
             isPersonal: q.isPersonal,
             personalActors: q.personalActors,
             hasObjectives: q.hasObjectives,
+            expanded,
             subquests,
             tasks
          };

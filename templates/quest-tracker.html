@@ -3,6 +3,9 @@
       {{#each quests}}
       <div class="quest">
         <div class="title" {{#if (or isHidden isInactive)}}id="hidden"{{/if}}>
+        {{#if hasObjectives}}
+        <i class="quest-tracker-toggle fas {{#if expanded}}fa-chevron-down{{else}}fa-chevron-right{{/if}}" data-quest-id="{{id}}" title="{{#if expanded}}{{localize 'ForienQuestLog.QuestTracker.Tooltips.CollapseObjectives'}}{{else}}{{localize 'ForienQuestLog.QuestTracker.Tooltips.ExpandObjectives'}}{{/if}}"></i>
+        {{/if}}
         <div class="quest-tracker-header" data-quest-id="{{id}}">
           <a>{{name}}</a>
         </div>

@@ -1,5 +1,9 @@
 # Changelog
 
+## Release 0.9.13
+- Quest Tracker: a chevron button is now shown next to the title of quests that have objectives, so it is clear that the objectives can be shown / hidden. It points right when the objectives are hidden and down when they are shown, with a tooltip, and toggles immediately when clicked (the title keeps single click to toggle and double click to open the quest).
+- Added the English and Spanish tooltips for the new button.
+
 ## Release 0.9.12
 - Fixed the Quest Tracker window growing taller while dragging it by the title: the height is now calculated from the natural height of its content instead of the stretched window content.
 

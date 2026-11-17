@@ -147,6 +147,23 @@
       align-items: center;
     }
 
+    // Chevron next to the quest title that indicates the objectives can be shown / hidden.
+    .quest-tracker-toggle,
+    i.quest-tracker-toggle:last-of-type {
+      flex: 0 0 auto;
+      width: 16px;
+      margin-right: 2px;
+      font-size: 13px;
+      text-align: left;
+      cursor: pointer;
+      pointer-events: auto;
+      transition: color .3s ease;
+
+      &:hover {
+        color: $primary-color-accent;
+      }
+    }
+
     .quest-tracker-header {
       cursor: pointer;
       pointer-events: auto;

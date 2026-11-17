@@ -157,6 +157,8 @@
       "Tooltips": {
         "BackgroundShow": "Haz clic para mostrar el fondo.",
         "BackgroundUnshow": "Haz clic para hacer que el fondo sea transparente.",
+        "CollapseObjectives": "Haz clic para ocultar los objetivos.",
+        "ExpandObjectives": "Haz clic para mostrar los objetivos.",
         "PrimaryQuestShow": "Haz clic para mostrar la misión principal.",
         "PrimaryQuestUnshow": "Haz clic para mostrar todas las misiones."
       }

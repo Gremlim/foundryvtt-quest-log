@@ -171,6 +171,8 @@
       "Tooltips": {
         "BackgroundShow": "Click to show background.",
         "BackgroundUnshow": "Click to make background transparent.",
+        "CollapseObjectives": "Click to hide the objectives.",
+        "ExpandObjectives": "Click to show the objectives.",
         "PrimaryQuestShow": "Click to show primary quest.",
         "PrimaryQuestUnshow": "Click to show all quests."
       }
