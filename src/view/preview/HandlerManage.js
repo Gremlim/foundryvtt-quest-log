@@ -24,6 +24,31 @@ export class HandlerManage
     *
     * @returns {Promise<void>}
     */
+   static async clearHistory(quest, questPreview)
+   {
+      const confirmed = await foundry.applications.api.DialogV2.confirm({
+         window: { title: game.i18n.localize('ForienQuestLog.QuestPreview.History.ClearTitle') },
+         content: `<p>${game.i18n.format('ForienQuestLog.QuestPreview.History.ClearContent', { name: foundry.utils.escapeHTML(quest.name) })}</p>`,
+         rejectClose: false,
+         modal: false
+      });
+
+      if (confirmed)
+      {
+         quest.clearHistory();
+         await questPreview.saveQuest();
+      }
+   }
+
+   /**
+    * Adds a subquest.
+    *
+    * @param {Quest}          quest - The quest.
+    *
+    * @param {QuestPreview}   questPreview - The QuestPreview.
+    *
+    * @returns {Promise<void>}
+    */
    static async addSubquest(quest, questPreview)
    {
       // If a permission control app / dialog is open close it.

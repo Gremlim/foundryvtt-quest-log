@@ -1202,12 +1202,7 @@ export class HandlerDetails
    {
       const uuidv4 = Utils.data(event.target, 'uuidv4');
 
-      const task = quest.getTask(uuidv4);
-      if (task)
-      {
-         task.toggle();
-         await questPreview.saveQuest();
-      }
+      if (quest.toggleTask(uuidv4)) { await questPreview.saveQuest(); }
    }
 }
 

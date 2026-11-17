@@ -509,6 +509,7 @@ export class Utils
          "templates/partials/quest-log/tab.html",
          "templates/partials/quest-preview/details.html",
          "templates/partials/quest-preview/gmnotes.html",
+         "templates/partials/quest-preview/history.html",
          "templates/partials/quest-preview/management.html",
          "templates/partials/quest-preview/playernotes.html"
       ];

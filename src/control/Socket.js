@@ -136,7 +136,10 @@ export class Socket
          const quest = QuestDB.getQuest(fqlData.questId);
          if (quest)
          {
-            quest.takeReward(fqlData.uuidv4, fqlData.amount);
+            quest.takeReward(fqlData.uuidv4, fqlData.amount, {
+               userName: fqlData.userName,
+               actorName: data.actor?.name
+            });
             await quest.save();
             Socket.refreshQuestPreview({ questId: fqlData.questId });
          }
@@ -333,7 +336,8 @@ export class Socket
          payload: {
             questId: quest.id,
             handled,
-            target
+            target,
+            userName: game.user.name
          }
       });
    }
@@ -548,7 +552,10 @@ export class Socket
          const quest = QuestDB.getQuest(fqlData.questId);
          if (quest)
          {
-            quest.takeReward(fqlData.uuidv4, fqlData.amount);
+            quest.takeReward(fqlData.uuidv4, fqlData.amount, {
+               userName: fqlData.userName,
+               actorName: data.payload.actor?.name
+            });
             await quest.save();
             Socket.refreshQuestPreview({ questId: fqlData.questId });
          }
@@ -611,7 +618,7 @@ export class Socket
          const quest = QuestDB.getQuest(data.payload.questId);
          if (quest)
          {
-            await quest.setStatus(target);
+            await quest.setStatus(target, { userName: data.payload.userName });
          }
 
          // Set handled to true so no other GM level users act upon the move.

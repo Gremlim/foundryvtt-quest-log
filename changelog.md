@@ -1,5 +1,11 @@
 # Changelog
 
+## Release 0.11.0
+- Added the quest history. Each quest now keeps an activity log, shown in a new "History" tab of the quest window (newest entries first, with the date and the user). It records: who created the quest, every change of status (a player moving an available quest to in progress is logged as accepting it), who marks an objective as completed, failed or back to pending (from the quest window or from the Quest Tracker), and every reward taken (item or currency, the amount and the actor that received it, whether dragged or taken with the buttons).
+- New module setting "Quest History Visibility": only GMs can see the History tab (default), or everyone that can see the quest. Players never see entries about hidden objectives or about the hidden status.
+- The GM has a "Clear" button in the History tab to delete all the entries (with confirmation). A quest keeps its newest 200 entries; older ones are discarded. Existing quests start with an empty history, and a duplicated quest starts with its own history.
+- Added the English and Spanish text for the history and the new setting.
+
 ## Release 0.10.5
 - Subquests can now be intermixed with the objectives of a quest (#141). Each subquest listed in the objectives has a sort handle at the end of its row; drag it (or any objective) over another entry to move it to that position. The order is stored in the quest and is also used by the Quest Tracker, so subquests and objectives appear in the same order there (the old separator between subquests and objectives was removed). Quests that were never reordered keep the previous order (subquests first, then objectives), and new subquests / objectives are added at the end once an order exists.
 - Duplicating a quest resets the order of its objectives.

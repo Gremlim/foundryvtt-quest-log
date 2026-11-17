@@ -262,6 +262,25 @@ export class ModuleSettings
          }
       });
 
+      game.settings.register(constants.moduleName, settings.historyVisibility, {
+         name: 'ForienQuestLog.Settings.historyVisibility.Enable',
+         hint: 'ForienQuestLog.Settings.historyVisibility.EnableHint',
+         scope: this.#scope.world,
+         config: true,
+         default: 'gm',
+         type: String,
+         choices: {
+            gm: 'ForienQuestLog.Settings.historyVisibility.gm',
+            players: 'ForienQuestLog.Settings.historyVisibility.players'
+         },
+         onChange: async () =>
+         {
+            // Must enrich all quests again in QuestDB and render the apps to show / hide the history tab.
+            await QuestDB.enrichAll();
+            ViewManager.renderAll();
+         }
+      });
+
       game.settings.register(constants.moduleName, settings.showFolder, {
          name: 'ForienQuestLog.Settings.showFolder.Enable',
          hint: 'ForienQuestLog.Settings.showFolder.EnableHint',

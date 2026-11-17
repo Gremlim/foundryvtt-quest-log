@@ -403,6 +403,8 @@ export class QuestDB
       // Creating a new quest will add any missing data / schema.
       const tempQuest = new Quest(data);
 
+      tempQuest.addHistory({ type: 'created' });
+
       const folder = Utils.getQuestFolder();
       if (!folder)
       {
@@ -470,6 +472,7 @@ export class QuestDB
       data.name = game.i18n.format('ForienQuestLog.QuestLog.ContextMenu.DuplicateName', { name: source.name });
       data.subquests = [];
       data.order = [];
+      data.history = [];
       data.parent = null;
       delete data.date;
 

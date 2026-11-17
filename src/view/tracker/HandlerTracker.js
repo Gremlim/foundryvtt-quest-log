@@ -134,10 +134,8 @@ export class HandlerTracker
 
       if (quest)
       {
-         const task = quest.getTask(uuidv4);
-         if (task)
+         if (quest.toggleTask(uuidv4))
          {
-            task.toggle();
             await quest.save();
 
             Socket.refreshQuestPreview({

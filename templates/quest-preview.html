@@ -2,6 +2,9 @@
   <nav class="quest-tabs tabs" data-group="primary">
     <a class="item" data-action="tab" data-group="primary" data-tab="details">{{localize 'ForienQuestLog.QuestPreview.Tabs.Details'}}</a>
     <a class="item" data-action="tab" data-group="primary" data-tab="playernotes">{{localize 'ForienQuestLog.QuestPreview.Tabs.PlayerNotes'}}</a>
+    {{#if canViewHistory}}
+      <a class="item" data-action="tab" data-group="primary" data-tab="history">{{localize 'ForienQuestLog.QuestPreview.Tabs.History'}}</a>
+    {{/if}}
     {{#if canEdit}}
       {{#if isGM}}
         <a class="item" data-action="tab" data-group="primary" data-tab="gmnotes">{{localize 'ForienQuestLog.QuestPreview.Tabs.GMNotes'}}</a>
@@ -30,6 +33,11 @@
     <div class="tab playernotes" data-group="primary" data-tab="playernotes">
       {{> "modules/quest-log/templates/partials/quest-preview/playernotes.html"}}
     </div>
+    {{#if canViewHistory}}
+      <div class="tab history" data-group="primary" data-tab="history">
+        {{> "modules/quest-log/templates/partials/quest-preview/history.html"}}
+      </div>
+    {{/if}}
     {{#if canEdit}}
       {{#if isGM}}
         <div class="tab gmnotes" data-group="primary" data-tab="gmnotes">

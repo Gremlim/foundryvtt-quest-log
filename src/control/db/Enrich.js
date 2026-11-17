@@ -121,6 +121,75 @@ export class Enrich
    }
 
    /**
+    * Builds the displayed history entries of a quest, newest first. Entries about hidden objectives and about the
+    * hidden status are not shown to players.
+    *
+    * @param {Quest}   quest - The quest.
+    *
+    * @returns {object[]} The entries with the `time`, `icon` and localized `text`.
+    */
+   static #history(quest)
+   {
+      const isGM = game.user.isGM;
+      const i18n = (key, data) => game.i18n.format(`ForienQuestLog.QuestPreview.History.${key}`, data);
+      const status = (s) => game.i18n.localize(questStatusI18n[s] ?? s);
+
+      const result = [];
+
+      for (const entry of [...quest.history].reverse())
+      {
+         const user = entry.user || '?';
+         let icon;
+         let text;
+
+         switch (entry.type)
+         {
+            case 'created':
+               icon = 'fa-plus';
+               text = i18n('Created', { user });
+               break;
+
+            case 'status':
+               if (!isGM && (entry.from === questStatus.inactive || entry.to === questStatus.inactive)) { continue; }
+
+               icon = 'fa-flag';
+               text = entry.from === questStatus.available && entry.to === questStatus.active ?
+                i18n('Accepted', { user }) : i18n('Status', { user, from: status(entry.from), to: status(entry.to) });
+               break;
+
+            case 'task':
+            {
+               if (!isGM && quest.getTask(entry.uuidv4)?.hidden) { continue; }
+
+               icon = 'fa-check';
+               const key = entry.state === 'completed' ? 'TaskCompleted' : (entry.state === 'failed' ? 'TaskFailed' :
+                'TaskPending');
+               text = i18n(key, { user, task: entry.task });
+               break;
+            }
+
+            case 'reward':
+            {
+               icon = 'fa-gift';
+               const currency = entry.rewardType === 'currency' ? Currency.get(entry.currency) : void 0;
+               const item = currency?.label ?? entry.item;
+               const amount = entry.amount > 1 ? ` \u00d7${entry.amount}` : '';
+               text = entry.actor ? i18n('RewardTakenBy', { user, item, amount, actor: entry.actor }) :
+                i18n('RewardTaken', { user, item, amount });
+               break;
+            }
+
+            default:
+               continue;
+         }
+
+         result.push({ time: new Date(entry.t).toLocaleString(game.i18n.lang), icon, text });
+      }
+
+      return result;
+   }
+
+   /**
     * This method performs content manipulation based on the current state of {@link Quest} preparing data to be
     * displayed in a {@link Handlebars} template. This data is cached in a {@link QuestEntry} in the {@link QuestDB}
     * and only updated when the underlying {@link Quest} changes.
@@ -366,6 +435,13 @@ export class Enrich
          data.data_tasks = data.data_tasks.filter((t) => t.hidden === false);
          data.data_rewards = data.data_rewards.filter((r) => r.hidden === false);
       }
+
+      // The history of the quest; only for GMs or for everyone when enabled in the module settings.
+      data.canViewHistory = game.user.isGM ||
+       game.settings.get(constants.moduleName, settings.historyVisibility) === 'players';
+
+      data.canClearHistory = game.user.isGM;
+      data.data_history = data.canViewHistory ? Enrich.#history(quest) : [];
 
       // Subquests and tasks in the display order of the quest so that they can be intermixed.
       const subquestById = new Map(data.data_subquest.map((s) => [s.id, s]));

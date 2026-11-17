@@ -34,6 +34,13 @@ export class Quest
    static #SheetClass;
 
    /**
+    * The maximum number of entries kept in the history of a quest.
+    *
+    * @type {number}
+    */
+   static MAX_HISTORY = 200;
+
+   /**
     * The backing JournalEntry document.
     *
     * @type {JournalEntry}
@@ -555,6 +562,15 @@ export class Quest
       this.order = Array.isArray(data.order) ? data.order.filter((id) => typeof id === 'string') : [];
 
       /**
+       * Activity log of the quest (newest last). Limited to {@link Quest.MAX_HISTORY} entries. See
+       * {@link Quest.addHistory}.
+       *
+       * @type {object[]}
+       */
+      this.history = Array.isArray(data.history) ?
+       data.history.filter((e) => e && typeof e === 'object').slice(-Quest.MAX_HISTORY) : [];
+
+      /**
        * @type {Task[]}
        */
       this.tasks = Array.isArray(data.tasks) ? data.tasks.map((task) => new Task(task)) : [];
@@ -627,13 +643,34 @@ export class Quest
     * @param {string}   uuidv4 - The UUIDv4 associated with a Reward.
     *
     * @param {number}   [amount] - The amount taken.
+    *
+    * @param {object}   [options] - Options for the history entry.
+    *
+    * @param {string}   [options.userName] - The name of the user that took the reward.
+    *
+    * @param {string}   [options.actorName] - The name of the actor that received the reward.
     */
-   takeReward(uuidv4, amount = void 0)
+   takeReward(uuidv4, amount = void 0, { userName, actorName } = {})
    {
       const reward = this.getReward(uuidv4);
       if (!reward) { return; }
 
       const taken = Number.isFinite(amount) ? Math.floor(amount) : reward.quantity;
+
+      // Log the reward in the history of the quest.
+      if (taken >= 1)
+      {
+         const type = String(reward.type ?? '').toLowerCase();
+
+         this.addHistory({
+            type: 'reward',
+            rewardType: type,
+            item: reward.data?.name ?? '',
+            currency: type === 'currency' ? reward.data?.currency : void 0,
+            amount: Math.min(taken, reward.quantity),
+            actor: actorName || void 0
+         }, { userName });
+      }
 
       if (taken >= reward.quantity) { this.removeReward(uuidv4); }
       else if (taken >= 1) { reward.quantity -= taken; }
@@ -716,9 +753,11 @@ export class Quest
     *
     * @returns {Promise<void>}
     */
-   async setStatus(target)
+   async setStatus(target, { userName } = {})
    {
       if (!this.entry || !questStatus[target]) { return; }
+
+      if (this.status !== target) { this.addHistory({ type: 'status', from: this.status, to: target }, { userName }); }
 
       this.status = target;
 
@@ -779,6 +818,59 @@ export class Quest
          const entry = this.rewards.splice(index, 1)[0];
          this.rewards.splice(targetIdx, 0, entry);
       }
+   }
+
+   /**
+    * Adds an entry to the history of the quest. The time and the user are added automatically. Only the newest
+    * {@link Quest.MAX_HISTORY} entries are kept. The quest must be saved afterward.
+    *
+    * @param {object}   entry - The entry; `type` is one of: created, status, task, reward.
+    *
+    * @param {object}   [options] - Options.
+    *
+    * @param {string}   [options.userName] - The name of the user; defaults to the current user.
+    */
+   addHistory(entry, { userName } = {})
+   {
+      this.history.push({ t: Date.now(), user: userName || game.user?.name || '', ...entry });
+
+      if (this.history.length > Quest.MAX_HISTORY) { this.history.splice(0, this.history.length - Quest.MAX_HISTORY); }
+   }
+
+   /**
+    * Removes all entries of the history. The quest must be saved afterward.
+    */
+   clearHistory()
+   {
+      this.history = [];
+   }
+
+   /**
+    * Toggles the state of a task (pending, completed, failed) and logs it in the history.
+    *
+    * @param {string}   uuidv4 - The UUIDv4 of the task.
+    *
+    * @param {object}   [options] - Options.
+    *
+    * @param {string}   [options.userName] - The name of the user; defaults to the current user.
+    *
+    * @returns {Task|null} The task or null when not found.
+    */
+   toggleTask(uuidv4, { userName } = {})
+   {
+      const task = this.getTask(uuidv4);
+      if (!task) { return null; }
+
+      task.toggle();
+
+      this.addHistory({
+         type: 'task',
+         uuidv4,
+         task: String(task.name ?? '').replace(/<[^>]*>/g, '').trim(),
+         state: task.completed ? 'completed' : (task.failed ? 'failed' : 'pending')
+      }, { userName });
+
+      return task;
    }
 
    /**
@@ -881,6 +973,7 @@ export class Quest
          parent: this.parent,
          subquests: this.subquests,
          order: this.order,
+         history: this.history,
          tasks: this.tasks,
          rewards: this.rewards,
          date: this.date
@@ -1171,6 +1264,7 @@ export class Task
  *
  * @property {string[]}          subquests - An array of quest IDs that are subquests.
  * @property {string[]}          [order] - Display order of objectives: task UUIDv4s and subquest IDs.
+ * @property {object[]}          [history] - Activity log entries (`t`, `user`, `type` and details).
  *
  * @property {QuestTaskData[]}   tasks - An array of tasks.
  *

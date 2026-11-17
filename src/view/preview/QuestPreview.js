@@ -68,6 +68,7 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
          tabs: [
             { id: 'details' },
             { id: 'playernotes' },
+            { id: 'history' },
             { id: 'gmnotes' },
             { id: 'management' }
          ],
@@ -383,6 +384,9 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
       on(domEvents.click, '.actions.tasks .toggleHidden', async (event) =>
        await HandlerDetails.taskToggleHidden(event, this.#quest, this), edit);
 
+      on(domEvents.click, '.history-clear', async () => await HandlerManage.clearHistory(this.#quest, this),
+       game.user.isGM);
+
       on(domEvents.click, '.add-subquest-btn', async () => await HandlerManage.addSubquest(this.#quest, this), edit);
 
       on(domEvents.click, '.configure-perm-btn', () => HandlerManage.configurePermissions(this.#quest, this), edit);
@@ -499,7 +503,7 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
 
       // Players that can't edit may only view the details and player notes tabs.
       if (!this.canEdit && this.tabGroups.primary && this.tabGroups.primary !== 'details' &&
-       this.tabGroups.primary !== 'playernotes')
+       this.tabGroups.primary !== 'playernotes' && !(this.tabGroups.primary === 'history' && content.canViewHistory))
       {
          this.tabGroups.primary = 'details';
       }

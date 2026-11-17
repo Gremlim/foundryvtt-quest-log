@@ -156,9 +156,26 @@
         "WrongDocType": "Forien's Quest Log only accepts world / compendium actors, items, and journal entries as quest givers.",
         "WrongItemType": "Forien's Quest Log only accepts world and compendium items as rewards."
       },
+      "History": {
+        "Accepted": "{user} accepted the quest.",
+        "Clear": "Clear",
+        "ClearContent": "Delete all the history entries of the quest \"{name}\"? This cannot be undone.",
+        "ClearTitle": "Clear the quest history",
+        "ClearTooltip": "Delete all the entries of the history",
+        "Created": "{user} created the quest.",
+        "Empty": "There are no history entries yet.",
+        "RewardTaken": "{user} took the reward {item}{amount}.",
+        "RewardTakenBy": "{user} took the reward {item}{amount} for {actor}.",
+        "Status": "{user} changed the status of the quest from {from} to {to}.",
+        "TaskCompleted": "{user} marked the objective \"{task}\" as completed.",
+        "TaskFailed": "{user} marked the objective \"{task}\" as failed.",
+        "TaskPending": "{user} reset the objective \"{task}\" to pending.",
+        "Title": "Quest History"
+      },
       "Tabs": {
         "Details": "Details",
         "GMNotes": "GM Notes",
+        "History": "History",
         "PlayerNotes": "Player Notes",
         "QuestManagement": "Manage Quest"
       },
@@ -263,6 +280,12 @@
       "hideFQLFromPlayers": {
         "Enable": "Hide Quest Log from players",
         "EnableHint": "When enabled this option hides the Quest Log from all players. Only GM level users will be able to access the Quest Log."
+      },
+      "historyVisibility": {
+        "Enable": "Quest History Visibility",
+        "EnableHint": "Decide who can see the History tab of a quest, which logs who completes objectives, takes rewards and changes the status.",
+        "gm": "Only GMs",
+        "players": "Everyone that can see the quest"
       },
       "navStyle": {
         "bookmarks": "Bookmarks",

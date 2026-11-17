@@ -142,9 +142,26 @@
         "WrongDocType": "Forien's Quest Log solo acepta actores del mundo/compendio, elementos y entradas de diario como dador de misiones.",
         "WrongItemType": "Forien's Quest Log solo acepta artículos del mundo y del compendio como recompensa."
       },
+      "History": {
+        "Accepted": "{user} aceptó la misión.",
+        "Clear": "Vaciar",
+        "ClearContent": "¿Borrar todas las entradas del historial de la misión \"{name}\"? No se puede deshacer.",
+        "ClearTitle": "Vaciar el historial de la misión",
+        "ClearTooltip": "Borrar todas las entradas del historial",
+        "Created": "{user} creó la misión.",
+        "Empty": "Todavía no hay entradas en el historial.",
+        "RewardTaken": "{user} cogió la recompensa {item}{amount}.",
+        "RewardTakenBy": "{user} cogió la recompensa {item}{amount} para {actor}.",
+        "Status": "{user} cambió el estado de la misión de {from} a {to}.",
+        "TaskCompleted": "{user} marcó el objetivo \"{task}\" como completado.",
+        "TaskFailed": "{user} marcó el objetivo \"{task}\" como fallido.",
+        "TaskPending": "{user} devolvió el objetivo \"{task}\" a pendiente.",
+        "Title": "Historial de la misión"
+      },
       "Tabs": {
         "Details": "Detalles",
         "GMNotes": "Notas del GM",
+        "History": "Historial",
         "PlayerNotes": "Notas del jugador",
         "QuestManagement": "Administrar Misión"
       },
@@ -249,6 +266,12 @@
       "hideFQLFromPlayers": {
         "Enable": "Ocultar registro de misiones de los jugadores",
         "EnableHint": "Cuando está habilitada, esta opción oculta el registro de misiones de todos los jugadores. Solo los usuarios de nivel GM podrán acceder al registro de misiones."
+      },
+      "historyVisibility": {
+        "Enable": "Visibilidad del historial de misiones",
+        "EnableHint": "Decide quién puede ver la pestaña Historial de una misión, que registra quién completa objetivos, coge recompensas y cambia el estado.",
+        "gm": "Solo los GM",
+        "players": "Todos los que puedan ver la misión"
       },
       "navStyle": {
         "bookmarks": "Marcadores",
