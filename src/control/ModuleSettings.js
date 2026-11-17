@@ -290,13 +290,6 @@ export class ModuleSettings
          type: Boolean,
          onChange: async (value) =>
          {
-            // Potentially Post notification that the quest tracker is enabled, but not visible as there are no active
-            // quests.
-            if (value && QuestDB.getCount({ status: questStatus.active }) === 0)
-            {
-               ViewManager.notifications.info(game.i18n.localize('ForienQuestLog.Notifications.QuestTrackerNoActive'));
-            }
-
             // Swap macro image based on current state. No need to await.
             await Utils.setMacroImage(settings.questTrackerEnable, value);
 

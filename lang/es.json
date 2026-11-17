@@ -153,6 +153,7 @@
     },
     "QuestTracker": {
       "NoPrimary": "No hay misión principal disponible.",
+      "NoQuests": "No hay misiones disponibles.",
       "Title": "Seguimiento de Misiones",
       "Tooltips": {
         "BackgroundShow": "Haz clic para mostrar el fondo.",

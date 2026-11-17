@@ -89,8 +89,7 @@ export class FoundryUIManager
             // (for example when it was enabled, but there were no visible in progress quests) it must be rendered here.
             if (game.settings.get(constants.moduleName, settings.questTrackerEnable))
             {
-               if (ViewManager.isQuestTrackerVisible()) { ViewManager.questTracker.render({ force: true, focus: false }); }
-               else { ui.notifications.info(game.i18n.localize('ForienQuestLog.Notifications.QuestTrackerNoActive')); }
+               ViewManager.renderOrCloseQuestTracker();
             }
             else
             {

@@ -326,6 +326,7 @@ export class QuestTracker extends HandlebarsApplicationMixin(ApplicationV2)
 
       return foundry.utils.mergeObject(context, {
          hasQuests: quests.count() > 0,
+         showOnlyPrimary,
          primaryQuestId,
          quests
       });

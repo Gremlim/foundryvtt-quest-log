@@ -1,5 +1,10 @@
 # Changelog
 
+## Release 0.9.15
+- Quest Tracker: the window now opens even when there are no in progress quests (previously it did not open, which left players without visible quests with a button that did nothing). It shows "No quests available." instead.
+- Quest Tracker: objectives no longer depend on an icon font for their marker (it displayed as an empty box). They now show `[ ]` when pending, `[+]` when completed and `[-]` when failed, in addition to the strike through; completed objectives are green and failed ones red.
+- Added the English and Spanish text for the empty tracker message.
+
 ## Release 0.9.14
 - Quest Tracker: the Quest Tracker button in the scene controls now always responds. When the tracker setting was already enabled (for example for a player with no visible in progress quests) the click did nothing because setting the same value does not trigger a refresh; it now renders the tracker or posts the "no in progress quests" notification.
 

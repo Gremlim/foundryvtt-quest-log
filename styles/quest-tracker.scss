@@ -233,37 +233,27 @@
           }
         }
 
+        // Plain text markers so no icon font is required: [ ] pending, [+] completed, [-] failed.
         &::before {
-          content: "\f0c8";
+          content: "[ ]";
           display: inline-block;
           padding-right: 4px;
-          font-weight: 400;
-          font-family: "Font Awesome 6 Pro";
-          min-width: 14px;
-          width: fit-content;
+          white-space: pre;
+          font-family: monospace;
           pointer-events: auto;
           align-self: flex-start;
         }
 
         &.minus-square {
-          &::before {
-            content: "\f00d";
-            display: inline-block;
-            font-weight: 900;
-            padding-left: 1px;
-            min-width: 13px;
-            width: fit-content;
-          }
+          color: $tracker-task-failed;
+
+          &::before { content: "[-]"; }
         }
 
         &.check-square {
-          &::before {
-            display: inline-block;
-            content: "\f00c";
-            font-weight: 900;
-            min-width: 14px;
-            width: fit-content;
-          }
+          color: $tracker-task-completed;
+
+          &::before { content: "[+]"; }
         }
       }
     }

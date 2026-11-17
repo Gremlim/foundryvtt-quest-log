@@ -167,6 +167,7 @@
     },
     "QuestTracker": {
       "NoPrimary": "No primary quest available.",
+      "NoQuests": "No quests available.",
       "Title": "Quest Tracker",
       "Tooltips": {
         "BackgroundShow": "Click to show background.",

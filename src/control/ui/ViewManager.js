@@ -134,9 +134,9 @@ export class ViewManager
     */
    static isQuestTrackerVisible()
    {
+      // The tracker is shown even when there are no in progress quests; it then displays an empty message.
       return game.settings.get(constants.moduleName, settings.questTrackerEnable) &&
-       (game.user.isGM || !game.settings.get(constants.moduleName, settings.hideFQLFromPlayers)) &&
-        QuestDB.getCount({ status: questStatus.active }) > 0;
+       (game.user.isGM || !game.settings.get(constants.moduleName, settings.hideFQLFromPlayers));
    }
 
    /**

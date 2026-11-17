@@ -47,6 +47,6 @@
     {{#if hasQuests}}
       </div>
     {{else}}
-      <div class="no-quests">{{localize 'ForienQuestLog.QuestTracker.NoPrimary'}}</div>
+      <div class="no-quests">{{#if showOnlyPrimary}}{{localize 'ForienQuestLog.QuestTracker.NoPrimary'}}{{else}}{{localize 'ForienQuestLog.QuestTracker.NoQuests'}}{{/if}}</div>
     {{/if}}
 </div>
