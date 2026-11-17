@@ -5,6 +5,10 @@
   min-width: 500px;
   min-height: 640px;
 
+  // The bookmark tabs hang outside of the window frame, so the frame must not clip them (ApplicationV2 clips by
+  // default).
+  overflow: visible;
+
   // Necessary to ensure the bookmark tabs show. See `QuestLog.setPosition` for the manual positioning necessary.
   // Some game systems and UI theming modules override `overflow`, so we must visible, but then handle very long
   // list of quests / `.table` below manually based on the Application / setPosition.

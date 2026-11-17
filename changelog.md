@@ -1,5 +1,9 @@
 # Changelog
 
+## Release 0.9.4
+- Fixed the "Show to players" button missing from the Quest Log header (it was in the window's controls menu); it is a header button again (GM only).
+- Fixed the Quest Log bookmark tabs (Available / In Progress / Completed / Failed / Inactive) not being visible: the ApplicationV2 frame clipped them, and the frame also matched the inner `.quest-log` layout class.
+
 ## Release 0.9.3
 - Can now run side by side with the original Forien's Quest Log (`forien-quest-log`) with fully separate data:
   - The quest journal folder is now `_ql_quests` and is only found by its flag, never by name, so it no longer picks up the original module's `_fql_quests` folder.

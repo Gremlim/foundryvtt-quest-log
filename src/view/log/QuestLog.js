@@ -38,21 +38,13 @@ export class QuestLog extends HandlebarsApplicationMixin(ApplicationV2)
    /** @inheritDoc */
    static DEFAULT_OPTIONS = {
       id: 'ql-quest-log',
-      classes: [constants.moduleName],
+      classes: ['ql-quest-log-app'],
       position: { width: 700, height: 480 },
       window: {
          title: 'ForienQuestLog.QuestLog.Title',
          icon: 'fa-solid fa-scroll',
          minimizable: true,
-         resizable: true,
-         controls: [
-            {
-               icon: 'fa-solid fa-eye',
-               label: 'ForienQuestLog.Labels.AppHeader.ShowPlayers',
-               action: 'showPlayers',
-               visible: () => game.user.isGM
-            }
-         ]
+         resizable: true
       },
       actions: {
          showPlayers: QuestLog.#onShowPlayers
@@ -86,6 +78,32 @@ export class QuestLog extends HandlebarsApplicationMixin(ApplicationV2)
    static #onShowPlayers()
    {
       Socket.showQuestLog(this.tabGroups.primary);
+   }
+
+   /**
+    * Adds the GM only "show to players" button to the window header (before the close / controls buttons).
+    *
+    * @inheritDoc
+    */
+   async _renderFrame(options)
+   {
+      const frame = await super._renderFrame(options);
+
+      const header = frame.querySelector('.window-header');
+      if (header && game.user.isGM)
+      {
+         const button = document.createElement('button');
+         button.type = 'button';
+         button.dataset.action = 'showPlayers';
+         button.dataset.tooltip = game.i18n.localize('ForienQuestLog.Labels.AppHeader.ShowPlayers');
+         button.setAttribute('aria-label', game.i18n.localize('ForienQuestLog.Labels.AppHeader.ShowPlayers'));
+         button.classList.add('header-control', 'icon', 'fa-solid', 'fa-eye');
+
+         const first = header.querySelector('.header-control');
+         first ? first.before(button) : header.append(button);
+      }
+
+      return frame;
    }
 
    /**
