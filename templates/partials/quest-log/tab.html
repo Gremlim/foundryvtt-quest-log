@@ -41,6 +41,7 @@
         <h2>{{name}}</h2>
         <div class="meta">
           {{#if isSubquest}}<span class="chip subquest"><i class="fas fa-sitemap"></i>{{fql_format 'ForienQuestLog.QuestLog.Labels.SubTitle' data_parent.name}}</span>{{/if}}
+          {{#if repeatLabel}}<span class="chip repeatable"><i class="fas fa-rotate"></i>{{repeatLabel}}</span>{{/if}}
           {{#if isPersonal}}<span class="chip personal" title="{{{personalActors}}}"><i class="fas fa-user-shield"></i>{{localize 'ForienQuestLog.QuestLog.Labels.Personal'}}</span>{{/if}}
           {{#if deadlineLabel}}<span class="chip deadline{{#if deadlineOverdue}} overdue{{/if}}" title="{{localize 'ForienQuestLog.QuestPreview.Labels.Deadline'}}"><i class="fas fa-hourglass-half"></i>{{deadlineLabel}}</span>{{/if}}
           {{#if location}}<span class="chip location"><i class="fas fa-location-dot"></i>{{location}}</span>{{/if}}

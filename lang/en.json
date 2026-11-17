@@ -164,6 +164,8 @@
         "NoLocation": "No location",
         "Objectives": "Objectives:",
         "Optional": "optional",
+        "Repeatable": "Repeatable",
+        "RepeatableTimes": "Repeatable (completed {n})",
         "PlayerNotes": "Player Notes:",
         "Quantity": "Quantity",
         "Deadline": "Deadline",
@@ -183,6 +185,8 @@
       "Management": {
         "AddSubquest": "Add Subquest",
         "AllowPlayerEdit": "Allow players to edit",
+        "Repeatable": "Repeatable quest",
+        "RepeatableHint": "The GM can reset a repeatable quest (objectives, counters, rewards and subquests) to make it available again. The number of times it was completed is counted.",
         "ShowInTracker": "Show in my Quest Tracker",
         "ShowInTrackerHint": "Shows or hides this quest in your own Quest Tracker. It does not affect other users.",
         "AllowPlayerEditHint": "Players that own this quest, created by a GM, can edit its description, objectives and rewards.",
@@ -223,7 +227,13 @@
         "TaskCompleted": "{user} marked the objective \"{task}\" as completed.",
         "TaskFailed": "{user} marked the objective \"{task}\" as failed.",
         "TaskPending": "{user} reset the objective \"{task}\" to pending.",
+        "Reset": "{user} reset the quest to repeat it (completed {n} time(s) so far).",
         "Title": "Quest History"
+      },
+      "Repeat": {
+        "ResetContent": "Reset the quest \"{name}\" and its subquests to repeat them? The objectives and counters are cleared, the rewards taken are restored and the quest becomes available.",
+        "ResetTitle": "Reset the quest",
+        "ResetTooltip": "Reset the quest to repeat it"
       },
       "Counter": {
         "Current": "Current number",
@@ -292,6 +302,9 @@
         "TaskHidden": "Objective is hidden. Click to show.",
         "TaskOptional": "Optional (bonus) objective. Click to make it required.",
         "TaskRequired": "Required objective. Click to make it optional (bonus).",
+        "TaskNotRepeatable": "Not repeatable. Click to make the objective repeatable.",
+        "TaskRepeatable": "Repeatable objective. Click to make it not repeatable.",
+        "TaskReset": "Reset the objective (pending, counter at 0)",
         "TaskVisible": "Objective is visible. Click to hide.",
         "ToggleImage": "Toggle Token/Actor image.",
         "UnlockAll": "Unlock All",

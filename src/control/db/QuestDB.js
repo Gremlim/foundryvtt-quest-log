@@ -560,6 +560,8 @@ export class QuestDB
       data.order = [];
       data.history = [];
       data.accepted = [];
+      data.timesCompleted = 0;
+      data.rewardsBackup = [];
       data.parent = null;
       delete data.date;
 
@@ -577,6 +579,67 @@ export class QuestDB
       }
 
       return newQuest;
+   }
+
+   /**
+    * Resets a repeatable quest and its subquests (#80): objectives and counters are cleared, the rewards taken are
+    * restored and the quest becomes available again. Subquests that were inactive stay inactive. Only for GMs.
+    *
+    * @param {object}   options - Optional parameters.
+    *
+    * @param {Quest}    [options.quest] - The Quest instance to reset.
+    *
+    * @param {string}   [options.questId] - The ID of the quest to reset.
+    *
+    * @returns {Promise<void>}
+    */
+   static async resetQuest({ quest, questId } = {})
+   {
+      if (!game.user.isGM) { return; }
+
+      const target = quest ?? QuestDB.getQuest(questId);
+      if (!target) { return; }
+
+      for (const id of target.subquests)
+      {
+         const sub = QuestDB.getQuest(id);
+         if (!sub?.entry) { continue; }
+
+         // Subquests of subquests are reset too.
+         await QuestDB.resetQuest({ quest: sub });
+      }
+
+      // The subquests keep inactive when they were; the main quest is available again.
+      const status = target.parent && target.status === questStatus.inactive ? questStatus.inactive :
+       questStatus.available;
+
+      await target.resetRepeat({ status });
+   }
+
+   /**
+    * Asks for confirmation and resets the repeatable quest ({@link QuestDB.resetQuest}).
+    *
+    * @param {string}   questId - The ID of the quest.
+    *
+    * @returns {Promise<boolean>} True when the quest was reset.
+    */
+   static async confirmResetQuest(questId)
+   {
+      const quest = QuestDB.getQuest(questId);
+      if (!quest) { return false; }
+
+      const confirmed = await foundry.applications.api.DialogV2.confirm({
+         window: { title: game.i18n.localize('ForienQuestLog.QuestPreview.Repeat.ResetTitle') },
+         content: `<p>${game.i18n.format('ForienQuestLog.QuestPreview.Repeat.ResetContent',
+          { name: foundry.utils.escapeHTML(quest.name) })}</p>`,
+         rejectClose: false,
+         modal: false
+      });
+
+      if (!confirmed) { return false; }
+
+      await QuestDB.resetQuest({ quest });
+      return true;
    }
 
    /**

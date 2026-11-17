@@ -13,6 +13,12 @@
         <input type="checkbox" id="show-in-tracker-{{id}}" name="show-in-tracker" {{#if showInTracker}}checked{{/if}}>
         <label for="show-in-tracker-{{id}}">{{localize 'ForienQuestLog.QuestPreview.Management.ShowInTracker'}}</label>
       </div>
+      {{#if isGM}}
+        <div class="manage-repeatable" title="{{localize 'ForienQuestLog.QuestPreview.Management.RepeatableHint'}}">
+          <input type="checkbox" id="repeatable-{{id}}" name="repeatable" {{#if repeatable}}checked{{/if}}>
+          <label for="repeatable-{{id}}">{{localize 'ForienQuestLog.QuestPreview.Management.Repeatable'}}</label>
+        </div>
+      {{/if}}
       {{#if canSetPlayerEdit}}
         <div class="manage-allow-player-edit" title="{{localize 'ForienQuestLog.QuestPreview.Management.AllowPlayerEditHint'}}">
           <input type="checkbox" id="allow-player-edit-{{id}}" name="allow-player-edit" {{#if allowPlayerEdit}}checked{{/if}}>

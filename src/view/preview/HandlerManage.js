@@ -206,6 +206,21 @@ export class HandlerManage
     *
     * @returns {Promise<void>}
     */
+   static async setRepeatable(event, quest, questPreview)
+   {
+      quest.repeatable = event.target.checked;
+      await questPreview.saveQuest();
+   }
+
+   /**
+    * @param {MouseEvent} event - MouseEvent
+    *
+    * @param {Quest}             quest - The current quest being manipulated.
+    *
+    * @param {QuestPreview}      questPreview - The QuestPreview being manipulated.
+    *
+    * @returns {Promise<void>}
+    */
    static async setSplashAsIcon(event, quest, questPreview)
    {
       quest.splashAsIcon = event.target.checked;

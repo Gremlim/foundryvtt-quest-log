@@ -413,6 +413,18 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
       on(domEvents.click, '.actions.quest-status .toggleSubquestOptional', async (event) =>
        await HandlerDetails.subquestToggleOptional(event, this), edit);
 
+      on(domEvents.click, '.actions.quest-status .resetQuest', async (event) =>
+       await HandlerDetails.questReset(event, this), edit);
+
+      on(domEvents.click, '.actions.tasks .toggleRepeatable', async (event) =>
+       await HandlerDetails.taskToggleRepeatable(event, this.#quest, this), edit);
+
+      on(domEvents.click, '.actions.tasks .resetTask', async (event) =>
+       await HandlerDetails.taskReset(event, this.#quest, this), edit);
+
+      on(domEvents.click, '.manage-repeatable input[name="repeatable"]', async (event) =>
+       await HandlerManage.setRepeatable(event, this.#quest, this), edit);
+
       on(domEvents.click, '.actions.tasks .toggleOptional', async (event) =>
        await HandlerDetails.taskToggleOptional(event, this.#quest, this), edit);
 

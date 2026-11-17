@@ -518,6 +518,15 @@
 
           .toggleOptional.far { opacity: .6; }
 
+          .task-repeat-label {
+            font-size: .85em;
+            opacity: .75;
+            margin-left: 4px;
+            white-space: nowrap;
+          }
+
+          .toggleRepeatable.far { opacity: .6; }
+
           // Counter of an objective: [-] 0/3 [+]
           .task-counter {
             flex: 0 0 auto;

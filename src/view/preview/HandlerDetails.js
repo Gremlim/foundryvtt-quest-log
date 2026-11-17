@@ -1451,6 +1451,58 @@ export class HandlerDetails
    }
 
    /**
+    * Resets a repeatable quest (and its subquests) after confirmation (#80).
+    *
+    * @param {MouseEvent} event - The click event.
+    *
+    * @param {QuestPreview}      questPreview - The QuestPreview being manipulated.
+    *
+    * @returns {Promise<void>}
+    */
+   static async questReset(event, questPreview)
+   {
+      const questId = event.currentTarget.dataset.questId;
+
+      if (await QuestDB.confirmResetQuest(questId)) { questPreview.refresh(); }
+   }
+
+   /**
+    * Makes an objective repeatable or not (#80).
+    *
+    * @param {MouseEvent} event - The click event.
+    *
+    * @param {Quest}             quest - The current quest being manipulated.
+    *
+    * @param {QuestPreview}      questPreview - The QuestPreview being manipulated.
+    *
+    * @returns {Promise<void>}
+    */
+   static async taskToggleRepeatable(event, quest, questPreview)
+   {
+      const task = quest.getTask(event.currentTarget.dataset.uuidv4);
+      if (!task) { return; }
+
+      task.repeatable = !task.repeatable;
+      await questPreview.saveQuest();
+   }
+
+   /**
+    * Resets a repeatable objective: pending and counter at 0 (#80).
+    *
+    * @param {MouseEvent} event - The click event.
+    *
+    * @param {Quest}             quest - The current quest being manipulated.
+    *
+    * @param {QuestPreview}      questPreview - The QuestPreview being manipulated.
+    *
+    * @returns {Promise<void>}
+    */
+   static async taskReset(event, quest, questPreview)
+   {
+      if (quest.resetTask(event.currentTarget.dataset.uuidv4)) { await questPreview.saveQuest(); }
+   }
+
+   /**
     * Toggles the state of a task (pending, completed, failed).
     *
     * @param {MouseEvent} event - The click event.

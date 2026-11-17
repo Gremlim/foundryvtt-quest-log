@@ -1,5 +1,10 @@
 # Changelog
 
+## Release 0.25.0
+- Repeatable quests (#80): the Management tab has a new option "Repeatable quest" (GM). A repeatable quest in progress, completed or failed has a new "Reset the quest to repeat it" entry in its 3 dots menu (GM, in the quest and in the Quest Log) that asks for confirmation and then clears the objectives and their counters, restores and reopens the rewards that were taken (with their original locked state and choice groups), resets its subquests too (the inactive ones stay inactive) and makes the quest available again. The number of times the quest was completed is counted and shown as "Repeatable (completed N)" in the quest and in the Quest Log; the reset is logged in the history.
+- Repeatable objectives (#80): an objective can be marked as repeatable with an entry of its 3 dots menu; it shows a repeat icon with the number of times it was completed and has a "Reset the objective" entry that makes it pending again with its counter at 0.
+- Quest Tracker: the "(optional)" label of a subquest is now separated from its name.
+
 ## Release 0.24.0
 - Objective counters: an objective can have a counter (for example "Find the pumpkins [0/3]"). The 3 dots menu of an objective has a new entry "Set the counter of the objective" (number to reach and current number; 0 removes the counter). The objective shows "[count/target]" in the quest and in the Quest Tracker, with [-] / [+] buttons for the GM and the users who can edit the quest (in the quest and in the tracker). Reaching the target completes the objective and going below it makes it pending again; changes are logged in the history of the quest.
 - Optional subquests: a subquest can be marked as an optional (bonus) objective with the star entry of its 3 dots menu (in the list of objectives and in the Quest Log). It shows "(optional)" in the quest and in the Quest Tracker and does not count in the completed / total objectives of its parent quest.

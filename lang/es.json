@@ -150,6 +150,8 @@
         "NoLocation": "Sin ubicación",
         "Objectives": "Objetivos:",
         "Optional": "opcional",
+        "Repeatable": "Repetible",
+        "RepeatableTimes": "Repetible (completada {n})",
         "PlayerNotes": "Notas del jugador:",
         "Quantity": "Cantidad",
         "Deadline": "Fecha límite",
@@ -169,6 +171,8 @@
       "Management": {
         "AddSubquest": "Crear Sub-Misión",
         "AllowPlayerEdit": "Permitir edición a los jugadores",
+        "Repeatable": "Misión repetible",
+        "RepeatableHint": "El GM puede reiniciar una misión repetible (objetivos, contadores, recompensas y submisiones) para volver a dejarla disponible. Se cuenta cuántas veces se ha completado.",
         "ShowInTracker": "Mostrar en mi Quest Tracker",
         "ShowInTrackerHint": "Muestra u oculta esta misión en tu propio Quest Tracker. No afecta a otros usuarios.",
         "AllowPlayerEditHint": "Los jugadores propietarios de esta misión, creada por un GM, pueden editar su descripción, objetivos y recompensas.",
@@ -209,7 +213,13 @@
         "TaskCompleted": "{user} marcó el objetivo \"{task}\" como completado.",
         "TaskFailed": "{user} marcó el objetivo \"{task}\" como fallido.",
         "TaskPending": "{user} devolvió el objetivo \"{task}\" a pendiente.",
+        "Reset": "{user} reinició la misión para repetirla (completada {n} vez/veces hasta ahora).",
         "Title": "Historial de la misión"
+      },
+      "Repeat": {
+        "ResetContent": "¿Reiniciar la misión \"{name}\" y sus submisiones para repetirlas? Se borran objetivos y contadores, se restauran las recompensas cogidas y la misión pasa a disponible.",
+        "ResetTitle": "Reiniciar la misión",
+        "ResetTooltip": "Reiniciar la misión para repetirla"
       },
       "Counter": {
         "Current": "Número actual",
@@ -278,6 +288,9 @@
         "TaskHidden": "El objetivo está oculto. Haz clic para mostrar.",
         "TaskOptional": "Objetivo opcional (extra). Haz clic para hacerlo obligatorio.",
         "TaskRequired": "Objetivo obligatorio. Haz clic para hacerlo opcional (extra).",
+        "TaskNotRepeatable": "No repetible. Haz clic para hacer el objetivo repetible.",
+        "TaskRepeatable": "Objetivo repetible. Haz clic para quitar que sea repetible.",
+        "TaskReset": "Reiniciar el objetivo (pendiente, contador a 0)",
         "TaskVisible": "La tarea está visible. Haz clic para ocultar.",
         "ToggleImage": "Alternar entre imagen de token o actor.",
         "UnlockAll": "Desbloquear Todo",

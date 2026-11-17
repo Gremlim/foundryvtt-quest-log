@@ -609,6 +609,29 @@ export class Quest
       this.optional = data.optional === true;
 
       /**
+       * A repeatable quest can be reset by the GM (objectives, counters, rewards and subquests) to make it available
+       * again (#80).
+       *
+       * @type {boolean}
+       */
+      this.repeatable = data.repeatable === true;
+
+      /**
+       * Number of times a repeatable quest was completed.
+       *
+       * @type {number}
+       */
+      this.timesCompleted = Number.isFinite(Number(data.timesCompleted)) ? Math.max(0, Math.floor(Number(data.timesCompleted))) : 0;
+
+      /**
+       * Original data of the rewards that were taken (or changed by taking them) since the last reset of a repeatable
+       * quest. They are restored when the quest is reset.
+       *
+       * @type {object[]}
+       */
+      this.rewardsBackup = Array.isArray(data.rewardsBackup) ? data.rewardsBackup : [];
+
+      /**
        * Who created the quest: `{ id, name, gm }`. Quests without this data (created before the creator was stored)
        * are considered created by a GM.
        *
@@ -756,6 +779,12 @@ export class Quest
 
       const taken = Number.isFinite(amount) ? Math.floor(amount) : reward.quantity;
 
+      // A repeatable quest keeps the original reward to restore it when the quest is reset (#80).
+      if (taken >= 1 && this.repeatable && !this.rewardsBackup.some((r) => r.uuidv4 === uuidv4))
+      {
+         this.rewardsBackup.push(JSON.parse(JSON.stringify(reward.toJSON())));
+      }
+
       // Log the reward in the history of the quest.
       if (taken >= 1)
       {
@@ -876,6 +905,8 @@ export class Quest
       }
 
       this.status = target;
+
+      if (!wasSameStatus && target === questStatus.completed && this.repeatable) { this.timesCompleted++; }
 
       // Register the character that accepted the quest (#138). When the quest was already in progress this is a
       // character joining it, so the status / dates are not changed.
@@ -1106,7 +1137,11 @@ export class Quest
       const task = this.getTask(uuidv4);
       if (!task) { return null; }
 
+      const wasCompleted = task.completed;
+
       task.toggle();
+
+      if (task.repeatable && task.completed && !wasCompleted) { task.times++; }
 
       this.addHistory({
          type: 'task',
@@ -1116,6 +1151,76 @@ export class Quest
       }, { userName });
 
       return task;
+   }
+
+   /**
+    * Resets a repeatable objective: it is pending again and its counter is 0. The quest must be saved afterward.
+    *
+    * @param {string}   uuidv4 - The UUIDv4 of the task.
+    *
+    * @param {object}   [options] - Options.
+    *
+    * @param {string}   [options.userName] - The name of the user; defaults to the current user.
+    *
+    * @returns {Task|null} The task or null when not found.
+    */
+   resetTask(uuidv4, { userName } = {})
+   {
+      const task = this.getTask(uuidv4);
+      if (!task) { return null; }
+
+      task.completed = false;
+      task.failed = false;
+      task.count = 0;
+
+      this.addHistory({
+         type: 'task',
+         uuidv4,
+         task: String(task.name ?? '').replace(/<[^>]*>/g, '').trim(),
+         state: 'pending'
+      }, { userName });
+
+      return task;
+   }
+
+   /**
+    * Resets this quest to be repeated (#80): the objectives are pending with their counters at 0, the rewards that
+    * were taken are restored and reopened (and locked as they originally were) and the quest becomes available. The
+    * subquests must be reset by the caller (see {@link QuestDB.resetQuest}).
+    *
+    * @param {object}   [options] - Options.
+    *
+    * @param {string}   [options.userName] - The name of the user; defaults to the current user.
+    *
+    * @param {string}   [options.status] - Status to set (available by default).
+    *
+    * @returns {Promise<void>}
+    */
+   async resetRepeat({ userName, status = questStatus.available } = {})
+   {
+      for (const task of this.tasks)
+      {
+         task.completed = false;
+         task.failed = false;
+         task.count = 0;
+      }
+
+      for (const data of this.rewardsBackup)
+      {
+         const restored = new Reward(data);
+         const index = this.rewards.findIndex((r) => r.uuidv4 === restored.uuidv4);
+
+         if (index >= 0) { this.rewards[index] = restored; }
+         else { this.rewards.push(restored); }
+      }
+
+      this.rewardsBackup = [];
+
+      for (const reward of this.rewards) { reward.closed = false; }
+
+      this.addHistory({ type: 'reset', times: this.timesCompleted }, { userName });
+
+      await this.setStatus(status, { userName });
    }
 
    /**
@@ -1205,6 +1310,8 @@ export class Quest
          task.failed = false;
       }
       else if (task.completed) { task.completed = false; }
+
+      if (task.completed && !wasCompleted && task.repeatable) { task.times++; }
 
       if (task.completed !== wasCompleted)
       {
@@ -1326,6 +1433,9 @@ export class Quest
          allowPlayerEdit: this.allowPlayerEdit,
          group: this.group,
          optional: this.optional,
+         repeatable: this.repeatable,
+         timesCompleted: this.timesCompleted,
+         rewardsBackup: this.rewardsBackup,
          tasks: this.tasks,
          rewards: this.rewards,
          date: this.date
@@ -1546,6 +1656,20 @@ export class Task
       if (this.target > 0) { this.count = Math.min(this.count, this.target); }
 
       /**
+       * A repeatable objective can be reset by the GM to be done again (#80).
+       *
+       * @type {boolean}
+       */
+      this.repeatable = data.repeatable === true;
+
+      /**
+       * Number of times a repeatable objective was completed.
+       *
+       * @type {number}
+       */
+      this.times = Number.isFinite(Number(data.times)) ? Math.max(0, Math.floor(Number(data.times))) : 0;
+
+      /**
        * @type {string}
        */
       this.uuidv4 = data.uuidv4 || Utils.uuidv4();
@@ -1584,6 +1708,8 @@ export class Task
          optional: this.optional,
          target: this.target,
          count: this.count,
+         repeatable: this.repeatable,
+         times: this.times,
          state: this.state,
          uuidv4: this.uuidv4
       }));

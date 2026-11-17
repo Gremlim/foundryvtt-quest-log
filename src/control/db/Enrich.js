@@ -127,6 +127,16 @@ export class Enrich
             addedAction = true;
          }
 
+         // A repeatable quest can be reset by the GM to be done again (#80).
+         if (game.user.isGM && quest.repeatable && [questStatus.active, questStatus.completed, questStatus.failed]
+          .includes(quest.status))
+         {
+            items += `<i class="resetQuest fas fa-rotate-left" title="${game.i18n.localize(
+             'ForienQuestLog.QuestPreview.Repeat.ResetTooltip')}" data-quest-id="${quest.id}"></i>\n`;
+
+            addedAction = true;
+         }
+
          if (canEdit)
          {
             items += `<i class="delete fas fa-trash" title="${game.i18n.localize(
@@ -207,6 +217,11 @@ export class Enrich
                text = i18n(key, { user, task: entry.task });
                break;
             }
+
+            case 'reset':
+               icon = 'fa-rotate-left';
+               text = i18n('Reset', { user, n: entry.times ?? 0 });
+               break;
 
             case 'counter':
             {
@@ -434,7 +449,8 @@ export class Enrich
             ...task,
             name: await TextEditor.enrichHTML(DOMPurify.sanitize(task.name)),
             hasCounter: task.target > 0,
-            counterLabel: task.target > 0 ? `[${task.count}/${task.target}]` : ''
+            counterLabel: task.target > 0 ? `[${task.count}/${task.target}]` : '',
+            timesLabel: task.repeatable && task.times > 0 ? `\u00d7${task.times}` : ''
          };
       }));
 
@@ -514,6 +530,15 @@ export class Enrich
       // Only GMs see who created the quest; the GM can allow players to edit a quest created by a GM.
       data.creatorLabel = '';
       data.canSetPlayerEdit = game.user.isGM && quest.isCreatedByGM;
+
+      // Repeatable quest (#80).
+      data.repeatLabel = '';
+      if (quest.repeatable)
+      {
+         data.repeatLabel = quest.timesCompleted > 0 ?
+          game.i18n.format('ForienQuestLog.QuestPreview.Labels.RepeatableTimes', { n: quest.timesCompleted }) :
+           game.i18n.localize('ForienQuestLog.QuestPreview.Labels.Repeatable');
+      }
 
       if (game.user.isGM)
       {

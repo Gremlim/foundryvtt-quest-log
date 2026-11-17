@@ -138,6 +138,12 @@ export class QuestLog extends HandlebarsApplicationMixin(ApplicationV2)
          this.render();
       });
 
+      // Reset a repeatable quest (#80).
+      Utils.on(html, domEvents.click, '.actions.quest-status i.resetQuest', async (event) =>
+      {
+         if (await QuestDB.confirmResetQuest(event.currentTarget.dataset.questId)) { this.render(); }
+      });
+
       // The GM marks a rumor as heard / not heard directly in the rumors tab (#82).
       Utils.on(html, domEvents.click, '.rumors-list .rumor-heard', async (event) =>
       {
