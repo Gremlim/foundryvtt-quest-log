@@ -9,7 +9,7 @@ import { Currency }  from '../../control/util/Currency.js';
 
 import { RewardItem } from '../../control/util/RewardItem.js';
 
-import { FQLDialog } from '../internal/index.js';
+import { GQLDialog } from '../internal/index.js';
 
 import {
    constants,
@@ -117,7 +117,7 @@ export class HandlerDetails
     */
    static async questEditDeadline(quest, questPreview)
    {
-      const result = await FQLDialog.promptDeadline({
+      const result = await GQLDialog.promptDeadline({
          title: game.i18n.localize('QuestLog.QuestPreview.Tooltips.EditDeadline'),
          deadline: quest.deadline
       });
@@ -145,7 +145,7 @@ export class HandlerDetails
       if (target === 'group')
       {
          const datalist = document.createElement('datalist');
-         datalist.id = `fql-group-list-${quest.id}`;
+         datalist.id = `gql-group-list-${quest.id}`;
          for (const group of QuestDB.getGroups())
          {
             const option = document.createElement('option');
@@ -475,7 +475,7 @@ export class HandlerDetails
    /**
     * Creates a new abstract reward if the input entry is successful or contains data and a focus out event occurs.
     *
-    * The module setting: {@link FQLSettings.defaultAbstractRewardImage} stores the default abstract reward image.
+    * The module setting: {@link GQLSettings.defaultAbstractRewardImage} stores the default abstract reward image.
     *
     * @param {MouseEvent} event - The click event.
     *
@@ -533,7 +533,7 @@ export class HandlerDetails
       const name = Utils.data(event.target, 'reward-name');
 
       // Await a semi-modal dialog.
-      const result = await FQLDialog.confirmDeleteReward({ name, result: uuidv4, questId: quest.id });
+      const result = await GQLDialog.confirmDeleteReward({ name, result: uuidv4, questId: quest.id });
       if (result)
       {
          quest.removeReward(result);
@@ -560,7 +560,7 @@ export class HandlerDetails
        * @type {RewardDropData}
        */
       const dataTransfer = {
-         _fqlData: {
+         _gqlData: {
             type: 'reward',
             questId: quest.id,
             uuidv4: data.uuidv4,
@@ -630,7 +630,7 @@ export class HandlerDetails
          Socket.refreshQuestPreview({ questId: quest.id });
       }
 
-      if (data?._fqlData !== void 0) { return; }
+      if (data?._gqlData !== void 0) { return; }
 
       if (data?.type === 'Actor')
       {
@@ -831,7 +831,7 @@ export class HandlerDetails
       const currencies = Currency.getCurrencies();
       if (!currencies.length) { return; }
 
-      const choice = await FQLDialog.promptCurrency({
+      const choice = await GQLDialog.promptCurrency({
          currencies,
          title: game.i18n.localize('QuestLog.QuestPreview.Tooltips.AddCurrency'),
          currencyLabel: game.i18n.localize('QuestLog.QuestPreview.Labels.Currency'),
@@ -900,7 +900,7 @@ export class HandlerDetails
 
       if (!all && reward.quantity > 1)
       {
-         amount = await FQLDialog.promptAmount({
+         amount = await GQLDialog.promptAmount({
             title: name,
             label: game.i18n.localize('QuestLog.QuestPreview.Labels.QuantityTake'),
             value: reward.quantity,
@@ -921,7 +921,7 @@ export class HandlerDetails
          actor: { id: actor.id, name: actor.name },
          sheet: { id: null },
          data: {
-            _fqlData: {
+            _gqlData: {
                type: 'reward',
                questId: quest.id,
                uuidv4,
@@ -951,7 +951,7 @@ export class HandlerDetails
       const reward = quest.getReward(uuidv4);
       if (!reward) { return; }
 
-      const amount = await FQLDialog.promptAmount({
+      const amount = await GQLDialog.promptAmount({
          title: reward.name,
          label: game.i18n.localize('QuestLog.QuestPreview.Labels.Quantity'),
          value: reward.quantity,
@@ -1032,7 +1032,7 @@ export class HandlerDetails
 
       const groups = [...new Set(quest.rewards.map((r) => r.choice).filter((c) => c))].sort();
 
-      const value = await FQLDialog.promptText({
+      const value = await GQLDialog.promptText({
          title: game.i18n.localize('QuestLog.QuestPreview.Tooltips.RewardSetChoice'),
          label: game.i18n.localize('QuestLog.QuestPreview.Labels.RewardChoiceGroup'),
          hint: game.i18n.localize('QuestLog.QuestPreview.Labels.RewardChoiceHint'),
@@ -1138,7 +1138,7 @@ export class HandlerDetails
       const uuidv4 = Utils.data(event.target, 'uuidv4');
       const name = Utils.data(event.target, 'task-name');
 
-      const result = await FQLDialog.confirmDeleteTask({ name, result: uuidv4, questId: quest.id });
+      const result = await GQLDialog.confirmDeleteTask({ name, result: uuidv4, questId: quest.id });
       if (result)
       {
          quest.removeTask(result);
@@ -1522,10 +1522,10 @@ export class HandlerDetails
 }
 
 /**
- * @typedef {object} FQLDropData An object attached to drop data transfer which describes the FQL reward item and who
+ * @typedef {object} GQLDropData An object attached to drop data transfer which describes the GQL reward item and who
  *                               is dropping it into an actor sheet.
  *
- * @property {string} type - The type of FQL drop data; one of: ['reward']
+ * @property {string} type - The type of GQL drop data; one of: ['reward']
  *
  * @property {string} questId - The Quest ID
  *
@@ -1539,7 +1539,7 @@ export class HandlerDetails
 /**
  * @typedef {object} RewardDropData
  *
- * @property {FQLDropData} _fqlData - FQL drop data used to remove the reward from a quest.
+ * @property {GQLDropData} _gqlData - GQL drop data used to remove the reward from a quest.
  *
  * @property {string}      type - Type of document.
  *

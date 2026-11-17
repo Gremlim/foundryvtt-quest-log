@@ -394,7 +394,7 @@
         "OBSERVER": "Beobachter",
         "OWNER": "Besitzer"
       },
-      "hideFQLFromPlayers": {
+      "hideGQLFromPlayers": {
         "Enable": "Questlog für Spieler verbergen",
         "EnableHint": "Aktivieren, um das Questlog für alle Spieler zu verbergen. Nur GM-Benutzer können auf das Questlog zugreifen."
       },

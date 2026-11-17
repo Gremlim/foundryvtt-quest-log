@@ -93,7 +93,7 @@ export class ActionMenu
       if (!sources.length) { return; }
 
       const menu = document.createElement('div');
-      menu.className = 'fql-action-menu';
+      menu.className = 'gql-action-menu';
       menu.setAttribute('role', 'menu');
 
       // Take the theme of the application as the menu is added to the body.

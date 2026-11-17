@@ -10,10 +10,10 @@ import {
  * Defines a rectangle with essential contains check. Used to define the pinning rectangle next to the
  * upper left of the sidebar.
  */
-class FQLRect extends DOMRect
+class GQLRect extends DOMRect
 {
    /**
-    * Tests if the point is contained by this FQLRect.
+    * Tests if the point is contained by this GQLRect.
     *
     * @param {number}   x - Point X
     *
@@ -153,7 +153,7 @@ export class FoundryUIManager
          right: -1,
          bottom: -1,
          left: -1,
-         rectDock: new FQLRect(0, 0, 15, 30),
+         rectDock: new GQLRect(0, 0, 15, 30),
       }),
 
       /**
@@ -191,7 +191,7 @@ export class FoundryUIManager
    }
 
    /**
-    * @returns {{top: number, right: number, bottom: number, left: number, rectDock: FQLRect}} Boundaries for the Tracker
+    * @returns {{top: number, right: number, bottom: number, left: number, rectDock: GQLRect}} Boundaries for the Tracker
     */
    static get boundaries()
    {

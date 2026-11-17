@@ -394,7 +394,7 @@
         "OBSERVER": "Waarnemer",
         "OWNER": "Eigenaar"
       },
-      "hideFQLFromPlayers": {
+      "hideGQLFromPlayers": {
         "Enable": "Verberg Missielogboek voor spelers",
         "EnableHint": "Indien aangevinkt verbergt deze optie het missielogboek voor alle spelers. Alleen GM-gebruikers zullen toegang hebben tot het missielogboek."
       },

@@ -59,13 +59,13 @@ Keybindings (since `0.9.0`):
 
 A button to access the Quest Log is situated on the bottom of Journal Directory or in the left hand scene controls icon 
 toolbar under notes / journal entries where two new icons (scroll and list) opens the Quest Log and Quest Tracker. There
-also are two `macro compendiums` available for FQL that provide ready to go macros to drop onto your hotbar that allow
-convenient access to FQL for players and several GM related options.
+also are two `macro compendiums` available for GQL that provide ready to go macros to drop onto your hotbar that allow
+convenient access to GQL for players and several GM related options.
 
 There is a series of useful [in-depth video tutorials on YouTube](https://www.youtube.com/playlist?list=PLHslnNa8QKdD_M29g_Zs0f9zyAUVJ32Ne) 
 that cover the `0.7 - 0.8` releases.
 
-FQL is quite user-friendly with an intuitive UI, however you might want to [check out the Wiki](https://github.com/Gremlim/foundryvtt-quest-log/wiki) for more detailed usage including macros and Quest API details for external developers integrations. 
+GQL is quite user-friendly with an intuitive UI, however you might want to [check out the Wiki](https://github.com/Gremlim/foundryvtt-quest-log/wiki) for more detailed usage including macros and Quest API details for external developers integrations. 
 
 ## Features
 
@@ -81,8 +81,8 @@ FQL is quite user-friendly with an intuitive UI, however you might want to [chec
 
 ## About
 
-FQL is being updated for stability across core Foundry updates. This stability and long term maintenance of such is 
-the _main feature_ of FQL presently. You can rest assured that the quest log experience you know and _love_ will 
+GQL is being updated for stability across core Foundry updates. This stability and long term maintenance of such is 
+the _main feature_ of GQL presently. You can rest assured that the quest log experience you know and _love_ will 
 continue to be available now and into the future.
 
 ## Translations
@@ -115,8 +115,8 @@ The following Translations are available:
 
 Stability through future releases of Foundry VTT and quality of life features in each release.
 
-_If you think you have found a bug or usability issue with FQL itself please file an issue in the 
-[FQL Issue Tracker](https://github.com/Gremlim/foundryvtt-quest-log/issues)_.
+_If you think you have found a bug or usability issue with GQL itself please file an issue in the 
+[GQL Issue Tracker](https://github.com/Gremlim/foundryvtt-quest-log/issues)_.
 
 ## Contact
 
@@ -129,8 +129,8 @@ See [Authors](https://github.com/Gremlim/foundryvtt-quest-log/blob/master/AUTHOR
 
 ## Support (Historical)
 
-Between the summer of '21 and '24 FQL was developed and maintained by Michael Leahy aka [TyphonJS](https://github.com/typhonrt) / 
-[TyphonJS Discord](https://typhonjs.io/discord/). Michael took FQL from MVP to the questing powerhouse that FQL became
+Between the summer of '21 and '24 GQL was developed and maintained by Michael Leahy aka [TyphonJS](https://github.com/typhonrt) / 
+[TyphonJS Discord](https://typhonjs.io/discord/). Michael took GQL from MVP to the questing powerhouse that GQL became
 and maintained the package through a challenging series of Foundry core update `v0.8` through `v12`. 
 
 ## License

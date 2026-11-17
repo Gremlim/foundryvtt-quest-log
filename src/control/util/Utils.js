@@ -7,7 +7,7 @@ import {
 
 /**
  * Provides several general utility methods interacting with Foundry via UUID lookups to generating UUIDv4 internal
- * FQL IDs. There are also several general methods for Handlebars setup.
+ * GQL IDs. There are also several general methods for Handlebars setup.
  */
 export class Utils
 {
@@ -43,7 +43,7 @@ export class Utils
    }
 
    /**
-    * The hidden FQL quests folder name.
+    * The hidden GQL quests folder name.
     *
     * @type {string}
     */
@@ -120,7 +120,7 @@ export class Utils
    {
       if (typeof text !== 'string')
       {
-         throw new TypeError(`FQL copyTextToClipboard error: 'text' is not a string.`);
+         throw new TypeError(`GQL copyTextToClipboard error: 'text' is not a string.`);
       }
 
       let success = false;
@@ -299,11 +299,11 @@ export class Utils
    }
 
    /**
-    * A convenience method to return the module data object for FQL.
+    * A convenience method to return the module data object for GQL.
     *
-    * This is a scoped location where we can store any FQL data.
+    * This is a scoped location where we can store any GQL data.
     *
-    * @returns {object} The FQL module data object.
+    * @returns {object} The GQL module data object.
     */
    static getModuleData()
    {
@@ -466,19 +466,19 @@ export class Utils
    }
 
    /**
-    * Returns true if FQL is hidden from players. This will always return false if the user is a GM.
+    * Returns true if GQL is hidden from players. This will always return false if the user is a GM.
     *
-    * @returns {boolean} Is FQL hidden from players.
+    * @returns {boolean} Is GQL hidden from players.
     */
-   static isFQLHiddenFromPlayers()
+   static isGQLHiddenFromPlayers()
    {
       if (game.user.isGM) { return false; }
 
-      return game.settings.get(constants.moduleName, settings.hideFQLFromPlayers);
+      return game.settings.get(constants.moduleName, settings.hideGQLFromPlayers);
    }
 
    /**
-    * Sets an image based on boolean setting state for FQL macros.
+    * Sets an image based on boolean setting state for GQL macros.
     *
     * @param {string|string[]}   setting - Setting name.
     *
@@ -490,13 +490,13 @@ export class Utils
    {
       const userID = game.user.id;
 
-      const fqlSettings = Array.isArray(setting) ? setting : [setting];
+      const gqlSettings = Array.isArray(setting) ? setting : [setting];
 
       for (const macroEntry of game.macros.contents)
       {
-         for (const currentSetting of fqlSettings)
+         for (const currentSetting of gqlSettings)
          {
-            // Test if the FQL `macro-setting` flag value against the setting supplied.
+            // Test if the GQL `macro-setting` flag value against the setting supplied.
             const macroSetting = macroEntry.getFlag(constants.moduleName, 'macro-setting');
             if (macroSetting !== currentSetting) { continue; }
 
@@ -597,7 +597,7 @@ export class Utils
     */
    static registerHandlebarsHelpers()
    {
-      Handlebars.registerHelper('fql_format', (stringId, ...arrData) =>
+      Handlebars.registerHelper('gql_format', (stringId, ...arrData) =>
       {
          let objData;
          if (typeof arrData[0] === 'object')
@@ -617,7 +617,7 @@ export class Utils
     * Generates a UUID v4 compliant ID. This is used by Quest to attach a UUID to any data that isn't backed by a
     * FoundryVTT document. Right now that is particularly {@link Task}. All GUI interaction and storage in Quest data
     * that isn't based on an FVTT document must use a UUIDv4 to interact with this data. Lookups in Quest data must be
-    * by UUIDv4 to find an index in Quest data arrays before modifying data. FQL is potentially a multi-user module
+    * by UUIDv4 to find an index in Quest data arrays before modifying data. GQL is potentially a multi-user module
     * where many users could potentially be modifying Quest data that isn't backed by an FVTT document, so the Foundry
     * core DB won't be synching or resolving this data.
     *

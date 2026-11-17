@@ -191,7 +191,7 @@ export class QuestDB
    }
 
    /**
-    * Initializes the QuestDB. If FQL is hidden from the current user then no quests load. All quests are loaded based
+    * Initializes the QuestDB. If GQL is hidden from the current user then no quests load. All quests are loaded based
     * on observability by the current user.
     *
     * This method may be invoked multiple times, but it is generally important to only invoke `init` when the QuestDB
@@ -204,24 +204,24 @@ export class QuestDB
       let folder = await Utils.initializeQuestFolder();
 
       // If the folder doesn't exist then simulate the content parameter. This should only ever occur for a player
-      // logged in when a GM activates FQL for the first time or if the _fql_quests folder is deleted.
+      // logged in when a GM activates GQL for the first time or if the _ql_quests folder is deleted.
       if (!folder)
       {
          if (game.user.isGM)
          {
-            console.warn('QuestLog - Failed to initialize QuestDB as the quest folder / _fql_quests is missing.');
+            console.warn('QuestLog - Failed to initialize QuestDB as the quest folder / _ql_quests is missing.');
          }
 
          folder = { content: [] };
       }
 
-      // Skip initialization of data if FQL is hidden from the current player. FQL is never hidden from GM level users.
-      if (!Utils.isFQLHiddenFromPlayers())
+      // Skip initialization of data if GQL is hidden from the current player. GQL is never hidden from GM level users.
+      if (!Utils.isGQLHiddenFromPlayers())
       {
          // Cache `isTrustedPlayerEdit`.
          const isTrustedPlayerEdit = Utils.isTrustedPlayerEdit();
 
-         // Iterate over all journal entries in `_fql_quests` folder.
+         // Iterate over all journal entries in `_ql_quests` folder.
          const folderContents = FVTTCompat.folderContents(folder);
 
          for (const entry of folderContents)
@@ -290,14 +290,14 @@ export class QuestDB
     * user or adding quests that are now observable. This only really needs to occur after particular module setting
     * changes which right now is when trusted player edit is enabled / disabled.
     *
-    * @see FQLSettings.trustedPlayerEdit
+    * @see GQLSettings.trustedPlayerEdit
     */
    static async consistencyCheck()
    {
       const folder = Utils.getQuestFolder();
 
-      // Early out if the folder is not available or FQL is hidden from the current player.
-      if (!folder || Utils.isFQLHiddenFromPlayers()) { return; }
+      // Early out if the folder is not available or GQL is hidden from the current player.
+      if (!folder || Utils.isGQLHiddenFromPlayers()) { return; }
 
       // Create a single map of all QuestEntry instances.
       const questEntryMap = new Map(QuestDB.getAllQuestEntries().map((e) => [e.id, e]));
@@ -1157,7 +1157,7 @@ export class QuestDB
 
    /**
     * Foundry hook callback when a new JournalEntry is created. For quests there are two cases to consider. The first
-    * is straight forward when a new quest is created from FQL. The second case is a bit more challenging and that
+    * is straight forward when a new quest is created from GQL. The second case is a bit more challenging and that
     * occurs when a journal entry / quest is imported from a compendium. In this case we need to scrub the subquests
     * that may no longer resolve to valid journal entries in the system.
     *
@@ -1171,11 +1171,11 @@ export class QuestDB
    {
       const content = entry.getFlag(constants.moduleName, constants.flagDB);
 
-      // Exit early if no FQL quest data is available.
+      // Exit early if no GQL quest data is available.
       if (!content) { return; }
 
-      // Process the quest content if it is currently observable and FQL is not hidden from the current user.
-      if (this.#isObservable(content, entry) && !Utils.isFQLHiddenFromPlayers())
+      // Process the quest content if it is currently observable and GQL is not hidden from the current user.
+      if (this.#isObservable(content, entry) && !Utils.isGQLHiddenFromPlayers())
       {
          const quest = new Quest(content, entry);
 
@@ -1269,7 +1269,7 @@ export class QuestDB
          let questEntry = this.#getQuestEntry(entry.id);
 
          // Is the quest currently observable and not hidden from the current user.
-         const isObservable = this.#isObservable(content, entry) && !Utils.isFQLHiddenFromPlayers();
+         const isObservable = this.#isObservable(content, entry) && !Utils.isGQLHiddenFromPlayers();
 
          if (questEntry)
          {
@@ -1364,7 +1364,7 @@ export class QuestDB
    /**
     * Provides the observability test for a quest based on the user level and permissions of the backing journal entry.
     * GM level users always can observe any quests. Trusted players w/ the module setting
-    * {@link FQLSettings.trustedPlayerEdit} enabled and the owner of the quest can observe quests in the inactive status.
+    * {@link GQLSettings.trustedPlayerEdit} enabled and the owner of the quest can observe quests in the inactive status.
     * Otherwise, quests are only observable by players when the default or personal permission is
     * {@link CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER} or higher.
     *
@@ -1536,7 +1536,7 @@ export class QuestDB
     *
     * @param {QuestEntry}     questEntry - Target quest entry.
     *
-    * @param {QuestData}      content - The FQL quest data from journal entry.
+    * @param {QuestData}      content - The GQL quest data from journal entry.
     *
     * @param {JournalEntry}   entry - The backing journal entry.
     *

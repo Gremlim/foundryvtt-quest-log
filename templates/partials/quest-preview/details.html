@@ -97,7 +97,7 @@
           {{#if acceptedNames}}<p class="accepted" title="{{acceptedTitle}}"><i class="fas fa-user-check"></i> {{localize 'QuestLog.QuestPreview.Labels.AcceptedBy'}} {{acceptedNames}}</p>{{/if}}
           {{#if isSubquest}}
             <p class="quest-name-link" data-quest-id="{{data_parent.id}}">
-              {{fql_format 'QuestLog.QuestLog.Labels.SubTitle' data_parent.name}}
+              {{gql_format 'QuestLog.QuestLog.Labels.SubTitle' data_parent.name}}
               <i class="fas fa-link"></i>
               {{#if data_parent.isPrimary}}<i class="is-primary fas fa-star" title="{{localize 'QuestLog.Tooltips.PrimaryQuest'}}"></i>{{/if}}
             </p>

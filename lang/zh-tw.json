@@ -394,7 +394,7 @@
         "OBSERVER": "查看者",
         "OWNER": "所有者"
       },
-      "hideFQLFromPlayers": {
+      "hideGQLFromPlayers": {
         "Enable": "對玩家隱藏任務日誌",
         "EnableHint": "啟用此選項後，所有玩家都無法看到任務日誌。只有 GM 級別的用戶才能訪問任務日誌。"
       },

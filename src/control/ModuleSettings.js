@@ -55,7 +55,7 @@ export class ModuleSettings
    /**
     * Registers all module settings.
     *
-    * @see FQLSettings
+    * @see GQLSettings
     */
    static registerSettings()
    {
@@ -193,9 +193,9 @@ export class ModuleSettings
          }
       });
 
-      game.settings.register(constants.moduleName, settings.hideFQLFromPlayers, {
-         name: 'QuestLog.Settings.hideFQLFromPlayers.Enable',
-         hint: 'QuestLog.Settings.hideFQLFromPlayers.EnableHint',
+      game.settings.register(constants.moduleName, settings.hideGQLFromPlayers, {
+         name: 'QuestLog.Settings.hideGQLFromPlayers.Enable',
+         hint: 'QuestLog.Settings.hideGQLFromPlayers.EnableHint',
          scope: this.#scope.world,
          config: true,
          default: false,
@@ -203,11 +203,11 @@ export class ModuleSettings
          onChange: async(value) =>
          {
             // Swap macro image based on current state. No need to await.
-            if (game.user.isGM) { await Utils.setMacroImage(settings.hideFQLFromPlayers, value); }
+            if (game.user.isGM) { await Utils.setMacroImage(settings.hideGQLFromPlayers, value); }
 
             if (!game.user.isGM)
             {
-               // Hide all FQL apps from non GM user and remove the ui.controls for FQL.
+               // Hide all GQL apps from non GM user and remove the ui.controls for GQL.
                if (value)
                {
                   ViewManager.closeAll({ questPreview: true, updateSetting: false });
@@ -220,7 +220,7 @@ export class ModuleSettings
                   }
 
                   // Remove all quests from in-memory DB. This is required so that users can not retrieve quests
-                  // from the QuestAPI or content links in Foundry resolve when FQL is hidden.
+                  // from the QuestAPI or content links in Foundry resolve when GQL is hidden.
                   QuestDB.removeAll();
                }
                else
@@ -242,7 +242,7 @@ export class ModuleSettings
             // Render the journal to show / hide open quest log button & folder.
             game?.journal?.render();
 
-            // Close or open the quest tracker based on active quests (users w/ FQL hidden will have no quests in
+            // Close or open the quest tracker based on active quests (users w/ GQL hidden will have no quests in
             // QuestDB)
             ViewManager.renderOrCloseQuestTracker({ updateSetting: false });
          }
@@ -351,8 +351,8 @@ export class ModuleSettings
       /**
        * This is the most complex module setting handling as quite a bit of logic is contained below to handle
        * setting the primary quest. Since the onChange event does not pass the old and new value the old value for
-       * {@link FQLSettings.primaryQuest} is stored in {@link FQLSessionConstants.currentPrimaryQuest} which is
-       * initially set in {@link FQLHooks.foundryReady}.
+       * {@link GQLSettings.primaryQuest} is stored in {@link GQLSessionConstants.currentPrimaryQuest} which is
+       * initially set in {@link GQLHooks.foundryReady}.
        *
        * This setting is set from {@link Socket.setQuestPrimary} or the handler in Socket.
        *
@@ -456,7 +456,7 @@ export class ModuleSettings
    /**
     * Registers all module settings.
     *
-    * @see FQLKeybindings
+    * @see GQLKeybindings
     */
    static registerKeybindings()
    {

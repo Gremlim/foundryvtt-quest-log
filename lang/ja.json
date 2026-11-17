@@ -394,7 +394,7 @@
         "OBSERVER": "監視者（Observer）",
         "OWNER": "所有者（Owner）"
       },
-      "hideFQLFromPlayers": {
+      "hideGQLFromPlayers": {
         "Enable": "PLからクエスト一覧を隠す",
         "EnableHint": "有効化のとき、PLはクエスト一覧を閲覧できなくなります。GM権限を持っているユーザは依然として閲覧できます。"
       },

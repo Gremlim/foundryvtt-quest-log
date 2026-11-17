@@ -13,7 +13,7 @@ import { Quest }        from '../model/index.js';
 
 import { QuestPreview } from '../view/index.js';
 
-import { FQLDialog }    from '../view/internal/index.js';
+import { GQLDialog }    from '../view/internal/index.js';
 
 import { RewardItem }   from './util/RewardItem.js';
 
@@ -25,35 +25,35 @@ import {
    settings }           from '../model/constants.js';
 
 /**
- * Provides implementations for all Foundry hooks that FQL responds to and registers under. Please view the
+ * Provides implementations for all Foundry hooks that GQL responds to and registers under. Please view the
  * {@link QuestDB} documentation for hooks that it fires in the QuestDB lifecycle.
  * {@link FoundryUIManager} documentation for hooks that it fires in the UI Manager lifecycle.
  *
  * Foundry lifecycle:
- * - `init` - {@link FQLHooks.foundryInit}
- * - `ready` - {@link FQLHooks.foundryReady} - A hook `QuestLog.Lifecycle.ready` is fired after FQL is ready.
- * - `setup` - {@link FQLHooks.foundrySetup}
+ * - `init` - {@link GQLHooks.foundryInit}
+ * - `ready` - {@link GQLHooks.foundryReady} - A hook `QuestLog.Lifecycle.ready` is fired after GQL is ready.
+ * - `setup` - {@link GQLHooks.foundrySetup}
  *
  * Foundry game hooks:
  * - `collapseSidebar` - {@link FoundryUIManager.collapseSidebar} - Handle tracking state of the sidebar.
- * - `dropActorSheetData` - {@link FQLHooks.dropActorSheetData} - Handle drop data for reward items in actor sheet.
- * - `dropCanvasData` - {@link FQLHooks.dropCanvasData} - Handle drop data for {@link Quest} on Foundry canvas.
- * - `getSceneControlButtons` - {@link FQLHooks.getSceneControlButtons} - Add FQL scene controls to 'note'.
- * - `hotbarDrop` - {@link FQLHooks.hotbarDrop} - Handle {@link Quest} drops to the macro hotbar.
- * - `renderJournalDirectory` - {@link FQLHooks.renderJournalDirectory} - Add 'open quest log' / show FQL folder.
- * - `renderJournalEntrySheet` / `renderJournalSheet` - {@link FQLHooks.renderJournalSheet} - Hide FQL directory from
+ * - `dropActorSheetData` - {@link GQLHooks.dropActorSheetData} - Handle drop data for reward items in actor sheet.
+ * - `dropCanvasData` - {@link GQLHooks.dropCanvasData} - Handle drop data for {@link Quest} on Foundry canvas.
+ * - `getSceneControlButtons` - {@link GQLHooks.getSceneControlButtons} - Add GQL scene controls to 'note'.
+ * - `hotbarDrop` - {@link GQLHooks.hotbarDrop} - Handle {@link Quest} drops to the macro hotbar.
+ * - `renderJournalDirectory` - {@link GQLHooks.renderJournalDirectory} - Add 'open quest log' / show GQL folder.
+ * - `renderJournalEntrySheet` / `renderJournalSheet` - {@link GQLHooks.renderJournalSheet} - Hide GQL directory from
  * journal sheet option items (ApplicationV2 / legacy ApplicationV1 sheets respectively).
  *
- * FQL hooks (response):
- * - `QuestLog.Open.QuestLog` - {@link FQLHooks.openQuestLog} - Open the quest log.
- * - `QuestLog.Open.QuestTracker` - {@link FQLHooks.openQuestTracker} - Open the quest tracker.
- * - `QuestLog.Run.DBMigration` - {@link FQLHooks.runDBMigration} - Allow GMs to run the DBMigration manually.
+ * GQL hooks (response):
+ * - `QuestLog.Open.QuestLog` - {@link GQLHooks.openQuestLog} - Open the quest log.
+ * - `QuestLog.Open.QuestTracker` - {@link GQLHooks.openQuestTracker} - Open the quest tracker.
+ * - `QuestLog.Run.DBMigration` - {@link GQLHooks.runDBMigration} - Allow GMs to run the DBMigration manually.
  *
- * FQL hooks (called):
- * - `QuestLog.Lifecycle.ready` - {@link FQLHooks.foundryReady} - Called at the end of the `ready` hook when FQL
+ * GQL hooks (called):
+ * - `QuestLog.Lifecycle.ready` - {@link GQLHooks.foundryReady} - Called at the end of the `ready` hook when GQL
  * is fully setup.
  */
-export class FQLHooks
+export class GQLHooks
 {
    /**
     * @private
@@ -64,33 +64,33 @@ export class FQLHooks
    }
 
    /**
-    * Initializes all hooks that FQL responds to in the Foundry lifecycle and in game hooks.
+    * Initializes all hooks that GQL responds to in the Foundry lifecycle and in game hooks.
     */
    static init()
    {
       // Foundry startup hooks.
-      Hooks.once('init', FQLHooks.foundryInit);
-      Hooks.once('ready', FQLHooks.foundryReady);
-      Hooks.once('setup', FQLHooks.foundrySetup);
+      Hooks.once('init', GQLHooks.foundryInit);
+      Hooks.once('ready', GQLHooks.foundryReady);
+      Hooks.once('setup', GQLHooks.foundrySetup);
 
       // Respond to Foundry in game hooks.
-      Hooks.on('dropActorSheetData', FQLHooks.dropActorSheetData);
-      Hooks.on('dropCanvasData', FQLHooks.dropCanvasData);
-      Hooks.on('getSceneControlButtons', FQLHooks.getSceneControlButtons);
-      Hooks.on('hotbarDrop', FQLHooks.hotbarDrop);
-      Hooks.on('renderJournalDirectory', FQLHooks.renderJournalDirectory);
-      Hooks.on('renderJournalEntrySheet', FQLHooks.renderJournalSheet);
-      Hooks.on('renderJournalSheet', FQLHooks.renderJournalSheet); // Legacy ApplicationV1 sheets.
+      Hooks.on('dropActorSheetData', GQLHooks.dropActorSheetData);
+      Hooks.on('dropCanvasData', GQLHooks.dropCanvasData);
+      Hooks.on('getSceneControlButtons', GQLHooks.getSceneControlButtons);
+      Hooks.on('hotbarDrop', GQLHooks.hotbarDrop);
+      Hooks.on('renderJournalDirectory', GQLHooks.renderJournalDirectory);
+      Hooks.on('renderJournalEntrySheet', GQLHooks.renderJournalSheet);
+      Hooks.on('renderJournalSheet', GQLHooks.renderJournalSheet); // Legacy ApplicationV1 sheets.
 
-      // FQL specific hooks.
-      Hooks.on('QuestLog.Open.QuestLog', FQLHooks.openQuestLog);
-      Hooks.on('QuestLog.Open.QuestTracker', FQLHooks.openQuestTracker);
-      Hooks.on('QuestLog.Run.DBMigration', FQLHooks.runDBMigration);
+      // GQL specific hooks.
+      Hooks.on('QuestLog.Open.QuestLog', GQLHooks.openQuestLog);
+      Hooks.on('QuestLog.Open.QuestTracker', GQLHooks.openQuestTracker);
+      Hooks.on('QuestLog.Run.DBMigration', GQLHooks.runDBMigration);
    }
 
    /**
-    * Responds to when a data drop occurs on an ActorSheet. If there is an {@link FQLDropData} instance attached by
-    * checking the `_fqlData.type` set to `reward` then process the reward item drop via {@link Socket.questRewardDrop}
+    * Responds to when a data drop occurs on an ActorSheet. If there is an {@link GQLDropData} instance attached by
+    * checking the `_gqlData.type` set to `reward` then process the reward item drop via {@link Socket.questRewardDrop}
     * to remove the item from the associated quest.
     *
     * @param {Actor}          actor - The Actor which received the data drop.
@@ -105,15 +105,15 @@ export class FQLHooks
     */
    static dropActorSheetData(actor, sheet, data)
    {
-      if (typeof data !== 'object' || data?._fqlData?.type !== 'reward') { return; }
+      if (typeof data !== 'object' || data?._gqlData?.type !== 'reward') { return; }
 
-      const quantity = Number(data._fqlData.quantity) || 1;
+      const quantity = Number(data._gqlData.quantity) || 1;
 
       // A reward with several units asks for the amount and creates the item on the actor itself, so the default
       // drop must be cancelled synchronously.
       if (quantity > 1)
       {
-         FQLHooks.#dropRewardQuantity(actor, sheet, data, quantity);
+         GQLHooks.#dropRewardQuantity(actor, sheet, data, quantity);
          return false;
       }
 
@@ -140,8 +140,8 @@ export class FQLHooks
     */
    static async #dropRewardQuantity(actor, sheet, data, quantity)
    {
-      const amount = await FQLDialog.promptAmount({
-         title: data._fqlData.itemName,
+      const amount = await GQLDialog.promptAmount({
+         title: data._gqlData.itemName,
          label: game.i18n.localize('QuestLog.QuestPreview.Labels.QuantityTake'),
          value: quantity,
          min: 1,
@@ -155,7 +155,7 @@ export class FQLHooks
       await Socket.questRewardDrop({
          actor: { id: actor.id, name: FVTTCompat.get(actor, 'name') },
          sheet: { id: sheet.id },
-         data: { ...data, _fqlData: { ...data._fqlData, amount } }
+         data: { ...data, _gqlData: { ...data._gqlData, amount } }
       });
    }
 
@@ -176,14 +176,14 @@ export class FQLHooks
    }
 
    /**
-    * Provides FQL initialization during the `init` Foundry lifecycle hook.
+    * Provides GQL initialization during the `init` Foundry lifecycle hook.
     */
    static foundryInit()
    {
       // Set the sheet to render quests.
       Quest.setSheet(QuestPreview);
 
-      // Register FQL module settings.
+      // Register GQL module settings.
       ModuleSettings.register();
 
       // Preload Handlebars templates and register helpers.
@@ -192,7 +192,7 @@ export class FQLHooks
    }
 
    /**
-    * Provides the remainder of FQL initialization during the `ready` Foundry lifecycle hook.
+    * Provides the remainder of GQL initialization during the `ready` Foundry lifecycle hook.
     *
     * @returns {Promise<void>}
     */
@@ -231,12 +231,12 @@ export class FQLHooks
       // Show quest tracker if applicable.
       ViewManager.renderOrCloseQuestTracker();
 
-      // Fire our own lifecycle event to inform any other modules that depend on FQL QuestDB.
+      // Fire our own lifecycle event to inform any other modules that depend on GQL QuestDB.
       Hooks.callAll('QuestLog.Lifecycle.ready');
    }
 
    /**
-    * Provides the setup FQL initialization during the `setup` Foundry lifecycle hook. Make the public QuestAPI
+    * Provides the setup GQL initialization during the `setup` Foundry lifecycle hook. Make the public QuestAPI
     * accessible from `game.modules.get('quest-log').public.QuestAPI`.
     */
    static foundrySetup()
@@ -244,7 +244,7 @@ export class FQLHooks
       const moduleData = Utils.getModuleData();
 
       /**
-       * @type {FQLPublicAPI}
+       * @type {GQLPublicAPI}
        */
       moduleData.public = {
          QuestAPI
@@ -255,25 +255,25 @@ export class FQLHooks
    }
 
    /**
-    * Responds to the in game hook `getSceneControlButtons` to add the FQL quest log and floating quest log to the
-    * journal / 'notes' tool as sub categories. These controls are always added for the GM, but if FQL is hidden from
-    * players based on module setting {@link FQLSettings.hideFQLFromPlayers} the note controls do not display.
+    * Responds to the in game hook `getSceneControlButtons` to add the GQL quest log and floating quest log to the
+    * journal / 'notes' tool as sub categories. These controls are always added for the GM, but if GQL is hidden from
+    * players based on module setting {@link GQLSettings.hideGQLFromPlayers} the note controls do not display.
     *
-    * @param {SceneControl[]} controls - The scene controls to add FQL controls.
+    * @param {SceneControl[]} controls - The scene controls to add GQL controls.
     *
     * @see noteControls
     * @see https://foundryvtt.com/api/classes/client.SceneControls.html
     */
    static getSceneControlButtons(controls)
    {
-      if (game.user.isGM || !game.settings.get(constants.moduleName, settings.hideFQLFromPlayers))
+      if (game.user.isGM || !game.settings.get(constants.moduleName, settings.hideGQLFromPlayers))
       {
          controls.notes.tools = foundry.utils.mergeObject(controls.notes.tools, FoundryUIManager.noteControls);
       }
    }
 
    /**
-    * Handles Quest data drops. Also handles setting image state of any macro dropped from the FQL macro compendiums.
+    * Handles Quest data drops. Also handles setting image state of any macro dropped from the GQL macro compendiums.
     *
     * @param {object} data - The dropped data object.
     *
@@ -311,7 +311,7 @@ export class FQLHooks
          macro = await Macro.create(macroData, { displaySheet: false });
       }
 
-      // If the macro is from the FQL macro compendiums then update the image state.
+      // If the macro is from the GQL macro compendiums then update the image state.
       if (macro)
       {
          const macroSetting = macro.getFlag(constants.moduleName, 'macro-setting');
@@ -372,7 +372,7 @@ export class FQLHooks
     * Two cases are handled. Because hooks can not be asynchronous an immediate value is returned that reflects whether
     * the drop was handled or not.
     *
-    * The first case is when an FQL macro is dropped in from a compendium.
+    * The first case is when an GQL macro is dropped in from a compendium.
     *
     * The second is when a quest is dropped into the macro hotbar. A new Quest open macro is created. The macro command
     * invokes opening the {@link QuestPreview} via {@link QuestAPI.open} by quest ID.
@@ -390,24 +390,24 @@ export class FQLHooks
    {
       let handled = false;
 
-      // Verify if the hotbar drop is data that is handled; either a quest or macro from FQL macro compendium.
-      if (data.type === Quest.documentName || FVTTCompat.isFQLMacroDataTransfer(data))
+      // Verify if the hotbar drop is data that is handled; either a quest or macro from GQL macro compendium.
+      if (data.type === Quest.documentName || FVTTCompat.isGQLMacroDataTransfer(data))
       {
          handled = true;
       }
 
-      // Wrap the handling code in an async IIFE. If this is a Quest data drop or a macro from the FQL macro compendium
+      // Wrap the handling code in an async IIFE. If this is a Quest data drop or a macro from the GQL macro compendium
       // pack then handle it.
       (async () =>
       {
-         if (FVTTCompat.isFQLMacroDataTransfer(data))
+         if (FVTTCompat.isGQLMacroDataTransfer(data))
          {
-            await FQLHooks.handleMacroHotbarDrop(data, slot);
+            await GQLHooks.handleMacroHotbarDrop(data, slot);
          }
 
          if (data.type === Quest.documentName)
          {
-            await FQLHooks.handleQuestHotbarDrop(data, slot);
+            await GQLHooks.handleQuestHotbarDrop(data, slot);
          }
       })();
 
@@ -416,8 +416,8 @@ export class FQLHooks
    }
 
    /**
-    * Opens the QuestLog if the game user is a GM or if FQL isn't hidden to players by module setting
-    * {@link FQLSettings.hideFQLFromPlayers}.
+    * Opens the QuestLog if the game user is a GM or if GQL isn't hidden to players by module setting
+    * {@link GQLSettings.hideGQLFromPlayers}.
     *
     * @param {object}               [opts] - Optional parameters.
     *
@@ -433,7 +433,7 @@ export class FQLHooks
     */
    static openQuestLog(opts)
    {
-      if (!game.user.isGM && game.settings.get(constants.moduleName, settings.hideFQLFromPlayers)) { return; }
+      if (!game.user.isGM && game.settings.get(constants.moduleName, settings.hideGQLFromPlayers)) { return; }
 
       let constraints = {};
 
@@ -451,8 +451,8 @@ export class FQLHooks
    }
 
    /**
-    * Opens the {@link QuestTracker} if the game user is a GM or if FQL isn't hidden to players by module setting
-    * {@link FQLSettings.hideFQLFromPlayers}.
+    * Opens the {@link QuestTracker} if the game user is a GM or if GQL isn't hidden to players by module setting
+    * {@link GQLSettings.hideGQLFromPlayers}.
     *
     * @param {object}               [opts] - Optional parameters.
     *
@@ -472,7 +472,7 @@ export class FQLHooks
     */
    static async openQuestTracker(opts)
    {
-      if (!game.user.isGM && game.settings.get(constants.moduleName, settings.hideFQLFromPlayers)) { return; }
+      if (!game.user.isGM && game.settings.get(constants.moduleName, settings.hideGQLFromPlayers)) { return; }
 
       await game.settings.set(constants.moduleName, settings.questTrackerEnable, true);
 
@@ -514,9 +514,9 @@ export class FQLHooks
 
    /**
     * Handles adding the 'open quest log' button at the bottom of the journal directory. Always displayed for the GM,
-    * but only displayed to players if FQL isn't hidden via module setting {@link FQLSettings.hideFQLFromPlayers}.
+    * but only displayed to players if GQL isn't hidden via module setting {@link GQLSettings.hideGQLFromPlayers}.
     *
-    * For GMs if module setting {@link FQLSettings.showFolder} is true then the hidden `_fql_quests` folder is shown.
+    * For GMs if module setting {@link GQLSettings.showFolder} is true then the hidden `_ql_quests` folder is shown.
     *
     * @param {JournalDirectory}  app - The JournalDirectory app.
     *
@@ -529,7 +529,7 @@ export class FQLHooks
       const element = html instanceof HTMLElement ? html : app?.element;
       if (!(element instanceof HTMLElement)) { return; }
 
-      if (game.user.isGM || !game.settings.get(constants.moduleName, settings.hideFQLFromPlayers))
+      if (game.user.isGM || !game.settings.get(constants.moduleName, settings.hideGQLFromPlayers))
       {
          // Avoid adding the button twice if the directory is re-rendered without replacing the element.
          if (!element.querySelector('.ql-quest-log-btn'))
@@ -605,7 +605,7 @@ export class FQLHooks
 }
 
 /**
- * @typedef {object} FQLPublicAPI - Exposes a few FQL classes and instances publicly.
+ * @typedef {object} GQLPublicAPI - Exposes a few GQL classes and instances publicly.
  *
  * @property {QuestAPI} QuestAPI - QuestAPI class - Exposes static methods to interact with the quest system.
  */

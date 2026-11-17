@@ -11,7 +11,7 @@ import {
  * opened with the information of the successive delete confirmation operation. This provides reasonable semi-modal
  * behavior shared across confirmation to delete quests, tasks, and rewards.
  */
-export class FQLDialog
+export class GQLDialog
 {
    /**
     * @private
@@ -24,7 +24,7 @@ export class FQLDialog
    /**
     * Stores the current delete dialog.
     *
-    * @type {FQLDialogImpl}
+    * @type {GQLDialogImpl}
     */
    static #deleteDialog = void 0;
 
@@ -41,7 +41,7 @@ export class FQLDialog
    {
       const dialog = this.#deleteDialog;
 
-      if (dialog && (dialog.fqlQuestId === questId || dialog.fqlIsQuestLog === isQuestLog))
+      if (dialog && (dialog.gqlQuestId === questId || dialog.gqlIsQuestLog === isQuestLog))
       {
          this.#deleteDialog = void 0;
          dialog.close();
@@ -333,8 +333,8 @@ export class FQLDialog
       const result = await foundry.applications.api.DialogV2.prompt({
          window: { title: String(title ?? '').replace(/<[^>]*>/g, '') },
          content: `<div class="form-group"><label>${escape(label)}</label><div class="form-fields">` +
-          `<input type="text" name="text" value="${escape(value)}" list="fql-prompt-text-list" autofocus>` +
-          `<datalist id="fql-prompt-text-list">${options}</datalist></div>` +
+          `<input type="text" name="text" value="${escape(value)}" list="gql-prompt-text-list" autofocus>` +
+          `<datalist id="gql-prompt-text-list">${options}</datalist></div>` +
           `${hint ? `<p class="hint">${escape(hint)}</p>` : ''}</div>`,
          ok: {
             label: game.i18n.localize('QuestLog.QuestPreview.Buttons.Accept'),
@@ -417,7 +417,7 @@ export class FQLDialog
 
       return new Promise((resolve) =>
       {
-         this.#deleteDialog = new FQLDialogImpl({ ...options, resolve });
+         this.#deleteDialog = new GQLDialogImpl({ ...options, resolve });
          this.#deleteDialog.render({ force: true });
       });
    }
@@ -427,10 +427,10 @@ export class FQLDialog
  * Dialog implementation. Resolves the stored Promise with the result when the delete button is chosen and
  * with `undefined` for any other way of closing the dialog.
  */
-class FQLDialogImpl extends foundry.applications.api.DialogV2
+class GQLDialogImpl extends foundry.applications.api.DialogV2
 {
    /** @type {{ isQuestLog: boolean, questId: string, settle: Function }} */
-   #fql;
+   #gql;
 
    constructor(options)
    {
@@ -469,18 +469,18 @@ class FQLDialogImpl extends foundry.applications.api.DialogV2
          ]
       });
 
-      this.#fql = { isQuestLog: options.isQuestLog, questId: options.questId, settle };
+      this.#gql = { isQuestLog: options.isQuestLog, questId: options.questId, settle };
    }
 
    /**
     * @returns {boolean} True when the dialog was opened from the quest log.
     */
-   get fqlIsQuestLog() { return this.#fql.isQuestLog; }
+   get gqlIsQuestLog() { return this.#gql.isQuestLog; }
 
    /**
     * @returns {string} The ID of the quest the dialog is associated with.
     */
-   get fqlQuestId() { return this.#fql.questId; }
+   get gqlQuestId() { return this.#gql.questId; }
 
    /**
     * Any way of closing the dialog that is not a button choice resolves the Promise with `undefined`.
@@ -489,7 +489,7 @@ class FQLDialogImpl extends foundry.applications.api.DialogV2
     */
    _onClose(options)
    {
-      this.#fql.settle(void 0);
+      this.#gql.settle(void 0);
       return super._onClose(options);
    }
 }

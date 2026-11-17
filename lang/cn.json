@@ -394,7 +394,7 @@
         "OBSERVER": "观察者",
         "OWNER": "所有者"
       },
-      "hideFQLFromPlayers": {
+      "hideGQLFromPlayers": {
         "Enable": "对玩家隐藏任务日志",
         "EnableHint": "启用此选项后，将对所有玩家隐藏任务日志。只有 GM 级别的用户才能访问任务日志。"
       },

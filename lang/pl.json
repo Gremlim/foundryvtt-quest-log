@@ -394,7 +394,7 @@
         "OBSERVER": "Obserwator",
         "OWNER": "Właściciel"
       },
-      "hideFQLFromPlayers": {
+      "hideGQLFromPlayers": {
         "Enable": "Ukryj dziennik zadań przed graczami",
         "EnableHint": "Po włączeniu ta opcja ukrywa dziennik zadań przed wszystkimi graczami. Tylko użytkownicy na poziomie GM będą mieli dostęp do dziennika zadań."
       },

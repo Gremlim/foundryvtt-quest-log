@@ -394,7 +394,7 @@
         "OBSERVER": "Tarkastelija",
         "OWNER": "Omistaja"
       },
-      "hideFQLFromPlayers": {
+      "hideGQLFromPlayers": {
         "Enable": "Piilota tehtäväloki pelaajilta",
         "EnableHint": "Jos valittu, tehtäväloki piilotetaan kaikilta pelaajilta. Vain pelinjohtajat voivat käyttää sitä."
       },

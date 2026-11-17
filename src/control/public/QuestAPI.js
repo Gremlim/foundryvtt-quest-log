@@ -35,7 +35,7 @@ class QuestAPI
 
    /**
     * Opens the Quest sheet / QuestPreview for the given questID. A check for the module setting
-    * {@link FQLSettings.hideFQLFromPlayers} provides an early out if FQL is hidden from players causing the sheet to
+    * {@link GQLSettings.hideGQLFromPlayers} provides an early out if GQL is hidden from players causing the sheet to
     * not render. {@link ViewManager.questPreview} provides an object.
     *
     * @param {object}   options - Optional parameters.
@@ -46,7 +46,7 @@ class QuestAPI
     */
    static open({ questId, notify = true } = {})
    {
-      if (!game.user.isGM && game.settings.get(constants.moduleName, settings.hideFQLFromPlayers)) { return; }
+      if (!game.user.isGM && game.settings.get(constants.moduleName, settings.hideGQLFromPlayers)) { return; }
 
       try
       {

@@ -2,7 +2,7 @@ import {
    QuestDB,
    ViewManager }                       from '../../control/index.js';
 
-import { FQLDocumentOwnershipConfig }  from '../internal/index.js';
+import { GQLDocumentOwnershipConfig }  from '../internal/index.js';
 
 
 /**
@@ -79,7 +79,7 @@ export class HandlerManage
       {
          if (!questPreview._ownershipControl)
          {
-            questPreview._ownershipControl = new FQLDocumentOwnershipConfig({
+            questPreview._ownershipControl = new GQLDocumentOwnershipConfig({
                document: quest.entry,
                position: {
                   top: Math.min(questPreview.position.top, window.innerHeight - 350),

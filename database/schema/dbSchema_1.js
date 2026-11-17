@@ -34,7 +34,7 @@ export async function dbSchema_1()
    const folder = await Utils.initializeQuestFolder();
    if (!folder) { return; }
 
-   // Iterate through all journal entries from `_fql_quests`.
+   // Iterate through all journal entries from `_ql_quests`.
    for (const entry of FVTTCompat.folderContents(folder))
    {
       try
@@ -86,7 +86,7 @@ export async function dbSchema_1()
 }
 
 /**
- * Attempts to migrate data from FQL 0.6.0 or prior to new 0.7.0 data format. This function also attempts to reverse any
+ * Attempts to migrate data from GQL 0.6.0 or prior to new 0.7.0 data format. This function also attempts to reverse any
  * damage that the initial server side sanitation filters may have caused to the old data format.
  *
  * @param {JournalEntry}   entry - The source journal entry storing quest data.
@@ -141,11 +141,11 @@ async function migrateData(entry)
    content.name = content.title;
    delete content.title;
 
-   // As things go the rewards format for the new FQL only stores UUID and basic info. Can't support old
+   // As things go the rewards format for the new GQL only stores UUID and basic info. Can't support old
    // rewards format.
    content.rewards = [];
 
-   // Old FQL will often store the entire actor data as the giver, so if it is not a string then set to null.
+   // Old GQL will often store the entire actor data as the giver, so if it is not a string then set to null.
    // Verify the quest giver exists; look up UUID.
    if (typeof content.giver === 'string')
    {

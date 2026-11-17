@@ -1,5 +1,10 @@
 # Changelog
 
+## Release 0.28.0
+- All the references to FQL (Forien's Quest Log) were replaced by GQL (Gremlim Quest Log): the classes `GQLHooks`, `GQLDialog`, `GQLContextMenu` and `GQLDocumentOwnershipConfig` (files renamed), the Handlebars helper `gql_format`, the CSS class `gql-action-menu` and the CSS variables `--palette-gql-qt-*`, the drag data `_gqlData`, the typedefs and the comments, README and CONTRIBUTING texts.
+- Breaking: the world setting `hideFQLFromPlayers` is now `hideGQLFromPlayers` (its value is not copied: check "Hide Quest Log from players" in the module settings again if you had it enabled). The icons of its macro are now `hideGQLFromPlayersOn.png` / `hideGQLFromPlayersOff.png` and the macro compendiums were regenerated.
+- The older entries of this changelog keep the old names.
+
 ## Release 0.27.0
 - Fixed the `module.json` of the releases 0.26.2 and 0.26.3, that was saved empty by mistake. It is restored from 0.26.1 with the new version.
 - The two macro compendiums are now named `QL Macros (GM)` and `QL Macros (Player)` (they were `FQL Macros ...`).

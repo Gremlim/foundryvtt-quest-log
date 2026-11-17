@@ -394,7 +394,7 @@
         "OBSERVER": "Observer",
         "OWNER": "Owner"
       },
-      "hideFQLFromPlayers": {
+      "hideGQLFromPlayers": {
         "Enable": "Hide Quest Log from players",
         "EnableHint": "When enabled this option hides the Quest Log from all players. Only GM level users will be able to access the Quest Log."
       },

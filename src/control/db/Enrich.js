@@ -657,11 +657,11 @@ export class Enrich
  *
  * @property {string}      data_rewards.transfer.uuid - The reward Foundry UUID.
  *
- * @property {string}      data_rewards.transfer.uuidv4 - The reward FQL UUIDv4.
+ * @property {string}      data_rewards.transfer.uuidv4 - The reward GQL UUIDv4.
  *
  * @property {string}      data_rewards.unlockedTooltip - The tooltip to display for the unlocked icon.
  *
- * @property {string}      data_rewards.uuidv4 - The reward FQL UUIDv4.
+ * @property {string}      data_rewards.uuidv4 - The reward GQL UUIDv4.
  *
  * @property {object[]}    data_subquest - A list of data objects with subquest details.
  *

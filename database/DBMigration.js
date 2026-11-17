@@ -24,15 +24,15 @@ const migrateImpl = {
 };
 
 /**
- * Provides a utility module to manage DB migrations when new versions of FQL are installed / loaded for the first time.
+ * Provides a utility module to manage DB migrations when new versions of GQL are installed / loaded for the first time.
  * These updates are organized as schema versions with callback functions defined above. Each schema migration function
  * stores the version number in module settings for {@link DBMigration.setting}. On startup {@link DBMigration.migrate}
  * is invoked in the `ready` Hook callback from `./src/init.js`. If the current schema version already equals
- * {@link DBMigration.version} no migration occurs. Also if there are no journal entries in the `_fql_quests` folder
+ * {@link DBMigration.version} no migration occurs. Also if there are no journal entries in the `_ql_quests` folder
  * no migration occurs which is often the case with a new world and the module setting is set to not run migration
  * again.
  *
- * In the case that a GM needs to manually run migration there is a hook defined in {@link FQLHooks.runDBMigration}.
+ * In the case that a GM needs to manually run migration there is a hook defined in {@link GQLHooks.runDBMigration}.
  * This is `QuestLog.Run.DBMigration` which can be executed by a macro with
  * `Hooks.call('QuestLog.Run.DBMigration', <schemaVersion>);`. To run all migration manually substitute
  * `<schemaVersion>` with `0`.
@@ -76,7 +76,7 @@ export class DBMigration
    static async migrate(schemaVersion = void 0)
    {
       // TODO: Note that the DB migration code is disabled. The last DB migration was between v9 and v10 of Foundry
-      // September '22. FQL has been v11+ for a while. To provide a clean start for any future DB migration the old
+      // September '22. GQL has been v11+ for a while. To provide a clean start for any future DB migration the old
       // migration code for previous versions of Foundry is outdated and any migrations moving forward can start fresh.
       // This code is kept around to provide a guide / possible solution for future DB migration, but otherwise should
       // be freshly evaluated. The previous highest schema value for potential DB migration was `3`; this may still be
@@ -86,7 +86,7 @@ export class DBMigration
 
       // try
       // {
-      //    // Registers the DB Schema world setting. By default this is 0. The `0.7.0` release of FQL has a schema of `1`.
+      //    // Registers the DB Schema world setting. By default this is 0. The `0.7.0` release of GQL has a schema of `1`.
       //    game.settings.register(constants.moduleName, this.setting, {
       //       scope: 'world',
       //       config: false,
@@ -123,7 +123,7 @@ export class DBMigration
       //
       //    const folder = await Utils.initializeQuestFolder();
       //
-      //    // Early out if there are no journal entries / quests in the `_fql-quests` folder.
+      //    // Early out if there are no journal entries / quests in the `_ql_quests` folder.
       //    const folderContentLength = folder?.contents?.length ?? 0;
       //    if (folderContentLength === 0)
       //    {

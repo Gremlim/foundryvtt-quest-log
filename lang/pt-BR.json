@@ -394,7 +394,7 @@
         "OBSERVER": "Observador",
         "OWNER": "Proprietário"
       },
-      "hideFQLFromPlayers": {
+      "hideGQLFromPlayers": {
         "Enable": "Ocultar registro de missões dos jogadores",
         "EnableHint": "Ativar esta opção oculta o registro de missões de todos os jogadores. Somente jogadores com nível GM poderão acessar o registro de missões."
       },

@@ -1826,7 +1826,7 @@ export class Task
  * @property {string}   choice - Choice group of the reward (only one reward of a group can be taken).
  * @property {boolean}  closed - Another reward of the choice group was taken.
  *
- * @property {string}   uuidv4 - The FQL UUIDv4 / unique ID.
+ * @property {string}   uuidv4 - The GQL UUIDv4 / unique ID.
  */
 
 /**
@@ -1852,6 +1852,6 @@ export class Task
  *
  * @property {string}   state - Task state.
  *
- * @property {string}   uuidv4 - The FQL UUIDv4 / unique ID.
+ * @property {string}   uuidv4 - The GQL UUIDv4 / unique ID.
  */
 

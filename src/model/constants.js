@@ -1,5 +1,5 @@
 /**
- * Defines the main FQL constants for module name and the DB flag.
+ * Defines the main GQL constants for module name and the DB flag.
  *
  * @type {{folderState: string, flagDB: string, moduleName: string, moduleLabel: string, primaryState: string}}
  */
@@ -10,7 +10,7 @@ const constants = {
 };
 
 /**
- * Defines the DOM event events that are used in FQL.
+ * Defines the DOM event events that are used in GQL.
  *
  * @type {{click: string, dblclick: string, dragstart: string, drop: string, focus: string, focusout: string, mousedown: string}}
  */
@@ -71,7 +71,7 @@ const questTabIndex = {
 /**
  * Stores the keys used with session storage.
  *
- * @type {FQLSessionConstants}
+ * @type {GQLSessionConstants}
  */
 const sessionConstants = {
    currentPrimaryQuest: 'quest-log.questlog.currentPrimaryQuest',
@@ -87,7 +87,7 @@ const sessionConstants = {
 };
 
 /**
- * @type {FQLSettings} Defines all the module settings for world and client.
+ * @type {GQLSettings} Defines all the module settings for world and client.
  */
 const settings = {
    allowPlayersAccept: 'allowPlayersAccept',
@@ -97,7 +97,7 @@ const settings = {
    dateMode: 'dateMode',
    defaultAbstractRewardImage: 'defaultAbstractRewardImage',
    defaultPermission: 'defaultPermission',
-   hideFQLFromPlayers: 'hideFQLFromPlayers',
+   hideGQLFromPlayers: 'hideGQLFromPlayers',
    historyVisibility: 'historyVisibility',
    notifyRewardDrop: 'notifyRewardDrop',
    primaryQuest: 'primaryQuest',
@@ -112,7 +112,7 @@ const settings = {
 };
 
 /**
- * @type {FQLKeybindings} Defines all the module keybindings for world and client.
+ * @type {GQLKeybindings} Defines all the module keybindings for world and client.
  */
 const keybindings = {
    openQuestLog: 'openQuestLog',
@@ -123,9 +123,9 @@ const keybindings = {
 export { constants, domEvents, questStatus, questStatusI18n, questTabIndex, sessionConstants, settings, keybindings };
 
 /**
- * @typedef {object} FQLSessionConstants
+ * @typedef {object} GQLSessionConstants
  *
- * @property {string}   currentPrimaryQuest - Stores current primary quest set from {@link FQLSettings.primaryQuest}.
+ * @property {string}   currentPrimaryQuest - Stores current primary quest set from {@link GQLSettings.primaryQuest}.
  *
  * @property {string}   trackerFolderState - Stores a boolean with tacked on quest ID for whether objectives are shown.
  *
@@ -147,7 +147,7 @@ export { constants, domEvents, questStatus, questStatusI18n, questTabIndex, sess
  */
 
 /**
- * @typedef {object} FQLSettings
+ * @typedef {object} GQLSettings
  *
  * @property {string}   allowPlayersAccept - Allow players to accept quests.
  *
@@ -163,7 +163,7 @@ export { constants, domEvents, questStatus, questStatusI18n, questTabIndex, sess
  *
  * @property {string}   dateMode - Date shown in the history and used for deadlines: world calendar or real date.
  *
- * @property {string}   hideFQLFromPlayers - Completely hides FQL from players.
+ * @property {string}   hideGQLFromPlayers - Completely hides GQL from players.
  *
  * @property {string}   historyVisibility - Who can see the quest history: only GMs or everyone that sees the quest.
  *
@@ -181,7 +181,7 @@ export { constants, domEvents, questStatus, questStatusI18n, questTabIndex, sess
  *
  * @property {string}   questTrackerResizable - Stores the current window handling mode ('auto' or 'resize').
  *
- * @property {string}   showFolder - Shows the `_fql_quests` directory in the journal entries sidebar.
+ * @property {string}   showFolder - Shows the `_ql_quests` directory in the journal entries sidebar.
  *
  * @property {string}   showTasks - Determines if objective counts are rendered.
  *
@@ -189,7 +189,7 @@ export { constants, domEvents, questStatus, questStatusI18n, questTabIndex, sess
  */
 
 /**
- * @typedef {object} FQLKeybindings
+ * @typedef {object} GQLKeybindings
  *
  * @property {string}   openQuestLog - Press to open Quest Log.
  *

@@ -24,7 +24,7 @@ import {
  * retrieve this data. This is the only asynchronous action during the enrichment process and to provide QuestDB /
  * in-memory caching of Quest and enriched data the process needs to be synchronous to make sure that order of
  * operations succeeds atomically and as quick as possible. This update will process all quest data and perform that
- * lookup and store the quest giver data in `giverData`. In FQL 0.7.4 and above to update the quest giver data the
+ * lookup and store the quest giver data in `giverData`. In GQL 0.7.4 and above to update the quest giver data the
  * user needs to open QuestPreview and simply save the quest. A macro will also be provided to update all quest giver
  * data in bulk.
  *

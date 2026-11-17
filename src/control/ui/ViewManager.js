@@ -14,7 +14,7 @@ import {
    settings }              from '../../model/constants.js';
 
 /**
- * Stores and manages all the GUI apps / view for FQL.
+ * Stores and manages all the GUI apps / view for GQL.
  */
 export class ViewManager
 {
@@ -88,7 +88,7 @@ export class ViewManager
     * @returns {QuestLog} The main quest log app accessible from the left hand menu bar or
     *                     `Hook.call('QuestLog.Open.QuestLog')`.
     *
-    * @see FQLHooks.openQuestLog
+    * @see GQLHooks.openQuestLog
     */
    static get questLog() { return this.#Apps.questLog; }
 
@@ -101,7 +101,7 @@ export class ViewManager
 
    /**
     * @returns {QuestTracker} Returns the quest tracker overlap app. This app is accessible when module setting
-    *                         {@link FQLSettings.questTrackerEnable} is enabled.
+    *                         {@link GQLSettings.questTrackerEnable} is enabled.
     */
    static get questTracker() { return this.#Apps.questTracker; }
 
@@ -136,7 +136,7 @@ export class ViewManager
    {
       // The tracker is shown even when there are no in progress quests; it then displays an empty message.
       return game.settings.get(constants.moduleName, settings.questTrackerEnable) &&
-       (game.user.isGM || !game.settings.get(constants.moduleName, settings.hideFQLFromPlayers));
+       (game.user.isGM || !game.settings.get(constants.moduleName, settings.hideGQLFromPlayers));
    }
 
    /**

@@ -5,8 +5,8 @@ import {
 
 import {
    ActionMenu,
-   FQLContextMenu,
-   FQLDialog }          from '../internal/index.js';
+   GQLContextMenu,
+   GQLDialog }          from '../internal/index.js';
 
 import { HandlerLog }   from './HandlerLog.js';
 
@@ -229,14 +229,14 @@ export class QuestLog extends HandlebarsApplicationMixin(ApplicationV2)
    async close(options)
    {
       ActionMenu.close();
-      FQLDialog.closeDialogs({ isQuestLog: true });
+      GQLDialog.closeDialogs({ isQuestLog: true });
       return super.close(options);
    }
 
    /**
     * Retrieves the sorted quest collection from the {@link QuestDB.sortCollect} and sets several state parameters for
-    * GM / player / trusted player edit along with several module settings: {@link FQLSettings.allowPlayersAccept},
-    * {@link FQLSettings.allowPlayersCreate}, and {@link FQLSettings.showTasks}.
+    * GM / player / trusted player edit along with several module settings: {@link GQLSettings.allowPlayersAccept},
+    * {@link GQLSettings.allowPlayersCreate}, and {@link GQLSettings.showTasks}.
     *
     * @override
     * @inheritDoc
@@ -468,8 +468,8 @@ export class QuestLog extends HandlebarsApplicationMixin(ApplicationV2)
 
       // Must show two different context menus as only the active / in progress tab potentially has the menu option to
       // allow the GM to set the primary quest.
-      new FQLContextMenu(this.element, '.tab:not([data-tab="active"]) .drag-quest', menuItemsOther, { fixed: true });
-      new FQLContextMenu(this.element, '.tab[data-tab="active"] .drag-quest', menuItemsActive, { fixed: true });
+      new GQLContextMenu(this.element, '.tab:not([data-tab="active"]) .drag-quest', menuItemsOther, { fixed: true });
+      new GQLContextMenu(this.element, '.tab[data-tab="active"] .drag-quest', menuItemsActive, { fixed: true });
    }
 
    /**
@@ -485,15 +485,15 @@ export class QuestLog extends HandlebarsApplicationMixin(ApplicationV2)
       const table = element.querySelector('.tab.active .table');
       if (!table) { return; }
 
-      const fqlPosition = element.getBoundingClientRect();
+      const gqlPosition = element.getBoundingClientRect();
       const tablePosition = table.getBoundingClientRect();
 
       // Manually calculate the max height for the table based on the position of the main window div and table.
-      const height = typeof this.position.height === 'number' ? this.position.height : fqlPosition.height;
+      const height = typeof this.position.height === 'number' ? this.position.height : gqlPosition.height;
 
       for (const tableElement of tableElements)
       {
-         tableElement.style.maxHeight = `${height - (tablePosition.top - fqlPosition.top + 16)}px`;
+         tableElement.style.maxHeight = `${height - (tablePosition.top - gqlPosition.top + 16)}px`;
       }
    }
 }

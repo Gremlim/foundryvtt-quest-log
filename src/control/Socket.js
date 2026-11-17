@@ -13,13 +13,13 @@ import {
 
 /**
  * Provides a basic Socket.io implementation to send events between all connected clients. The various methods have
- * at as local and remote control mostly of GUI related actions. FQL appears to be a reactive application, but it really
+ * at as local and remote control mostly of GUI related actions. GQL appears to be a reactive application, but it really
  * is Socket doing a lot of the heavy lifting to notify clients that particular GUI apps need to be refreshed when the
  * underlying Quest data changes.
  *
  * There are also various actions that require a GM or trusted played with edit capability to act upon mostly moving
  * quests from one status to another. Reward item drops into actor sheets invokes {@link Socket.questRewardDrop} from
- * the {@link FQLHooks.dropActorSheetData} hook, but at least one GM level user must be logged in to receive this
+ * the {@link GQLHooks.dropActorSheetData} hook, but at least one GM level user must be logged in to receive this
  * message to perform the drop / removal of the reward from a Quest.
  *
  * Please see the following view control classes and the QuestDB for socket related usage:
@@ -40,7 +40,7 @@ export class Socket
    static #eventName = 'module.quest-log';
 
    /**
-    * Defines the different message types that FQL sends over `game.socket`.
+    * Defines the different message types that GQL sends over `game.socket`.
     */
    static #messageTypes = {
       deletedQuest: 'deletedQuest',
@@ -112,7 +112,7 @@ export class Socket
    }
 
    /**
-    * Handles the reward drop in actor sheet action from the {@link FQLHooks.dropActorSheetData} hook. If the local user
+    * Handles the reward drop in actor sheet action from the {@link GQLHooks.dropActorSheetData} hook. If the local user
     * is a GM handle this action right away otherwise send a message across the wire for the first GM user reached to
     * handle the action remotely. The reward is removed from the associated quest.
     *
@@ -130,26 +130,26 @@ export class Socket
       if (game.user.isGM)
       {
          /**
-          * @type {FQLDropData}
+          * @type {GQLDropData}
           */
-         const fqlData = data.data._fqlData;
+         const gqlData = data.data._gqlData;
 
-         const quest = QuestDB.getQuest(fqlData.questId);
+         const quest = QuestDB.getQuest(gqlData.questId);
          if (quest)
          {
-            quest.takeReward(fqlData.uuidv4, fqlData.amount, {
-               userName: fqlData.userName,
+            quest.takeReward(gqlData.uuidv4, gqlData.amount, {
+               userName: gqlData.userName,
                actorName: data.actor?.name
             });
             await quest.save();
-            Socket.refreshQuestPreview({ questId: fqlData.questId });
+            Socket.refreshQuestPreview({ questId: gqlData.questId });
          }
          handled = true;
 
          // The sender is a GM, so the notification is shown here; the other GMs show it when they get the event.
          if (game.settings.get(constants.moduleName, settings.notifyRewardDrop))
          {
-            Socket.#notifyRewardDrop(fqlData, data.actor?.name);
+            Socket.#notifyRewardDrop(gqlData, data.actor?.name);
          }
       }
 
@@ -502,21 +502,21 @@ export class Socket
     * Shows a UI notification, only for the current GM, with the details of a reward that was dropped onto an actor
     * sheet.
     *
-    * @param {FQLDropData}   fqlData - The reward drop data.
+    * @param {GQLDropData}   gqlData - The reward drop data.
     *
     * @param {string}        actorName - The name of the actor that received the reward.
     */
-   static #notifyRewardDrop(fqlData, actorName)
+   static #notifyRewardDrop(gqlData, actorName)
    {
       const escape = (text) => String(text ?? '').replace(/[&<>]/g,
        (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' })[c]);
 
-      const quest = QuestDB.getQuest(fqlData.questId);
-      const amount = Number.isFinite(fqlData.amount) ? fqlData.amount : (Number(fqlData.quantity) || 1);
+      const quest = QuestDB.getQuest(gqlData.questId);
+      const amount = Number.isFinite(gqlData.amount) ? gqlData.amount : (Number(gqlData.quantity) || 1);
 
       ui.notifications.info(game.i18n.format('QuestLog.API.Socket.Notifications.RewardDrop', {
-         userName: escape(fqlData.userName),
-         itemName: escape(fqlData.itemName),
+         userName: escape(gqlData.userName),
+         itemName: escape(gqlData.itemName),
          amount: amount > 1 ? ` \u00d7${amount}` : '',
          questName: escape(quest?.name ?? ''),
          actorName: escape(actorName)
@@ -538,15 +538,15 @@ export class Socket
       if (game.user.isGM)
       {
          /**
-          * @type {FQLDropData}
+          * @type {GQLDropData}
           */
-         const fqlData = data.payload.data._fqlData;
+         const gqlData = data.payload.data._gqlData;
 
          // Show a UI notification to the GMs that a user has dropped a reward item into an actor sheet. All the GMs
          // receive this event and each one shows its own notification.
          if (game.settings.get(constants.moduleName, settings.notifyRewardDrop))
          {
-            Socket.#notifyRewardDrop(fqlData, data.payload.actor?.name);
+            Socket.#notifyRewardDrop(gqlData, data.payload.actor?.name);
          }
 
          // The quest reward has already been removed by a GM user.
@@ -555,15 +555,15 @@ export class Socket
          // Set handled to true so no more GM level users act upon this event.
          data.payload.handled = true;
 
-         const quest = QuestDB.getQuest(fqlData.questId);
+         const quest = QuestDB.getQuest(gqlData.questId);
          if (quest)
          {
-            quest.takeReward(fqlData.uuidv4, fqlData.amount, {
-               userName: fqlData.userName,
+            quest.takeReward(gqlData.uuidv4, gqlData.amount, {
+               userName: gqlData.userName,
                actorName: data.payload.actor?.name
             });
             await quest.save();
-            Socket.refreshQuestPreview({ questId: fqlData.questId });
+            Socket.refreshQuestPreview({ questId: gqlData.questId });
          }
       }
    }

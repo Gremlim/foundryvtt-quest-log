@@ -7,7 +7,7 @@ import {
 
 import {
    ActionMenu,
-   FQLDialog }             from '../internal/index.js';
+   GQLDialog }             from '../internal/index.js';
 
 import { HandlerAny }         from './HandlerAny.js';
 import { HandlerDetails }     from './HandlerDetails.js';
@@ -116,7 +116,7 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
       this.#quest = quest;
 
       /**
-       * Stores the current state of the module setting {@link FQLSettings.allowPlayersAccept}.
+       * Stores the current state of the module setting {@link GQLSettings.allowPlayersAccept}.
        *
        * @type {boolean}
        */
@@ -153,7 +153,7 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
       /**
        * Stores the ownership configuration app.
        *
-       * @type {FQLDocumentOwnershipConfig}
+       * @type {GQLDocumentOwnershipConfig}
        */
       this._ownershipControl = void 0;
 
@@ -523,7 +523,7 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
    async close({ noSave = false, ...options } = {})
    {
       ActionMenu.close();
-      FQLDialog.closeDialogs({ questId: this.#quest.id });
+      GQLDialog.closeDialogs({ questId: this.#quest.id });
 
       if (this._ownershipControl)
       {

@@ -10,7 +10,7 @@ import { Quest }     from '../../model/index.js';
 
 import { sessionConstants } from '../../model/constants.js';
 
-import { FQLDialog } from '../internal/index.js';
+import { GQLDialog } from '../internal/index.js';
 
 /**
  * Provides all DOM event callbacks for the {@link QuestLog}.
@@ -38,7 +38,7 @@ export class HandlerLog
          let personal = false;
          if (!game.user.isGM)
          {
-            personal = await FQLDialog.promptPersonal({
+            personal = await GQLDialog.promptPersonal({
                title: game.i18n.localize('QuestLog.QuestLog.Personal.Title'),
                label: game.i18n.localize('QuestLog.QuestLog.Personal.Label'),
                hint: game.i18n.localize('QuestLog.QuestLog.Personal.Hint')
@@ -64,7 +64,7 @@ export class HandlerLog
       const questId = Utils.data(event.target, 'quest-id');
       const name = Utils.data(event.target, 'quest-name');
 
-      const result = await FQLDialog.confirmDeleteQuest({ name, result: questId, questId, isQuestLog: true });
+      const result = await GQLDialog.confirmDeleteQuest({ name, result: questId, questId, isQuestLog: true });
       if (result)
       {
          await QuestDB.deleteQuest({ questId: result });

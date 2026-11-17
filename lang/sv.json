@@ -394,7 +394,7 @@
         "OBSERVER": "Observatör",
         "OWNER": "Ägare"
       },
-      "hideFQLFromPlayers": {
+      "hideGQLFromPlayers": {
         "Enable": "Dölj Uppdragslogg från spelare",
         "EnableHint": "När det här alternativet är aktiverat döljer Uppdragsloggen för alla spelare. Endast användare på SL-nivå kommer att kunna komma åt Uppdragsloggen."
       },

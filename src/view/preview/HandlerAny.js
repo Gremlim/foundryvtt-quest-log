@@ -5,7 +5,7 @@ import {
 
 import { QuestAPI }  from '../../control/public/index.js';
 
-import { FQLDialog } from '../internal/index.js';
+import { GQLDialog } from '../internal/index.js';
 
 /**
  * These handler DOM event callbacks can be called on any tab.
@@ -21,7 +21,7 @@ export class HandlerAny
    }
 
    /**
-    * Confirms deleting a quest with {@link FQLDialog.confirmDeleteQuest} before invoking {@link QuestDB.deleteQuest}.
+    * Confirms deleting a quest with {@link GQLDialog.confirmDeleteQuest} before invoking {@link QuestDB.deleteQuest}.
     *
     * @param {MouseEvent} event - MouseEvent
     *
@@ -34,7 +34,7 @@ export class HandlerAny
       const questId = Utils.data(event.target, 'quest-id');
       const name = Utils.data(event.target, 'quest-name');
 
-      const result = await FQLDialog.confirmDeleteQuest({ name, result: questId, questId: quest.id });
+      const result = await GQLDialog.confirmDeleteQuest({ name, result: questId, questId: quest.id });
       if (result)
       {
          await QuestDB.deleteQuest({ questId: result });

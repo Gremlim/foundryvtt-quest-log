@@ -6,7 +6,7 @@ import {
 
 import { HandlerTracker }  from './HandlerTracker.js';
 
-import { FQLContextMenu }  from '../internal/index.js';
+import { GQLContextMenu }  from '../internal/index.js';
 
 import { collect }         from '../../../external/index.js';
 
@@ -508,7 +508,7 @@ export class QuestTracker extends HandlebarsApplicationMixin(ApplicationV2)
 
    /**
     * Overrides the position handling to support forcing / overriding the pinned state. This is done from
-    * {@link FQLHooks.openQuestTracker}.
+    * {@link GQLHooks.openQuestTracker}.
     *
     * @param {object}   [position] - The requested position with optional `override` and `pinned` parameters.
     *
@@ -709,7 +709,7 @@ export class QuestTracker extends HandlebarsApplicationMixin(ApplicationV2)
          );
       }
 
-      new FQLContextMenu(this.element, '.quest-tracker-header', menuItems, { fixed: true });
+      new GQLContextMenu(this.element, '.quest-tracker-header', menuItems, { fixed: true });
    }
 
    /**
