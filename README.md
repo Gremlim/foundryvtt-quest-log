@@ -1,20 +1,14 @@
-# FoundryVTT - Forien's Quest Log
+# FoundryVTT - Quest Log
 
-![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/Gremlim/foundryvtt-quest-log?style=for-the-badge&label=Forien%27s+Quest+Log+version)
+![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/Gremlim/foundryvtt-quest-log?style=for-the-badge&label=Quest+Log+version)
 ![GitHub release](https://img.shields.io/github/release-date/Gremlim/foundryvtt-quest-log?style=for-the-badge)
-![Foundry Core Compatible Version](https://img.shields.io/badge/dynamic/json.svg?url=https%3A%2F%2Fraw.githubusercontent.com%2FForien%2Ffoundryvtt-quest-log%2Fmaster%2Fmodule.json&label=Foundry%20Min%20Version&query=$.compatibility.minimum&colorB=orange&style=for-the-badge)
-![Foundry Core Verified Version](https://img.shields.io/badge/dynamic/json.svg?url=https%3A%2F%2Fraw.githubusercontent.com%2FForien%2Ffoundryvtt-quest-log%2Fmaster%2Fmodule.json&label=Foundry%20Verified&query=$.compatibility.verified&colorB=orange&style=for-the-badge)
 ![License](https://img.shields.io/github/license/Gremlim/foundryvtt-quest-log?style=for-the-badge)
 ![Zip Downloads](https://img.shields.io/github/downloads/Gremlim/foundryvtt-quest-log/latest/module.zip?style=for-the-badge)
 [![GitHub commits](https://img.shields.io/github/commits-since/Gremlim/foundryvtt-quest-log/latest?style=for-the-badge)](https://github.com/Gremlim/foundryvtt-quest-log/commits/)
-![Forge installs](https://img.shields.io/badge/dynamic/json?label=Forge%20Installs&query=package.installs&suffix=%25&url=https%3A%2F%2Fforge-vtt.com%2Fapi%2Fbazaar%2Fpackage%2Fquest-log&style=for-the-badge)      
-[![Discord](https://img.shields.io/badge/Discord-%235865F2.svg?style=for-the-badge&logo=discord&logoColor=white&link=https%3A%2F%2Fdiscord.gg%2FXkTFv8DRDc)](https://discord.gg/XkTFv8DRDc)
-[![Patreon](https://img.shields.io/badge/Patreon-F96854?style=for-the-badge&logo=patreon&logoColor=white)](https://www.patreon.com/foundryworkshop)
-[![Ko-Fi](https://img.shields.io/badge/Ko--fi-F16061?style=for-the-badge&logo=ko-fi&logoColor=white)](https://ko-fi.com/forien)
 
 [![Translation status](https://hosted.weblate.org/widget/foriens-quest-log/287x66-black.png)](https://hosted.weblate.org/engage/foriens-quest-log/)
 
-Based on [Forian's Quest Log](https://github.com/Forien/foundryvtt-forien-quest-log)
+Based on [Forien's Quest Log](https://github.com/Forien/foundryvtt-forien-quest-log)
 
 This module provides comprehensive Quest Log system for players and Game Masters to use with [Foundry VTT](https://foundryvtt.com/).
 
@@ -33,11 +27,11 @@ _any_
 
 ## Installation
 
-1. (Recommended) Install Forien's Quest Log from the Foundry package manager directly. 
+1. (Recommended) Install Quest Log from the Foundry package manager directly. 
    - _or_ manually using the manifest URL: `https://github.com/Gremlim/foundryvtt-quest-log/releases/latest/download/module.json`
 
 
-2. While loaded in your World, enable **_Forien's Quest Log_** in the `Module Management` configuration. 
+2. While loaded in your World, enable **_Quest Log_** in the `Module Management` configuration. 
 
 ## Recent Updates
 
@@ -129,6 +123,6 @@ and maintained the package through a challenging series of Foundry core update `
 
 ## License
 
-Forien's Quest Log is a module for Foundry VTT by Forien and is licensed under a [MIT License](https://github.com/Gremlim/foundryvtt-quest-log/blob/master/LICENSE). 
+Quest Log is a module for Foundry VTT by Gremlim and is licensed under a [MIT License](https://github.com/Gremlim/foundryvtt-quest-log/blob/master/LICENSE). 
 
 This work is licensed under Foundry Virtual Tabletop [EULA - Limited License Agreement for module development from February 17, 2021](https://foundryvtt.com/article/license/).
