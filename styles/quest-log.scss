@@ -81,20 +81,28 @@
     margin: 0;
     padding: 0;
 
+    // Each quest is a card, like in the Quest Tracker: a dark block with an accent line at the left; the primary quest
+    // has the line in the accent color.
     li.drag-quest {
       display: flex;
       justify-content: flex-start;
       align-items: center;
-      margin: 0 4px 2px 0;
-      background: rgba(255, 255, 255, .3);
-      border: 1px solid transparent;
-      border-radius: 5px;
+      gap: 8px;
+      margin: 0 4px 4px 0;
+      padding: 3px 0 3px 8px;
+      background: rgba(255, 255, 255, .09);
+      border-left: 3px solid rgba(255, 255, 255, .3);
+      border-radius: 3px;
       min-height: $quest-min-height;
-      transition: border-color .3s ease, box-shadow .3s ease;
+      transition: background .3s ease, border-color .3s ease;
+
+      &.is-primary {
+        border-left-color: $primary-color-accent;
+      }
 
       &:hover {
-        border-color: $primary-color-accent;
-        box-shadow: 0 0 2px $primary-color-accent inset;
+        background: rgba(255, 255, 255, .16);
+        border-left-color: $primary-color-accent;
       }
     }
 
@@ -102,43 +110,7 @@
       cursor: pointer;
     }
 
-    // Header of a group of quests (collapsible).
-    li.group-header {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      margin: 6px 4px 3px 0;
-      padding: 2px 6px;
-      border-bottom: 1px solid rgba(0, 0, 0, .25);
-      cursor: pointer;
-      font-weight: 700;
-
-      i {
-        flex: 0 0 14px;
-        text-align: center;
-      }
-
-      .group-name {
-        flex: 1;
-      }
-
-      .group-count {
-        flex: 0 0 auto;
-        font-weight: 400;
-        opacity: .7;
-      }
-
-      &.is-empty .group-name {
-        font-style: italic;
-        font-weight: 400;
-        opacity: .8;
-      }
-
-      &:hover {
-        color: $primary-color-accent;
-      }
-    }
-
+    // The image slot is always reserved so the titles of all the quests are aligned.
     .img {
       flex: 0 0 40px;
       width: 40px;
@@ -147,40 +119,89 @@
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
+
+      &.placeholder {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(255, 255, 255, .06);
+
+        i {
+          font-size: 16px;
+          opacity: .35;
+        }
+      }
     }
 
     .title {
       flex: 1;
+      min-width: 0;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding-left: 2px;
-      padding-right: 8px;
+      padding: 2px 4px 2px 0;
       min-height: $quest-min-height;
 
       h2 {
         margin: 0;
         padding: 0;
-        line-height: 1;
+        line-height: 1.1;
         border: none;
         font-size: 16px;
         font-weight: 700;
+        overflow-wrap: anywhere;
       }
 
-      p {
-        margin: 0;
-        padding: 0;
-        font-size: 12px;
+      // Subquest, personal, location and creator labels in one wrapping line.
+      .meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1px 12px;
+        margin-top: 3px;
+        font-size: 11px;
         font-weight: 400;
+        line-height: 1.3;
+        opacity: .8;
+
+        .chip {
+          white-space: nowrap;
+
+          i {
+            width: 12px;
+            margin-right: 2px;
+            text-align: center;
+          }
+        }
+      }
+    }
+
+    // Primary and hidden icons; the space is reserved so the counters of all the quests are aligned.
+    .quest-icons {
+      flex: 0 0 34px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 6px;
+      min-height: $quest-min-height;
+      font-size: 13px;
+
+      i {
+        flex: 0 0 auto;
+        text-align: center;
+      }
+
+      .is-primary {
+        color: $primary-color-accent;
       }
     }
 
     // The height parameter hard codes the height for the border to show, but in the future this may need to be
     // adjustable.
     .tasks {
-      font-size: 18px;
-      flex: 0 0 50px;
-      border-left: 1px solid rgba(0,0,0,.15);
+      font-size: 16px;
+      font-variant-numeric: tabular-nums;
+      flex: 0 0 52px;
+      border-left: 1px solid rgba(0, 0, 0, .15);
       min-height: $quest-min-height;
       display: flex;
       justify-content: center;
@@ -191,6 +212,62 @@
     // adjustable.
     .actions {
       min-height: $quest-min-height;
+    }
+
+    // Header of a group of quests (collapsible).
+    li.group-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin: 10px 4px 5px 0;
+      padding: 2px 6px;
+      border-bottom: 1px solid color-mix(in srgb, #{$primary-color-accent} 55%, transparent);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+
+      &:first-child {
+        margin-top: 2px;
+      }
+
+      i {
+        flex: 0 0 14px;
+        text-align: center;
+      }
+
+      .group-name {
+        flex: 1;
+        min-width: 0;
+        overflow-wrap: anywhere;
+      }
+
+      .group-count {
+        flex: 0 0 auto;
+        min-width: 20px;
+        padding: 0 6px;
+        border-radius: 9px;
+        background: rgba(255, 255, 255, .12);
+        font-size: 11px;
+        font-weight: 400;
+        text-align: center;
+      }
+
+      &.is-empty {
+        text-transform: none;
+        letter-spacing: 0;
+
+        .group-name {
+          font-style: italic;
+          font-weight: 400;
+          opacity: .8;
+        }
+      }
+
+      &:hover {
+        color: $primary-color-accent;
+      }
     }
   }
 }

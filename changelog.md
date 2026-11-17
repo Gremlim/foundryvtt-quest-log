@@ -1,5 +1,12 @@
 # Changelog
 
+## Release 0.17.0
+- Redesigned the look of the Quest Log list, in the same style as the Quest Tracker. Each quest is a card with an accent line at the left (in the accent color for the primary quest) and a hover highlight.
+- The image slot is always reserved (with a placeholder icon when the quest has no image) so the titles of all the quests are aligned.
+- The subquest, personal, location and creator labels are now shown in one wrapping line under the title, each with its icon, instead of one line each, so the quests take less height.
+- The hidden and primary icons are grouped before the objectives counter with a reserved width, so the counters and the status buttons are aligned in all the quests.
+- The group headers are uppercase with an accent underline and the quest count in a small badge.
+
 ## Release 0.16.3
 - Quest Tracker: the group button of the header now cycles through the ways to group the quests every time it is clicked: by group, by giver, by location and not grouped, and starts again. Its tooltip shows the current grouping. Collapsed groups are remembered separately for each way of grouping.
 
