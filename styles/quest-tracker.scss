@@ -95,10 +95,6 @@
     color: $tracker-color-text-hidden;
   }
 
-  .quest:not(:last-child) {
-    margin-bottom: 16px;
-  }
-
   .quests {
     flex: none;
     padding: 8px 0 8px 0;
@@ -112,6 +108,12 @@
     filter: drop-shadow(1px 1px 1px #000);
   }
 
+  // Each quest is a card so quests are easy to tell apart. With the window background removed only the accent line
+  // at the left remains.
+  &.ql-app:not(.no-background) .quest {
+    background: rgba(0, 0, 0, .22);
+  }
+
   .quest {
     overflow-x: hidden;
     overflow-y: hidden;
@@ -120,6 +122,20 @@
     display: flex;
     flex-direction: column;
     flex: 1;
+
+    margin-bottom: 8px;
+    padding: 5px 8px 6px 8px;
+    border-left: 3px solid rgba(255, 255, 255, .3);
+    border-radius: 3px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    // The primary quest is highlighted with the accent color.
+    &.is-primary {
+      border-left-color: $primary-color-accent;
+    }
 
     .title {
       a, i {
@@ -131,29 +147,24 @@
     i {
       cursor: pointer;
       pointer-events: auto;
-
-      // Add additional width to last icon such that there is space between any previous icon.
-      &:last-of-type {
-        flex: 0 0 26px;
-        text-align: right;
-      }
     }
 
     .title {
       display: flex;
       flex-direction: row;
       margin: 0;
-      font-size: 18px;
-      align-items: center;
+      font-size: 16px;
+      line-height: 20px;
+      align-items: flex-start;
     }
 
-    // Chevron next to the quest title that indicates the objectives can be shown / hidden.
-    .quest-tracker-toggle,
-    i.quest-tracker-toggle:last-of-type {
-      flex: 0 0 auto;
-      width: 16px;
-      margin-right: 2px;
-      font-size: 13px;
+    // Chevron next to the quest title that indicates the objectives can be shown / hidden. A placeholder with the same
+    // width is used when there are no objectives so all the quest titles are aligned.
+    .quest-tracker-toggle {
+      flex: 0 0 18px;
+      width: 18px;
+      font-size: 12px;
+      line-height: 20px;
       text-align: left;
       cursor: pointer;
       pointer-events: auto;
@@ -162,43 +173,64 @@
       &:hover {
         color: $primary-color-accent;
       }
+
+      &.placeholder {
+        cursor: default;
+        pointer-events: none;
+      }
     }
 
     .quest-tracker-header {
       cursor: pointer;
       pointer-events: auto;
+      flex: 0 1 auto;
+      min-width: 0;
+      overflow-wrap: anywhere;
       width: fit-content;
-      height:auto;
+      height: auto;
     }
 
     .quest-tracker-span {
       flex: 1;
     }
 
-    .quest-tracker-link {
-      pointer-events: auto;
-    }
-
-    .tasks {
-      margin: 3px 0 0 0;
-      list-style: none;
-      padding-left: 4px;
+    // The status icons (primary, hidden, personal) are grouped at the end of the row with the same spacing.
+    .quest-tracker-icons {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-left: 8px;
+      height: 20px;
+      font-size: 13px;
 
       i {
-        // Add additional width to last icon such that there is space between any previous icon.
-        &:last-of-type {
-          flex: 0 0 21px;
-          text-align: right;
-        }
+        flex: 0 0 auto;
+        width: 14px;
+        text-align: center;
       }
+    }
+
+    .quest-tracker-link {
+      pointer-events: auto;
+      min-width: 0;
+      overflow-wrap: anywhere;
+    }
+
+    // The objectives are aligned with the quest title (after the chevron).
+    .tasks {
+      margin: 4px 0 0 18px;
+      list-style: none;
+      padding: 0;
+      font-size: 13px;
+      line-height: 16px;
 
       .subquest {
         // Must specifically target elements to support context menu.
         filter: drop-shadow(1px 1px 1px #000);
 
         // Icon that tells a subquest apart from the objectives of the parent quest.
-        i.task-subquest-icon,
-        i.task-subquest-icon:last-of-type {
+        i.task-subquest-icon {
           flex: 0 0 14px;
           width: 14px;
           margin-right: 4px;
@@ -207,11 +239,17 @@
           text-align: left;
           align-self: flex-start;
         }
+
+        .quest-tracker-icons {
+          height: 16px;
+          font-size: 11px;
+        }
       }
 
       .quest-tracker-task {
         cursor: pointer;
         width: fit-content;
+        max-width: 100%;
 
         // Must specifically target elements to support context menu.
         filter: drop-shadow(1px 1px 1px #000);
@@ -225,18 +263,17 @@
         }
       }
 
-      .subquest-separator {
-        margin-top: 3px;
-        margin-bottom: 4px;
-        width: 50px;
-        height: 1px;
-        background-color: rgba(255, 255, 255, .5);
-      }
-
       .task {
-        margin: 2px 0 0 0;
+        margin: 3px 0 0 0;
         display: flex;
-        align-items: center;
+        align-items: flex-start;
+
+        // The text of an objective wraps next to its label instead of below it.
+        span:not(.task-label):not(.quest-tracker-span):not(.quest-tracker-icons) {
+          flex: 1 1 auto;
+          min-width: 0;
+          overflow-wrap: anywhere;
+        }
 
         span {
           cursor: pointer;

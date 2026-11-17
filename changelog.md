@@ -1,5 +1,12 @@
 # Changelog
 
+## Release 0.14.0
+- Redesigned the look of the Quest Tracker. Each quest is now a card (a slightly darker block with an accent line at the left; with the window background removed only the line remains) so quests are easy to tell apart, and the primary quest has its line in the accent color.
+- All the quest titles are aligned: a quest without objectives reserves the space of the chevron, and the objectives and subquests are aligned with the title text instead of being indented differently.
+- The primary, hidden and personal icons are grouped at the end of the row with equal spacing, in quests and in subquests, instead of relying on the last icon of the row.
+- Long titles and objectives wrap next to their P / C / F label with a hanging indent instead of overflowing, and the title and objective font sizes and spacing are tighter so more quests fit.
+- Removed the unused subquest separator.
+
 ## Release 0.13.1
 - The hidden and personal icons of the quest window tab bar are now aligned with the primary quest star instead of sitting higher.
 

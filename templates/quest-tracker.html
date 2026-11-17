@@ -1,38 +1,42 @@
 <div class="quest-tracker-content">
     {{#if hasQuests}}<div class="quests">{{/if}}
       {{#each quests}}
-      <div class="quest">
+      <div class="quest{{#if (eq id ../primaryQuestId)}} is-primary{{/if}}">
         <div class="title" {{#if (or isHidden isInactive)}}id="hidden"{{/if}}>
         {{#if hasObjectives}}
         <i class="quest-tracker-toggle fas {{#if expanded}}fa-chevron-down{{else}}fa-chevron-right{{/if}}" data-quest-id="{{id}}" title="{{#if expanded}}{{localize 'ForienQuestLog.QuestTracker.Tooltips.CollapseObjectives'}}{{else}}{{localize 'ForienQuestLog.QuestTracker.Tooltips.ExpandObjectives'}}{{/if}}"></i>
+        {{else}}
+        <span class="quest-tracker-toggle placeholder"></span>
         {{/if}}
         <div class="quest-tracker-header" data-quest-id="{{id}}">
           <a>{{name}}</a>
         </div>
         <span class="quest-tracker-span"></span>
-        {{#if (eq id ../primaryQuestId)}}<i class="is-primary fas fa-star pad-l-4" title="{{localize 'ForienQuestLog.Tooltips.PrimaryQuest'}}"></i>{{/if}}
+        <span class="quest-tracker-icons">
+        {{#if (eq id ../primaryQuestId)}}<i class="is-primary fas fa-star" title="{{localize 'ForienQuestLog.Tooltips.PrimaryQuest'}}"></i>{{/if}}
         {{#if isGM}}
-          {{#if isHidden}}<i class="is-hidden fas fa-eye-slash pad-l-4" title="{{localize 'ForienQuestLog.Tooltips.HiddenQuestNoPlayers'}}"></i>{{/if}}
+          {{#if isHidden}}<i class="is-hidden fas fa-eye-slash" title="{{localize 'ForienQuestLog.Tooltips.HiddenQuestNoPlayers'}}"></i>{{/if}}
         {{/if}}
-        {{#if isPersonal}}<i class="is-personal fas fa-user-shield pad-l-4" title="{{{personalActors}}}"></i>{{/if}}
+        {{#if isPersonal}}<i class="is-personal fas fa-user-shield" title="{{{personalActors}}}"></i>{{/if}}
+        </span>
         </div>
 
         {{#if rows.length}}
         <ul class="tasks">
           {{#each rows}}
-          {{#if (eq kind 'separator')}}
-          <li class="subquest-separator"></li>
-          {{else if (eq kind 'subquest')}}
+          {{#if (eq kind 'subquest')}}
           <li class="task {{state}} subquest" {{#if (or isHidden isInactive)}}id="hidden"{{/if}}>
           <span class="task-label {{state}}" title="{{#if (eq state 'check-square')}}{{localize 'ForienQuestLog.QuestTracker.Tooltips.TaskCompleted'}}{{else if (eq state 'minus-square')}}{{localize 'ForienQuestLog.QuestTracker.Tooltips.TaskFailed'}}{{else}}{{localize 'ForienQuestLog.QuestTracker.Tooltips.TaskPending'}}{{/if}}">{{#if (eq state 'check-square')}}C{{else if (eq state 'minus-square')}}F{{else}}P{{/if}}</span>
           <i class="task-subquest-icon fas fa-sitemap" title="{{localize 'ForienQuestLog.QuestTracker.Tooltips.Subquest'}}"></i>
           <a class="quest-tracker-link {{state}}" data-quest-id="{{id}}" title="{{statusTooltip}}">{{name}}</a>
           <span class="quest-tracker-span"></span>
-          {{#if isPrimary}}<i class="is-primary fas fa-star pad-l-4" title="{{localize 'ForienQuestLog.Tooltips.PrimaryQuest'}}"></i>{{/if}}
+          <span class="quest-tracker-icons">
+          {{#if isPrimary}}<i class="is-primary fas fa-star" title="{{localize 'ForienQuestLog.Tooltips.PrimaryQuest'}}"></i>{{/if}}
           {{#if isGM}}
-            {{#if isHidden}}<i class="is-hidden fas fa-eye-slash pad-l-4" title="{{localize 'ForienQuestLog.Tooltips.HiddenQuestNoPlayers'}}"></i>{{/if}}
+            {{#if isHidden}}<i class="is-hidden fas fa-eye-slash" title="{{localize 'ForienQuestLog.Tooltips.HiddenQuestNoPlayers'}}"></i>{{/if}}
           {{/if}}
-          {{#if isPersonal}}<i class="is-personal fas fa-user-shield pad-l-4" title="{{{personalActors}}}"></i>{{/if}}
+          {{#if isPersonal}}<i class="is-personal fas fa-user-shield" title="{{{personalActors}}}"></i>{{/if}}
+          </span>
           </li>
           {{else}}
           {{#if (or canEdit playerEdit)}}
