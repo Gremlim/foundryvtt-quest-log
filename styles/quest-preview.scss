@@ -195,7 +195,7 @@
           }
         }
 
-        .quest-location, .quest-group {
+        .quest-location, .quest-group, .quest-deadline {
           display: flex;
           flex-direction: row;
           align-items: center;
@@ -218,12 +218,18 @@
             }
           }
 
-          p.location, p.group {
+          p.location, p.group, p.deadline {
             margin: 0;
 
-            .no-location, .no-group {
+            .no-location, .no-group, .no-deadline {
               font-style: italic;
               opacity: .6;
+            }
+
+            // The deadline passed and the quest is not finished.
+            &.overdue {
+              color: #ff7b6b;
+              font-weight: 700;
             }
           }
         }
@@ -583,9 +589,47 @@
             cursor: pointer;
           }
 
+          // Room for the choice group icon of the GM.
+          .actions.rewards {
+            flex: 0 0 118px;
+
+            &.is-player {
+              flex: 0 0 60px;
+            }
+          }
+
+          // Choice group (#92): small label before the name and the icon to set it.
+          .reward-choice {
+            display: inline-block;
+            margin-right: 4px;
+            padding: 0 6px;
+            font-size: 11px;
+            line-height: 16px;
+            border-radius: 8px;
+            background: $primary-color-bg-li-hover;
+            white-space: nowrap;
+
+            i {
+              font-size: 10px;
+              margin-right: 2px;
+            }
+          }
+
+          .actions.rewards i.setChoice.no-choice {
+            opacity: .35;
+          }
+
+          .reward-closed {
+            background: $primary-color-bg-li-hidden;
+
+            .reward-image, .reward-name {
+              opacity: .5;
+            }
+          }
+
           // Room for the take all / take amount icons of currency rewards.
           .actions.rewards.has-take {
-            flex: 0 0 136px;
+            flex: 0 0 154px;
 
             &.is-player {
               flex: 0 0 60px;

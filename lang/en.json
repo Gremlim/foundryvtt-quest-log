@@ -89,6 +89,7 @@
       "LinkCopied": "Entity Link for this quest has been copied to clipboard.",
       "QuestAdded": "Added '{name}' as a new quest with status: '{status}'.",
       "QuestIDCopied": "Quest ID for this quest has been copied to clipboard.",
+      "QuestJoined": "{who} accepted the quest '{name}'.",
       "QuestMoved": "Moved '{name}' and set new status to: '{target}'.",
       "QuestPrimary": "'{name}' is the new primary quest.",
       "QuestDuplicated": "Quest duplicated: {name}",
@@ -134,6 +135,7 @@
     "QuestPreview": {
       "Buttons": {
         "Accept": "Accept",
+        "ClearDeadline": "Remove deadline",
         "RewardCurrency": "Currency",
         "RewardCustom": "Custom",
         "RewardHide": "Hide",
@@ -142,6 +144,7 @@
         "RewardUnlock": "Unlock"
       },
       "Labels": {
+        "AcceptedBy": "Accepted by:",
         "CreatedByGM": "Created by the GM",
         "CreatedByPlayer": "Created by {name}",
         "CustomSource": "Custom Source",
@@ -160,7 +163,17 @@
         "Optional": "optional",
         "PlayerNotes": "Player Notes:",
         "Quantity": "Quantity",
+        "Deadline": "Deadline",
+        "DeadlineDay": "Day",
+        "DeadlineHour": "Hour",
+        "DeadlineMinute": "Minute",
+        "DeadlineMonth": "Month",
+        "DeadlineReal": "Date and time",
+        "DeadlineYear": "Year",
+        "NoDeadline": "No deadline",
         "QuantityTake": "Quantity to take:",
+        "RewardChoiceGroup": "Choice group",
+        "RewardChoiceHint": "Rewards with the same group name are alternatives: when one is taken the others are closed. Leave it empty for no group.",
         "Reward": "Reward",
         "Rewards": "Rewards:"
       },
@@ -191,6 +204,9 @@
       },
       "History": {
         "Accepted": "{user} accepted the quest.",
+        "AcceptedBy": "{user} accepted the quest with {actor}.",
+        "Joined": "{user} joined the quest.",
+        "JoinedBy": "{user} joined the quest with {actor}.",
         "Clear": "Clear",
         "ClearContent": "Delete all the history entries of the quest \"{name}\"? This cannot be undone.",
         "ClearTitle": "Clear the quest history",
@@ -216,6 +232,7 @@
       "Tooltips": {
         "AddCurrency": "Add currency",
         "AddCustom": "Add Custom",
+        "EditDeadline": "Edit the deadline of the quest",
         "EditQuantity": "Edit quantity",
         "TakeAll": "Take all",
         "TakeAmount": "Take an amount",
@@ -228,6 +245,10 @@
         "LockAll": "Lock All",
         "PrimaryQuestSet": "Click to make primary quest.",
         "PrimaryQuestUnset": "Click to unset primary quest.",
+        "RewardChoice": "Choice group \"{group}\": only one reward of the group can be taken.",
+        "RewardClosed": "Another reward of its choice group was already taken. Click to reopen.",
+        "RewardClosedPlayer": "Another reward of its choice group was already taken.",
+        "RewardSetChoice": "Set the choice group of this reward (only one reward of a group can be taken).",
         "RewardHidden": "Reward is hidden. Click to show.",
         "RewardLocked": "Reward is locked. Click to unlock.",
         "RewardLockedPlayer": "Reward is locked.",
@@ -287,6 +308,7 @@
         "Status": "Quest is {statusLabel}."
       },
       "Tooltips": {
+        "Join": "Accept this quest with your character",
         "SetActive": "Set as In Progress",
         "SetAvailable": "Set as Available",
         "SetCompleted": "Set as Completed",
@@ -326,6 +348,12 @@
       "hideFQLFromPlayers": {
         "Enable": "Hide Quest Log from players",
         "EnableHint": "When enabled this option hides the Quest Log from all players. Only GM level users will be able to access the Quest Log."
+      },
+      "dateMode": {
+        "Enable": "Quest Dates",
+        "EnableHint": "Date used in the quest history and for the deadline of the quests: the date of the world calendar of Foundry or the real date.",
+        "real": "Real date",
+        "world": "World calendar"
       },
       "historyVisibility": {
         "Enable": "Quest History Visibility",

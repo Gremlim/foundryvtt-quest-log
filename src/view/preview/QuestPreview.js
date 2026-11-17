@@ -295,6 +295,9 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
       on(domEvents.click, '.quest-location .actions-single .editable, .quest-group .actions-single .editable',
        (event) => HandlerDetails.questEditName(event, this.#quest, this), editOrPlayerEdit);
 
+      on(domEvents.click, '.quest-deadline .actions-single .edit-deadline', async () =>
+       await HandlerDetails.questEditDeadline(this.#quest, this), editOrPlayerEdit);
+
       on(domEvents.drop, '.quest-giver-gc', async (event) =>
        await HandlerDetails.questGiverDropDocument(event, this.#quest, this), editOrPlayerEdit);
 
@@ -381,6 +384,9 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
 
       on(domEvents.click, '.actions.rewards .toggleLocked', async (event) =>
        await HandlerDetails.rewardToggleLocked(event, this.#quest, this), edit);
+
+      on(domEvents.click, '.actions.rewards .setChoice', async (event) =>
+       await HandlerDetails.rewardSetChoice(event, this.#quest, this), edit);
 
       on(domEvents.click, '.quest-rewards .unlock-all-rewards', async () =>
        await HandlerDetails.rewardsUnlockAll(this.#quest, this), edit);

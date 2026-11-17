@@ -93,6 +93,7 @@ const settings = {
    allowPlayersCreate: 'allowPlayersCreate',
    allowPlayersDrag: 'allowPlayersDrag',
    countHidden: 'countHidden',
+   dateMode: 'dateMode',
    defaultAbstractRewardImage: 'defaultAbstractRewardImage',
    defaultPermission: 'defaultPermission',
    dynamicBookmarkBackground: 'dynamicBookmarkBackground',
@@ -159,6 +160,8 @@ export { constants, domEvents, questStatus, questStatusI18n, questTabIndex, sess
  * @property {string}   defaultAbstractRewardImage - Sets the default abstract reward image path.
  *
  * @property {string}   defaultPermission - Sets the default permission level for new quests.
+ *
+ * @property {string}   dateMode - Date shown in the history and used for deadlines: world calendar or real date.
  *
  * @property {string}   dynamicBookmarkBackground - Uses jQuery to dynamically set the tab background image.
  *

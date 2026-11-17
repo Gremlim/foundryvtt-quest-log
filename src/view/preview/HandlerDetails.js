@@ -107,6 +107,28 @@ export class HandlerDetails
    }
 
    /**
+    * Edits the deadline of the quest (#87) in a dialog.
+    *
+    * @param {Quest}             quest - The current quest being manipulated.
+    *
+    * @param {QuestPreview}      questPreview - The QuestPreview being manipulated.
+    *
+    * @returns {Promise<void>}
+    */
+   static async questEditDeadline(quest, questPreview)
+   {
+      const result = await FQLDialog.promptDeadline({
+         title: game.i18n.localize('ForienQuestLog.QuestPreview.Tooltips.EditDeadline'),
+         deadline: quest.deadline
+      });
+
+      if (!result) { return; }
+
+      quest.deadline = result.clear ? null : { mode: result.mode, value: result.value };
+      await questPreview.saveQuest();
+   }
+
+   /**
     * @param {MouseEvent} event - The click event.
     *
     * @param {Quest}             quest - The current quest being manipulated.
@@ -750,7 +772,7 @@ export class HandlerDetails
 
       const reward = quest.getReward(uuidv4);
 
-      if (reward && (questPreview.canEdit || !reward.locked))
+      if (reward && (questPreview.canEdit || (!reward.locked && !reward.closed)))
       {
          if (reward.data?.img?.length)
          {
@@ -784,7 +806,7 @@ export class HandlerDetails
 
       const reward = quest.getReward(uuidv4);
 
-      if (reward && (questPreview.canEdit || !reward.locked))
+      if (reward && (questPreview.canEdit || (!reward.locked && !reward.closed)))
       {
          const sheet = await Utils.showSheetFromUUID(data, { permissionCheck: false, editable: questPreview.canEdit });
 
@@ -859,7 +881,7 @@ export class HandlerDetails
       if (type !== 'currency' && type !== 'item') { return; }
 
       // Players can only take unlocked rewards when they can drag rewards.
-      if (!game.user.isGM && (reward.locked ||
+      if (!game.user.isGM && (reward.locked || reward.closed ||
        !game.settings.get(constants.moduleName, settings.allowPlayersDrag))) { return; }
 
       const isCurrency = type === 'currency';
@@ -978,9 +1000,53 @@ export class HandlerDetails
       const reward = quest.getReward(uuidv4);
       if (reward)
       {
-         reward.toggleLocked();
+         // Reopens a reward closed by taking another reward of its choice group (#92).
+         if (reward.closed)
+         {
+            reward.closed = false;
+            reward.locked = false;
+         }
+         else { reward.toggleLocked(); }
+
          await questPreview.saveQuest();
       }
+   }
+
+   /**
+    * Sets the choice group of a reward (#92). Only one reward of the same group can be taken. An empty name removes the
+    * reward from its group.
+    *
+    * @param {MouseEvent} event - The click event.
+    *
+    * @param {Quest}             quest - The current quest being manipulated.
+    *
+    * @param {QuestPreview}      questPreview - The QuestPreview being manipulated.
+    *
+    * @returns {Promise<void>}
+    */
+   static async rewardSetChoice(event, quest, questPreview)
+   {
+      const uuidv4 = Utils.data(event.target, 'uuidv4');
+      const reward = quest.getReward(uuidv4);
+      if (!reward) { return; }
+
+      const groups = [...new Set(quest.rewards.map((r) => r.choice).filter((c) => c))].sort();
+
+      const value = await FQLDialog.promptText({
+         title: game.i18n.localize('ForienQuestLog.QuestPreview.Tooltips.RewardSetChoice'),
+         label: game.i18n.localize('ForienQuestLog.QuestPreview.Labels.RewardChoiceGroup'),
+         hint: game.i18n.localize('ForienQuestLog.QuestPreview.Labels.RewardChoiceHint'),
+         value: reward.choice,
+         suggestions: groups
+      });
+
+      if (value === null || value === reward.choice) { return; }
+
+      reward.choice = value;
+      reward.closed = false;
+
+      // If the new group already has a reward taken the other rewards of the group stay available until another is taken.
+      await questPreview.saveQuest();
    }
 
    /**

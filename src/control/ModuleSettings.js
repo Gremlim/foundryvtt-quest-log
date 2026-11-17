@@ -262,6 +262,25 @@ export class ModuleSettings
          }
       });
 
+      game.settings.register(constants.moduleName, settings.dateMode, {
+         name: 'ForienQuestLog.Settings.dateMode.Enable',
+         hint: 'ForienQuestLog.Settings.dateMode.EnableHint',
+         scope: this.#scope.world,
+         config: true,
+         default: 'world',
+         type: String,
+         choices: {
+            world: 'ForienQuestLog.Settings.dateMode.world',
+            real: 'ForienQuestLog.Settings.dateMode.real'
+         },
+         onChange: async () =>
+         {
+            // The labels of the dates are generated when quests are enriched.
+            await QuestDB.enrichAll();
+            ViewManager.renderAll();
+         }
+      });
+
       game.settings.register(constants.moduleName, settings.historyVisibility, {
          name: 'ForienQuestLog.Settings.historyVisibility.Enable',
          hint: 'ForienQuestLog.Settings.historyVisibility.EnableHint',

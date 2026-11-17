@@ -39,8 +39,10 @@
         <div class="meta">
           {{#if isSubquest}}<span class="chip subquest"><i class="fas fa-sitemap"></i>{{fql_format 'ForienQuestLog.QuestLog.Labels.SubTitle' data_parent.name}}</span>{{/if}}
           {{#if isPersonal}}<span class="chip personal" title="{{{personalActors}}}"><i class="fas fa-user-shield"></i>{{localize 'ForienQuestLog.QuestLog.Labels.Personal'}}</span>{{/if}}
+          {{#if deadlineLabel}}<span class="chip deadline{{#if deadlineOverdue}} overdue{{/if}}" title="{{localize 'ForienQuestLog.QuestPreview.Labels.Deadline'}}"><i class="fas fa-hourglass-half"></i>{{deadlineLabel}}</span>{{/if}}
           {{#if location}}<span class="chip location"><i class="fas fa-location-dot"></i>{{location}}</span>{{/if}}
           {{#if creatorLabel}}<span class="chip creator"><i class="fas fa-user-pen"></i>{{creatorLabel}}</span>{{/if}}
+          {{#if acceptedNames}}<span class="chip accepted" title="{{acceptedTitle}}"><i class="fas fa-user-check"></i>{{acceptedNames}}</span>{{/if}}
         </div>
       </div>
       <div class="open-quest quest-icons">

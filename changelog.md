@@ -1,5 +1,18 @@
 # Changelog
 
+## Release 0.18.2
+- #87 Dates and deadline. New setting "Quest Dates" (world calendar by default, or real date): the history of the quest now shows the date of the world calendar of Foundry (the real date is still stored, and entries created before this version show the real date). New optional "Deadline" of the quest: it is edited with the pencil under the group in the Details tab (a dialog with the fields of the world calendar, or a real date and time when the setting is set to real date), it can be removed, and it is shown in the Details tab, in the Quest Log list and in the Quest Tracker. When the deadline has passed and the quest is available or in progress it is shown in red.
+- Duplicating a quest keeps the deadline.
+
+## Release 0.18.1
+- #138 Accepting a quest with a character. When a player accepts a quest (sets it in progress) the quest registers the character assigned to the player (or only the player when there is no character). While the quest is in progress, the other players have a new button (accept with your character) to join it, so each character can register. The characters that accepted the quest are shown in the Details tab and in the Quest Log list (the GM also sees the player in the tooltip) and are logged in the history ("accepted the quest with ..." / "joined the quest with ..."); the GM gets a notification when a player joins. The list is cleared when the quest goes back to available or inactive, and joining does not change the start date of the quest.
+- Duplicating a quest starts with an empty list of characters.
+
+## Release 0.18.0
+- #92 Choice between rewards. Each reward has a new icon (for the GM) to set a "choice group". Rewards of the same group are alternatives: only one of them can be taken. When a player (or the GM) takes one of them, by dragging it to a sheet or with the take buttons, the other rewards of the group are closed (dimmed, with a lock icon and a tooltip explaining why) and players can't take them. Taking part of a reward does not reopen the others. The GM can reopen a closed reward with its lock icon. The group name is shown as a small label before the reward name, so players know which rewards are alternatives.
+- Rewards of different groups and rewards without a group work independently as before.
+- Duplicating a quest reopens its closed rewards.
+
 ## Release 0.17.2
 - Redesigned the look of the Player Notes, GM Notes and History tabs of the Quest Details window. The three tabs share the same heading as the other tabs (accent underline and same height), the notes editors are cards with a bit more padding and a slightly larger text, and the description editor of the Details tab matches the new heading height.
 

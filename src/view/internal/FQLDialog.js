@@ -1,3 +1,7 @@
+import {
+   constants,
+   settings }  from '../../model/constants.js';
+
 /**
  * Provides the delete confirmation dialogs for quests, objectives (tasks) and rewards, built on the ApplicationV2
  * `DialogV2`.
@@ -190,6 +194,157 @@ export class FQLDialog
       });
 
       return typeof result === 'boolean' ? result : null;
+   }
+
+   /**
+    * Shows a dialog to set the deadline of a quest (#87). With the setting `dateMode` set to `world` and a world
+    * calendar with months the date is entered with the fields of the calendar; otherwise a real date and time is used.
+    *
+    * @param {object}   options - Options.
+    *
+    * @param {string}   options.title - Title of the dialog.
+    *
+    * @param {{mode: string, value: number}|null}   [options.deadline] - The current deadline.
+    *
+    * @returns {Promise<{mode: string, value: number}|{clear: true}|null>} The new deadline, `{ clear: true }` to remove
+    *          it or null if the dialog was cancelled.
+    */
+   static async promptDeadline({ title, deadline = null })
+   {
+      const escape = (text) => String(text ?? '').replace(/[&<>"']/g,
+       (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+      const loc = (key) => game.i18n.localize(`ForienQuestLog.QuestPreview.Labels.${key}`);
+
+      const calendar = game.time?.calendar;
+      const months = calendar?.months?.values ?? [];
+
+      const world = game.settings.get(constants.moduleName, settings.dateMode) === 'world' && months.length > 0;
+
+      let content;
+
+      if (world)
+      {
+         const time = deadline?.mode === 'world' ? deadline.value : game.time.worldTime;
+         const comps = calendar.timeToComponents(time);
+
+         const monthOptions = months.map((m, i) =>
+         {
+            const name = m.name ? game.i18n.localize(m.name) : (m.abbreviation ?? String(i + 1));
+            return `<option value="${i}"${i === comps.month ? ' selected' : ''}>${escape(name)}</option>`;
+         }).join('');
+
+         const field = (label, name, value, min, max = void 0) => `<div class="form-group"><label>${escape(label)}` +
+          `</label><div class="form-fields"><input type="number" name="${name}" value="${value}" min="${min}"` +
+          `${max !== void 0 ? ` max="${max}"` : ''} step="1"></div></div>`;
+
+         content = field(loc('DeadlineYear'), 'year', comps.year, -999999) +
+          `<div class="form-group"><label>${escape(loc('DeadlineMonth'))}</label><div class="form-fields">` +
+          `<select name="month">${monthOptions}</select></div></div>` +
+          field(loc('DeadlineDay'), 'day', (comps.dayOfMonth ?? 0) + 1, 1) +
+          field(loc('DeadlineHour'), 'hour', comps.hour ?? 0, 0, 23) +
+          field(loc('DeadlineMinute'), 'minute', comps.minute ?? 0, 0, 59);
+      }
+      else
+      {
+         const date = new Date(deadline?.mode === 'real' ? deadline.value : Date.now());
+         const pad = (n) => String(n).padStart(2, '0');
+         const local = `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T` +
+          `${pad(date.getHours())}:${pad(date.getMinutes())}`;
+
+         content = `<div class="form-group"><label>${escape(loc('DeadlineReal'))}</label><div class="form-fields">` +
+          `<input type="datetime-local" name="real" value="${local}"></div></div>`;
+      }
+
+      const buttons = [{
+         action: 'ok',
+         label: game.i18n.localize('ForienQuestLog.QuestPreview.Buttons.Accept'),
+         default: true,
+         callback: (event, button) =>
+         {
+            const elements = button.form.elements;
+
+            if (world)
+            {
+               try
+               {
+                  const value = calendar.componentsToTime({
+                     year: Math.floor(Number(elements.year.value)),
+                     month: Math.floor(Number(elements.month.value)),
+                     dayOfMonth: Math.max(Math.floor(Number(elements.day.value)) - 1, 0),
+                     hour: Math.floor(Number(elements.hour.value)) || 0,
+                     minute: Math.floor(Number(elements.minute.value)) || 0,
+                     second: 0
+                  });
+
+                  return Number.isFinite(value) ? { mode: 'world', value } : null;
+               }
+               catch (err) { return null; }
+            }
+
+            const value = new Date(elements.real.value).getTime();
+            return Number.isFinite(value) ? { mode: 'real', value } : null;
+         }
+      }];
+
+      if (deadline)
+      {
+         buttons.push({
+            action: 'clear',
+            label: game.i18n.localize('ForienQuestLog.QuestPreview.Buttons.ClearDeadline'),
+            callback: () => ({ clear: true })
+         });
+      }
+
+      const result = await foundry.applications.api.DialogV2.wait({
+         window: { title: String(title ?? '').replace(/<[^>]*>/g, '') },
+         content,
+         buttons,
+         rejectClose: false,
+         modal: true
+      });
+
+      return result && typeof result === 'object' ? result : null;
+   }
+
+   /**
+    * Shows a dialog to enter a short text with optional suggestions (a datalist).
+    *
+    * @param {object}   options - Options.
+    *
+    * @param {string}   options.title - Title of the dialog.
+    *
+    * @param {string}   options.label - Label of the text input.
+    *
+    * @param {string}   [options.hint] - Hint below the input.
+    *
+    * @param {string}   [options.value=''] - The initial value.
+    *
+    * @param {string[]} [options.suggestions=[]] - Suggested values.
+    *
+    * @returns {Promise<string|null>} The trimmed text (can be empty) or null if the dialog was cancelled.
+    */
+   static async promptText({ title, label, hint = '', value = '', suggestions = [] })
+   {
+      const escape = (text) => String(text ?? '').replace(/[&<>"']/g,
+       (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+
+      const options = suggestions.map((s) => `<option value="${escape(s)}"></option>`).join('');
+
+      const result = await foundry.applications.api.DialogV2.prompt({
+         window: { title: String(title ?? '').replace(/<[^>]*>/g, '') },
+         content: `<div class="form-group"><label>${escape(label)}</label><div class="form-fields">` +
+          `<input type="text" name="text" value="${escape(value)}" list="fql-prompt-text-list" autofocus>` +
+          `<datalist id="fql-prompt-text-list">${options}</datalist></div>` +
+          `${hint ? `<p class="hint">${escape(hint)}</p>` : ''}</div>`,
+         ok: {
+            label: game.i18n.localize('ForienQuestLog.QuestPreview.Buttons.Accept'),
+            callback: (event, button) => String(button.form.elements.text.value ?? '').trim()
+         },
+         rejectClose: false,
+         modal: true
+      });
+
+      return typeof result === 'string' ? result : null;
    }
 
    /**

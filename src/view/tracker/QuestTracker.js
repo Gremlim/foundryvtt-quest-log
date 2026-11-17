@@ -472,6 +472,8 @@ export class QuestTracker extends HandlebarsApplicationMixin(ApplicationV2)
             isInactive: q.isInactive,
             isPersonal: q.isPersonal,
             personalActors: q.personalActors,
+            deadlineLabel: q.deadlineLabel,
+            deadlineOverdue: q.deadlineOverdue,
             hasObjectives: q.hasObjectives,
             expanded,
             rows

@@ -312,9 +312,12 @@ export class Socket
 
       // If the current user is a GM or trusted player with edit capability and owner of the quest immediately perform
       // the status move.
+      // The character that accepts the quest is registered when a player sets it in progress (#138).
+      const accept = target === questStatus.active && !game.user.isGM ? Socket.#acceptData() : void 0;
+
       if (game.user.isGM || (Utils.isTrustedPlayerEdit() && quest.isEditOwner))
       {
-         await quest.setStatus(target);
+         await quest.setStatus(target, { accept });
          handled = true;
 
          Socket.refreshQuestPreview({ questId: quest.getQuestIds() });
@@ -337,9 +340,26 @@ export class Socket
             questId: quest.id,
             handled,
             target,
-            userName: game.user.name
+            userName: game.user.name,
+            accept
          }
       });
+   }
+
+   /**
+    * @returns {{actorId: string, actorName: string, userId: string, userName: string}} The character (assigned
+    * character of the user) and user that accept a quest.
+    */
+   static #acceptData()
+   {
+      const actor = game.user.character;
+
+      return {
+         actorId: actor?.id ?? '',
+         actorName: actor?.name ?? '',
+         userId: game.user.id,
+         userName: game.user.name
+      };
    }
 
    /**
@@ -616,9 +636,10 @@ export class Socket
       if (game.user.isGM && !data.payload.handled)
       {
          const quest = QuestDB.getQuest(data.payload.questId);
+         const joined = quest?.status === target && target === questStatus.active;
          if (quest)
          {
-            await quest.setStatus(target, { userName: data.payload.userName });
+            await quest.setStatus(target, { userName: data.payload.userName, accept: data.payload.accept });
          }
 
          // Set handled to true so no other GM level users act upon the move.
@@ -630,9 +651,17 @@ export class Socket
 
          Socket.refreshAll();
 
-         const dirname = game.i18n.localize(questStatusI18n[target]);
-         ViewManager.notifications.info(game.i18n.format('ForienQuestLog.Notifications.QuestMoved',
-          { name: quest.name, target: dirname }));
+         if (joined)
+         {
+            ViewManager.notifications.info(game.i18n.format('ForienQuestLog.Notifications.QuestJoined',
+             { name: quest.name, who: data.payload.accept?.actorName || data.payload.userName }));
+         }
+         else
+         {
+            const dirname = game.i18n.localize(questStatusI18n[target]);
+            ViewManager.notifications.info(game.i18n.format('ForienQuestLog.Notifications.QuestMoved',
+             { name: quest.name, target: dirname }));
+         }
       }
 
       // For non-GM users close QuestPreview when made hidden / inactive.

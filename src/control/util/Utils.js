@@ -27,6 +27,61 @@ export class Utils
    static #questDirName = '_ql_quests';
 
    /**
+    * Formats a date for the history and the deadlines (#87). With the setting `dateMode` set to `world` the date of
+    * the world calendar of Foundry is used when the world time is available; otherwise the real date.
+    *
+    * @param {number}   real - The real timestamp in milliseconds.
+    *
+    * @param {number}   [world] - The world time in seconds.
+    *
+    * @returns {string} The formatted date.
+    */
+   static formatDate(real, world = void 0)
+   {
+      if (game.settings.get(constants.moduleName, settings.dateMode) === 'world' && Number.isFinite(world))
+      {
+         try
+         {
+            const text = game.time.calendar.format(world);
+            if (typeof text === 'string' && text.length) { return text; }
+         }
+         catch (err) { /* The calendar can't format the time; the real date is used. */ }
+      }
+
+      return new Date(real).toLocaleString(game.i18n.lang);
+   }
+
+   /**
+    * @param {{mode: string, value: number}|null}   deadline - The deadline of a quest.
+    *
+    * @returns {string} The formatted deadline or an empty string.
+    */
+   static formatDeadline(deadline)
+   {
+      if (!deadline) { return ''; }
+
+      if (deadline.mode === 'world')
+      {
+         try { return game.time.calendar.format(deadline.value); }
+         catch (err) { return ''; }
+      }
+
+      return new Date(deadline.value).toLocaleString(game.i18n.lang);
+   }
+
+   /**
+    * @param {{mode: string, value: number}|null}   deadline - The deadline of a quest.
+    *
+    * @returns {boolean} Whether the deadline has passed (world time or real time depending on the deadline).
+    */
+   static isDeadlinePassed(deadline)
+   {
+      if (!deadline) { return false; }
+
+      return deadline.mode === 'world' ? deadline.value < game.time.worldTime : deadline.value < Date.now();
+   }
+
+   /**
     * Uses `navigator.clipboard` if available then falls back to `document.execCommand('copy')` if available to copy
     * the given text to the clipboard.
     *

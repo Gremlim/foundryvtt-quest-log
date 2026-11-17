@@ -82,6 +82,16 @@ export class Enrich
             addedAction = true;
          }
 
+         // A player can join a quest in progress with their character when it has not accepted it yet (#138).
+         if (!canEdit && canAccept && questStatus.active === quest.status && !game.user.isGM &&
+          !quest.hasAccepted({ actorId: game.user.character?.id ?? '', userId: game.user.id }))
+         {
+            result += `<i class="move join fas fa-user-plus" title="${game.i18n.localize(
+             'ForienQuestLog.QuestTypes.Tooltips.Join')}" data-target="active" data-quest-id="${quest.id}"></i>\n`;
+
+            addedAction = true;
+         }
+
          if ((canEdit && questStatus.inactive === quest.status) || questStatus.available === quest.status)
          {
             result += `<i class="move fas fa-play" title="${game.i18n.localize(
@@ -153,8 +163,17 @@ export class Enrich
                if (!isGM && (entry.from === questStatus.inactive || entry.to === questStatus.inactive)) { continue; }
 
                icon = 'fa-flag';
-               text = entry.from === questStatus.available && entry.to === questStatus.active ?
-                i18n('Accepted', { user }) : i18n('Status', { user, from: status(entry.from), to: status(entry.to) });
+
+               if (entry.from === questStatus.available && entry.to === questStatus.active)
+               {
+                  text = entry.actor ? i18n('AcceptedBy', { user, actor: entry.actor }) : i18n('Accepted', { user });
+               }
+               else { text = i18n('Status', { user, from: status(entry.from), to: status(entry.to) }); }
+               break;
+
+            case 'accept':
+               icon = 'fa-user-plus';
+               text = entry.actor ? i18n('JoinedBy', { user, actor: entry.actor }) : i18n('Joined', { user });
                break;
 
             case 'task':
@@ -183,7 +202,7 @@ export class Enrich
                continue;
          }
 
-         result.push({ time: new Date(entry.t).toLocaleString(game.i18n.lang), icon, text });
+         result.push({ time: Utils.formatDate(entry.t, entry.w), icon, text });
       }
 
       return result;
@@ -388,21 +407,34 @@ export class Enrich
       {
          const type = item.type.toLowerCase();
 
-         // Only items are potentially draggable when `can player drag` is enabled or `can edit`.
-         const draggable = type === 'item' && (canEdit || canPlayerDrag) && (canEdit || !item.locked);
+         // A reward is not available for players when it is locked or when another reward of its choice group (#92)
+         // was already taken.
+         const unavailable = item.locked || item.closed;
 
-         const lockedTooltip = canEdit ? game.i18n.localize('ForienQuestLog.QuestPreview.Tooltips.RewardLocked') :
+         // Only items are potentially draggable when `can player drag` is enabled or `can edit`.
+         const draggable = type === 'item' && (canEdit || canPlayerDrag) && (canEdit || !unavailable);
+
+         let lockedTooltip = canEdit ? game.i18n.localize('ForienQuestLog.QuestPreview.Tooltips.RewardLocked') :
           game.i18n.localize('ForienQuestLog.QuestPreview.Tooltips.RewardLockedPlayer');
+
+         if (item.closed)
+         {
+            lockedTooltip = game.i18n.localize(canEdit ? 'ForienQuestLog.QuestPreview.Tooltips.RewardClosed' :
+             'ForienQuestLog.QuestPreview.Tooltips.RewardClosedPlayer');
+         }
+
+         const choiceTooltip = item.choice ? game.i18n.format('ForienQuestLog.QuestPreview.Tooltips.RewardChoice',
+          { group: item.choice }) : '';
 
          const unlockedTooltip = canEdit ? game.i18n.localize('ForienQuestLog.QuestPreview.Tooltips.RewardUnlocked') :
           game.i18n.localize('ForienQuestLog.QuestPreview.Tooltips.RewardUnlockedPlayer');
 
          // Defines if the pointer cursor is displayed. For abstract or actor reward it is always displayed for GM or
          // when unlocked for players.
-         const isLink = (type === 'abstract' || type === 'actor') && (canEdit || !item.locked);
+         const isLink = (type === 'abstract' || type === 'actor') && (canEdit || !unavailable);
 
          // For item rewards make them links when `can player drag` is not enabled.
-         const itemLink = type === 'item' && !canEdit && !canPlayerDrag && !item.locked;
+         const itemLink = type === 'item' && !canEdit && !canPlayerDrag && !unavailable;
 
          const quantity = item.quantity ?? 1;
          const isCurrency = type === 'currency';
@@ -411,7 +443,7 @@ export class Enrich
          // rewards and the reward is unlocked. Currency rewards show the current localized name of the currency.
          const currency = isCurrency ? Currency.get(item.data.currency) : void 0;
          const rewardName = isCurrency && currency ? currency.label : item.data.name;
-         const canTake = (isCurrency || type === 'item') && (canEdit || (canPlayerDrag && !item.locked));
+         const canTake = (isCurrency || type === 'item') && (canEdit || (canPlayerDrag && !unavailable));
 
          return {
             name: await TextEditor.enrichHTML(DOMPurify.sanitize(rewardName)),
@@ -423,7 +455,10 @@ export class Enrich
             canTake,
             canTakeAmount: canTake && quantity > 1,
             hidden: item.hidden,
-            locked: item.locked,
+            locked: unavailable,
+            choice: item.choice,
+            choiceTooltip,
+            closed: item.closed,
             lockedTooltip,
             unlockedTooltip,
             isLink: isLink || itemLink,
@@ -450,6 +485,16 @@ export class Enrich
          data.creatorLabel = quest.isCreatedByGM ? game.i18n.localize('ForienQuestLog.QuestPreview.Labels.CreatedByGM') :
           game.i18n.format('ForienQuestLog.QuestPreview.Labels.CreatedByPlayer', { name: quest.creator.name });
       }
+
+      // Characters that accepted the quest (#138); only the GM sees the user of each character.
+      data.acceptedNames = quest.accepted.map((a) => a.actorName || a.userName).filter((n) => n).join(', ');
+      data.acceptedTitle = quest.accepted.map((a) => (game.user.isGM && a.actorName && a.userName ?
+       `${a.actorName} (${a.userName})` : (a.actorName || a.userName))).filter((n) => n).join(', ');
+
+      // Deadline of the quest (#87); it is shown as overdue while the quest is available or in progress.
+      data.deadlineLabel = Utils.formatDeadline(quest.deadline);
+      data.deadlineOverdue = data.deadlineLabel !== '' && Utils.isDeadlinePassed(quest.deadline) &&
+       (quest.status === questStatus.active || quest.status === questStatus.available);
 
       data.canViewHistory = game.user.isGM ||
        game.settings.get(constants.moduleName, settings.historyVisibility) === 'players';
@@ -496,6 +541,14 @@ export class Enrich
  *
  * @property {boolean}     canEdit - Is full editing allowed. Either GM or trusted player w/ edit capability.
  *
+ * @property {string}      deadlineLabel - The formatted deadline of the quest (#87).
+ *
+ * @property {boolean}     deadlineOverdue - The deadline passed and the quest is not finished.
+ *
+ * @property {string}      acceptedNames - Names of the characters that accepted the quest (#138).
+ *
+ * @property {string}      acceptedTitle - Tooltip of the characters that accepted the quest.
+ *
  * @property {number}      checkedTasks - Number of completed tasks.
  *
  * @property {object}      data_parent - A data object with parent quest details.
@@ -521,6 +574,9 @@ export class Enrich
  * @property {boolean}     data_rewards.isLink - Is the reward a link / pointer cursor.
  *
  * @property {boolean}     data_rewards.locked - Is the reward locked / only 'canEdit' manipulate it.
+ * @property {string}      data_rewards.choice - Choice group of the reward (#92).
+ * @property {string}      data_rewards.choiceTooltip - Tooltip of the choice group label.
+ * @property {boolean}     data_rewards.closed - Another reward of the choice group was taken.
  *
  * @property {string}      data_rewards.lockedTooltip - The tooltip to display for the locked icon.
  *

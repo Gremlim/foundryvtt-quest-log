@@ -75,6 +75,7 @@
       "LinkCopied": "El enlace a la entidad de esta misión ha sido copiado al portapapeles.",
       "QuestAdded": "Se agregó '{name}' como una nueva misión con estado: '{status}'.",
       "QuestIDCopied": "El ID de misión para esta misión se ha copiado al portapapeles.",
+      "QuestJoined": "{who} aceptó la misión '{name}'.",
       "QuestMoved": "Se movió '{name}' y se estableció el nuevo estado en: '{target}'.",
       "QuestPrimary": "'{name}' es la nueva misión principal.",
       "QuestDuplicated": "Misión duplicada: {name}",
@@ -120,6 +121,7 @@
     "QuestPreview": {
       "Buttons": {
         "Accept": "Aceptar",
+        "ClearDeadline": "Quitar fecha límite",
         "RewardCurrency": "Moneda",
         "RewardCustom": "Personalizado",
         "RewardHide": "Ocultar",
@@ -130,6 +132,7 @@
       "Labels": {
         "Currency": "Moneda",
         "CustomSource": "Fuente Personalizada",
+        "AcceptedBy": "Aceptada por:",
         "CreatedByGM": "Creada por el GM",
         "CreatedByPlayer": "Creada por {name}",
         "Description": "Descripción:",
@@ -146,7 +149,17 @@
         "Optional": "opcional",
         "PlayerNotes": "Notas del jugador:",
         "Quantity": "Cantidad",
+        "Deadline": "Fecha límite",
+        "DeadlineDay": "Día",
+        "DeadlineHour": "Hora",
+        "DeadlineMinute": "Minuto",
+        "DeadlineMonth": "Mes",
+        "DeadlineReal": "Fecha y hora",
+        "DeadlineYear": "Año",
+        "NoDeadline": "Sin fecha límite",
         "QuantityTake": "Cantidad a coger:",
+        "RewardChoiceGroup": "Grupo de elección",
+        "RewardChoiceHint": "Las recompensas con el mismo nombre de grupo son alternativas: al coger una se cierran las demás. Déjalo vacío para no usar grupo.",
         "Reward": "Recompensa",
         "Rewards": "Recompensas:"
       },
@@ -177,6 +190,9 @@
       },
       "History": {
         "Accepted": "{user} aceptó la misión.",
+        "AcceptedBy": "{user} aceptó la misión con {actor}.",
+        "Joined": "{user} se unió a la misión.",
+        "JoinedBy": "{user} se unió a la misión con {actor}.",
         "Clear": "Vaciar",
         "ClearContent": "¿Borrar todas las entradas del historial de la misión \"{name}\"? No se puede deshacer.",
         "ClearTitle": "Vaciar el historial de la misión",
@@ -202,6 +218,7 @@
       "Tooltips": {
         "AddCurrency": "Añadir moneda",
         "AddCustom": "Agregar personalizada",
+        "EditDeadline": "Editar la fecha límite de la misión",
         "EditQuantity": "Editar cantidad",
         "TakeAll": "Coger todo",
         "TakeAmount": "Coger cantidad",
@@ -214,6 +231,10 @@
         "LockAll": "Bloquear Todo",
         "PrimaryQuestSet": "Haz clic para seleccionar la misión principal.",
         "PrimaryQuestUnset": "Haz clic para anular la misión principal.",
+        "RewardChoice": "Grupo de elección \"{group}\": solo se puede coger una recompensa del grupo.",
+        "RewardClosed": "Ya se cogió otra recompensa de su grupo de elección. Clic para reabrirla.",
+        "RewardClosedPlayer": "Ya se cogió otra recompensa de su grupo de elección.",
+        "RewardSetChoice": "Definir el grupo de elección de esta recompensa (solo se puede coger una recompensa del grupo).",
         "RewardHidden": "La recompensa está oculta. Haz clic para mostrar.",
         "RewardLocked": "La recompensa está bloqueada. Haz clic para desbloquear.",
         "RewardLockedPlayer": "La recompensa está bloqueada.",
@@ -273,6 +294,7 @@
         "Status": "La Misión está {statusLabel}."
       },
       "Tooltips": {
+        "Join": "Aceptar esta misión con tu personaje",
         "SetActive": "Establecer como En Curso",
         "SetAvailable": "Establecer como Disponible",
         "SetCompleted": "Establecer como Completada",
@@ -312,6 +334,12 @@
       "hideFQLFromPlayers": {
         "Enable": "Ocultar registro de misiones de los jugadores",
         "EnableHint": "Cuando está habilitada, esta opción oculta el registro de misiones de todos los jugadores. Solo los usuarios de nivel GM podrán acceder al registro de misiones."
+      },
+      "dateMode": {
+        "Enable": "Fechas de las misiones",
+        "EnableHint": "Fecha que se usa en el historial de la misión y para su fecha límite: la del calendario del mundo de Foundry o la fecha real.",
+        "real": "Fecha real",
+        "world": "Calendario del mundo"
       },
       "historyVisibility": {
         "Enable": "Visibilidad del historial de misiones",

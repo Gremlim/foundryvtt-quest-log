@@ -171,6 +171,18 @@
             margin-right: 2px;
             text-align: center;
           }
+
+          &.deadline.overdue {
+            color: #ff7b6b;
+            font-weight: 700;
+          }
+
+          // Characters that accepted the quest (#138); long lists are cut, the tooltip has the full list.
+          &.accepted {
+            max-width: 260px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
         }
       }
     }

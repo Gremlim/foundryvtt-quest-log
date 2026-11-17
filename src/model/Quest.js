@@ -616,6 +616,29 @@ export class Quest
        data.history.filter((e) => e && typeof e === 'object').slice(-Quest.MAX_HISTORY) : [];
 
       /**
+       * The characters (and users) that accepted the quest (#138): `{ actorId, actorName, userId, userName, t }`.
+       * Cleared when the quest goes back to available / inactive. See {@link Quest.addAccepted}.
+       *
+       * @type {{actorId: string, actorName: string, userId: string, userName: string, t: number}[]}
+       */
+      /**
+       * Optional deadline (#87): `mode` is `world` (value in seconds of the world calendar) or `real` (timestamp in
+       * milliseconds).
+       *
+       * @type {{mode: string, value: number}|null}
+       */
+      this.deadline = data.deadline && (data.deadline.mode === 'world' || data.deadline.mode === 'real') &&
+       Number.isFinite(data.deadline.value) ? { mode: data.deadline.mode, value: data.deadline.value } : null;
+
+      this.accepted = Array.isArray(data.accepted) ? data.accepted.filter((a) => a && typeof a === 'object').map((a) => ({
+         actorId: String(a.actorId ?? ''),
+         actorName: String(a.actorName ?? ''),
+         userId: String(a.userId ?? ''),
+         userName: String(a.userName ?? ''),
+         t: Number.isFinite(a.t) ? a.t : 0
+      })) : [];
+
+      /**
        * @type {Task[]}
        */
       this.tasks = Array.isArray(data.tasks) ? data.tasks.map((task) => new Task(task)) : [];
@@ -717,6 +740,17 @@ export class Quest
          }, { userName });
       }
 
+      // Taking a reward of a choice group closes the other rewards of the group (#92).
+      if (taken >= 1 && reward.choice)
+      {
+         reward.closed = false;
+
+         for (const other of this.rewards)
+         {
+            if (other !== reward && other.choice === reward.choice) { other.closed = true; }
+         }
+      }
+
       if (taken >= reward.quantity) { this.removeReward(uuidv4); }
       else if (taken >= 1) { reward.quantity -= taken; }
    }
@@ -798,19 +832,32 @@ export class Quest
     *
     * @returns {Promise<void>}
     */
-   async setStatus(target, { userName } = {})
+   async setStatus(target, { userName, accept } = {})
    {
       if (!this.entry || !questStatus[target]) { return; }
 
-      if (this.status !== target) { this.addHistory({ type: 'status', from: this.status, to: target }, { userName }); }
+      const wasSameStatus = this.status === target;
+
+      if (!wasSameStatus)
+      {
+         this.addHistory({ type: 'status', from: this.status, to: target, actor: accept?.actorName || void 0 },
+          { userName });
+      }
 
       this.status = target;
+
+      // Register the character that accepted the quest (#138). When the quest was already in progress this is a
+      // character joining it, so the status / dates are not changed.
+      if (target === questStatus.active && accept && this.addAccepted(accept) && wasSameStatus)
+      {
+         this.addHistory({ type: 'accept', actor: accept.actorName || void 0 }, { userName });
+      }
 
       // Update the tracked date data based on status.
       switch (this.status)
       {
          case questStatus.active:
-            this.date.start = Date.now();
+            if (!wasSameStatus || this.date.start === null) { this.date.start = Date.now(); }
             this.date.end = null;
             break;
 
@@ -824,6 +871,7 @@ export class Quest
          default:
             this.date.start = null;
             this.date.end = null;
+            this.accepted = [];
             break;
       }
 
@@ -877,9 +925,52 @@ export class Quest
     */
    addHistory(entry, { userName } = {})
    {
-      this.history.push({ t: Date.now(), user: userName || game.user?.name || '', ...entry });
+      // `w` is the world time (in seconds) for the date of the world calendar (#87).
+      const w = Number.isFinite(game.time?.worldTime) ? game.time.worldTime : void 0;
+
+      this.history.push({ t: Date.now(), w, user: userName || game.user?.name || '', ...entry });
 
       if (this.history.length > Quest.MAX_HISTORY) { this.history.splice(0, this.history.length - Quest.MAX_HISTORY); }
+   }
+
+   /**
+    * Registers a character / user that accepted the quest (#138). A character is only registered once; without a
+    * character the user is registered once.
+    *
+    * @param {object}   accept - The data of who accepts.
+    *
+    * @param {string}   [accept.actorId] - The ID of the character (actor).
+    *
+    * @param {string}   [accept.actorName] - The name of the character.
+    *
+    * @param {string}   [accept.userId] - The ID of the user.
+    *
+    * @param {string}   [accept.userName] - The name of the user.
+    *
+    * @returns {boolean} True when it was added; false when it was already registered.
+    */
+   addAccepted({ actorId = '', actorName = '', userId = '', userName = '' } = {})
+   {
+      if (this.hasAccepted({ actorId, userId })) { return false; }
+
+      this.accepted.push({ actorId: String(actorId), actorName: String(actorName), userId: String(userId),
+       userName: String(userName), t: Date.now() });
+
+      return true;
+   }
+
+   /**
+    * @param {object}   who - Who to check.
+    *
+    * @param {string}   [who.actorId] - The ID of the character; when set the character is checked.
+    *
+    * @param {string}   [who.userId] - The ID of the user; checked when there is no character.
+    *
+    * @returns {boolean} Whether the character (or the user without a character) already accepted the quest.
+    */
+   hasAccepted({ actorId = '', userId = '' } = {})
+   {
+      return this.accepted.some((a) => (actorId ? a.actorId === actorId : (a.actorId === '' && a.userId === userId)));
    }
 
    /**
@@ -1019,6 +1110,8 @@ export class Quest
          subquests: this.subquests,
          order: this.order,
          history: this.history,
+         accepted: this.accepted,
+         deadline: this.deadline,
          creator: this.creator,
          allowPlayerEdit: this.allowPlayerEdit,
          group: this.group,
@@ -1115,6 +1208,22 @@ export class Reward
        * @type {number}
        */
       this.quantity = Number.isFinite(data.quantity) && data.quantity >= 1 ? Math.floor(data.quantity) : 1;
+
+      /**
+       * Optional choice group (#92). Only one of the rewards of the same choice group can be taken; when one is taken
+       * the other rewards of the group are closed. An empty string means the reward is not part of a choice group.
+       *
+       * @type {string}
+       */
+      this.choice = typeof data.choice === 'string' ? data.choice.trim() : '';
+
+      /**
+       * Set when another reward of the choice group has been taken. A closed reward can't be taken by players; the GM
+       * can reopen it.
+       *
+       * @type {boolean}
+       */
+      this.closed = this.choice !== '' && data.closed === true;
    }
 
    /**
@@ -1144,7 +1253,9 @@ export class Reward
          hidden: this.hidden,
          locked: this.locked,
          uuidv4: this.uuidv4,
-         quantity: this.quantity
+         quantity: this.quantity,
+         choice: this.choice,
+         closed: this.closed
       }));
    }
 
@@ -1353,6 +1464,8 @@ export class Task
  * @property {boolean}  hidden - Reward hidden.
  *
  * @property {boolean}  locked - Reward locked.
+ * @property {string}   choice - Choice group of the reward (only one reward of a group can be taken).
+ * @property {boolean}  closed - Another reward of the choice group was taken.
  *
  * @property {string}   uuidv4 - The FQL UUIDv4 / unique ID.
  */

@@ -29,6 +29,7 @@
         {{#if isPersonal}}<i class="is-personal fas fa-user-shield" title="{{{personalActors}}}"></i>{{/if}}
         </span>
         </div>
+        {{#if deadlineLabel}}<div class="quest-tracker-deadline{{#if deadlineOverdue}} overdue{{/if}}" title="{{localize 'ForienQuestLog.QuestPreview.Labels.Deadline'}}"><i class="fas fa-hourglass-half"></i> {{deadlineLabel}}</div>{{/if}}
 
         {{#if rows.length}}
         <ul class="tasks">

@@ -75,12 +75,25 @@
           {{/if}}
         </div>
         {{/if}}
+        {{#if (or deadlineLabel canEdit playerEdit)}}
+        <div class="quest-deadline">
+          <div class="editable-container">
+            <p class="deadline{{#if deadlineOverdue}} overdue{{/if}}" title="{{localize 'ForienQuestLog.QuestPreview.Labels.Deadline'}}"><i class="fas fa-hourglass-half"></i> {{#if deadlineLabel}}{{deadlineLabel}}{{else}}<span class="no-deadline">{{localize 'ForienQuestLog.QuestPreview.Labels.NoDeadline'}}</span>{{/if}}</p>
+          </div>
+          {{#if (or canEdit playerEdit)}}
+          <div class="actions-single">
+            <i class="fas fa-pen edit-deadline" title="{{localize 'ForienQuestLog.QuestPreview.Tooltips.EditDeadline'}}"></i>
+          </div>
+          {{/if}}
+        </div>
+        {{/if}}
         <div class="quest-status {{status}}">
           <p>
             {{statusLabel}}
           </p>
           {{#if isPersonal}}<p class="personal">{{localize 'ForienQuestLog.QuestLog.Labels.Personal'}}</p>{{/if}}
           {{#if creatorLabel}}<p class="creator">{{creatorLabel}}</p>{{/if}}
+          {{#if acceptedNames}}<p class="accepted" title="{{acceptedTitle}}"><i class="fas fa-user-check"></i> {{localize 'ForienQuestLog.QuestPreview.Labels.AcceptedBy'}} {{acceptedNames}}</p>{{/if}}
           {{#if isSubquest}}
             <p class="quest-name-link" data-quest-id="{{data_parent.id}}">
               {{fql_format 'ForienQuestLog.QuestLog.Labels.SubTitle' data_parent.name}}
@@ -220,12 +233,12 @@
       <div class="quest-box rewards-box">
         <ul>
         {{#each data_rewards}}
-        <li class="reward {{type}}-reward {{#if hidden}}reward-hidden{{/if}}" data-uuidv4="{{uuidv4}}">
+        <li class="reward {{type}}-reward {{#if hidden}}reward-hidden{{/if}} {{#if closed}}reward-closed{{/if}}" data-uuidv4="{{uuidv4}}">
           <div class="reward-image-container {{#if ../canEdit}}can-edit{{/if}}">
             <div class="reward-image" style="background-image: url('{{img}}')" data-uuidv4="{{uuidv4}}"></div>
           </div>
           <div class="editable-container {{#if draggable}}draggable{{/if}} {{#if isLink}}is-link{{/if}}" data-transfer="{{transfer}}" data-uuidv4="{{uuidv4}}" {{#if draggable}}draggable="true"{{/if}}>
-            <p class="reward-name">{{{name}}}{{#if hasQuantity}} <span class="reward-quantity">&times;{{quantity}}</span>{{/if}}</p>
+            <p class="reward-name">{{#if choice}}<span class="reward-choice" title="{{choiceTooltip}}"><i class="fas fa-code-branch"></i> {{choice}}</span> {{/if}}{{{name}}}{{#if hasQuantity}} <span class="reward-quantity">&times;{{quantity}}</span>{{/if}}</p>
           </div>
           <div class="actions rewards {{#unless ../canEdit}}is-player{{/unless}} {{#if canTake}}has-take{{/if}}">
             {{#if canTake}}
@@ -238,6 +251,7 @@
             {{#if ../canEdit}}
               <i class="sort fas fa-sort" draggable="true"></i>
               <span class="spacer"></span>
+              <i class="setChoice fas fa-code-branch {{#unless choice}}no-choice{{/unless}}" data-uuidv4="{{uuidv4}}" title="{{localize 'ForienQuestLog.QuestPreview.Tooltips.RewardSetChoice'}}"></i>
               {{#if hidden}}
                 <i class="fas fa-eye-slash toggleHidden" data-target="reward" data-uuidv4="{{uuidv4}}" title="{{localize 'ForienQuestLog.QuestPreview.Tooltips.RewardHidden'}}"></i>
               {{else}}

@@ -254,6 +254,26 @@
       flex: 1;
     }
 
+    // Deadline of the quest (#87), aligned with the title.
+    .quest-tracker-deadline {
+      margin: 2px 0 0 18px;
+      font-size: 12px;
+      line-height: 16px;
+      opacity: .85;
+      filter: drop-shadow(1px 1px 1px #000);
+
+      &.overdue {
+        color: #ff7b6b;
+        font-weight: 700;
+        opacity: 1;
+      }
+
+      i {
+        width: 12px;
+        text-align: center;
+      }
+    }
+
     // The status icons (primary, hidden, personal) are grouped at the end of the row with the same spacing.
     .quest-tracker-icons {
       flex: 0 0 auto;
