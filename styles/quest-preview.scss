@@ -322,24 +322,13 @@
 
           .editable-container {
             flex: 1;
+            min-width: 0;
             padding: 4px 4px;
 
+            // No fixed max-width so the text wraps based on the available width (#151).
             p {
               margin: 0;
-              max-width: 290px;
-              word-wrap: break-word;
-
-              &.can-edit {
-                max-width: 290px;
-              }
-
-              &.player-edit {
-                max-width: 330px;
-              }
-
-              &.player {
-                max-width: 400px;
-              }
+              overflow-wrap: anywhere;
             }
 
             input {
@@ -401,19 +390,8 @@
             margin: 0;
             padding: 4px 4px;
             flex: 1;
-            word-wrap: break-word;
-
-            .can-edit {
-              max-width: 290px;
-            }
-
-            .player-edit {
-              max-width: 330px;
-            }
-
-            .player {
-              max-width: 390px;
-            }
+            min-width: 0;
+            overflow-wrap: anywhere;
 
             &:hover {
               color: $primary-color-accent;

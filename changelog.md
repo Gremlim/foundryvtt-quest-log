@@ -1,5 +1,10 @@
 # Changelog
 
+## Release 0.9.9
+- Fixed the quest text not adapting to the window size when resizing it (#151): removed the fixed maximum widths of the objective, reward and quest name texts.
+- The macro compendiums (FQL Macros GM / Player) now use the `quest-log` module id (settings keys and icon paths); they still pointed to `forien-quest-log`.
+- Quest tab "In Progress" capitalization (#64) was already correct; no change needed.
+
 ## Release 0.9.8
 - Fixed reward items not being draggable to character sheets: the drag data was set after an `await`, when the browser has already locked the DataTransfer. It is now set synchronously.
 - Restored the visible dashed borders of all drag & drop zones in the quest edit window (quest giver, rewards, splash art); the border now follows the text color so it is visible on dark and light windows.
