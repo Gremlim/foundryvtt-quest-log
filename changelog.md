@@ -1,5 +1,8 @@
 # Changelog
 
+## Release 0.25.1
+- The "Repeatable quest" option of the Management tab now has the same style as the other options.
+
 ## Release 0.25.0
 - Repeatable quests (#80): the Management tab has a new option "Repeatable quest" (GM). A repeatable quest in progress, completed or failed has a new "Reset the quest to repeat it" entry in its 3 dots menu (GM, in the quest and in the Quest Log) that asks for confirmation and then clears the objectives and their counters, restores and reopens the rewards that were taken (with their original locked state and choice groups), resets its subquests too (the inactive ones stay inactive) and makes the quest available again. The number of times the quest was completed is counted and shown as "Repeatable (completed N)" in the quest and in the Quest Log; the reset is logged in the history.
 - Repeatable objectives (#80): an objective can be marked as repeatable with an entry of its 3 dots menu; it shows a repeat icon with the number of times it was completed and has a "Reset the objective" entry that makes it pending again with its counter at 0.
