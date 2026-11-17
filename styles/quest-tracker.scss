@@ -62,6 +62,11 @@
     //}
   }
 
+  // Keep the natural height of the content so the window height can be calculated from it.
+  .quest-tracker-content {
+    flex: none;
+  }
+
   .window-content {
     padding: 0 8px 0 8px;
     color: $tracker-color-text;

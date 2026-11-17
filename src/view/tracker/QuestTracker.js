@@ -564,9 +564,18 @@ export class QuestTracker extends HandlebarsApplicationMixin(ApplicationV2)
    {
       const header = this.window.header;
       const content = this.window.content;
+      if (!header || !content) { return 0; }
+
+      // `content` is stretched to fill the window, so its `scrollHeight` never shrinks and the window would grow on
+      // every position update (for example when dragging). Measure the natural height of the inner content instead.
+      const inner = content.firstElementChild;
+      const innerHeight = inner ? inner.scrollHeight : 0;
+
+      const style = window.getComputedStyle(content);
+      const padding = (parseFloat(style.paddingTop) || 0) + (parseFloat(style.paddingBottom) || 0);
 
       // Add the extra `2` for small format (1080P and below screen size).
-      return header && content ? header.scrollHeight + content.scrollHeight + 2 : 0;
+      return header.scrollHeight + innerHeight + padding + 2;
    }
 
    /**
