@@ -1,5 +1,9 @@
 <header>
   <h1 style="flex: 1;">{{fql_format 'ForienQuestLog.QuestLog.Labels.TableHeader' (localize (lookup questStatusI18n tab))}}</h1>
+  <label class="quest-search-label" title="{{localize 'ForienQuestLog.QuestLog.Tooltips.Search'}}">
+    <i class="fas fa-magnifying-glass"></i>
+    <input type="search" class="quest-search" value="{{@root.search}}" placeholder="{{localize 'ForienQuestLog.QuestLog.Labels.Search'}}" autocomplete="off">
+  </label>
   <label class="group-by-label" title="{{localize 'ForienQuestLog.QuestLog.Tooltips.GroupBy'}}">
     <i class="fas fa-layer-group"></i>
     <select class="quest-group-by" data-tab="{{tab}}">
@@ -15,18 +19,17 @@
 </header>
 <div class="table">
   <ul>
-    {{#each groups}}
+    {{#each groups as |grp|}}
     {{#if header}}
     <li class="group-header {{#if isEmpty}}is-empty{{/if}}" data-tab="{{../tab}}" data-group-by="{{../groupBy}}" data-group-key="{{key}}">
       <i class="fas {{#if collapsed}}fa-chevron-right{{else}}fa-chevron-down{{/if}}"></i>
       <span class="group-name">{{name}}</span>
-      <span class="group-count">{{count}}</span>
+      <span class="group-count" data-count="{{count}}">{{count}}</span>
     </li>
     {{/if}}
-    {{#unless collapsed}}
     {{#each quests}}
     {{#with enrich}}
-    <li class="drag-quest{{#if isPrimary}} is-primary{{/if}}" data-quest-id="{{id}}" draggable="true">
+    <li class="drag-quest{{#if isPrimary}} is-primary{{/if}}{{#if grp.collapsed}} group-collapsed{{/if}}" data-quest-id="{{id}}" data-search="{{name}} {{giverData.name}} {{location}} {{group}}" draggable="true">
       {{#if (eq questIconType 'quest-giver')}}
         <div class="open-quest img" style="background-image: url('{{giverData.img}}');" title="{{giverData.name}}"></div>
       {{else if (eq questIconType 'splash-image')}}
@@ -60,7 +63,6 @@
     </li>
     {{/with}}
     {{/each}}
-    {{/unless}}
     {{/each}}
   </ul>
 </div>

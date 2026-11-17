@@ -16,6 +16,12 @@
 
   $quest-min-height: 42px;  // Defines the height of the quest <li> and children elements.
 
+  // Quests / headers that don't match the search; quests of collapsed groups only show while searching.
+  .quest-log li.search-hidden,
+  .quest-log:not(.searching) li.group-collapsed {
+    display: none !important;
+  }
+
   .quest-log {
     display: flex;
     flex-direction: column;
@@ -25,6 +31,25 @@
   .quest-log .log-body {
     flex: 1;
     padding: 0 16px;
+
+    .quest-search-label {
+      flex: 0 1 190px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin: 0 8px 4px auto;
+
+      input {
+        height: 24px;
+        min-width: 0;
+        width: 100%;
+      }
+    }
+
+    // The search box takes the free space, so the group selector doesn't need its own auto margin.
+    .quest-search-label + .group-by-label {
+      margin-left: 0;
+    }
 
     .group-by-label {
       flex: 0 0 auto;

@@ -118,6 +118,7 @@
         "NoGroup": "No group",
         "NoLocation": "No location",
         "Personal": "Personal",
+        "Search": "Search…",
         "TableHeader": "{0} Quests",
         "SubTitle": "Subquest of {0}"
       },
@@ -128,6 +129,7 @@
       },
       "Title": "Quest Log",
       "Tooltips": {
+        "Search": "Search quests by name, giver, location, group, etc. (all tabs).",
         "GroupBy": "Group the quests of this tab (only for you).",
         "Objectives": "Objectives"
       }

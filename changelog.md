@@ -1,5 +1,11 @@
 # Changelog
 
+## Release 0.19.2
+- #56 Entity links in the objectives. A document (actor, item, journal entry or page, scene, roll table, macro, compendium entry, etc.) can be dragged from the sidebar, a compendium or a sheet onto the objectives of the Details tab: dropped on an objective that is being edited it is inserted as a link at the cursor, dropped on any other objective it is appended to the name of the objective, and dropped on the empty area of the objectives list it creates a new objective with the link. This also works when the edit field of the objective has already closed because the drag was started outside of the window. The maximum length of an objective being edited has been raised (96 to 512) to fit the links.
+
+## Release 0.19.1
+- #18 Search box in the Quest Log. Each tab has a search box in its header (the text is shared by all the tabs and kept while the window is open) that filters the quests while typing, ignoring case and accents. It searches the name, quest giver, location, group, labels and accepted characters of the quests, and every word must match. The group headers without matches are hidden, the group counters show the number of matches, and the quests inside collapsed groups are included in the search.
+
 ## Release 0.19.0
 - The buttons of the Quest Tracker window header (share with players for the GM, primary quest only, group by, show removed quests and background) have been moved to the 3-dots menu of the window, leaving the header clean. The state of each option is shown in the entry itself (icon and text: primary quest only Yes/No, group by None/Group/Giver/Location, show removed Yes/No, background Opaque/Transparent).
 

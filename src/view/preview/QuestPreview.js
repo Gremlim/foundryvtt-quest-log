@@ -307,6 +307,12 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
       on(domEvents.click, '.quest-giver-gc .deleteQuestGiver', async () =>
        await HandlerDetails.questGiverDelete(this.#quest, this), editOrPlayerEdit);
 
+      // Entities dropped on the objectives are inserted as links (#56). Dragover must be cancelled for drop to fire.
+      on(domEvents.dragover, '.quest-tasks .tasks-box', (event) => event.preventDefault(), editOrPlayerEdit);
+
+      on(domEvents.drop, '.quest-tasks .tasks-box', async (event) =>
+       await HandlerDetails.taskDropDocument(event, this.#quest, this), editOrPlayerEdit);
+
       on(domEvents.click, '.quest-tasks .add-new-task',
        (event) => HandlerDetails.taskAdd(event, this.#quest, this), editOrPlayerEdit);
 

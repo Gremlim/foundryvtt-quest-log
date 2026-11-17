@@ -19,6 +19,7 @@ const domEvents = {
    click: 'click',
    dblclick: 'dblclick',
    dragenter: 'dragenter',
+   dragover: 'dragover',
    dragstart: 'dragstart',
    drop: 'drop',
    focus: 'focus',

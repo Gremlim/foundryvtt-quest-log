@@ -117,6 +117,13 @@ export class QuestLog extends HandlebarsApplicationMixin(ApplicationV2)
 
       Utils.on(html, domEvents.click, '.group-header', (event) => HandlerLog.groupToggle(event, this));
 
+      // Search box: filters the quests of all the tabs without rendering the app (keeps the focus on the input).
+      Utils.on(html, 'input', '.quest-search', (event) =>
+      {
+         this.#search = event.target.value;
+         this.#applySearch();
+      });
+
       Utils.on(html, domEvents.click, '.actions.quest-status i.move', HandlerLog.questStatusSet);
 
       this.#contextMenu();
@@ -152,6 +159,8 @@ export class QuestLog extends HandlebarsApplicationMixin(ApplicationV2)
       this.changeTab(tabId, 'primary', { force: true, updatePosition: false });
 
       this.#updateTableHeight();
+
+      this.#applySearch();
 
       if (options.focus) { this.bringToFront(); }
    }
@@ -204,8 +213,87 @@ export class QuestLog extends HandlebarsApplicationMixin(ApplicationV2)
          questStatusI18n,
          quests: QuestDB.sortCollect(),
          groupBy: Object.fromEntries(Object.keys(questStatus).map((status) => [status, QuestLog.getGroupBy(status)])),
+         search: this.#search,
          groups: this.#prepareGroups()
       });
+   }
+
+   /**
+    * Current text of the search box; shared by all the tabs and kept between renders.
+    *
+    * @type {string}
+    */
+   #search = '';
+
+   /**
+    * Lower case text without accents so that the search ignores the case and the accents.
+    *
+    * @param {string}   text - Text to normalize.
+    *
+    * @returns {string} Normalized text.
+    */
+   static #normalize(text)
+   {
+      return String(text ?? '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+   }
+
+   /**
+    * Applies the search text (#18) to the rendered quests: quests that don't contain all the words of the search in
+    * their text (name, giver, location, group, labels, etc.) are hidden, as are the group headers left without quests;
+    * the group counters show the number of matches. Quests of collapsed groups are included in the search. The state
+    * is only in the DOM, so nothing is stored.
+    */
+   #applySearch()
+   {
+      const root = this.element;
+      if (!root) { return; }
+
+      const words = QuestLog.#normalize(this.#search).split(/\s+/).filter((word) => word.length);
+      const searching = words.length > 0;
+
+      root.querySelector('.quest-log')?.classList.toggle('searching', searching);
+
+      // Keep every search box in sync (one per tab).
+      for (const input of root.querySelectorAll('.quest-search'))
+      {
+         if (input.value !== this.#search) { input.value = this.#search; }
+      }
+
+      for (const list of root.querySelectorAll('.table > ul'))
+      {
+         let header = null;
+         let matches = 0;
+
+         const closeGroup = () =>
+         {
+            if (!header) { return; }
+
+            const counter = header.querySelector('.group-count');
+            if (counter) { counter.textContent = searching ? String(matches) : (counter.dataset.count ?? ''); }
+
+            header.classList.toggle('search-hidden', searching && matches === 0);
+         };
+
+         for (const li of list.children)
+         {
+            if (li.classList.contains('group-header'))
+            {
+               closeGroup();
+               header = li;
+               matches = 0;
+            }
+            else if (li.classList.contains('drag-quest'))
+            {
+               const text = QuestLog.#normalize(`${li.dataset.search ?? ''} ${li.textContent}`);
+               const match = !searching || words.every((word) => text.includes(word));
+
+               li.classList.toggle('search-hidden', !match);
+               if (match) { matches++; }
+            }
+         }
+
+         closeGroup();
+      }
    }
 
    /**

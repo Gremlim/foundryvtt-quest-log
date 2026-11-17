@@ -104,6 +104,7 @@
         "NoGroup": "Sin grupo",
         "NoLocation": "Sin ubicación",
         "Personal": "Personal",
+        "Search": "Buscar…",
         "TableHeader": "Misiones {0}",
         "SubTitle": "Sub-Misión de: {0}"
       },
@@ -114,6 +115,7 @@
       },
       "Title": "Registro de Misiones",
       "Tooltips": {
+        "Search": "Busca misiones por nombre, dador, ubicación, grupo, etc. (todas las pestañas).",
         "GroupBy": "Agrupa las misiones de esta pestaña (solo para ti).",
         "Objectives": "Objetivos"
       }

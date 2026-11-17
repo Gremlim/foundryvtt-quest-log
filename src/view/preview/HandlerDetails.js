@@ -1214,7 +1214,7 @@ export class HandlerDetails
 
       let value = task.name;
 
-      const input = createInput({ value, target, uuidv4 });
+      const input = createInput({ value, target, uuidv4, maxlength: 512 });
 
       showInput(input, prevSibling(event.target.closest('.actions'), '.editable-container'));
 
@@ -1261,6 +1261,73 @@ export class HandlerDetails
          questPreview._activeFocusOutFunction = void 0;
          questPreview.render({ force: true, focus: true });
       });
+   }
+
+   /**
+    * Handles dropping a Foundry document (actor, item, journal, scene, etc.) on the objectives (#56). The document is
+    * inserted as an `@UUID[...]{name}` link: at the cursor when the objective is being edited, appended to the
+    * objective name when dropped on an objective, or as a new objective when dropped outside of any objective. Dropping
+    * on an objective works also when the edit field has been closed by starting the drag outside of the window.
+    *
+    * @param {DragEvent}         event - The drop event.
+    *
+    * @param {Quest}             quest - The current quest being manipulated.
+    *
+    * @param {QuestPreview}      questPreview - The QuestPreview being manipulated.
+    *
+    * @returns {Promise<void>}
+    */
+   static async taskDropDocument(event, quest, questPreview)
+   {
+      let data;
+
+      try { data = JSON.parse(event.dataTransfer.getData('text/plain')); }
+      catch (err) { return; }
+
+      // Only documents with a UUID are handled; owned items are not supported by `Utils.getUUID`.
+      const uuid = Utils.getUUID(data);
+      if (typeof uuid !== 'string') { return; }
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      const doc = await fromUuid(uuid);
+      if (!doc)
+      {
+         ui.notifications.warn(game.i18n.format('ForienQuestLog.QuestPreview.Notifications.BadUUID', { uuid }));
+         return;
+      }
+
+      const link = `@UUID[${uuid}]{${doc.name}}`;
+
+      const li = event.target.closest?.('li.task:not(.is-subquest)');
+      const input = li?.querySelector('input.editable-input');
+
+      // The objective is being edited: insert at the cursor, the value is saved when the input loses focus.
+      if (input)
+      {
+         const start = input.selectionStart ?? input.value.length;
+         const end = input.selectionEnd ?? start;
+         input.value = `${input.value.slice(0, start)}${link}${input.value.slice(end)}`;
+         input.focus();
+         const pos = start + link.length;
+         input.setSelectionRange(pos, pos);
+         return;
+      }
+
+      const task = li ? quest.getTask(Utils.data(li, 'uuidv4')) : void 0;
+
+      if (task)
+      {
+         task.name = task.name.length ? `${task.name} ${link}` : link;
+      }
+      else if (!li)
+      {
+         quest.addTask({ name: link, hidden: questPreview.canEdit });
+      }
+      else { return; }
+
+      await questPreview.saveQuest();
    }
 
    /**
