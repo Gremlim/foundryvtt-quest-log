@@ -1,5 +1,8 @@
 # Changelog
 
+## Release 0.11.1
+- Fixed the "Clear" button of the quest history, which raised an error (`allowed is not a function`) and did nothing.
+
 ## Release 0.11.0
 - Added the quest history. Each quest now keeps an activity log, shown in a new "History" tab of the quest window (newest entries first, with the date and the user). It records: who created the quest, every change of status (a player moving an available quest to in progress is logged as accepting it), who marks an objective as completed, failed or back to pending (from the quest window or from the Quest Tracker), and every reward taken (item or currency, the amount and the actor that received it, whether dragged or taken with the buttons).
 - New module setting "Quest History Visibility": only GMs can see the History tab (default), or everyone that can see the quest. Players never see entries about hidden objectives or about the hidden status.

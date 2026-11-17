@@ -385,7 +385,7 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
        await HandlerDetails.taskToggleHidden(event, this.#quest, this), edit);
 
       on(domEvents.click, '.history-clear', async () => await HandlerManage.clearHistory(this.#quest, this),
-       game.user.isGM);
+       () => game.user.isGM);
 
       on(domEvents.click, '.add-subquest-btn', async () => await HandlerManage.addSubquest(this.#quest, this), edit);
 
