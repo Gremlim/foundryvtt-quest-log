@@ -55,10 +55,10 @@ export class Enrich
          if (canEdit && questStatus.active === quest.status)
          {
             items += `<i class="move fas fa-check-circle" title="${game.i18n.localize(
-             'ForienQuestLog.QuestTypes.Tooltips.SetCompleted')}" data-target="completed" data-quest-id="${quest.id}"></i>\n`;
+             'QuestLog.QuestTypes.Tooltips.SetCompleted')}" data-target="completed" data-quest-id="${quest.id}"></i>\n`;
 
             items += `<i class="move fas fa-times-circle" title="${game.i18n.localize(
-             'ForienQuestLog.QuestTypes.Tooltips.SetFailed')}" data-target="failed" data-quest-id="${quest.id}"></i>\n`;
+             'QuestLog.QuestTypes.Tooltips.SetFailed')}" data-target="failed" data-quest-id="${quest.id}"></i>\n`;
 
             addedAction = true;
          }
@@ -67,7 +67,7 @@ export class Enrich
          if (canEdit && questStatus.completed === quest.status)
          {
             items += `<i class="move fas fa-times-circle" title="${game.i18n.localize(
-             'ForienQuestLog.QuestTypes.Tooltips.SetFailed')}" data-target="failed" data-quest-id="${quest.id}"></i>\n`;
+             'QuestLog.QuestTypes.Tooltips.SetFailed')}" data-target="failed" data-quest-id="${quest.id}"></i>\n`;
 
             addedAction = true;
          }
@@ -76,7 +76,7 @@ export class Enrich
          if (canEdit && questStatus.failed === quest.status)
          {
             items += `<i class="move fas fa-check-circle" title="${game.i18n.localize(
-             'ForienQuestLog.QuestTypes.Tooltips.SetCompleted')}" data-target="completed" data-quest-id="${quest.id}"></i>\n`;
+             'QuestLog.QuestTypes.Tooltips.SetCompleted')}" data-target="completed" data-quest-id="${quest.id}"></i>\n`;
 
             addedAction = true;
          }
@@ -86,7 +86,7 @@ export class Enrich
           !quest.hasAccepted({ actorId: game.user.character?.id ?? '', userId: game.user.id }))
          {
             items += `<i class="move join fas fa-user-plus" title="${game.i18n.localize(
-             'ForienQuestLog.QuestTypes.Tooltips.Join')}" data-target="active" data-quest-id="${quest.id}"></i>\n`;
+             'QuestLog.QuestTypes.Tooltips.Join')}" data-target="active" data-quest-id="${quest.id}"></i>\n`;
 
             addedAction = true;
          }
@@ -95,7 +95,7 @@ export class Enrich
           questStatus.available === quest.status)
          {
             items += `<i class="move fas fa-play" title="${game.i18n.localize(
-             'ForienQuestLog.QuestTypes.Tooltips.SetActive')}" data-target="active" data-quest-id="${quest.id}"></i>\n`;
+             'QuestLog.QuestTypes.Tooltips.SetActive')}" data-target="active" data-quest-id="${quest.id}"></i>\n`;
 
             addedAction = true;
          }
@@ -103,7 +103,7 @@ export class Enrich
          if (canEdit && questStatus.inactive !== quest.status)
          {
             items += `<i class="move fas fa-stop-circle" title="${game.i18n.localize(
-             'ForienQuestLog.QuestTypes.Tooltips.SetInactive')}" data-target="inactive" data-quest-id="${quest.id}"></i>\n`;
+             'QuestLog.QuestTypes.Tooltips.SetInactive')}" data-target="inactive" data-quest-id="${quest.id}"></i>\n`;
 
             addedAction = true;
          }
@@ -112,7 +112,7 @@ export class Enrich
           questStatus.active === quest.status)
          {
             items += `<i class="move fas fa-clipboard" title="${game.i18n.localize(
-             'ForienQuestLog.QuestTypes.Tooltips.SetAvailable')}" data-target="available" data-quest-id="${quest.id}"></i>\n`;
+             'QuestLog.QuestTypes.Tooltips.SetAvailable')}" data-target="available" data-quest-id="${quest.id}"></i>\n`;
 
             addedAction = true;
          }
@@ -121,8 +121,8 @@ export class Enrich
          if (canEdit && typeof quest.parent === 'string')
          {
             items += `<i class="toggleSubquestOptional ${quest.optional ? 'fas' : 'far'} fa-star" title="${
-             game.i18n.localize(quest.optional ? 'ForienQuestLog.QuestPreview.Tooltips.TaskOptional' :
-              'ForienQuestLog.QuestPreview.Tooltips.TaskRequired')}" data-quest-id="${quest.id}"></i>\n`;
+             game.i18n.localize(quest.optional ? 'QuestLog.QuestPreview.Tooltips.TaskOptional' :
+              'QuestLog.QuestPreview.Tooltips.TaskRequired')}" data-quest-id="${quest.id}"></i>\n`;
 
             addedAction = true;
          }
@@ -132,7 +132,7 @@ export class Enrich
           .includes(quest.status))
          {
             items += `<i class="resetQuest fas fa-rotate-left" title="${game.i18n.localize(
-             'ForienQuestLog.QuestPreview.Repeat.ResetTooltip')}" data-quest-id="${quest.id}"></i>\n`;
+             'QuestLog.QuestPreview.Repeat.ResetTooltip')}" data-quest-id="${quest.id}"></i>\n`;
 
             addedAction = true;
          }
@@ -140,7 +140,7 @@ export class Enrich
          if (canEdit)
          {
             items += `<i class="delete fas fa-trash" title="${game.i18n.localize(
-             'ForienQuestLog.Tooltips.Delete')}" data-quest-id="${quest.id}" data-quest-name="${quest.name}"></i>\n`;
+             'QuestLog.Tooltips.Delete')}" data-quest-id="${quest.id}" data-quest-name="${quest.name}"></i>\n`;
 
             addedAction = true;
          }
@@ -152,7 +152,7 @@ export class Enrich
           `${menu ? ' has-menu' : ''}">`;
 
          result += menu ? `<span class="actions-menu"><i class="menu-toggle fas fa-ellipsis-vertical" title="${
-          game.i18n.localize('ForienQuestLog.Tooltips.Actions')}"></i><span class="menu-items">${items}</span></span>` :
+          game.i18n.localize('QuestLog.Tooltips.Actions')}"></i><span class="menu-items">${items}</span></span>` :
           items;
 
          result += `</div>\n`;
@@ -172,7 +172,7 @@ export class Enrich
    static #history(quest)
    {
       const isGM = game.user.isGM;
-      const i18n = (key, data) => game.i18n.format(`ForienQuestLog.QuestPreview.History.${key}`, data);
+      const i18n = (key, data) => game.i18n.format(`QuestLog.QuestPreview.History.${key}`, data);
       const status = (s) => game.i18n.localize(questStatusI18n[s] ?? s);
 
       const result = [];
@@ -292,7 +292,7 @@ export class Enrich
       data.isPersonal = personalActors.length > 0;
       data.personalActors = game.user.isGM ?
        personalActors.map((a) => a.name).sort((a, b) => a.localeCompare(b)).join('&#013;') :
-        game.i18n.localize('ForienQuestLog.Tooltips.PersonalQuest');
+        game.i18n.localize('QuestLog.Tooltips.PersonalQuest');
 
       data.isPrimary = isPrimary;
 
@@ -316,10 +316,10 @@ export class Enrich
          data.questIconType = 'quest-giver';
       }
 
-      const statusLabel = game.i18n.localize(`ForienQuestLog.QuestTypes.Labels.${data.status}`);
+      const statusLabel = game.i18n.localize(`QuestLog.QuestTypes.Labels.${data.status}`);
 
       // The quest status in the details section.
-      data.statusLabel = game.i18n.format(`ForienQuestLog.QuestTypes.Labels.Status`, { statusLabel });
+      data.statusLabel = game.i18n.format(`QuestLog.QuestTypes.Labels.Status`, { statusLabel });
 
       data.statusActions = Enrich.statusActions(quest);
 
@@ -376,7 +376,7 @@ export class Enrich
                 { statusI18n: game.i18n.localize(questStatusI18n[questStatus.inactive]) } :
                  { statusI18n: game.i18n.localize(questStatusI18n[subquest.status]) };
 
-               const statusTooltip = game.i18n.format('ForienQuestLog.QuestTypes.Tooltips.Status', statusTooltipData);
+               const statusTooltip = game.i18n.format('QuestLog.QuestTypes.Tooltips.Status', statusTooltipData);
 
                const canEditSubquest = game.user.isGM || (subquest.isEditOwner && isTrustedPlayerEdit);
 
@@ -395,7 +395,7 @@ export class Enrich
                   isPersonal: subPersonalActors.length > 0,
                   personalActors: game.user.isGM ?
                    subPersonalActors.map((a) => a.name).sort((a, b) => a.localeCompare(b)).join('&#013;') :
-                    game.i18n.localize('ForienQuestLog.Tooltips.PersonalQuest'),
+                    game.i18n.localize('QuestLog.Tooltips.PersonalQuest'),
                   isPrimary: subIsPrimary,
                   optional: subquest.optional
                });
@@ -465,20 +465,20 @@ export class Enrich
          // Only items are potentially draggable when `can player drag` is enabled or `can edit`.
          const draggable = type === 'item' && (canEdit || canPlayerDrag) && (canEdit || !unavailable);
 
-         let lockedTooltip = canEdit ? game.i18n.localize('ForienQuestLog.QuestPreview.Tooltips.RewardLocked') :
-          game.i18n.localize('ForienQuestLog.QuestPreview.Tooltips.RewardLockedPlayer');
+         let lockedTooltip = canEdit ? game.i18n.localize('QuestLog.QuestPreview.Tooltips.RewardLocked') :
+          game.i18n.localize('QuestLog.QuestPreview.Tooltips.RewardLockedPlayer');
 
          if (item.closed)
          {
-            lockedTooltip = game.i18n.localize(canEdit ? 'ForienQuestLog.QuestPreview.Tooltips.RewardClosed' :
-             'ForienQuestLog.QuestPreview.Tooltips.RewardClosedPlayer');
+            lockedTooltip = game.i18n.localize(canEdit ? 'QuestLog.QuestPreview.Tooltips.RewardClosed' :
+             'QuestLog.QuestPreview.Tooltips.RewardClosedPlayer');
          }
 
-         const choiceTooltip = item.choice ? game.i18n.format('ForienQuestLog.QuestPreview.Tooltips.RewardChoice',
+         const choiceTooltip = item.choice ? game.i18n.format('QuestLog.QuestPreview.Tooltips.RewardChoice',
           { group: item.choice }) : '';
 
-         const unlockedTooltip = canEdit ? game.i18n.localize('ForienQuestLog.QuestPreview.Tooltips.RewardUnlocked') :
-          game.i18n.localize('ForienQuestLog.QuestPreview.Tooltips.RewardUnlockedPlayer');
+         const unlockedTooltip = canEdit ? game.i18n.localize('QuestLog.QuestPreview.Tooltips.RewardUnlocked') :
+          game.i18n.localize('QuestLog.QuestPreview.Tooltips.RewardUnlockedPlayer');
 
          // Defines if the pointer cursor is displayed. For abstract or actor reward it is always displayed for GM or
          // when unlocked for players.
@@ -536,14 +536,14 @@ export class Enrich
       if (quest.repeatable)
       {
          data.repeatLabel = quest.timesCompleted > 0 ?
-          game.i18n.format('ForienQuestLog.QuestPreview.Labels.RepeatableTimes', { n: quest.timesCompleted }) :
-           game.i18n.localize('ForienQuestLog.QuestPreview.Labels.Repeatable');
+          game.i18n.format('QuestLog.QuestPreview.Labels.RepeatableTimes', { n: quest.timesCompleted }) :
+           game.i18n.localize('QuestLog.QuestPreview.Labels.Repeatable');
       }
 
       if (game.user.isGM)
       {
-         data.creatorLabel = quest.isCreatedByGM ? game.i18n.localize('ForienQuestLog.QuestPreview.Labels.CreatedByGM') :
-          game.i18n.format('ForienQuestLog.QuestPreview.Labels.CreatedByPlayer', { name: quest.creator.name });
+         data.creatorLabel = quest.isCreatedByGM ? game.i18n.localize('QuestLog.QuestPreview.Labels.CreatedByGM') :
+          game.i18n.format('QuestLog.QuestPreview.Labels.CreatedByPlayer', { name: quest.creator.name });
       }
 
       // Characters that accepted the quest (#138); only the GM sees the user of each character.
@@ -566,7 +566,7 @@ export class Enrich
       data.data_rumors = quest.rumors.map((r) => ({ ...r }));
       data.rumorsRequired = quest.rumorsRequired;
       data.rumorProgress = quest.getRumorProgress();
-      data.rumorProgressLabel = game.i18n.format('ForienQuestLog.QuestPreview.Rumors.Counter',
+      data.rumorProgressLabel = game.i18n.format('QuestLog.QuestPreview.Rumors.Counter',
        { heard: data.rumorProgress.heard, total: data.rumorProgress.needed });
 
       // Subquests and tasks in the display order of the quest so that they can be intermixed.

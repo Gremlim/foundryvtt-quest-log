@@ -59,13 +59,13 @@ export async function dbSchema_2()
          }
          else
          {
-            console.log(game.i18n.format('ForienQuestLog.Migration.Notifications.CouldNotMigrate',
+            console.log(game.i18n.format('QuestLog.Migration.Notifications.CouldNotMigrate',
              { name: FVTTCompat.get(entry, 'name') }));
          }
       }
       catch (err)
       {
-         console.log(game.i18n.format('ForienQuestLog.Migration.Notifications.CouldNotMigrate',
+         console.log(game.i18n.format('QuestLog.Migration.Notifications.CouldNotMigrate',
           { name: FVTTCompat.get(entry, 'name') }));
       }
    }

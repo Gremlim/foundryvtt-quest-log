@@ -63,13 +63,13 @@ export async function dbSchema_3()
          }
          else
          {
-            console.log(game.i18n.format('ForienQuestLog.Migration.Notifications.CouldNotMigrate',
+            console.log(game.i18n.format('QuestLog.Migration.Notifications.CouldNotMigrate',
              { name: FVTTCompat.get(entry, 'name') }));
          }
       }
       catch (err)
       {
-         console.log(game.i18n.format('ForienQuestLog.Migration.Notifications.CouldNotMigrate',
+         console.log(game.i18n.format('QuestLog.Migration.Notifications.CouldNotMigrate',
           { name: FVTTCompat.get(entry, 'name') }));
       }
    }
@@ -77,9 +77,9 @@ export async function dbSchema_3()
    // Post informational message to notifications and chat message if unlinked document data exists.
    if (removedData.length > 0)
    {
-      ui.notifications.warn(game.i18n.localize('ForienQuestLog.Migration.ChatMessage.Notification'));
+      ui.notifications.warn(game.i18n.localize('QuestLog.Migration.ChatMessage.Notification'));
 
-      let content = game.i18n.localize('ForienQuestLog.Migration.ChatMessage.Header');
+      let content = game.i18n.localize('QuestLog.Migration.ChatMessage.Header');
 
       for (const entry of removedData)
       {
@@ -93,13 +93,13 @@ export async function dbSchema_3()
             // Shorten to fit in sidebar.
             const giverName = entry.giverName.length > 40 ? `${entry.giverName.substring(0, 40)}...` : entry.giverName;
 
-            content += `<u>${game.i18n.localize('ForienQuestLog.Migration.ChatMessage.QuestGiver')}</u><br>- ${
+            content += `<u>${game.i18n.localize('QuestLog.Migration.ChatMessage.QuestGiver')}</u><br>- ${
              giverName}<br>`;
          }
 
          if (Array.isArray(entry.rewards))
          {
-            content += `<u>${game.i18n.localize('ForienQuestLog.Migration.ChatMessage.QuestRewards')} (${
+            content += `<u>${game.i18n.localize('QuestLog.Migration.ChatMessage.QuestRewards')} (${
              entry.rewards.length})</u><br>`;
 
             for (const reward of entry.rewards)
@@ -112,7 +112,7 @@ export async function dbSchema_3()
          content += `<br>`;
       }
 
-      content += game.i18n.localize('ForienQuestLog.Migration.ChatMessage.Footer');
+      content += game.i18n.localize('QuestLog.Migration.ChatMessage.Footer');
 
       ChatMessage.create({
          user: game.user.id,
@@ -207,7 +207,7 @@ async function handleQuestGiver(quest, removedDataEntry, dnd5eIconMap)
             else
             {
                const giverName = quest?.giverData?.name ?? 'Unknown';
-               console.warn(`Forien's Quest Log warning; removed quest giver "${giverName}" from quest: ${quest.name}`);
+               console.warn(`Quest Log warning; removed quest giver "${giverName}" from quest: ${quest.name}`);
 
                // Document is not found, so remove quest giver and giverData.
                quest.giver = null;
@@ -219,7 +219,7 @@ async function handleQuestGiver(quest, removedDataEntry, dnd5eIconMap)
          catch (err)
          {
             const giverName = quest?.giverData?.name ?? 'Unknown';
-            console.warn(`Forien's Quest Log warning; removed quest giver "${giverName}" from quest: ${quest.name}`);
+            console.warn(`Quest Log warning; removed quest giver "${giverName}" from quest: ${quest.name}`);
 
             // An error occurred / remove quest giver.
             quest.giver = null;
@@ -267,7 +267,7 @@ async function handleRewards(quest, removedDataEntry, dnd5eIconMap)
             if (!doc)
             {
                const rewardName = reward.data?.name ?? 'Unknown';
-               console.warn(`ForienQuestLog warning; removed item reward "${rewardName}" from quest: ${quest.name}`);
+               console.warn(`QuestLog warning; removed item reward "${rewardName}" from quest: ${quest.name}`);
 
                quest.rewards.splice(cntr, 1);
 
@@ -283,7 +283,7 @@ async function handleRewards(quest, removedDataEntry, dnd5eIconMap)
          catch (err)
          {
             const rewardName = reward.data?.name ?? 'Unknown';
-            console.warn(`ForienQuestLog warning; removed item reward "${rewardName}" from quest: ${quest.name}`);
+            console.warn(`QuestLog warning; removed item reward "${rewardName}" from quest: ${quest.name}`);
 
             // Remove reward on any error.
             quest.rewards.splice(cntr, 1);

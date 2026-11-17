@@ -43,14 +43,14 @@ export class QuestLog extends HandlebarsApplicationMixin(ApplicationV2)
       classes: ['ql-quest-log-app'],
       position: { width: 700, height: 480 },
       window: {
-         title: 'ForienQuestLog.QuestLog.Title',
+         title: 'QuestLog.QuestLog.Title',
          icon: 'fa-solid fa-scroll',
          minimizable: true,
          resizable: true,
          controls: [
             {
                icon: 'fa-solid fa-eye',
-               label: 'ForienQuestLog.Labels.AppHeader.ShowPlayers',
+               label: 'QuestLog.Labels.AppHeader.ShowPlayers',
                action: 'showPlayers',
                visible: () => game.user.isGM
             }
@@ -159,7 +159,7 @@ export class QuestLog extends HandlebarsApplicationMixin(ApplicationV2)
 
          if (statusChanged)
          {
-            ui.notifications.info(game.i18n.format('ForienQuestLog.QuestPreview.Rumors.BecameAvailable',
+            ui.notifications.info(game.i18n.format('QuestLog.QuestPreview.Rumors.BecameAvailable',
              { name: quest.name }));
 
             await QuestDB.announceUnlockedByRumors();
@@ -175,7 +175,7 @@ export class QuestLog extends HandlebarsApplicationMixin(ApplicationV2)
     * Supports the optional render option `tabId` that matches an entry in `constants.questStatus` to select the
     * given tab. This comes into play as when a GM uses the `show to players` button in the app header as not only
     * will the quest log open for players, but the specific tab selected by the GM will show. It is also possible to
-    * add `tabId` to the `ForienQuestLog.Open.QuestLog` hook to open a specific tab.
+    * add `tabId` to the `QuestLog.Open.QuestLog` hook to open a specific tab.
     *
     * @inheritDoc
     */
@@ -378,9 +378,9 @@ export class QuestLog extends HandlebarsApplicationMixin(ApplicationV2)
       const result = {};
 
       const noneLabel = {
-         group: game.i18n.localize('ForienQuestLog.QuestLog.Labels.NoGroup'),
-         giver: game.i18n.localize('ForienQuestLog.QuestLog.Labels.NoGiver'),
-         location: game.i18n.localize('ForienQuestLog.QuestLog.Labels.NoLocation')
+         group: game.i18n.localize('QuestLog.QuestLog.Labels.NoGroup'),
+         giver: game.i18n.localize('QuestLog.QuestLog.Labels.NoGiver'),
+         location: game.i18n.localize('QuestLog.QuestLog.Labels.NoLocation')
       };
 
       for (const status of Object.keys(sorted))

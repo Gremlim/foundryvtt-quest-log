@@ -68,7 +68,7 @@ export class QuestTracker extends HandlebarsApplicationMixin(ApplicationV2)
       classes: ['ql-app', 'ql-window-app'],
       position: { width: 300, height: 480 },
       window: {
-         title: 'ForienQuestLog.QuestTracker.Title',
+         title: 'QuestLog.QuestTracker.Title',
          icon: false,
          minimizable: false,
          resizable: true
@@ -207,7 +207,7 @@ export class QuestTracker extends HandlebarsApplicationMixin(ApplicationV2)
    {
       const controls = super._getHeaderControls();
 
-      const loc = (key) => game.i18n.localize(`ForienQuestLog.QuestTracker.Menu.${key}`);
+      const loc = (key) => game.i18n.localize(`QuestLog.QuestTracker.Menu.${key}`);
       const state = (value) => loc(value ? 'On' : 'Off');
 
       const primary = sessionStorage.getItem(sessionConstants.trackerShowPrimary) === 'true';
@@ -244,7 +244,7 @@ export class QuestTracker extends HandlebarsApplicationMixin(ApplicationV2)
          entries.push({
             action: 'shareTracker',
             icon: 'fa-solid fa-eye',
-            label: 'ForienQuestLog.Labels.AppHeader.ShowPlayers'
+            label: 'QuestLog.Labels.AppHeader.ShowPlayers'
          });
       }
 
@@ -441,9 +441,9 @@ export class QuestTracker extends HandlebarsApplicationMixin(ApplicationV2)
       };
 
       const emptyLabel = {
-         group: game.i18n.localize('ForienQuestLog.QuestLog.Labels.NoGroup'),
-         giver: game.i18n.localize('ForienQuestLog.QuestLog.Labels.NoGiver'),
-         location: game.i18n.localize('ForienQuestLog.QuestLog.Labels.NoLocation')
+         group: game.i18n.localize('QuestLog.QuestLog.Labels.NoGroup'),
+         giver: game.i18n.localize('QuestLog.QuestLog.Labels.NoGiver'),
+         location: game.i18n.localize('QuestLog.QuestLog.Labels.NoLocation')
       };
 
       let entries = visibleEntries;

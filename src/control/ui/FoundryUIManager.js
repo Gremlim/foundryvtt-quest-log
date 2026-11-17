@@ -72,7 +72,7 @@ export class FoundryUIManager
    static #noteControls = {
       ql_quest_log: {
          name: 'ql_quest_log',
-         title: 'ForienQuestLog.QuestLog.Title',
+         title: 'QuestLog.QuestLog.Title',
          icon: 'fas fa-scroll',
          visible: true,
          onChange: () => ViewManager.questLog.render({ force: true, focus: true }),
@@ -80,7 +80,7 @@ export class FoundryUIManager
       },
       ql_quest_tracker: {
          name: 'ql_quest_tracker',
-         title: 'ForienQuestLog.QuestTracker.Title',
+         title: 'QuestLog.QuestTracker.Title',
          icon: 'fas fa-tasks',
          visible: true,
          onChange: async () =>

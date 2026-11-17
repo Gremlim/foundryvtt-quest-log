@@ -33,8 +33,8 @@ const migrateImpl = {
  * again.
  *
  * In the case that a GM needs to manually run migration there is a hook defined in {@link FQLHooks.runDBMigration}.
- * This is `ForienQuestLog.Run.DBMigration` which can be executed by a macro with
- * `Hooks.call('ForienQuestLog.Run.DBMigration', <schemaVersion>);`. To run all migration manually substitute
+ * This is `QuestLog.Run.DBMigration` which can be executed by a macro with
+ * `Hooks.call('QuestLog.Run.DBMigration', <schemaVersion>);`. To run all migration manually substitute
  * `<schemaVersion>` with `0`.
  *
  * @see registerHooks
@@ -67,7 +67,7 @@ export class DBMigration
    /**
     * Runs DB migration. If no `schemaVersion` is set the module setting {@link DBMigration.setting} is used to get the
     * current schema value which is stored after any migration occurs. There is a hook available
-    * `ForienQuestLog.Run.DBMigration`.
+    * `QuestLog.Run.DBMigration`.
     *
     * @param {number}   schemaVersion - A valid schema version from 0 to DBMigration.version - 1
     *
@@ -104,7 +104,7 @@ export class DBMigration
       //       // Otherwise make sure that the schemaVersion supplied to migrate is valid.
       //       if (!Number.isInteger(schemaVersion) || schemaVersion < 0 || schemaVersion > DBMigration.version - 1)
       //       {
-      //          const err = `ForienQuestLog - DBMigrate.migrate - schemaVersion must be an integer (0 - ${
+      //          const err = `QuestLog - DBMigrate.migrate - schemaVersion must be an integer (0 - ${
       //           DBMigration.version - 1})`;
       //
       //          ui.notifications.error(err);
@@ -131,20 +131,20 @@ export class DBMigration
       //       return;
       //    }
       //
-      //    ui.notifications.info(game.i18n.localize('ForienQuestLog.Migration.Notifications.Start'));
+      //    ui.notifications.info(game.i18n.localize('QuestLog.Migration.Notifications.Start'));
       //
       //    // Start at the schema version and stop when the version exceeds the max version.
       //    for (let version = schemaVersion; version <= this.version; version++)
       //    {
       //       if (version !== 0)
       //       {
-      //          ui.notifications.info(game.i18n.format('ForienQuestLog.Migration.Notifications.Schema', { version }));
+      //          ui.notifications.info(game.i18n.format('QuestLog.Migration.Notifications.Schema', { version }));
       //       }
       //
       //       await migrateImpl[version]();
       //    }
       //
-      //    ui.notifications.info(game.i18n.localize('ForienQuestLog.Migration.Notifications.Complete'));
+      //    ui.notifications.info(game.i18n.localize('QuestLog.Migration.Notifications.Complete'));
       //
       //    Socket.refreshAll();
       // }

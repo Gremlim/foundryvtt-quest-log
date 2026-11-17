@@ -50,7 +50,7 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
       classes: ['ql-quest-preview'],
       position: { width: 1000, height: 640 },
       window: {
-         title: 'ForienQuestLog.QuestPreview.Title',
+         title: 'QuestLog.QuestPreview.Title',
          icon: 'fa-solid fa-scroll',
          minimizable: true,
          resizable: true
@@ -184,7 +184,7 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
     */
    get title()
    {
-      return game.i18n.format('ForienQuestLog.QuestPreview.Title', this.#quest);
+      return game.i18n.format('QuestLog.QuestPreview.Title', this.#quest);
    }
 
    /**
@@ -202,7 +202,7 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
       {
          controls.unshift({
             icon: 'fa-solid fa-eye',
-            label: 'ForienQuestLog.Labels.AppHeader.ShowPlayers',
+            label: 'QuestLog.Labels.AppHeader.ShowPlayers',
             action: 'shareQuest'
          });
       }
@@ -211,7 +211,7 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
       {
          controls.unshift({
             icon: 'fa-regular fa-image',
-            label: 'ForienQuestLog.QuestPreview.Tooltips.ViewSplashArt',
+            label: 'QuestLog.QuestPreview.Tooltips.ViewSplashArt',
             action: 'showSplash'
          });
       }
@@ -220,14 +220,14 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
       const inTracker = !HandlerTracker.getRemovedQuests().has(this.#quest.id);
       controls.unshift({
          icon: inTracker ? 'fa-regular fa-square-check' : 'fa-regular fa-square',
-         label: `${game.i18n.localize('ForienQuestLog.QuestPreview.Management.ShowInTracker')}: ${
-          game.i18n.localize(`ForienQuestLog.QuestTracker.Menu.${inTracker ? 'On' : 'Off'}`)}`,
+         label: `${game.i18n.localize('QuestLog.QuestPreview.Management.ShowInTracker')}: ${
+          game.i18n.localize(`QuestLog.QuestTracker.Menu.${inTracker ? 'On' : 'Off'}`)}`,
          action: 'toggleTracker'
       });
 
       controls.unshift({
          icon: 'fa-solid fa-link',
-         label: 'ForienQuestLog.QuestLog.ContextMenu.CopyEntityLink',
+         label: 'QuestLog.QuestLog.ContextMenu.CopyEntityLink',
          action: 'copyLink'
       });
 
@@ -738,7 +738,7 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
    {
       if (await Utils.copyTextToClipboard(`@JournalEntry[${this.#quest.id}]{${this.#quest.name}}`))
       {
-         ui.notifications.info(game.i18n.format('ForienQuestLog.Notifications.LinkCopied'));
+         ui.notifications.info(game.i18n.format('QuestLog.Notifications.LinkCopied'));
       }
    }
 

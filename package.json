@@ -1,10 +1,18 @@
 {
-  "name": "forien-quest-log",
-  "description": "This package.json just provides a PostCSS build script for Sass to CSS",
+  "name": "quest-log",
+  "description": "Quest Log module for Foundry VTT. This package.json provides a PostCSS build script for Sass to CSS",
   "license": "MIT",
+  "homepage": "https://github.com/Gremlim/foundryvtt-quest-log",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gremlim/foundryvtt-quest-log.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Gremlim/foundryvtt-quest-log/issues"
+  },
   "private": true,
   "type": "module",
-  "author": "Michael Leahy <support@typhonjs.io> (https://github.com/typhonrt)",
+  "author": "Gremlim (https://github.com/Gremlim)",
   "contributors": [
     "Michael Leahy <support@typhonjs.io> (https://github.com/typhonrt)"
   ],
@@ -29,7 +37,10 @@
     "rollup": "^4.18.0",
     "sass": "^1.77.0"
   },
-  "browserslist": [">5%", "not IE 11"],
+  "browserslist": [
+    ">5%",
+    "not IE 11"
+  ],
   "scripts": {
     "build-css": "sass ./styles/init.scss ./css/init.css && postcss ./css/init.css -p sass -u autoprefixer postcss-preset-env cssnano -m -o ./css/init.css",
     "eslint": "eslint .",

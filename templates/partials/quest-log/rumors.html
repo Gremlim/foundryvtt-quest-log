@@ -1,9 +1,9 @@
 <header>
-  <h1 style="flex: 1;">{{localize 'ForienQuestLog.QuestTypes.Labels.Rumor'}}</h1>
+  <h1 style="flex: 1;">{{localize 'QuestLog.QuestTypes.Labels.Rumor'}}</h1>
   {{#if isGM}}
-    <label class="quest-search-label" title="{{localize 'ForienQuestLog.Rumors.SearchTooltip'}}">
+    <label class="quest-search-label" title="{{localize 'QuestLog.Rumors.SearchTooltip'}}">
       <i class="fas fa-magnifying-glass"></i>
-      <input type="search" class="quest-search" value="{{@root.search}}" placeholder="{{localize 'ForienQuestLog.QuestLog.Labels.Search'}}" autocomplete="off">
+      <input type="search" class="quest-search" value="{{@root.search}}" placeholder="{{localize 'QuestLog.QuestLog.Labels.Search'}}" autocomplete="off">
     </label>
   {{/if}}
 </header>
@@ -13,19 +13,19 @@
       {{#each rumors}}
         <li class="rumor{{#if heard}} heard{{/if}}{{#unless visible}} not-visible{{/unless}}">
           {{#if @root.isGM}}
-            <i class="rumor-heard fas {{#if heard}}fa-ear-listen{{else}}fa-ear-deaf{{/if}}" data-quest-id="{{questId}}" data-rumor-id="{{uuidv4}}" title="{{#if heard}}{{localize 'ForienQuestLog.QuestPreview.Rumors.Heard'}}{{else}}{{localize 'ForienQuestLog.QuestPreview.Rumors.NotHeard'}}{{/if}}"></i>
+            <i class="rumor-heard fas {{#if heard}}fa-ear-listen{{else}}fa-ear-deaf{{/if}}" data-quest-id="{{questId}}" data-rumor-id="{{uuidv4}}" title="{{#if heard}}{{localize 'QuestLog.QuestPreview.Rumors.Heard'}}{{else}}{{localize 'QuestLog.QuestPreview.Rumors.NotHeard'}}{{/if}}"></i>
           {{else}}
             <i class="fas fa-comment-dots"></i>
           {{/if}}
           <span class="rumor-text">{{text}}</span>
           {{#if @root.isGM}}
-            {{#unless visible}}<i class="rumor-hidden fas fa-eye-slash" title="{{localize 'ForienQuestLog.Rumors.HiddenTooltip'}}"></i>{{/unless}}
-            <span class="chip rumor-quest" title="{{localize 'ForienQuestLog.Rumors.QuestTooltip'}}"><i class="fas fa-scroll"></i>{{questName}}</span>
+            {{#unless visible}}<i class="rumor-hidden fas fa-eye-slash" title="{{localize 'QuestLog.Rumors.HiddenTooltip'}}"></i>{{/unless}}
+            <span class="chip rumor-quest" title="{{localize 'QuestLog.Rumors.QuestTooltip'}}"><i class="fas fa-scroll"></i>{{questName}}</span>
           {{/if}}
         </li>
       {{/each}}
     </ul>
   {{else}}
-    <p class="rumors-empty">{{localize 'ForienQuestLog.Rumors.Empty'}}</p>
+    <p class="rumors-empty">{{localize 'QuestLog.Rumors.Empty'}}</p>
   {{/if}}
 </div>

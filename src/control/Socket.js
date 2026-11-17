@@ -324,7 +324,7 @@ export class Socket
          Socket.refreshAll();
 
          const dirname = game.i18n.localize(questStatusI18n[target]);
-         ViewManager.notifications.info(game.i18n.format('ForienQuestLog.Notifications.QuestMoved',
+         ViewManager.notifications.info(game.i18n.format('QuestLog.Notifications.QuestMoved',
           { name: quest.name, target: dirname }));
       }
       else
@@ -501,7 +501,7 @@ export class Socket
       const quest = QuestDB.getQuest(fqlData.questId);
       const amount = Number.isFinite(fqlData.amount) ? fqlData.amount : (Number(fqlData.quantity) || 1);
 
-      const content = game.i18n.format('ForienQuestLog.API.Socket.Messages.RewardDrop', {
+      const content = game.i18n.format('QuestLog.API.Socket.Messages.RewardDrop', {
          userName: escape(fqlData.userName),
          itemName: escape(fqlData.itemName),
          amount: amount > 1 ? ` &times;${amount}` : '',
@@ -514,7 +514,7 @@ export class Socket
          await ChatMessage.create({
             content,
             whisper: game.users.filter((user) => user.isGM).map((user) => user.id),
-            speaker: { alias: game.i18n.localize('ForienQuestLog.API.Socket.Messages.Alias') },
+            speaker: { alias: game.i18n.localize('QuestLog.API.Socket.Messages.Alias') },
             flags: {
                [constants.moduleName]: {
                   rewardDrop: {
@@ -531,7 +531,7 @@ export class Socket
       }
       catch (err)
       {
-         console.error('ForienQuestLog - Failed to post the reward drop chat message:', err);
+         console.error('QuestLog - Failed to post the reward drop chat message:', err);
       }
    }
 
@@ -653,13 +653,13 @@ export class Socket
 
          if (joined)
          {
-            ViewManager.notifications.info(game.i18n.format('ForienQuestLog.Notifications.QuestJoined',
+            ViewManager.notifications.info(game.i18n.format('QuestLog.Notifications.QuestJoined',
              { name: quest.name, who: data.payload.accept?.actorName || data.payload.userName }));
          }
          else
          {
             const dirname = game.i18n.localize(questStatusI18n[target]);
-            ViewManager.notifications.info(game.i18n.format('ForienQuestLog.Notifications.QuestMoved',
+            ViewManager.notifications.info(game.i18n.format('QuestLog.Notifications.QuestMoved',
              { name: quest.name, target: dirname }));
          }
       }
@@ -810,7 +810,7 @@ export class Socket
    {
       if (game.user.isGM)
       {
-         ViewManager.notifications.warn(game.i18n.format('ForienQuestLog.Notifications.UserCantOpen',
+         ViewManager.notifications.warn(game.i18n.format('QuestLog.Notifications.UserCantOpen',
           { user: data.payload.user }));
       }
    }

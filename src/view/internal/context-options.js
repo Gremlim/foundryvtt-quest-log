@@ -13,7 +13,7 @@ function getQuestFromElement(element)
 }
 
 export const menuItemCopyLink = {
-   label: 'ForienQuestLog.QuestLog.ContextMenu.CopyEntityLink',
+   label: 'QuestLog.QuestLog.ContextMenu.CopyEntityLink',
    icon: 'fa-solid fa-link',
    onClick: async (event, target) =>
    {
@@ -21,13 +21,13 @@ export const menuItemCopyLink = {
 
       if (quest && await Utils.copyTextToClipboard(`@JournalEntry[${quest.id}]{${quest.name}}`))
       {
-         ui.notifications.info(game.i18n.format('ForienQuestLog.Notifications.LinkCopied'));
+         ui.notifications.info(game.i18n.format('QuestLog.Notifications.LinkCopied'));
       }
    }
 };
 
 export const copyQuestId = {
-   label: 'ForienQuestLog.QuestLog.ContextMenu.CopyQuestID',
+   label: 'QuestLog.QuestLog.ContextMenu.CopyQuestID',
    icon: 'fa-solid fa-key',
    onClick: async (event, target) =>
    {
@@ -35,13 +35,13 @@ export const copyQuestId = {
 
       if (quest && await Utils.copyTextToClipboard(quest.id))
       {
-         ui.notifications.info(game.i18n.format('ForienQuestLog.Notifications.QuestIDCopied'));
+         ui.notifications.info(game.i18n.format('QuestLog.Notifications.QuestIDCopied'));
       }
    }
 };
 
 export const togglePrimaryQuest = {
-   label: 'ForienQuestLog.QuestLog.ContextMenu.PrimaryQuest',
+   label: 'QuestLog.QuestLog.ContextMenu.PrimaryQuest',
    icon: 'fa-solid fa-star',
    onClick: (event, target) =>
    {
@@ -62,7 +62,7 @@ export const jumpToPin = {
 };
 
 export const duplicateQuest = {
-   label: 'ForienQuestLog.QuestLog.ContextMenu.DuplicateQuest',
+   label: 'QuestLog.QuestLog.ContextMenu.DuplicateQuest',
    icon: 'fa-solid fa-clone',
    visible: () => game.user.isGM,
    onClick: async (event, target) =>

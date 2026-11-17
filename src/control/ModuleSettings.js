@@ -60,8 +60,8 @@ export class ModuleSettings
    static registerSettings()
    {
       game.settings.register(constants.moduleName, settings.allowPlayersDrag, {
-         name: 'ForienQuestLog.Settings.allowPlayersDrag.Enable',
-         hint: 'ForienQuestLog.Settings.allowPlayersDrag.EnableHint',
+         name: 'QuestLog.Settings.allowPlayersDrag.Enable',
+         hint: 'QuestLog.Settings.allowPlayersDrag.EnableHint',
          scope: this.#scope.world,
          config: true,
          default: false,
@@ -80,8 +80,8 @@ export class ModuleSettings
       });
 
       game.settings.register(constants.moduleName, settings.allowPlayersCreate, {
-         name: 'ForienQuestLog.Settings.allowPlayersCreate.Enable',
-         hint: 'ForienQuestLog.Settings.allowPlayersCreate.EnableHint',
+         name: 'QuestLog.Settings.allowPlayersCreate.Enable',
+         hint: 'QuestLog.Settings.allowPlayersCreate.EnableHint',
          scope: this.#scope.world,
          config: true,
          default: false,
@@ -97,8 +97,8 @@ export class ModuleSettings
       });
 
       game.settings.register(constants.moduleName, settings.allowPlayersAccept, {
-         name: 'ForienQuestLog.Settings.allowPlayersAccept.Enable',
-         hint: 'ForienQuestLog.Settings.allowPlayersAccept.EnableHint',
+         name: 'QuestLog.Settings.allowPlayersAccept.Enable',
+         hint: 'QuestLog.Settings.allowPlayersAccept.EnableHint',
          scope: this.#scope.world,
          config: true,
          default: false,
@@ -117,8 +117,8 @@ export class ModuleSettings
       });
 
       game.settings.register(constants.moduleName, settings.trustedPlayerEdit, {
-         name: 'ForienQuestLog.Settings.trustedPlayerEdit.Enable',
-         hint: 'ForienQuestLog.Settings.trustedPlayerEdit.EnableHint',
+         name: 'QuestLog.Settings.trustedPlayerEdit.Enable',
+         hint: 'QuestLog.Settings.trustedPlayerEdit.EnableHint',
          scope: this.#scope.world,
          config: true,
          default: false,
@@ -138,8 +138,8 @@ export class ModuleSettings
       });
 
       game.settings.register(constants.moduleName, settings.countHidden, {
-         name: 'ForienQuestLog.Settings.countHidden.Enable',
-         hint: 'ForienQuestLog.Settings.countHidden.EnableHint',
+         name: 'QuestLog.Settings.countHidden.Enable',
+         hint: 'QuestLog.Settings.countHidden.EnableHint',
          scope: this.#scope.world,
          config: true,
          default: false,
@@ -158,16 +158,16 @@ export class ModuleSettings
       });
 
       game.settings.register(constants.moduleName, settings.showTasks, {
-         name: 'ForienQuestLog.Settings.showTasks.Enable',
-         hint: 'ForienQuestLog.Settings.showTasks.EnableHint',
+         name: 'QuestLog.Settings.showTasks.Enable',
+         hint: 'QuestLog.Settings.showTasks.EnableHint',
          scope: this.#scope.world,
          config: true,
          default: 'default',
          type: String,
          choices: {
-            default: 'ForienQuestLog.Settings.showTasks.default',
-            onlyCurrent: 'ForienQuestLog.Settings.showTasks.onlyCurrent',
-            no: 'ForienQuestLog.Settings.showTasks.no'
+            default: 'QuestLog.Settings.showTasks.default',
+            onlyCurrent: 'QuestLog.Settings.showTasks.onlyCurrent',
+            no: 'QuestLog.Settings.showTasks.no'
          },
          onChange: async () =>
          {
@@ -180,22 +180,22 @@ export class ModuleSettings
       });
 
       game.settings.register(constants.moduleName, settings.defaultPermission, {
-         name: 'ForienQuestLog.Settings.defaultPermissionLevel.Enable',
-         hint: 'ForienQuestLog.Settings.defaultPermissionLevel.EnableHint',
+         name: 'QuestLog.Settings.defaultPermissionLevel.Enable',
+         hint: 'QuestLog.Settings.defaultPermissionLevel.EnableHint',
          scope: this.#scope.world,
          config: true,
          default: 'Observer',
          type: String,
          choices: {
-            OBSERVER: 'ForienQuestLog.Settings.defaultPermissionLevel.OBSERVER',
-            NONE: 'ForienQuestLog.Settings.defaultPermissionLevel.NONE',
-            OWNER: 'ForienQuestLog.Settings.defaultPermissionLevel.OWNER'
+            OBSERVER: 'QuestLog.Settings.defaultPermissionLevel.OBSERVER',
+            NONE: 'QuestLog.Settings.defaultPermissionLevel.NONE',
+            OWNER: 'QuestLog.Settings.defaultPermissionLevel.OWNER'
          }
       });
 
       game.settings.register(constants.moduleName, settings.hideFQLFromPlayers, {
-         name: 'ForienQuestLog.Settings.hideFQLFromPlayers.Enable',
-         hint: 'ForienQuestLog.Settings.hideFQLFromPlayers.EnableHint',
+         name: 'QuestLog.Settings.hideFQLFromPlayers.Enable',
+         hint: 'QuestLog.Settings.hideFQLFromPlayers.EnableHint',
          scope: this.#scope.world,
          config: true,
          default: false,
@@ -249,8 +249,8 @@ export class ModuleSettings
       });
 
       game.settings.register(constants.moduleName, settings.notifyRewardDrop, {
-         name: 'ForienQuestLog.Settings.notifyRewardDrop.Enable',
-         hint: 'ForienQuestLog.Settings.notifyRewardDrop.EnableHint',
+         name: 'QuestLog.Settings.notifyRewardDrop.Enable',
+         hint: 'QuestLog.Settings.notifyRewardDrop.EnableHint',
          scope: this.#scope.world,
          config: true,
          default: false,
@@ -263,15 +263,15 @@ export class ModuleSettings
       });
 
       game.settings.register(constants.moduleName, settings.dateMode, {
-         name: 'ForienQuestLog.Settings.dateMode.Enable',
-         hint: 'ForienQuestLog.Settings.dateMode.EnableHint',
+         name: 'QuestLog.Settings.dateMode.Enable',
+         hint: 'QuestLog.Settings.dateMode.EnableHint',
          scope: this.#scope.world,
          config: true,
          default: 'real',
          type: String,
          choices: {
-            world: 'ForienQuestLog.Settings.dateMode.world',
-            real: 'ForienQuestLog.Settings.dateMode.real'
+            world: 'QuestLog.Settings.dateMode.world',
+            real: 'QuestLog.Settings.dateMode.real'
          },
          onChange: async () =>
          {
@@ -282,15 +282,15 @@ export class ModuleSettings
       });
 
       game.settings.register(constants.moduleName, settings.historyVisibility, {
-         name: 'ForienQuestLog.Settings.historyVisibility.Enable',
-         hint: 'ForienQuestLog.Settings.historyVisibility.EnableHint',
+         name: 'QuestLog.Settings.historyVisibility.Enable',
+         hint: 'QuestLog.Settings.historyVisibility.EnableHint',
          scope: this.#scope.world,
          config: true,
          default: 'gm',
          type: String,
          choices: {
-            gm: 'ForienQuestLog.Settings.historyVisibility.gm',
-            players: 'ForienQuestLog.Settings.historyVisibility.players'
+            gm: 'QuestLog.Settings.historyVisibility.gm',
+            players: 'QuestLog.Settings.historyVisibility.players'
          },
          onChange: async () =>
          {
@@ -301,8 +301,8 @@ export class ModuleSettings
       });
 
       game.settings.register(constants.moduleName, settings.showFolder, {
-         name: 'ForienQuestLog.Settings.showFolder.Enable',
-         hint: 'ForienQuestLog.Settings.showFolder.EnableHint',
+         name: 'QuestLog.Settings.showFolder.Enable',
+         hint: 'QuestLog.Settings.showFolder.EnableHint',
          scope: this.#scope.world,
          config: true,
          default: false,
@@ -412,7 +412,7 @@ export class ModuleSettings
             // Post a notification if a new primary quest was set.
             if (newPrimaryQuestName)
             {
-               ViewManager.notifications.info(game.i18n.format('ForienQuestLog.Notifications.QuestPrimary',
+               ViewManager.notifications.info(game.i18n.format('QuestLog.Notifications.QuestPrimary',
                 { name: newPrimaryQuestName }));
             }
          }
@@ -437,8 +437,8 @@ export class ModuleSettings
       });
 
       game.settings.register(constants.moduleName, settings.questTrackerResizable, {
-         name: 'ForienQuestLog.Settings.questTrackerResizable.Enable',
-         hint: 'ForienQuestLog.Settings.questTrackerResizable.EnableHint',
+         name: 'QuestLog.Settings.questTrackerResizable.Enable',
+         hint: 'QuestLog.Settings.questTrackerResizable.EnableHint',
          scope: this.#scope.client,
          config: true,
          default: false,
@@ -464,9 +464,9 @@ export class ModuleSettings
       const { SHIFT, CONTROL, ALT } = foundry.helpers.interaction.KeyboardManager.MODIFIER_KEYS;
 
       game.keybindings.register(constants.moduleName, keybindings.openQuestLog, {
-         name: `ForienQuestLog.Keybindings.openQuestLog.Name`,
-         hint: `ForienQuestLog.Keybindings.openQuestLog.Hint`,
-         editable: Utils.isForienActive() ? [] : [
+         name: `QuestLog.Keybindings.openQuestLog.Name`,
+         hint: `QuestLog.Keybindings.openQuestLog.Hint`,
+         editable: [
             {
                modifiers: [CONTROL],
                key: "KeyQ",
@@ -479,10 +479,10 @@ export class ModuleSettings
       });
 
       game.keybindings.register(constants.moduleName, keybindings.openPrimaryQuest, {
-         name: `ForienQuestLog.Keybindings.openPrimaryQuest.Name`,
-         hint: `ForienQuestLog.Keybindings.openPrimaryQuest.Hint`,
+         name: `QuestLog.Keybindings.openPrimaryQuest.Name`,
+         hint: `QuestLog.Keybindings.openPrimaryQuest.Hint`,
          precedence: CONST.KEYBINDING_PRECEDENCE.DEFERRED,
-         editable: Utils.isForienActive() ? [] : [
+         editable: [
             {
                modifiers: [SHIFT, CONTROL],
                key: "KeyQ",
@@ -495,10 +495,10 @@ export class ModuleSettings
       });
 
       game.keybindings.register(constants.moduleName, keybindings.toggleQuestTracker, {
-         name: `ForienQuestLog.Keybindings.toggleQuestTracker.Name`,
-         hint: `ForienQuestLog.Keybindings.toggleQuestTracker.Hint`,
+         name: `QuestLog.Keybindings.toggleQuestTracker.Name`,
+         hint: `QuestLog.Keybindings.toggleQuestTracker.Hint`,
          precedence: CONST.KEYBINDING_PRECEDENCE.DEFERRED,
-         editable: Utils.isForienActive() ? [] : [
+         editable: [
             {
                modifiers: [SHIFT, ALT],
                key: "KeyQ",

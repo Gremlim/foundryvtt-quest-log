@@ -1,5 +1,5 @@
 {
-  "ForienQuestLog": {
+  "QuestLog": {
     "API": {
       "Hooks": {
         "Labels": {
@@ -44,16 +44,16 @@
     "Migration": {
       "ChatMessage": {
         "Footer": "Du musst die obigen Quests manuell mit gültigen Dokumentdaten aus Kompendien oder deiner Welt aktualisieren.<br>",
-        "Header": "Forien's Questlog (DB-Migration)<br>Unverlinkte(r) Questgeber oder Questbelohnung von unten stehenden Quests entfernt:<p>",
-        "Notification": "Forien's Questlog - Unverlinkte(r) Questgeber oder Questbelohnung von mindestens einer Quest entfernt. Bitte Chatnachrichten für mehr Informationen nachlesen.",
+        "Header": "Questlog (DB-Migration)<br>Unverlinkte(r) Questgeber oder Questbelohnung von unten stehenden Quests entfernt:<p>",
+        "Notification": "Questlog - Unverlinkte(r) Questgeber oder Questbelohnung von mindestens einer Quest entfernt. Bitte Chatnachrichten für mehr Informationen nachlesen.",
         "QuestGiver": "Questgeber",
         "QuestRewards": "Questbelohnungen"
       },
       "Notifications": {
-        "Complete": "Foriens Questlog - Migration der Daten abgeschlossen.",
-        "CouldNotMigrate": "Foriens Questlog - Quest konnte nicht migriert werden: '{name}'.",
-        "Schema": "Foriens Questlog - Migriere Daten zu Schema-Version '{version}'.",
-        "Start": "Foriens Questlog - Daten werden migriert, bitte nicht neu laden."
+        "Complete": "Questlog - Migration der Daten abgeschlossen.",
+        "CouldNotMigrate": "Questlog - Quest konnte nicht migriert werden: '{name}'.",
+        "Schema": "Questlog - Migriere Daten zu Schema-Version '{version}'.",
+        "Start": "Questlog - Daten werden migriert, bitte nicht neu laden."
       }
     },
     "Notifications": {
@@ -117,8 +117,8 @@
       },
       "Notifications": {
         "BadUUID": "Konnte Dokument mit UUID {uuid} nicht abrufen.",
-        "WrongDocType": "Foriens Questlog akzeptnur Welt-/Kompendium-Akteure, -Items und -Notizbucheinträge als Questgeber.",
-        "WrongItemType": "Foriens Questlog akzeptiert nur Welt- und Kompendium-Items als Belohnungen."
+        "WrongDocType": "Questlog akzeptnur Welt-/Kompendium-Akteure, -Items und -Notizbucheinträge als Questgeber.",
+        "WrongItemType": "Questlog akzeptiert nur Welt- und Kompendium-Items als Belohnungen."
       },
       "Tabs": {
         "Details": "Details",
@@ -220,7 +220,7 @@
         "bookmarks": "Lesezeichen",
         "classic": "Klassische Reiter",
         "Enable": "Navigationsstil",
-        "EnableHint": "Festlegen, wie die Navigation in Foriens Questlog angezeigt wird."
+        "EnableHint": "Festlegen, wie die Navigation in Questlog angezeigt wird."
       },
       "notifyRewardDrop": {
         "Enable": "Bei Ziehen von Belohnungen benachrichtigen",

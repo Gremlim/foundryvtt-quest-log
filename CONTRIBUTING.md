@@ -3,7 +3,7 @@ Open Source projects function most efficiently when everyone communicates well w
 
 ### **Did you find a bug? Do you want to suggest an enhancement?**
 
-* **Ensure your contribution is novel** by searching the [Issues](https://github.com/Forien/foundryvtt-forien-quest-log/issues) page. Be sure to look through both open and closed issues, especially for enhancement suggestions as rejected suggestions will be closed.
+* **Ensure your contribution is novel** by searching the [Issues](https://github.com/Gremlim/foundryvtt-quest-log/issues) page. Be sure to look through both open and closed issues, especially for enhancement suggestions as rejected suggestions will be closed.
 
 * If applicable **use the appropriate issue templates** to automatically apply the relevant tag to the created issue. This allows issues to be quickly differentiated as bug reports, enhancement suggestions, or whatever else without a maintainer manually adding the tag to the issue. The bug report template will specify which information to add that will aid in reproducing the bug.
 
@@ -27,11 +27,11 @@ Open Source projects function most efficiently when everyone communicates well w
 
 ### **Do you want to submit/update a translation?**
 
-* **Submit a pull request** with your new / updated JSON file in the [lang folder](https://github.com/Forien/foundryvtt-forien-quest-log/tree/master/lang).
+* **Submit a pull request** with your new / updated JSON file in the [lang folder](https://github.com/Gremlim/foundryvtt-quest-log/tree/master/lang).
 
 * Be sure that the JSON file is either completely flat or completely nested.
 
-* If your localization does not include translations for any strings please indicate as much in the [lang / missing folder](https://github.com/Forien/foundryvtt-forien-quest-log/tree/master/lang/missing).
+* Use `lang/en.json` as the reference for the keys; if your localization does not include all of them, the missing strings fall back to English.
 
 ### **Do you want to contribute documentation?**
 
@@ -39,8 +39,8 @@ Open Source projects function most efficiently when everyone communicates well w
 
 ### **Do you have questions about the source code?**
 
-* **Join the [TyphonJS Discord](https://discord.gg/mnbgN8f)** and direct questions to the appropriate channel (#forien-quest-log).
+* **Open an issue** with your question so the answer is available to everyone else too.
 
 * Please **do not directly contact maintainers** with questions; if you have a question other people might as well, so discussions should take place in public forums where others can see and learn from it as well.
 
-Thank you for your interest in contributing to Forien's Quest Log! :heart:
+Thank you for your interest in contributing to Quest Log! :heart:

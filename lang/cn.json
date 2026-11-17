@@ -1,5 +1,5 @@
 {
-  "ForienQuestLog": {
+  "QuestLog": {
     "API": {
       "Hooks": {
         "Labels": {
@@ -44,16 +44,16 @@
     "Migration": {
       "ChatMessage": {
         "Footer": "您必须使用来自纲要或您的世界的有效文档数据手动更新上述任务。<br>",
-        "Header": "Forien 的任务日志 - (DB 洄游)<br>从以下任务中删除了未链接的任务给予者或奖励物品：<p>",
-        "Notification": "Forien 的任务日志 - 从一个或多个任务中删除未链接的任务给予者或奖励物品。请查看聊天消息以获取更多信息。",
+        "Header": "任务日志 - (DB 洄游)<br>从以下任务中删除了未链接的任务给予者或奖励物品：<p>",
+        "Notification": "任务日志 - 从一个或多个任务中删除未链接的任务给予者或奖励物品。请查看聊天消息以获取更多信息。",
         "QuestGiver": "任务给予者",
         "QuestRewards": "任务奖励"
       },
       "Notifications": {
-        "Complete": "Forien 的任务日志 - 迁移数据完成。",
-        "CouldNotMigrate": "Forien 的任务日志 - 无法迁移任务：'{name}'。",
-        "Schema": "Forien 的任务日志 - 将数据迁移到架构版本 '{version}'。",
-        "Start": "Forien 的任务日志 - 正在迁移数据，请不要重新加载。"
+        "Complete": "任务日志 - 迁移数据完成。",
+        "CouldNotMigrate": "任务日志 - 无法迁移任务：'{name}'。",
+        "Schema": "任务日志 - 将数据迁移到架构版本 '{version}'。",
+        "Start": "任务日志 - 正在迁移数据，请不要重新加载。"
       }
     },
     "Notifications": {
@@ -117,8 +117,8 @@
       },
       "Notifications": {
         "BadUUID": "无法检索文档 UUID：'{uuid}'。",
-        "WrongDocType": "Forien 的任务日志仅接受世界/纲要演员、物品和日记条目作为任务提供者。",
-        "WrongItemType": "Forien 的任务日志只接受世界和纲要物品作为奖励。"
+        "WrongDocType": "任务日志仅接受世界/纲要演员、物品和日记条目作为任务提供者。",
+        "WrongItemType": "任务日志只接受世界和纲要物品作为奖励。"
       },
       "Tabs": {
         "Details": "详情",

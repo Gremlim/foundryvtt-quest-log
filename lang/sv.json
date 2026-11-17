@@ -1,5 +1,5 @@
 {
-  "ForienQuestLog": {
+  "QuestLog": {
     "API": {
       "Hooks": {
         "Labels": {
@@ -44,16 +44,16 @@
     "Migration": {
       "ChatMessage": {
         "Footer": "Du måste manuellt uppdatera ovanstående uppdrag med giltiga dokumentdata från kompendier eller din värld.<br>",
-        "Header": "Forien's Quest Log (DB flyttning)<br>Tog bort olänkade uppdragsgivare eller belöningsobjekt från uppdragen nedan:<p>",
-        "Notification": "Forien's Quest Log - Tog bort olänkade uppdragsgivare eller belöningsobjekt från ett eller flera uppdrag. Läs chattmeddelandet för mer information.",
+        "Header": "Quest Log (DB flyttning)<br>Tog bort olänkade uppdragsgivare eller belöningsobjekt från uppdragen nedan:<p>",
+        "Notification": "Quest Log - Tog bort olänkade uppdragsgivare eller belöningsobjekt från ett eller flera uppdrag. Läs chattmeddelandet för mer information.",
         "QuestGiver": "Uppdrag Givare",
         "QuestRewards": "Uppdrag Belöningar"
       },
       "Notifications": {
-        "Complete": "Forien's Quest Log - Migrering av data klar.",
-        "CouldNotMigrate": "Forien's Quest Log - Det gick inte att migrera uppdraget: '{name}'.",
-        "Schema": "Forien's Quest Log - Migrerar data till schemaversion '{version}'.",
-        "Start": "Forien's Quest Log - Migrerar data, vänligen ladda inte om."
+        "Complete": "Quest Log - Migrering av data klar.",
+        "CouldNotMigrate": "Quest Log - Det gick inte att migrera uppdraget: '{name}'.",
+        "Schema": "Quest Log - Migrerar data till schemaversion '{version}'.",
+        "Start": "Quest Log - Migrerar data, vänligen ladda inte om."
       }
     },
     "Notifications": {
@@ -117,8 +117,8 @@
       },
       "Notifications": {
         "BadUUID": "Det gick inte att hämta dokumentet för UUID: '{uuid}'.",
-        "WrongDocType": "Forien's Quest Log accepterar endast världs-/kompendieaktörer, saker och journalanteckningar som uppdragsgivare.",
-        "WrongItemType": "Forien's Quest Log accepterar endast världs- och kompendiumobjekt som belöningar."
+        "WrongDocType": "Quest Log accepterar endast världs-/kompendieaktörer, saker och journalanteckningar som uppdragsgivare.",
+        "WrongItemType": "Quest Log accepterar endast världs- och kompendiumobjekt som belöningar."
       },
       "Tabs": {
         "Details": "Detaljer",

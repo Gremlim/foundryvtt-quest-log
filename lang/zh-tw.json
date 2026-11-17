@@ -1,5 +1,5 @@
 {
-  "ForienQuestLog" : {
+  "QuestLog" : {
     "API" : {
       "Hooks": {
         "Labels": {
@@ -47,16 +47,16 @@
     "Migration" : {
       "ChatMessage" : {
         "Footer" : "您必須使用來自Compendiums或你的World中的有效文檔資料，來手動更新上述任務。<br>",
-        "Header" : "Forien's Quest Log (DB migration)<br>從以下任務中移除了未連結的任務給予者或獎勵物品：<p>",
-        "Notification" : "Forien's Quest Log - 從一個或多個任務中刪除未連結的任務給予者或獎勵物品。請查看聊天消息以獲取更多信息。",
+        "Header" : "Quest Log (DB migration)<br>從以下任務中移除了未連結的任務給予者或獎勵物品：<p>",
+        "Notification" : "Quest Log - 從一個或多個任務中刪除未連結的任務給予者或獎勵物品。請查看聊天消息以獲取更多信息。",
         "QuestGiver" : "任務給予者",
         "QuestRewards" : "任務獎勵"
       },
       "Notifications": {
-        "Complete" : "Forien's Quest Log - 遷移資料完成。",
-        "CouldNotMigrate" : "Forien's Quest Log - 無法遷移任務：'{name}'。",
-        "Schema" : "Forien's Quest Log - 將資料遷移到版本 '{version}'。",
-        "Start" : "Forien's Quest Log - 遷移資料中，請不要重新加載。"
+        "Complete" : "Quest Log - 遷移資料完成。",
+        "CouldNotMigrate" : "Quest Log - 無法遷移任務：'{name}'。",
+        "Schema" : "Quest Log - 將資料遷移到版本 '{version}'。",
+        "Start" : "Quest Log - 遷移資料中，請不要重新加載。"
       }
     },
     "Notifications" : {
@@ -120,8 +120,8 @@
       },
       "Notifications" : {
         "BadUUID" : "無法搜索到 UUID 文檔：'{uuid}'。",
-        "WrongDocType" : "Forien 的任務日誌只接受World/Compendium Actor、物品和日誌條目作為任務提供者。",
-        "WrongItemType" : "Forien 的任務日誌只接受World和Compendium items作為獎勵。"
+        "WrongDocType" : "任務日誌只接受World/Compendium Actor、物品和日誌條目作為任務提供者。",
+        "WrongItemType" : "任務日誌只接受World和Compendium items作為獎勵。"
       },
       "Tabs" : {
         "Details" : "詳情",

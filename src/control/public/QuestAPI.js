@@ -66,7 +66,7 @@ class QuestAPI
          {
             if (notify)
             {
-               ViewManager.notifications.warn(game.i18n.localize('ForienQuestLog.Notifications.CannotOpen'));
+               ViewManager.notifications.warn(game.i18n.localize('QuestLog.Notifications.CannotOpen'));
             }
             else
             {
@@ -84,7 +84,7 @@ class QuestAPI
       {
          if (notify)
          {
-            ViewManager.notifications.error(game.i18n.localize('ForienQuestLog.Notifications.CannotOpen'));
+            ViewManager.notifications.error(game.i18n.localize('QuestLog.Notifications.CannotOpen'));
          }
          else
          {

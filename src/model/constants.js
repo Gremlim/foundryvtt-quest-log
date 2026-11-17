@@ -5,7 +5,7 @@
  */
 const constants = {
    moduleName: 'quest-log',
-   moduleLabel: `Forien's Quest Log`,
+   moduleLabel: `Quest Log`,
    flagDB: 'json'
 };
 
@@ -47,11 +47,11 @@ const questStatus = {
  * @type {{active: string, available: string, completed: string, failed: string, inactive: string}}
  */
 const questStatusI18n = {
-   active: 'ForienQuestLog.QuestTypes.Labels.Active',
-   available: 'ForienQuestLog.QuestTypes.Labels.Available',
-   completed: 'ForienQuestLog.QuestTypes.Labels.Completed',
-   failed: 'ForienQuestLog.QuestTypes.Labels.Failed',
-   inactive: 'ForienQuestLog.QuestTypes.Labels.InActive'
+   active: 'QuestLog.QuestTypes.Labels.Active',
+   available: 'QuestLog.QuestTypes.Labels.Available',
+   completed: 'QuestLog.QuestTypes.Labels.Completed',
+   failed: 'QuestLog.QuestTypes.Labels.Failed',
+   inactive: 'QuestLog.QuestTypes.Labels.InActive'
 };
 
 /**

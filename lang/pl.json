@@ -1,5 +1,5 @@
 {
-  "ForienQuestLog": {
+  "QuestLog": {
     "API": {
       "Hooks": {
         "Labels": {
@@ -44,16 +44,16 @@
     "Migration": {
       "ChatMessage": {
         "Footer": "Musisz ręcznie zaktualizować powyższe misje prawidłowymi danymi dokumentów z kompendiów lub twojego świata.<br>",
-        "Header": "Forien's Quest Log (DB migracja)<br>Usunięto nie połączone zleceniodawcy lub nagrody z poniższych zadań:<p>",
-        "Notification": "Forien's Quest Log - Usunięto nie połączone zleceniodawcy lub nagrody z jednego lub więcej zadań. Przejrzyj wiadomość na czacie, aby uzyskać więcej informacji.",
+        "Header": "Quest Log (DB migracja)<br>Usunięto nie połączone zleceniodawcy lub nagrody z poniższych zadań:<p>",
+        "Notification": "Quest Log - Usunięto nie połączone zleceniodawcy lub nagrody z jednego lub więcej zadań. Przejrzyj wiadomość na czacie, aby uzyskać więcej informacji.",
         "QuestGiver": "Zleceniodawca Zadań",
         "QuestRewards": "Nagrody za Zadania"
       },
       "Notifications": {
-        "Complete": "Forien's Quest Log - Migracja danych zakończona.",
-        "CouldNotMigrate": "Forien's Quest Log - Nie udało się przenieść misji: '{name}'.",
-        "Schema": "Forien's Quest Log - Migracja danych do wersji schematu '{version}'.",
-        "Start": "Forien's Quest Log - Migracja danych, nie ładuj przeładować."
+        "Complete": "Quest Log - Migracja danych zakończona.",
+        "CouldNotMigrate": "Quest Log - Nie udało się przenieść misji: '{name}'.",
+        "Schema": "Quest Log - Migracja danych do wersji schematu '{version}'.",
+        "Start": "Quest Log - Migracja danych, nie ładuj przeładować."
       }
     },
     "Notifications": {
@@ -117,8 +117,8 @@
       },
       "Notifications": {
         "BadUUID": "Nie można pobrać dokumentu dla UUID: '{uuid}'.",
-        "WrongDocType": "Forien's Quest Log akceptuje tylko aktorów świata / kompendium, przedmioty i wpisy do dziennika jako zleceniodawców zadań.",
-        "WrongItemType": "Forien's Quest Log akceptuje tylko przedmioty ze świata i kompendium jako nagrody."
+        "WrongDocType": "Quest Log akceptuje tylko aktorów świata / kompendium, przedmioty i wpisy do dziennika jako zleceniodawców zadań.",
+        "WrongItemType": "Quest Log akceptuje tylko przedmioty ze świata i kompendium jako nagrody."
       },
       "Tabs": {
         "Details": "Szczegóły",

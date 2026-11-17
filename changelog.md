@@ -1,5 +1,13 @@
 # Changelog
 
+## Release 0.26.0
+- Breaking: all the module identifiers that used the `ForienQuestLog` prefix now use `QuestLog`: the hooks (`QuestLog.Open.QuestLog`, `QuestLog.Open.QuestTracker`, `QuestLog.Run.DBMigration`, `QuestLog.Lifecycle.ready`, ...), the translation keys and the macros. Macros and external modules that call the old hooks must be updated.
+- The two macro compendiums (GM and player) were regenerated with the new hook names.
+- Removed the code that made the module coexist with the original Forien's Quest Log; the keybindings and hooks are always registered.
+- Updated README, CONTRIBUTING, AUTHORS, package.json and module.json to point to this repository (Gremlim/foundryvtt-quest-log). The original authors are kept in AUTHORS and the MIT license.
+- Removed the funding file of the original module.
+- The older entries of this changelog are kept unchanged, so they still mention the old names.
+
 ## Release 0.25.3
 - Quest history dates: many entries showed the date of the world calendar (like 0000-01-26 12:15:00) because the world time does not advance on its own. The history now always shows the real date and, only when the setting "Quest Dates" is set to the world calendar, the world date after it in parentheses. The setting is now the real date by default.
 

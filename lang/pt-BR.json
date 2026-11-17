@@ -1,5 +1,5 @@
 {
-  "ForienQuestLog": {
+  "QuestLog": {
     "API": {
       "Hooks": {
         "Labels": {
@@ -44,16 +44,16 @@
     "Migration": {
       "ChatMessage": {
         "Footer": "Você deve manualmente atualizar as missões acima com o dado valido de documentação de um dos compendiums de seu mundo.<br>",
-        "Header": "Forien's Quest Log (DB migração)<br>Removido entregador de missão ou items de recompensa das quests abaixo:<p>",
-        "Notification": "Forien's Quest Log - Removido entregador de missão ou items de recompensa de uma ou mais missões. Por favor revise a mensagem no chat para mais informação.",
+        "Header": "Quest Log (DB migração)<br>Removido entregador de missão ou items de recompensa das quests abaixo:<p>",
+        "Notification": "Quest Log - Removido entregador de missão ou items de recompensa de uma ou mais missões. Por favor revise a mensagem no chat para mais informação.",
         "QuestGiver": "Entregador de Missão",
         "QuestRewards": "Recompensa de Missão"
       },
       "Notifications": {
-        "Complete": "Forien's Quest Log - Migração de dados completa.",
-        "CouldNotMigrate": "Forien's Quest Log - Não é possível migrar: '{name}'.",
-        "Schema": "Forien's Quest Log - Migrando dados sob a versão: '{version}'.",
-        "Start": "Forien's Quest Log - Migrando dados, não recarregue."
+        "Complete": "Quest Log - Migração de dados completa.",
+        "CouldNotMigrate": "Quest Log - Não é possível migrar: '{name}'.",
+        "Schema": "Quest Log - Migrando dados sob a versão: '{version}'.",
+        "Start": "Quest Log - Migrando dados, não recarregue."
       }
     },
     "Notifications": {
@@ -117,8 +117,8 @@
       },
       "Notifications": {
         "BadUUID": "Não é possível recuperar documento para IDuu: '{uuid}'.",
-        "WrongDocType": "Forien's Quest Log só aceita atores, itens e entradas de log de mundo/compêndio como entregadores de missões.",
-        "WrongItemType": "O Registro de Missões de Forien só aceita itens de mundo e itens de compêndio como recompensas."
+        "WrongDocType": "Quest Log só aceita atores, itens e entradas de log de mundo/compêndio como entregadores de missões.",
+        "WrongItemType": "O Registro de Missões só aceita itens de mundo e itens de compêndio como recompensas."
       },
       "Tabs": {
         "Details": "Detalhes",

@@ -29,7 +29,7 @@ export class HandlerRumors
          content: `<div class="form-group stacked"><textarea name="text" rows="5" autofocus>${
           foundry.utils.escapeHTML(value)}</textarea></div>`,
          ok: {
-            label: game.i18n.localize('ForienQuestLog.QuestPreview.Buttons.Accept'),
+            label: game.i18n.localize('QuestLog.QuestPreview.Buttons.Accept'),
             callback: (event, button) => String(button.form.elements.text.value ?? '').trim()
          },
          rejectClose: false,
@@ -48,7 +48,7 @@ export class HandlerRumors
     */
    static async add(quest, questPreview)
    {
-      const text = await HandlerRumors.#promptText(game.i18n.localize('ForienQuestLog.QuestPreview.Rumors.Add'));
+      const text = await HandlerRumors.#promptText(game.i18n.localize('QuestLog.QuestPreview.Rumors.Add'));
       if (!text) { return; }
 
       quest.addRumor(text);
@@ -69,7 +69,7 @@ export class HandlerRumors
       const rumor = quest.getRumor(event.currentTarget.dataset.rumorId);
       if (!rumor) { return; }
 
-      const text = await HandlerRumors.#promptText(game.i18n.localize('ForienQuestLog.Tooltips.Edit'), rumor.text);
+      const text = await HandlerRumors.#promptText(game.i18n.localize('QuestLog.Tooltips.Edit'), rumor.text);
       if (!text) { return; }
 
       rumor.text = text;
@@ -91,8 +91,8 @@ export class HandlerRumors
       if (!rumor) { return; }
 
       const confirmed = await foundry.applications.api.DialogV2.confirm({
-         window: { title: game.i18n.localize('ForienQuestLog.QuestPreview.Rumors.DeleteTitle') },
-         content: `<p>${game.i18n.localize('ForienQuestLog.QuestPreview.Rumors.DeleteContent')}</p>`,
+         window: { title: game.i18n.localize('QuestLog.QuestPreview.Rumors.DeleteTitle') },
+         content: `<p>${game.i18n.localize('QuestLog.QuestPreview.Rumors.DeleteContent')}</p>`,
          rejectClose: false,
          modal: false
       });
@@ -122,7 +122,7 @@ export class HandlerRumors
 
       if (statusChanged)
       {
-         ui.notifications.info(game.i18n.format('ForienQuestLog.QuestPreview.Rumors.BecameAvailable',
+         ui.notifications.info(game.i18n.format('QuestLog.QuestPreview.Rumors.BecameAvailable',
           { name: quest.name }));
 
          await QuestDB.announceUnlockedByRumors();

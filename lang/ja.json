@@ -1,5 +1,5 @@
 {
-  "ForienQuestLog": {
+  "QuestLog": {
     "API": {
       "Hooks": {
         "Labels": {
@@ -44,16 +44,16 @@
     "Migration": {
       "ChatMessage": {
         "Footer": "大要またはあなたの世界からの有効な文書データを使用して、上記のクエストを手動で更新する必要があります。<br>",
-        "Header": "Forien's Quest Log (DB 移動)<br>以下のクエストから、リンクされていないクエスト提供者または報酬アイテムを削除しました:<p>",
-        "Notification": "Forien's Quest Log - 1 つまたは複数のクエストから、リンクされていないクエスト提供者または報酬アイテムを削除しました。詳細については、チャット メッセージを確認してください。",
+        "Header": "Quest Log (DB 移動)<br>以下のクエストから、リンクされていないクエスト提供者または報酬アイテムを削除しました:<p>",
+        "Notification": "Quest Log - 1 つまたは複数のクエストから、リンクされていないクエスト提供者または報酬アイテムを削除しました。詳細については、チャット メッセージを確認してください。",
         "QuestGiver": "クエストギバー",
         "QuestRewards": "クエスト報酬"
       },
       "Notifications": {
-        "Complete": "Forien's Quest Log - マイグレーション完了。",
-        "CouldNotMigrate": "Forien's Quest Log - クエスト'{name}'をマイグレーションできませんでした。",
-        "Schema": "Forien's Quest Log - データを最新スキーマバージョン'{version}'にマイグレーションしてます。",
-        "Start": "Forien's Quest Log - データマイグレーション中です、リロードしないでください。"
+        "Complete": "Quest Log - マイグレーション完了。",
+        "CouldNotMigrate": "Quest Log - クエスト'{name}'をマイグレーションできませんでした。",
+        "Schema": "Quest Log - データを最新スキーマバージョン'{version}'にマイグレーションしてます。",
+        "Start": "Quest Log - データマイグレーション中です、リロードしないでください。"
       }
     },
     "Notifications": {
@@ -117,8 +117,8 @@
       },
       "Notifications": {
         "BadUUID": "{uuid}のオブジェクトを取得できませんでした。",
-        "WrongDocType": "Forien's Quest Logはワールドや辞典に指定されたキャラ、アイテム、資料のみをクエスト提供者として受け付けます。",
-        "WrongItemType": "Forien's Quest Logはワールドや辞典に指定された報酬のみを受け付けます。"
+        "WrongDocType": "Quest Logはワールドや辞典に指定されたキャラ、アイテム、資料のみをクエスト提供者として受け付けます。",
+        "WrongItemType": "Quest Logはワールドや辞典に指定された報酬のみを受け付けます。"
       },
       "Tabs": {
         "Details": "内容",

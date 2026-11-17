@@ -1,5 +1,5 @@
 {
-  "ForienQuestLog": {
+  "QuestLog": {
     "API": {
       "Hooks": {
         "Labels": {
@@ -44,16 +44,16 @@
     "Migration": {
       "ChatMessage": {
         "Footer": "Sinun täytyy päivittää yllä olevat tehtävät käsin käyttämään kelpaavia dokumenttien tietoja hakemistoista tai maailmastasi.<br>",
-        "Header": "Forien's Quest Log (tietokannan siirto)<br>Alla olevien tehtävien linkittämättömät tehtävänantajat ja palkkiotavarat poistettiin:<p>",
-        "Notification": "Forien's Quest Log - Linkittämätön tehtävänantaja tai palkkiotavaroita poistettiin yhdestä tai useammasta tehtävästä. Katso lisätietoja keskusteluviestistä.",
+        "Header": "Quest Log (tietokannan siirto)<br>Alla olevien tehtävien linkittämättömät tehtävänantajat ja palkkiotavarat poistettiin:<p>",
+        "Notification": "Quest Log - Linkittämätön tehtävänantaja tai palkkiotavaroita poistettiin yhdestä tai useammasta tehtävästä. Katso lisätietoja keskusteluviestistä.",
         "QuestGiver": "Tehtävänantaja",
         "QuestRewards": "Tehtävän palkkiot"
       },
       "Notifications": {
-        "Complete": "Forien's Quest Log - Tietojen siirto valmis.",
-        "CouldNotMigrate": "Forien's Quest Log - Tehtävää \"{name}\" ei voitu siirtää.",
-        "Schema": "Forien's Quest Log - Tietoja siirretään skeeman versioon \"{version}\".",
-        "Start": "Forien's Quest Log - Tietoja siirretään, ethän lataa sivua uudelleen."
+        "Complete": "Quest Log - Tietojen siirto valmis.",
+        "CouldNotMigrate": "Quest Log - Tehtävää \"{name}\" ei voitu siirtää.",
+        "Schema": "Quest Log - Tietoja siirretään skeeman versioon \"{version}\".",
+        "Start": "Quest Log - Tietoja siirretään, ethän lataa sivua uudelleen."
       }
     },
     "Notifications": {
@@ -117,8 +117,8 @@
       },
       "Notifications": {
         "BadUUID": "Dokumenttia ei löytynyt UUID:llä \"{uuid}\".",
-        "WrongDocType": "Forien's Quest Log hyväksyy vain maailman/hakemiston hahmoja, tavaroita ja muistiinpanoja tehtävänantajiksi.",
-        "WrongItemType": "Forien's Quest Log hyväksyy vain maailman ja hakemiston tavaroita palkkioiksi."
+        "WrongDocType": "Quest Log hyväksyy vain maailman/hakemiston hahmoja, tavaroita ja muistiinpanoja tehtävänantajiksi.",
+        "WrongItemType": "Quest Log hyväksyy vain maailman ja hakemiston tavaroita palkkioiksi."
       },
       "Tabs": {
         "Details": "Yksityiskohdat",

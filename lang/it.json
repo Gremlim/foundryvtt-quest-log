@@ -1,5 +1,5 @@
 {
-  "ForienQuestLog": {
+  "QuestLog": {
     "API": {
       "Hooks": {
         "Labels": {
@@ -44,16 +44,16 @@
     "Migration": {
       "ChatMessage": {
         "Footer": "Devi aggiornare manualmente le missioni qui sopra con dati validi dai compendi o dal tuo mondo.<br>",
-        "Header": "Forien's Quest Log (migrazione DB)<br>Sono stati rimossi Assegnatari Missione o Ricompense non collegati dalla missione sottostante:<p>",
-        "Notification": "Forien's Quest Log - Rimosso il donatore di missioni o gli oggetti premio non collegati da una o più missioni. Si prega di rivedere il messaggio di chat per ulteriori informazioni.",
+        "Header": "Quest Log (migrazione DB)<br>Sono stati rimossi Assegnatari Missione o Ricompense non collegati dalla missione sottostante:<p>",
+        "Notification": "Quest Log - Rimosso il donatore di missioni o gli oggetti premio non collegati da una o più missioni. Si prega di rivedere il messaggio di chat per ulteriori informazioni.",
         "QuestGiver": "Assegnatario Missione",
         "QuestRewards": "Ricompense Missione"
       },
       "Notifications": {
-        "Complete": "Forien's Quest Log - Migrazione dei dati completa.",
-        "CouldNotMigrate": "Forien's Quest Log - Impossibile migrare la missione: '{name}'.",
-        "Schema": "Forien's Quest Log - Migrazione dei dati alla versione dello schema '{version}'.",
-        "Start": "Forien's Quest Log - Migrazione dei dati, si prega di non ricaricare."
+        "Complete": "Quest Log - Migrazione dei dati completa.",
+        "CouldNotMigrate": "Quest Log - Impossibile migrare la missione: '{name}'.",
+        "Schema": "Quest Log - Migrazione dei dati alla versione dello schema '{version}'.",
+        "Start": "Quest Log - Migrazione dei dati, si prega di non ricaricare."
       }
     },
     "Notifications": {
@@ -117,8 +117,8 @@
       },
       "Notifications": {
         "BadUUID": "Impossibile recuperare il documento per l'UUID: '{uuid}'.",
-        "WrongDocType": "Forien's Quest Log Accetta solo attori, oggetti e voci di diario dal mondo / compendi, come assegnatari di missioni.",
-        "WrongItemType": "Forien's Quest Log Accetta solo oggetti del mondo e dal compendio come ricompensa."
+        "WrongDocType": "Quest Log Accetta solo attori, oggetti e voci di diario dal mondo / compendi, come assegnatari di missioni.",
+        "WrongItemType": "Quest Log Accetta solo oggetti del mondo e dal compendio come ricompensa."
       },
       "Tabs": {
         "Details": "Dettaglio",

@@ -1,5 +1,5 @@
 {
-  "ForienQuestLog": {
+  "QuestLog": {
     "API": {
       "Hooks": {
         "Labels": {
@@ -44,16 +44,16 @@
     "Migration": {
       "ChatMessage": {
         "Footer": "Вы должны вручную обновить эти задания с корректным типом документов из вашей библиотеки или мира.<br>",
-        "Header": "Forien's Quest Log (миграция базы)<br>Удалены несвязанные выдающие задания или награды из заданий:<p>",
-        "Notification": "Forien's Quest Log - Удалён несвязанный выдающий задание или награда из одного или нескольких заданий. Подробности в чате.",
+        "Header": "Quest Log (миграция базы)<br>Удалены несвязанные выдающие задания или награды из заданий:<p>",
+        "Notification": "Quest Log - Удалён несвязанный выдающий задание или награда из одного или нескольких заданий. Подробности в чате.",
         "QuestGiver": "Выдающий задание",
         "QuestRewards": "Награды задания"
       },
       "Notifications": {
-        "Complete": "Forien's Quest Log - Перенос данных завершён.",
-        "CouldNotMigrate": "Forien's Quest Log - Не удалось перенести задание: '{name}'.",
-        "Schema": "Forien's Quest Log - Обновление данных до версии '{version}'.",
-        "Start": "Forien's Quest Log - Перенос данных, подождите."
+        "Complete": "Quest Log - Перенос данных завершён.",
+        "CouldNotMigrate": "Quest Log - Не удалось перенести задание: '{name}'.",
+        "Schema": "Quest Log - Обновление данных до версии '{version}'.",
+        "Start": "Quest Log - Перенос данных, подождите."
       }
     },
     "Notifications": {
@@ -117,8 +117,8 @@
       },
       "Notifications": {
         "BadUUID": "Не удаётся получить документ для UUID: '{uuid}'.",
-        "WrongDocType": "Forien's Quest Log принимает только актёров, предметы и записи журнала в качестве выдающего задание.",
-        "WrongItemType": "Forien's Quest Log принимает только предметы из мира и библиотеки в качестве наград."
+        "WrongDocType": "Quest Log принимает только актёров, предметы и записи журнала в качестве выдающего задание.",
+        "WrongItemType": "Quest Log принимает только предметы из мира и библиотеки в качестве наград."
       },
       "Tabs": {
         "Details": "Подробности",

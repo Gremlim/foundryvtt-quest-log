@@ -1,9 +1,9 @@
 <div class="quest-history">
   <header>
-    <h1>{{localize 'ForienQuestLog.QuestPreview.History.Title'}}</h1>
+    <h1>{{localize 'QuestLog.QuestPreview.History.Title'}}</h1>
     {{#if canClearHistory}}
       {{#if data_history.length}}
-        <button class="history-clear" title="{{localize 'ForienQuestLog.QuestPreview.History.ClearTooltip'}}"><i class="fas fa-trash"></i> {{localize 'ForienQuestLog.QuestPreview.History.Clear'}}</button>
+        <button class="history-clear" title="{{localize 'QuestLog.QuestPreview.History.ClearTooltip'}}"><i class="fas fa-trash"></i> {{localize 'QuestLog.QuestPreview.History.Clear'}}</button>
       {{/if}}
     {{/if}}
   </header>
@@ -18,6 +18,6 @@
       {{/each}}
     </ul>
   {{else}}
-    <p class="history-empty">{{localize 'ForienQuestLog.QuestPreview.History.Empty'}}</p>
+    <p class="history-empty">{{localize 'QuestLog.QuestPreview.History.Empty'}}</p>
   {{/if}}
 </div>

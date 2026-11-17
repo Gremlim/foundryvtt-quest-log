@@ -1,25 +1,25 @@
 <div class="quest-preview">
   <nav class="quest-tabs tabs" data-group="primary">
-    <a class="item" data-action="tab" data-group="primary" data-tab="details">{{localize 'ForienQuestLog.QuestPreview.Tabs.Details'}}</a>
-    <a class="item" data-action="tab" data-group="primary" data-tab="playernotes">{{localize 'ForienQuestLog.QuestPreview.Tabs.PlayerNotes'}}</a>
+    <a class="item" data-action="tab" data-group="primary" data-tab="details">{{localize 'QuestLog.QuestPreview.Tabs.Details'}}</a>
+    <a class="item" data-action="tab" data-group="primary" data-tab="playernotes">{{localize 'QuestLog.QuestPreview.Tabs.PlayerNotes'}}</a>
     {{#if canViewHistory}}
-      <a class="item" data-action="tab" data-group="primary" data-tab="history">{{localize 'ForienQuestLog.QuestPreview.Tabs.History'}}</a>
+      <a class="item" data-action="tab" data-group="primary" data-tab="history">{{localize 'QuestLog.QuestPreview.Tabs.History'}}</a>
     {{/if}}
     {{#if canEdit}}
-      <a class="item" data-action="tab" data-group="primary" data-tab="rumors">{{localize 'ForienQuestLog.QuestPreview.Tabs.Rumors'}}</a>
+      <a class="item" data-action="tab" data-group="primary" data-tab="rumors">{{localize 'QuestLog.QuestPreview.Tabs.Rumors'}}</a>
       {{#if isGM}}
-        <a class="item" data-action="tab" data-group="primary" data-tab="gmnotes">{{localize 'ForienQuestLog.QuestPreview.Tabs.GMNotes'}}</a>
+        <a class="item" data-action="tab" data-group="primary" data-tab="gmnotes">{{localize 'QuestLog.QuestPreview.Tabs.GMNotes'}}</a>
       {{/if}}
-      <a class="item" data-action="tab" data-group="primary" data-tab="management">{{localize 'ForienQuestLog.QuestPreview.Tabs.QuestManagement'}}</a>
+      <a class="item" data-action="tab" data-group="primary" data-tab="management">{{localize 'QuestLog.QuestPreview.Tabs.QuestManagement'}}</a>
       {{#if isActive}}
         {{#if isPrimary}}
-          <a class="icon-button"><i class="is-primary fas fa-star pad-l-8" title="{{localize 'ForienQuestLog.QuestPreview.Tooltips.PrimaryQuestUnset'}}"></i></a>
+          <a class="icon-button"><i class="is-primary fas fa-star pad-l-8" title="{{localize 'QuestLog.QuestPreview.Tooltips.PrimaryQuestUnset'}}"></i></a>
         {{else}}
-          <a class="icon-button"><i class="is-primary far fa-star pad-l-8" title="{{localize 'ForienQuestLog.QuestPreview.Tooltips.PrimaryQuestSet'}}"></i></a>
+          <a class="icon-button"><i class="is-primary far fa-star pad-l-8" title="{{localize 'QuestLog.QuestPreview.Tooltips.PrimaryQuestSet'}}"></i></a>
         {{/if}}
       {{/if}}
       {{#if isHidden}}
-        <a class="icon-button"><i class="is-hidden fas fa-eye-slash pad-l-8" title="{{localize 'ForienQuestLog.Tooltips.HiddenQuestNoPlayers'}}"></i></a>
+        <a class="icon-button"><i class="is-hidden fas fa-eye-slash pad-l-8" title="{{localize 'QuestLog.Tooltips.HiddenQuestNoPlayers'}}"></i></a>
       {{/if}}
       {{#if isPersonal}}
         <a class="icon-button"><i class="is-personal fas fa-user-shield pad-l-8" title="{{{personalActors}}}"></i></a>

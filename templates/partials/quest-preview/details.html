@@ -4,9 +4,9 @@
       {{#if (or canEdit playerEdit)}}
         <span class="drop-info">
           {{#if canEdit}}
-            {{localize 'ForienQuestLog.QuestPreview.Labels.DragDropActor'}}
+            {{localize 'QuestLog.QuestPreview.Labels.DragDropActor'}}
           {{else}}
-            {{localize 'ForienQuestLog.QuestPreview.Labels.DragDropActorPlayer'}}
+            {{localize 'QuestLog.QuestPreview.Labels.DragDropActorPlayer'}}
           {{/if}}
         </span>
       {{/if}}
@@ -15,9 +15,9 @@
         <div class="quest-giver-image" data-actor-uuid="{{uuid}}" style="background-image: url('{{img}}');" title="{{name}}"></div>
         {{#if (and (or ../canEdit ../playerEdit) ../image img)}}
           {{#if hasTokenImg}}
-            <span class="toggleImage" title="{{localize 'ForienQuestLog.QuestPreview.Tooltips.ToggleImage'}}"><i class="fas fa-user-circle"></i></span>
+            <span class="toggleImage" title="{{localize 'QuestLog.QuestPreview.Tooltips.ToggleImage'}}"><i class="fas fa-user-circle"></i></span>
           {{/if}}
-        <span class="deleteQuestGiver" title="{{localize 'ForienQuestLog.QuestPreview.Tooltips.DeleteQuestGiver'}}"><i class="fas fa-times"></i></span>
+        <span class="deleteQuestGiver" title="{{localize 'QuestLog.QuestPreview.Tooltips.DeleteQuestGiver'}}"><i class="fas fa-times"></i></span>
         {{/if}}
       {{/with}}
     {{/if}}
@@ -32,7 +32,7 @@
       </div>
       {{#if (or canEdit playerEdit)}}
       <div class="actions-single quest-name">
-        <i class="fas fa-pen editable" data-target="name" title="{{localize 'ForienQuestLog.Tooltips.Edit'}}"></i>
+        <i class="fas fa-pen editable" data-target="name" title="{{localize 'QuestLog.Tooltips.Edit'}}"></i>
       </div>
       {{/if}}
     </div>
@@ -47,18 +47,18 @@
           {{/with}}
           {{#if (and canEdit (eq giver 'abstract'))}}
           <div class="actions-single">
-            <i class="fas fa-pen editable" data-target="giverName" title="{{localize 'ForienQuestLog.Tooltips.Edit'}}"></i>
+            <i class="fas fa-pen editable" data-target="giverName" title="{{localize 'QuestLog.Tooltips.Edit'}}"></i>
           </div>
           {{/if}}
         </div>
         {{#if (or location canEdit playerEdit)}}
         <div class="quest-location">
           <div class="editable-container">
-            <p class="location" title="{{localize 'ForienQuestLog.QuestPreview.Labels.Location'}}"><i class="fas fa-location-dot"></i> {{#if location}}{{location}}{{else}}<span class="no-location">{{localize 'ForienQuestLog.QuestPreview.Labels.NoLocation'}}</span>{{/if}}</p>
+            <p class="location" title="{{localize 'QuestLog.QuestPreview.Labels.Location'}}"><i class="fas fa-location-dot"></i> {{#if location}}{{location}}{{else}}<span class="no-location">{{localize 'QuestLog.QuestPreview.Labels.NoLocation'}}</span>{{/if}}</p>
           </div>
           {{#if (or canEdit playerEdit)}}
           <div class="actions-single">
-            <i class="fas fa-pen editable" data-target="location" title="{{localize 'ForienQuestLog.Tooltips.Edit'}}"></i>
+            <i class="fas fa-pen editable" data-target="location" title="{{localize 'QuestLog.Tooltips.Edit'}}"></i>
           </div>
           {{/if}}
         </div>
@@ -66,11 +66,11 @@
         {{#if (or group canEdit playerEdit)}}
         <div class="quest-group">
           <div class="editable-container">
-            <p class="group" title="{{localize 'ForienQuestLog.QuestPreview.Labels.Group'}}"><i class="fas fa-folder"></i> {{#if group}}{{group}}{{else}}<span class="no-group">{{localize 'ForienQuestLog.QuestPreview.Labels.NoGroup'}}</span>{{/if}}</p>
+            <p class="group" title="{{localize 'QuestLog.QuestPreview.Labels.Group'}}"><i class="fas fa-folder"></i> {{#if group}}{{group}}{{else}}<span class="no-group">{{localize 'QuestLog.QuestPreview.Labels.NoGroup'}}</span>{{/if}}</p>
           </div>
           {{#if (or canEdit playerEdit)}}
           <div class="actions-single">
-            <i class="fas fa-pen editable" data-target="group" title="{{localize 'ForienQuestLog.Tooltips.Edit'}}"></i>
+            <i class="fas fa-pen editable" data-target="group" title="{{localize 'QuestLog.Tooltips.Edit'}}"></i>
           </div>
           {{/if}}
         </div>
@@ -78,11 +78,11 @@
         {{#if (or deadlineLabel canEdit playerEdit)}}
         <div class="quest-deadline">
           <div class="editable-container">
-            <p class="deadline{{#if deadlineOverdue}} overdue{{/if}}" title="{{localize 'ForienQuestLog.QuestPreview.Labels.Deadline'}}"><i class="fas fa-hourglass-half"></i> {{#if deadlineLabel}}{{deadlineLabel}}{{else}}<span class="no-deadline">{{localize 'ForienQuestLog.QuestPreview.Labels.NoDeadline'}}</span>{{/if}}</p>
+            <p class="deadline{{#if deadlineOverdue}} overdue{{/if}}" title="{{localize 'QuestLog.QuestPreview.Labels.Deadline'}}"><i class="fas fa-hourglass-half"></i> {{#if deadlineLabel}}{{deadlineLabel}}{{else}}<span class="no-deadline">{{localize 'QuestLog.QuestPreview.Labels.NoDeadline'}}</span>{{/if}}</p>
           </div>
           {{#if (or canEdit playerEdit)}}
           <div class="actions-single">
-            <i class="fas fa-pen edit-deadline" title="{{localize 'ForienQuestLog.QuestPreview.Tooltips.EditDeadline'}}"></i>
+            <i class="fas fa-pen edit-deadline" title="{{localize 'QuestLog.QuestPreview.Tooltips.EditDeadline'}}"></i>
           </div>
           {{/if}}
         </div>
@@ -92,21 +92,21 @@
             {{statusLabel}}
           </p>
           {{#if repeatLabel}}<p class="repeatable"><i class="fas fa-rotate"></i> {{repeatLabel}}</p>{{/if}}
-          {{#if isPersonal}}<p class="personal">{{localize 'ForienQuestLog.QuestLog.Labels.Personal'}}</p>{{/if}}
+          {{#if isPersonal}}<p class="personal">{{localize 'QuestLog.QuestLog.Labels.Personal'}}</p>{{/if}}
           {{#if creatorLabel}}<p class="creator">{{creatorLabel}}</p>{{/if}}
-          {{#if acceptedNames}}<p class="accepted" title="{{acceptedTitle}}"><i class="fas fa-user-check"></i> {{localize 'ForienQuestLog.QuestPreview.Labels.AcceptedBy'}} {{acceptedNames}}</p>{{/if}}
+          {{#if acceptedNames}}<p class="accepted" title="{{acceptedTitle}}"><i class="fas fa-user-check"></i> {{localize 'QuestLog.QuestPreview.Labels.AcceptedBy'}} {{acceptedNames}}</p>{{/if}}
           {{#if isSubquest}}
             <p class="quest-name-link" data-quest-id="{{data_parent.id}}">
-              {{fql_format 'ForienQuestLog.QuestLog.Labels.SubTitle' data_parent.name}}
+              {{fql_format 'QuestLog.QuestLog.Labels.SubTitle' data_parent.name}}
               <i class="fas fa-link"></i>
-              {{#if data_parent.isPrimary}}<i class="is-primary fas fa-star" title="{{localize 'ForienQuestLog.Tooltips.PrimaryQuest'}}"></i>{{/if}}
+              {{#if data_parent.isPrimary}}<i class="is-primary fas fa-star" title="{{localize 'QuestLog.Tooltips.PrimaryQuest'}}"></i>{{/if}}
             </p>
           {{/if}}
         </div>
       </div>
 
       {{#if splash.length}}
-      <div class="splash-image-link" style="background-image: url('{{splash}}');background-position: {{splashPos}};" title="{{localize 'ForienQuestLog.QuestPreview.Tooltips.ViewSplashArt'}}">
+      <div class="splash-image-link" style="background-image: url('{{splash}}');background-position: {{splashPos}};" title="{{localize 'QuestLog.QuestPreview.Tooltips.ViewSplashArt'}}">
         <span><i class="fas fa-eye"></i></span>
       </div>
       {{/if}}
@@ -122,7 +122,7 @@
 <div class="quest-info">
 
   <div class="quest-description">
-    <h2>{{localize 'ForienQuestLog.QuestPreview.Labels.Description'}}</h2>
+    <h2>{{localize 'QuestLog.QuestPreview.Labels.Description'}}</h2>
     {{#if (or canEdit playerEdit)}}
       <prose-mirror name="description" toggled value="{{source.description}}">{{{description}}}</prose-mirror>
     {{else}}
@@ -136,8 +136,8 @@
 
     <div class="quest-tasks">
       <header>
-        <h2>{{localize 'ForienQuestLog.QuestPreview.Labels.Objectives'}}</h2>
-        {{#if (or canEdit playerEdit)}}<button class="add-new-task" title="{{localize 'ForienQuestLog.QuestPreview.Tooltips.AddObjective'}}"><i class="fas fa-plus"></i> {{localize 'ForienQuestLog.QuestPreview.Labels.Objective'}}</button>{{/if}}
+        <h2>{{localize 'QuestLog.QuestPreview.Labels.Objectives'}}</h2>
+        {{#if (or canEdit playerEdit)}}<button class="add-new-task" title="{{localize 'QuestLog.QuestPreview.Tooltips.AddObjective'}}"><i class="fas fa-plus"></i> {{localize 'QuestLog.QuestPreview.Labels.Objective'}}</button>{{/if}}
       </header>
       <div class="quest-box tasks-box">
         <ul>
@@ -152,21 +152,21 @@
                 </span>
               </div>
               {{#if ../canEdit}}
-                 {{#if isHidden}}<i class="is-hidden fas fa-eye-slash pad-l-4" title="{{localize 'ForienQuestLog.Tooltips.HiddenQuestNoPlayers'}}"></i>{{/if}}
+                 {{#if isHidden}}<i class="is-hidden fas fa-eye-slash pad-l-4" title="{{localize 'QuestLog.Tooltips.HiddenQuestNoPlayers'}}"></i>{{/if}}
                  {{#if isPersonal}}<i class="is-personal fas fa-user-shield pad-l-4" title="{{{personalActors}}}"></i>{{/if}}
               {{/if}}
               <div class="quest-name-link" title="{{statusTooltip}}" data-quest-id="{{id}}">
                 <div class="{{../wrapNameLengthCSS}}">
-                  {{name}}{{#if optional}} <span class="task-optional-label">({{localize 'ForienQuestLog.QuestPreview.Labels.Optional'}})</span>{{/if}}
+                  {{name}}{{#if optional}} <span class="task-optional-label">({{localize 'QuestLog.QuestPreview.Labels.Optional'}})</span>{{/if}}
                   <i class="fas fa-link"></i>
-                  {{#if isPrimary}}<i class="is-primary fas fa-star" title="{{localize 'ForienQuestLog.Tooltips.PrimaryQuest'}}"></i>{{/if}}
+                  {{#if isPrimary}}<i class="is-primary fas fa-star" title="{{localize 'QuestLog.Tooltips.PrimaryQuest'}}"></i>{{/if}}
                 </div>
               </div>
               {{#if (or ../canEdit statusActions.length)}}
                 {{{statusActions}}}
               {{/if}}
               {{#if (or ../canEdit ../playerEdit)}}
-                <div class="actions subquest-sort"><i class="fas fa-sort" draggable="true" title="{{localize 'ForienQuestLog.QuestPreview.Tooltips.SortObjective'}}"></i></div>
+                <div class="actions subquest-sort"><i class="fas fa-sort" draggable="true" title="{{localize 'QuestLog.QuestPreview.Tooltips.SortObjective'}}"></i></div>
               {{/if}}
             </li>
           {{/if}}
@@ -183,35 +183,35 @@
             </div>
             {{/if}}
             <div class="editable-container">
-              <p class="task-name {{../wrapNameLengthCSS}}">{{{name}}}{{#if optional}} <span class="task-optional-label">({{localize 'ForienQuestLog.QuestPreview.Labels.Optional'}})</span>{{/if}}{{#if repeatable}} <span class="task-repeat-label" title="{{localize 'ForienQuestLog.QuestPreview.Tooltips.TaskRepeatable'}}"><i class="fas fa-rotate"></i>{{#if timesLabel}} {{timesLabel}}{{/if}}</span>{{/if}}</p>
+              <p class="task-name {{../wrapNameLengthCSS}}">{{{name}}}{{#if optional}} <span class="task-optional-label">({{localize 'QuestLog.QuestPreview.Labels.Optional'}})</span>{{/if}}{{#if repeatable}} <span class="task-repeat-label" title="{{localize 'QuestLog.QuestPreview.Tooltips.TaskRepeatable'}}"><i class="fas fa-rotate"></i>{{#if timesLabel}} {{timesLabel}}{{/if}}</span>{{/if}}</p>
             </div>
             {{#if hasCounter}}
               <div class="task-counter">
-                {{#if (or ../canEdit ../playerEdit)}}<i class="counter-btn fas fa-minus" data-uuidv4="{{uuidv4}}" data-delta="-1" title="{{localize 'ForienQuestLog.QuestPreview.Tooltips.CounterMinus'}}"></i>{{/if}}
+                {{#if (or ../canEdit ../playerEdit)}}<i class="counter-btn fas fa-minus" data-uuidv4="{{uuidv4}}" data-delta="-1" title="{{localize 'QuestLog.QuestPreview.Tooltips.CounterMinus'}}"></i>{{/if}}
                 <span class="counter-value">{{count}}/{{target}}</span>
-                {{#if (or ../canEdit ../playerEdit)}}<i class="counter-btn fas fa-plus" data-uuidv4="{{uuidv4}}" data-delta="1" title="{{localize 'ForienQuestLog.QuestPreview.Tooltips.CounterPlus'}}"></i>{{/if}}
+                {{#if (or ../canEdit ../playerEdit)}}<i class="counter-btn fas fa-plus" data-uuidv4="{{uuidv4}}" data-delta="1" title="{{localize 'QuestLog.QuestPreview.Tooltips.CounterPlus'}}"></i>{{/if}}
               </div>
             {{/if}}
             {{#if (or ../canEdit ../playerEdit)}}
             <div class="actions tasks has-menu {{#unless ../canEdit}}is-player{{/unless}}">
-              <span class="actions-menu"><i class="menu-toggle fas fa-ellipsis-vertical" title="{{localize 'ForienQuestLog.Tooltips.Actions'}}"></i><span class="menu-items">
+              <span class="actions-menu"><i class="menu-toggle fas fa-ellipsis-vertical" title="{{localize 'QuestLog.Tooltips.Actions'}}"></i><span class="menu-items">
               {{#if ../canEdit}}
-                <i class="{{#if optional}}fas{{else}}far{{/if}} fa-star toggleOptional" data-uuidv4="{{uuidv4}}" title="{{#if optional}}{{localize 'ForienQuestLog.QuestPreview.Tooltips.TaskOptional'}}{{else}}{{localize 'ForienQuestLog.QuestPreview.Tooltips.TaskRequired'}}{{/if}}"></i>
+                <i class="{{#if optional}}fas{{else}}far{{/if}} fa-star toggleOptional" data-uuidv4="{{uuidv4}}" title="{{#if optional}}{{localize 'QuestLog.QuestPreview.Tooltips.TaskOptional'}}{{else}}{{localize 'QuestLog.QuestPreview.Tooltips.TaskRequired'}}{{/if}}"></i>
                 {{#if hidden}}
-                  <i class="fas fa-eye-slash toggleHidden" data-target="task" data-uuidv4="{{uuidv4}}" title="{{localize 'ForienQuestLog.QuestPreview.Tooltips.TaskHidden'}}"></i>
+                  <i class="fas fa-eye-slash toggleHidden" data-target="task" data-uuidv4="{{uuidv4}}" title="{{localize 'QuestLog.QuestPreview.Tooltips.TaskHidden'}}"></i>
                 {{else}}
-                  <i class="fas fa-eye toggleHidden" data-target="task" data-uuidv4="{{uuidv4}}" title="{{localize 'ForienQuestLog.QuestPreview.Tooltips.TaskVisible'}}"></i>
+                  <i class="fas fa-eye toggleHidden" data-target="task" data-uuidv4="{{uuidv4}}" title="{{localize 'QuestLog.QuestPreview.Tooltips.TaskVisible'}}"></i>
                 {{/if}}
               {{/if}}
               {{#if ../canEdit}}
-                <i class="editCounter fas fa-hashtag" data-uuidv4="{{uuidv4}}" title="{{localize 'ForienQuestLog.QuestPreview.Tooltips.TaskCounter'}}"></i>
-                <i class="{{#if repeatable}}fas{{else}}far{{/if}} fa-rotate toggleRepeatable" data-uuidv4="{{uuidv4}}" title="{{#if repeatable}}{{localize 'ForienQuestLog.QuestPreview.Tooltips.TaskRepeatable'}}{{else}}{{localize 'ForienQuestLog.QuestPreview.Tooltips.TaskNotRepeatable'}}{{/if}}"></i>
+                <i class="editCounter fas fa-hashtag" data-uuidv4="{{uuidv4}}" title="{{localize 'QuestLog.QuestPreview.Tooltips.TaskCounter'}}"></i>
+                <i class="{{#if repeatable}}fas{{else}}far{{/if}} fa-rotate toggleRepeatable" data-uuidv4="{{uuidv4}}" title="{{#if repeatable}}{{localize 'QuestLog.QuestPreview.Tooltips.TaskRepeatable'}}{{else}}{{localize 'QuestLog.QuestPreview.Tooltips.TaskNotRepeatable'}}{{/if}}"></i>
                 {{#if (and repeatable (or completed failed count))}}
-                  <i class="resetTask fas fa-rotate-left" data-uuidv4="{{uuidv4}}" title="{{localize 'ForienQuestLog.QuestPreview.Tooltips.TaskReset'}}"></i>
+                  <i class="resetTask fas fa-rotate-left" data-uuidv4="{{uuidv4}}" title="{{localize 'QuestLog.QuestPreview.Tooltips.TaskReset'}}"></i>
                 {{/if}}
               {{/if}}
-              <i class="editable fas fa-pen" data-target="task.name" data-uuidv4="{{uuidv4}}" title="{{localize 'ForienQuestLog.Tooltips.Edit'}}"></i>
-              <i class="delete fas fa-trash" data-target="tasks" data-task-name="{{name}}" data-uuidv4="{{uuidv4}}" title="{{localize 'ForienQuestLog.Tooltips.Delete'}}"></i>
+              <i class="editable fas fa-pen" data-target="task.name" data-uuidv4="{{uuidv4}}" title="{{localize 'QuestLog.Tooltips.Edit'}}"></i>
+              <i class="delete fas fa-trash" data-target="tasks" data-task-name="{{name}}" data-uuidv4="{{uuidv4}}" title="{{localize 'QuestLog.Tooltips.Delete'}}"></i>
               </span></span>
               <i class="fas fa-sort" draggable="true"></i>
             </div>
@@ -225,24 +225,24 @@
 
     <div class="quest-rewards">
       <header>
-        <h2>{{localize 'ForienQuestLog.QuestPreview.Labels.Rewards'}}</h2>
+        <h2>{{localize 'QuestLog.QuestPreview.Labels.Rewards'}}</h2>
         {{#if canEdit}}
           {{#if data_rewards.length}}
             {{#if allRewardsVisible}}
-              <button class="hide-all-rewards" title="{{localize 'ForienQuestLog.QuestPreview.Tooltips.HideAll'}}"><i class="fas fa-eye-slash"></i> {{localize 'ForienQuestLog.QuestPreview.Buttons.RewardHide'}}</button>
+              <button class="hide-all-rewards" title="{{localize 'QuestLog.QuestPreview.Tooltips.HideAll'}}"><i class="fas fa-eye-slash"></i> {{localize 'QuestLog.QuestPreview.Buttons.RewardHide'}}</button>
             {{else}}
-              <button class="show-all-rewards" title="{{localize 'ForienQuestLog.QuestPreview.Tooltips.ShowAll'}}"><i class="fas fa-eye"></i> {{localize 'ForienQuestLog.QuestPreview.Buttons.RewardShow'}}</button>
+              <button class="show-all-rewards" title="{{localize 'QuestLog.QuestPreview.Tooltips.ShowAll'}}"><i class="fas fa-eye"></i> {{localize 'QuestLog.QuestPreview.Buttons.RewardShow'}}</button>
             {{/if}}
             {{#if allRewardsUnlocked}}
-              <button class="lock-all-rewards" title="{{localize 'ForienQuestLog.QuestPreview.Tooltips.LockAll'}}"><i class="fas fa-lock"></i> {{localize 'ForienQuestLog.QuestPreview.Buttons.RewardLock'}}</button>
+              <button class="lock-all-rewards" title="{{localize 'QuestLog.QuestPreview.Tooltips.LockAll'}}"><i class="fas fa-lock"></i> {{localize 'QuestLog.QuestPreview.Buttons.RewardLock'}}</button>
             {{else}}
-              <button class="unlock-all-rewards" title="{{localize 'ForienQuestLog.QuestPreview.Tooltips.UnlockAll'}}"><i class="fas fa-unlock-alt"></i> {{localize 'ForienQuestLog.QuestPreview.Buttons.RewardUnlock'}}</button>
+              <button class="unlock-all-rewards" title="{{localize 'QuestLog.QuestPreview.Tooltips.UnlockAll'}}"><i class="fas fa-unlock-alt"></i> {{localize 'QuestLog.QuestPreview.Buttons.RewardUnlock'}}</button>
             {{/if}}
           {{/if}}
           {{#if hasCurrencies}}
-            <button class="add-currency" title="{{localize 'ForienQuestLog.QuestPreview.Tooltips.AddCurrency'}}"><i class="fas fa-coins"></i> {{localize 'ForienQuestLog.QuestPreview.Buttons.RewardCurrency'}}</button>
+            <button class="add-currency" title="{{localize 'QuestLog.QuestPreview.Tooltips.AddCurrency'}}"><i class="fas fa-coins"></i> {{localize 'QuestLog.QuestPreview.Buttons.RewardCurrency'}}</button>
           {{/if}}
-          <button class="add-abstract" title="{{localize 'ForienQuestLog.QuestPreview.Tooltips.AddCustom'}}"><i class="fas fa-plus"></i> {{localize 'ForienQuestLog.QuestPreview.Buttons.RewardCustom'}}</button>
+          <button class="add-abstract" title="{{localize 'QuestLog.QuestPreview.Tooltips.AddCustom'}}"><i class="fas fa-plus"></i> {{localize 'QuestLog.QuestPreview.Buttons.RewardCustom'}}</button>
         {{/if}}
       </header>
       <div class="quest-box rewards-box">
@@ -257,19 +257,19 @@
           </div>
           <div class="actions rewards {{#if ../canEdit}}has-menu{{else}}is-player{{/if}} {{#if canTake}}has-take{{/if}}">
             {{#if canTake}}
-              <i class="reward-take-all fas fa-hand-holding-dollar" data-uuidv4="{{uuidv4}}" title="{{localize 'ForienQuestLog.QuestPreview.Tooltips.TakeAll'}}"></i>
+              <i class="reward-take-all fas fa-hand-holding-dollar" data-uuidv4="{{uuidv4}}" title="{{localize 'QuestLog.QuestPreview.Tooltips.TakeAll'}}"></i>
               {{#if canTakeAmount}}
-                <i class="reward-take-amount fas fa-coins" data-uuidv4="{{uuidv4}}" title="{{localize 'ForienQuestLog.QuestPreview.Tooltips.TakeAmount'}}"></i>
+                <i class="reward-take-amount fas fa-coins" data-uuidv4="{{uuidv4}}" title="{{localize 'QuestLog.QuestPreview.Tooltips.TakeAmount'}}"></i>
               {{/if}}
               <span class="spacer"></span>
             {{/if}}
             {{#if ../canEdit}}
-              <span class="actions-menu"><i class="menu-toggle fas fa-ellipsis-vertical" title="{{localize 'ForienQuestLog.Tooltips.Actions'}}"></i><span class="menu-items">
-                <i class="setChoice fas fa-code-branch {{#unless choice}}no-choice{{/unless}}" data-uuidv4="{{uuidv4}}" title="{{localize 'ForienQuestLog.QuestPreview.Tooltips.RewardSetChoice'}}"></i>
+              <span class="actions-menu"><i class="menu-toggle fas fa-ellipsis-vertical" title="{{localize 'QuestLog.Tooltips.Actions'}}"></i><span class="menu-items">
+                <i class="setChoice fas fa-code-branch {{#unless choice}}no-choice{{/unless}}" data-uuidv4="{{uuidv4}}" title="{{localize 'QuestLog.QuestPreview.Tooltips.RewardSetChoice'}}"></i>
                 {{#if hidden}}
-                  <i class="fas fa-eye-slash toggleHidden" data-target="reward" data-uuidv4="{{uuidv4}}" title="{{localize 'ForienQuestLog.QuestPreview.Tooltips.RewardHidden'}}"></i>
+                  <i class="fas fa-eye-slash toggleHidden" data-target="reward" data-uuidv4="{{uuidv4}}" title="{{localize 'QuestLog.QuestPreview.Tooltips.RewardHidden'}}"></i>
                 {{else}}
-                  <i class="fas fa-eye toggleHidden" data-target="reward" data-uuidv4="{{uuidv4}}" title="{{localize 'ForienQuestLog.QuestPreview.Tooltips.RewardVisible'}}"></i>
+                  <i class="fas fa-eye toggleHidden" data-target="reward" data-uuidv4="{{uuidv4}}" title="{{localize 'QuestLog.QuestPreview.Tooltips.RewardVisible'}}"></i>
                 {{/if}}
                 {{#if locked}}
                   <i class="fas fa-lock toggleLocked" data-target="reward" data-uuidv4="{{uuidv4}}" title="{{lockedTooltip}}"></i>
@@ -277,11 +277,11 @@
                   <i class="fas fa-unlock-alt toggleLocked" data-target="reward" data-uuidv4="{{uuidv4}}" title="{{unlockedTooltip}}"></i>
                 {{/if}}
                 {{#if (eq type 'abstract')}}
-                  <i class="editable fas fa-pen" data-target="reward.name" data-uuidv4="{{uuidv4}}" title="{{localize 'ForienQuestLog.Tooltips.Edit'}}"></i>
+                  <i class="editable fas fa-pen" data-target="reward.name" data-uuidv4="{{uuidv4}}" title="{{localize 'QuestLog.Tooltips.Edit'}}"></i>
                 {{else if canEditQuantity}}
-                  <i class="edit-quantity fas fa-hashtag" data-uuidv4="{{uuidv4}}" title="{{localize 'ForienQuestLog.QuestPreview.Tooltips.EditQuantity'}}"></i>
+                  <i class="edit-quantity fas fa-hashtag" data-uuidv4="{{uuidv4}}" title="{{localize 'QuestLog.QuestPreview.Tooltips.EditQuantity'}}"></i>
                 {{/if}}
-                <i class="delete fas fa-trash" data-target="rewards" data-reward-name="{{name}}" data-uuidv4="{{uuidv4}}" title="{{localize 'ForienQuestLog.Tooltips.Delete'}}"></i>
+                <i class="delete fas fa-trash" data-target="rewards" data-reward-name="{{name}}" data-uuidv4="{{uuidv4}}" title="{{localize 'QuestLog.Tooltips.Delete'}}"></i>
               </span></span>
               <i class="sort fas fa-sort" draggable="true"></i>
               <span class="justify-center"></span>
@@ -297,7 +297,7 @@
         </li>
         {{/each}}
         {{#if canEdit}}
-          <li class="drop-info">{{localize 'ForienQuestLog.QuestPreview.Labels.DragDropRewards'}}</li>
+          <li class="drop-info">{{localize 'QuestLog.QuestPreview.Labels.DragDropRewards'}}</li>
         {{/if}}
         </ul>
       </div>

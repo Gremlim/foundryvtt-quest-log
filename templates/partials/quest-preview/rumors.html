@@ -1,36 +1,36 @@
 <div class="quest-rumors">
   <header>
-    <h1>{{localize 'ForienQuestLog.QuestPreview.Rumors.Title'}}</h1>
-    <button class="rumor-add"><i class="fas fa-plus"></i> {{localize 'ForienQuestLog.QuestPreview.Rumors.Add'}}</button>
+    <h1>{{localize 'QuestLog.QuestPreview.Rumors.Title'}}</h1>
+    <button class="rumor-add"><i class="fas fa-plus"></i> {{localize 'QuestLog.QuestPreview.Rumors.Add'}}</button>
   </header>
-  <p class="rumors-hint">{{localize 'ForienQuestLog.QuestPreview.Rumors.Hint'}}</p>
+  <p class="rumors-hint">{{localize 'QuestLog.QuestPreview.Rumors.Hint'}}</p>
   <div class="rumors-required">
-    <label title="{{localize 'ForienQuestLog.QuestPreview.Rumors.RequiredHint'}}">{{localize 'ForienQuestLog.QuestPreview.Rumors.Required'}}</label>
-    <input type="number" min="0" step="1" class="rumor-required" value="{{rumorsRequired}}" title="{{localize 'ForienQuestLog.QuestPreview.Rumors.RequiredHint'}}">
+    <label title="{{localize 'QuestLog.QuestPreview.Rumors.RequiredHint'}}">{{localize 'QuestLog.QuestPreview.Rumors.Required'}}</label>
+    <input type="number" min="0" step="1" class="rumor-required" value="{{rumorsRequired}}" title="{{localize 'QuestLog.QuestPreview.Rumors.RequiredHint'}}">
     <span class="rumors-progress">{{rumorProgressLabel}}</span>
   </div>
   {{#if data_rumors.length}}
     <ul class="rumors-list">
       {{#each data_rumors}}
         <li class="rumor{{#if heard}} heard{{/if}}{{#unless visible}} not-visible{{/unless}}" data-rumor-id="{{uuidv4}}">
-          <i class="rumor-heard fas {{#if heard}}fa-ear-listen{{else}}fa-ear-deaf{{/if}}" data-rumor-id="{{uuidv4}}" title="{{#if heard}}{{localize 'ForienQuestLog.QuestPreview.Rumors.Heard'}}{{else}}{{localize 'ForienQuestLog.QuestPreview.Rumors.NotHeard'}}{{/if}}"></i>
-          <span class="rumor-text">{{text}}{{#if optional}} <span class="rumor-optional-label">({{localize 'ForienQuestLog.QuestPreview.Rumors.OptionalLabel'}})</span>{{/if}}</span>
+          <i class="rumor-heard fas {{#if heard}}fa-ear-listen{{else}}fa-ear-deaf{{/if}}" data-rumor-id="{{uuidv4}}" title="{{#if heard}}{{localize 'QuestLog.QuestPreview.Rumors.Heard'}}{{else}}{{localize 'QuestLog.QuestPreview.Rumors.NotHeard'}}{{/if}}"></i>
+          <span class="rumor-text">{{text}}{{#if optional}} <span class="rumor-optional-label">({{localize 'QuestLog.QuestPreview.Rumors.OptionalLabel'}})</span>{{/if}}</span>
           <div class="actions rumors has-menu">
-            <span class="actions-menu"><i class="menu-toggle fas fa-ellipsis-vertical" title="{{localize 'ForienQuestLog.Tooltips.Actions'}}"></i><span class="menu-items">
-              <i class="{{#if optional}}fas{{else}}far{{/if}} fa-star rumor-optional" data-rumor-id="{{uuidv4}}" title="{{#if optional}}{{localize 'ForienQuestLog.QuestPreview.Rumors.MakeOptional'}}{{else}}{{localize 'ForienQuestLog.QuestPreview.Rumors.MakeRequired'}}{{/if}}"></i>
+            <span class="actions-menu"><i class="menu-toggle fas fa-ellipsis-vertical" title="{{localize 'QuestLog.Tooltips.Actions'}}"></i><span class="menu-items">
+              <i class="{{#if optional}}fas{{else}}far{{/if}} fa-star rumor-optional" data-rumor-id="{{uuidv4}}" title="{{#if optional}}{{localize 'QuestLog.QuestPreview.Rumors.MakeOptional'}}{{else}}{{localize 'QuestLog.QuestPreview.Rumors.MakeRequired'}}{{/if}}"></i>
               {{#if visible}}
-                <i class="fas fa-eye rumor-visible" data-rumor-id="{{uuidv4}}" title="{{localize 'ForienQuestLog.QuestPreview.Rumors.Visible'}}"></i>
+                <i class="fas fa-eye rumor-visible" data-rumor-id="{{uuidv4}}" title="{{localize 'QuestLog.QuestPreview.Rumors.Visible'}}"></i>
               {{else}}
-                <i class="fas fa-eye-slash rumor-visible" data-rumor-id="{{uuidv4}}" title="{{localize 'ForienQuestLog.QuestPreview.Rumors.Hidden'}}"></i>
+                <i class="fas fa-eye-slash rumor-visible" data-rumor-id="{{uuidv4}}" title="{{localize 'QuestLog.QuestPreview.Rumors.Hidden'}}"></i>
               {{/if}}
-              <i class="fas fa-pen rumor-edit" data-rumor-id="{{uuidv4}}" title="{{localize 'ForienQuestLog.Tooltips.Edit'}}"></i>
-              <i class="fas fa-trash rumor-delete" data-rumor-id="{{uuidv4}}" title="{{localize 'ForienQuestLog.Tooltips.Delete'}}"></i>
+              <i class="fas fa-pen rumor-edit" data-rumor-id="{{uuidv4}}" title="{{localize 'QuestLog.Tooltips.Edit'}}"></i>
+              <i class="fas fa-trash rumor-delete" data-rumor-id="{{uuidv4}}" title="{{localize 'QuestLog.Tooltips.Delete'}}"></i>
             </span></span>
           </div>
         </li>
       {{/each}}
     </ul>
   {{else}}
-    <p class="rumors-empty">{{localize 'ForienQuestLog.QuestPreview.Rumors.Empty'}}</p>
+    <p class="rumors-empty">{{localize 'QuestLog.QuestPreview.Rumors.Empty'}}</p>
   {{/if}}
 </div>

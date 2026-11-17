@@ -1,5 +1,5 @@
 {
-  "ForienQuestLog": {
+  "QuestLog": {
     "API": {
       "Hooks": {
         "Labels": {
@@ -44,16 +44,16 @@
     "Migration": {
       "ChatMessage": {
         "Footer": "Vous devez mettre à jour manuellement les quêtes ci-dessus avec des données de document valide des compendiums ou de votre monde.<br>",
-        "Header": "Forien's Quest Log (migration de DB)<br>A retiré le donneur de quête sans lien ou les objets récompense des quêtes ci-dessous :<p>",
-        "Notification": "Forien's Quest Log - A retiré le donneur de quête sans lien ou les objets récompenses de quête d'une ou plusieurs quêtes. Regardez la conversation pour plus d'information.",
+        "Header": "Quest Log (migration de DB)<br>A retiré le donneur de quête sans lien ou les objets récompense des quêtes ci-dessous :<p>",
+        "Notification": "Quest Log - A retiré le donneur de quête sans lien ou les objets récompenses de quête d'une ou plusieurs quêtes. Regardez la conversation pour plus d'information.",
         "QuestGiver": "Donneur de quête",
         "QuestRewards": "Récompenses de quête"
       },
       "Notifications": {
-        "Complete": "Forien's Quest Log - Migration des données achevée.",
-        "CouldNotMigrate": "Forien's Quest Log - ne peut pas migrer la quête : '{name}'.",
-        "Schema": "Forien's Quest Log - Migration des données sous le schéma de version : '{version}'.",
-        "Start": "Forien's Quest Log - Migration en cours des données, ne pas recharger."
+        "Complete": "Quest Log - Migration des données achevée.",
+        "CouldNotMigrate": "Quest Log - ne peut pas migrer la quête : '{name}'.",
+        "Schema": "Quest Log - Migration des données sous le schéma de version : '{version}'.",
+        "Start": "Quest Log - Migration en cours des données, ne pas recharger."
       }
     },
     "Notifications": {
@@ -117,8 +117,8 @@
       },
       "Notifications": {
         "BadUUID": "Ne peut récupérr le document pour IDuu : '{uuid}'.",
-        "WrongDocType": "Forien's Quest Log accepte seulement les acteurs, les objets et les entrées de journaux du monde /compendium comme commanditaires de quêtes.",
-        "WrongItemType": "Forien's Quest Log n'accepte que les objets du monde et des compendium items comme récompenses."
+        "WrongDocType": "Quest Log accepte seulement les acteurs, les objets et les entrées de journaux du monde /compendium comme commanditaires de quêtes.",
+        "WrongItemType": "Quest Log n'accepte que les objets du monde et des compendium items comme récompenses."
       },
       "Tabs": {
         "Details": "Détails",

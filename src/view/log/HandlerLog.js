@@ -39,9 +39,9 @@ export class HandlerLog
          if (!game.user.isGM)
          {
             personal = await FQLDialog.promptPersonal({
-               title: game.i18n.localize('ForienQuestLog.QuestLog.Personal.Title'),
-               label: game.i18n.localize('ForienQuestLog.QuestLog.Personal.Label'),
-               hint: game.i18n.localize('ForienQuestLog.QuestLog.Personal.Hint')
+               title: game.i18n.localize('QuestLog.QuestLog.Personal.Title'),
+               label: game.i18n.localize('QuestLog.QuestLog.Personal.Label'),
+               hint: game.i18n.localize('QuestLog.QuestLog.Personal.Hint')
             });
 
             if (personal === null) { return; }

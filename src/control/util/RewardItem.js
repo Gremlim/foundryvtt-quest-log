@@ -27,7 +27,7 @@ export class RewardItem
          const item = await fromUuid(uuid);
          if (!item)
          {
-            ui.notifications.warn(game.i18n.format('ForienQuestLog.QuestPreview.Notifications.BadUUID', { uuid }));
+            ui.notifications.warn(game.i18n.format('QuestLog.QuestPreview.Notifications.BadUUID', { uuid }));
             return false;
          }
 
@@ -44,8 +44,8 @@ export class RewardItem
       }
       catch (err)
       {
-         console.error('ForienQuestLog - Failed to add the reward item to the actor:', err);
-         ui.notifications.error(game.i18n.localize('ForienQuestLog.QuestPreview.Notifications.RewardAddFailed'));
+         console.error('QuestLog - Failed to add the reward item to the actor:', err);
+         ui.notifications.error(game.i18n.localize('QuestLog.QuestPreview.Notifications.RewardAddFailed'));
          return false;
       }
    }

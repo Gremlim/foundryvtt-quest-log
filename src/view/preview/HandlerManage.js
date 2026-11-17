@@ -28,8 +28,8 @@ export class HandlerManage
    static async clearHistory(quest, questPreview)
    {
       const confirmed = await foundry.applications.api.DialogV2.confirm({
-         window: { title: game.i18n.localize('ForienQuestLog.QuestPreview.History.ClearTitle') },
-         content: `<p>${game.i18n.format('ForienQuestLog.QuestPreview.History.ClearContent', { name: foundry.utils.escapeHTML(quest.name) })}</p>`,
+         window: { title: game.i18n.localize('QuestLog.QuestPreview.History.ClearTitle') },
+         content: `<p>${game.i18n.format('QuestLog.QuestPreview.History.ClearContent', { name: foundry.utils.escapeHTML(quest.name) })}</p>`,
          rejectClose: false,
          modal: false
       });
@@ -120,7 +120,7 @@ export class HandlerManage
 
       if (!players.length)
       {
-         ui.notifications.warn(game.i18n.localize('ForienQuestLog.QuestPreview.Management.NoPlayers'));
+         ui.notifications.warn(game.i18n.localize('QuestLog.QuestPreview.Management.NoPlayers'));
          return;
       }
 
@@ -131,10 +131,10 @@ export class HandlerManage
        `value="${escape(user.id)}"${selected.has(user.id) ? ' checked' : ''}> ${escape(user.name)}</label>`).join('<br>');
 
       const userIds = await foundry.applications.api.DialogV2.prompt({
-         window: { title: game.i18n.localize('ForienQuestLog.QuestPreview.Management.PersonalTitle') },
-         content: `<p>${game.i18n.localize('ForienQuestLog.QuestPreview.Management.PersonalContent')}</p>${rows}`,
+         window: { title: game.i18n.localize('QuestLog.QuestPreview.Management.PersonalTitle') },
+         content: `<p>${game.i18n.localize('QuestLog.QuestPreview.Management.PersonalContent')}</p>${rows}`,
          ok: {
-            label: game.i18n.localize('ForienQuestLog.QuestPreview.Buttons.Accept'),
+            label: game.i18n.localize('QuestLog.QuestPreview.Buttons.Accept'),
             callback: (event, button) => [...button.form.querySelectorAll('input[name="user"]:checked')]
              .map((input) => input.value)
          },

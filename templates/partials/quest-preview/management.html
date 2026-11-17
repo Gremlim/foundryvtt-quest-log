@@ -1,24 +1,24 @@
 <div class="row" xmlns="http://www.w3.org/1999/html">
   <section class="quest-settings">
-    <h2>{{localize 'ForienQuestLog.QuestPreview.Management.QuestSettings'}}</h2>
+    <h2>{{localize 'QuestLog.QuestPreview.Management.QuestSettings'}}</h2>
     <div class="setting-groups">
-      <button class="btn configure-perm-btn"><i class="fas fa-lock fa-fw"></i>{{localize 'ForienQuestLog.QuestPreview.Management.ConfigurePermissions'}}</button>
+      <button class="btn configure-perm-btn"><i class="fas fa-lock fa-fw"></i>{{localize 'QuestLog.QuestPreview.Management.ConfigurePermissions'}}</button>
       {{#if isGM}}
-        <button class="btn make-personal-btn"><i class="fas fa-user-shield fa-fw"></i>{{#if isPersonal}}{{localize 'ForienQuestLog.QuestPreview.Management.ChangePersonal'}}{{else}}{{localize 'ForienQuestLog.QuestPreview.Management.MakePersonal'}}{{/if}}</button>
+        <button class="btn make-personal-btn"><i class="fas fa-user-shield fa-fw"></i>{{#if isPersonal}}{{localize 'QuestLog.QuestPreview.Management.ChangePersonal'}}{{else}}{{localize 'QuestLog.QuestPreview.Management.MakePersonal'}}{{/if}}</button>
         {{#if isPersonal}}
-          <button class="btn make-public-btn"><i class="fas fa-users fa-fw"></i>{{localize 'ForienQuestLog.QuestPreview.Management.MakePublic'}}</button>
+          <button class="btn make-public-btn"><i class="fas fa-users fa-fw"></i>{{localize 'QuestLog.QuestPreview.Management.MakePublic'}}</button>
         {{/if}}
       {{/if}}
       {{#if isGM}}
-        <div class="manage-repeatable" title="{{localize 'ForienQuestLog.QuestPreview.Management.RepeatableHint'}}">
+        <div class="manage-repeatable" title="{{localize 'QuestLog.QuestPreview.Management.RepeatableHint'}}">
           <input type="checkbox" id="repeatable-{{id}}" name="repeatable" {{#if repeatable}}checked{{/if}}>
-          <label for="repeatable-{{id}}">{{localize 'ForienQuestLog.QuestPreview.Management.Repeatable'}}</label>
+          <label for="repeatable-{{id}}">{{localize 'QuestLog.QuestPreview.Management.Repeatable'}}</label>
         </div>
       {{/if}}
       {{#if canSetPlayerEdit}}
-        <div class="manage-allow-player-edit" title="{{localize 'ForienQuestLog.QuestPreview.Management.AllowPlayerEditHint'}}">
+        <div class="manage-allow-player-edit" title="{{localize 'QuestLog.QuestPreview.Management.AllowPlayerEditHint'}}">
           <input type="checkbox" id="allow-player-edit-{{id}}" name="allow-player-edit" {{#if allowPlayerEdit}}checked{{/if}}>
-          <label for="allow-player-edit-{{id}}">{{localize 'ForienQuestLog.QuestPreview.Management.AllowPlayerEdit'}}</label>
+          <label for="allow-player-edit-{{id}}">{{localize 'QuestLog.QuestPreview.Management.AllowPlayerEdit'}}</label>
         </div>
       {{/if}}
     </div>
@@ -26,35 +26,35 @@
 
   <section class="quest-splash">
     <h2>
-      {{localize 'ForienQuestLog.QuestPreview.Management.SplashArt'}}
+      {{localize 'QuestLog.QuestPreview.Management.SplashArt'}}
       <span class="state-container">
         <input type="checkbox" id="splash-as-icon-{{id}}" name="splash-as-icon" {{#if splashAsIcon}}checked{{/if}}>
-        <label for="splash-as-icon-{{id}}">{{localize 'ForienQuestLog.QuestPreview.Management.SplashQuestIcon'}}</label>
+        <label for="splash-as-icon-{{id}}">{{localize 'QuestLog.QuestPreview.Management.SplashQuestIcon'}}</label>
       </span>
     </h2>
-    <div class="splash-image" style="background-image: url('{{splash}}');background-position: {{splashPos}};" title="{{localize 'ForienQuestLog.Tooltips.Edit'}}">
+    <div class="splash-image" style="background-image: url('{{splash}}');background-position: {{splashPos}};" title="{{localize 'QuestLog.Tooltips.Edit'}}">
       {{#if (eq splash '')}}
-        <span class="drop-info">{{localize 'ForienQuestLog.QuestPreview.Management.SplashInfo'}}</span>
+        <span class="drop-info">{{localize 'QuestLog.QuestPreview.Management.SplashInfo'}}</span>
       {{/if}}
 
       {{#if splash.length}}
-        <span class="delete-splash" title="{{localize 'ForienQuestLog.QuestPreview.Tooltips.DeleteSplash'}}"><i class="fas fa-times"></i></span>
-        <span class="change-splash-pos" title="{{localize 'ForienQuestLog.QuestPreview.Tooltips.ChangeSplashPos'}}"><i class="fas fa-arrows-alt"></i></span>
+        <span class="delete-splash" title="{{localize 'QuestLog.QuestPreview.Tooltips.DeleteSplash'}}"><i class="fas fa-times"></i></span>
+        <span class="change-splash-pos" title="{{localize 'QuestLog.QuestPreview.Tooltips.ChangeSplashPos'}}"><i class="fas fa-arrows-alt"></i></span>
       {{/if}}
     </div>
   </section>
 </div>
 <section class="subquests">
   <header>
-    <h2>{{localize 'ForienQuestLog.QuestPreview.Management.QuestBranching'}}</h2>
-    <button class="btn add-subquest-btn"><i class="fas fa-plus"></i> {{localize 'ForienQuestLog.QuestPreview.Management.AddSubquest'}}</button>
+    <h2>{{localize 'QuestLog.QuestPreview.Management.QuestBranching'}}</h2>
+    <button class="btn add-subquest-btn"><i class="fas fa-plus"></i> {{localize 'QuestLog.QuestPreview.Management.AddSubquest'}}</button>
   </header>
   <ul class="subquests-box">
     {{#each data_subquest}}
     <li class="subquest-item" title="{{statusTooltip}}">
-      {{#if isPrimary}}<i class="is-primary fas fa-star pad-l-4" title="{{localize 'ForienQuestLog.Tooltips.PrimaryQuest'}}"></i>{{/if}}
+      {{#if isPrimary}}<i class="is-primary fas fa-star pad-l-4" title="{{localize 'QuestLog.Tooltips.PrimaryQuest'}}"></i>{{/if}}
       {{#if ../canEdit}}
-        {{#if isHidden}}<i class="is-hidden fas fa-eye-slash pad-l-4" title="{{localize 'ForienQuestLog.Tooltips.HiddenQuestNoPlayers'}}"></i>{{/if}}
+        {{#if isHidden}}<i class="is-hidden fas fa-eye-slash pad-l-4" title="{{localize 'QuestLog.Tooltips.HiddenQuestNoPlayers'}}"></i>{{/if}}
         {{#if isPersonal}}<i class="is-personal fas fa-user-shield pad-l-4" title="{{{personalActors}}}"></i>{{/if}}
       {{/if}}
       <h2 class="quest-name-link" data-quest-id="{{id}}">{{name}}</h2>

@@ -1,5 +1,5 @@
 {
-  "ForienQuestLog": {
+  "QuestLog": {
     "API": {
       "Hooks": {
         "Labels": {
@@ -57,16 +57,16 @@
     "Migration": {
       "ChatMessage": {
         "Footer": "Debes actualizar manualmente las misiones anteriores con datos de documentos válidos de compendios o de tu mundo.<br>",
-        "Header": "Forien's Quest Log (DB migración)<br>Se eliminaron los elementos de recompensa o no se encuentra al dador de las misiones a continuación:<p>",
-        "Notification": "Forien's Quest Log - Se eliminó al dador de misiones o los elementos de recompensa de una o más misiones. Revise el mensaje de chat para obtener más información.",
+        "Header": "Quest Log (DB migración)<br>Se eliminaron los elementos de recompensa o no se encuentra al dador de las misiones a continuación:<p>",
+        "Notification": "Quest Log - Se eliminó al dador de misiones o los elementos de recompensa de una o más misiones. Revise el mensaje de chat para obtener más información.",
         "QuestGiver": "Dador de Misión",
         "QuestRewards": "Recompensas de Misión"
       },
       "Notifications": {
-        "Complete": "Forien's Quest Log - Migración de datos completa.",
-        "CouldNotMigrate": "Forien's Quest Log - No se pudo migrar la misión: '{name}'.",
-        "Schema": "Forien's Quest Log - Migración de datos a la versión del esquema '{version}'.",
-        "Start": "Forien's Quest Log - Migrando datos, por favor no recargar."
+        "Complete": "Quest Log - Migración de datos completa.",
+        "CouldNotMigrate": "Quest Log - No se pudo migrar la misión: '{name}'.",
+        "Schema": "Quest Log - Migración de datos a la versión del esquema '{version}'.",
+        "Start": "Quest Log - Migrando datos, por favor no recargar."
       }
     },
     "Notifications": {
@@ -192,8 +192,8 @@
       "Notifications": {
         "RewardAddFailed": "No se pudo añadir el item de recompensa al actor. Comprueba que puedes editar el actor.",
         "BadUUID": "No se pudo recuperar el documento para UUID: '{uuid}'.",
-        "WrongDocType": "Forien's Quest Log solo acepta actores del mundo/compendio, elementos y entradas de diario como dador de misiones.",
-        "WrongItemType": "Forien's Quest Log solo acepta artículos del mundo y del compendio como recompensa."
+        "WrongDocType": "Quest Log solo acepta actores del mundo/compendio, elementos y entradas de diario como dador de misiones.",
+        "WrongItemType": "Quest Log solo acepta artículos del mundo y del compendio como recompensa."
       },
       "History": {
         "Accepted": "{user} aceptó la misión.",

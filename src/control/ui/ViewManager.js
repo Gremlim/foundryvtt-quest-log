@@ -86,7 +86,7 @@ export class ViewManager
 
    /**
     * @returns {QuestLog} The main quest log app accessible from the left hand menu bar or
-    *                     `Hook.call('ForienQuestLog.Open.QuestLog')`.
+    *                     `Hook.call('QuestLog.Open.QuestLog')`.
     *
     * @see FQLHooks.openQuestLog
     */
@@ -231,7 +231,7 @@ export class ViewManager
    {
       if (notify)
       {
-         ui.notifications.info(game.i18n.format('ForienQuestLog.Notifications.QuestAdded', {
+         ui.notifications.info(game.i18n.format('QuestLog.Notifications.QuestAdded', {
             name: quest.name,
             status: game.i18n.localize(questStatusI18n[quest.status])
          }));
@@ -270,7 +270,7 @@ export class ViewManager
          if (this.#newQuestPreviewApp.rendered)
          {
             this.#newQuestPreviewApp.bringToFront();
-            ViewManager.notifications.warn(game.i18n.localize('ForienQuestLog.Notifications.FinishQuestAdded'));
+            ViewManager.notifications.warn(game.i18n.localize('QuestLog.Notifications.FinishQuestAdded'));
             return false;
          }
          else

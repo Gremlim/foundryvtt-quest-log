@@ -209,7 +209,7 @@ export class QuestDB
       {
          if (game.user.isGM)
          {
-            console.warn('ForienQuestLog - Failed to initialize QuestDB as the quest folder / _fql_quests is missing.');
+            console.warn('QuestLog - Failed to initialize QuestDB as the quest folder / _fql_quests is missing.');
          }
 
          folder = { content: [] };
@@ -424,8 +424,8 @@ export class QuestDB
       const folder = Utils.getQuestFolder();
       if (!folder)
       {
-         console.warn('ForienQuestLog - QuestDB.createQuest - quest folder not found.');
-         ui.notifications.error('ForienQuestLog - the quest folder was not found; cannot create the quest.');
+         console.warn('QuestLog - QuestDB.createQuest - quest folder not found.');
+         ui.notifications.error('QuestLog - the quest folder was not found; cannot create the quest.');
          return;
       }
 
@@ -555,7 +555,7 @@ export class QuestDB
 
       const data = JSON.parse(JSON.stringify(source.toJSON()));
 
-      data.name = game.i18n.format('ForienQuestLog.QuestLog.ContextMenu.DuplicateName', { name: source.name });
+      data.name = game.i18n.format('QuestLog.QuestLog.ContextMenu.DuplicateName', { name: source.name });
       data.subquests = [];
       data.order = [];
       data.history = [];
@@ -575,7 +575,7 @@ export class QuestDB
 
       if (newQuest)
       {
-         ui.notifications.info(game.i18n.format('ForienQuestLog.Notifications.QuestDuplicated', { name: newQuest.name }));
+         ui.notifications.info(game.i18n.format('QuestLog.Notifications.QuestDuplicated', { name: newQuest.name }));
       }
 
       return newQuest;
@@ -629,8 +629,8 @@ export class QuestDB
       if (!quest) { return false; }
 
       const confirmed = await foundry.applications.api.DialogV2.confirm({
-         window: { title: game.i18n.localize('ForienQuestLog.QuestPreview.Repeat.ResetTitle') },
-         content: `<p>${game.i18n.format('ForienQuestLog.QuestPreview.Repeat.ResetContent',
+         window: { title: game.i18n.localize('QuestLog.QuestPreview.Repeat.ResetTitle') },
+         content: `<p>${game.i18n.format('QuestLog.QuestPreview.Repeat.ResetContent',
           { name: foundry.utils.escapeHTML(quest.name) })}</p>`,
          rejectClose: false,
          modal: false
@@ -817,7 +817,7 @@ export class QuestDB
             case questStatus.inactive:
                return this.#questsCollect[questStatus.inactive].filter(filterInactive ?? filter);
             default:
-               console.error(`Forien Quest Log - QuestDB - filterCollect - unknown status: ${status}`);
+               console.error(`Quest Log - QuestDB - filterCollect - unknown status: ${status}`);
                return void 0;
          }
       }
@@ -1045,7 +1045,7 @@ export class QuestDB
       if (!whisper.length) { return; }
 
       await ChatMessage.create({
-         content: `<p><i class="fas fa-scroll"></i> ${game.i18n.localize('ForienQuestLog.Notifications.QuestUnlocked')}</p>`,
+         content: `<p><i class="fas fa-scroll"></i> ${game.i18n.localize('QuestLog.Notifications.QuestUnlocked')}</p>`,
          whisper,
          speaker: { alias: 'Quest Log' }
       });
@@ -1134,7 +1134,7 @@ export class QuestDB
             case questStatus.inactive:
                return this.#questsCollect[questStatus.inactive].sort(sortInactive);
             default:
-               console.error(`Forien Quest Log - QuestDB - sortCollect - unknown status: ${status}`);
+               console.error(`Quest Log - QuestDB - sortCollect - unknown status: ${status}`);
                return void 0;
          }
       }
@@ -1454,7 +1454,7 @@ export class QuestDB
 
       if (!this.#questsMap[entry.status])
       {
-         console.error(`ForienQuestLog - QuestDB - set quest error - unknown status: ${entry.status}`);
+         console.error(`QuestLog - QuestDB - set quest error - unknown status: ${entry.status}`);
          return;
       }
 

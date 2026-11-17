@@ -276,15 +276,6 @@ export class Utils
    }
 
    /**
-    * @returns {boolean} True if the original Forien's Quest Log is also enabled. In that case this module avoids the
-    *                    shared hooks / keybindings / UI names so both can run side by side with separate data.
-    */
-   static isForienActive()
-   {
-      return !!game.modules.get('forien-quest-log')?.active;
-   }
-
-   /**
     * A convenience method to return the module data object for FQL.
     *
     * This is a scoped location where we can store any FQL data.
@@ -344,7 +335,7 @@ export class Utils
 
          if (doc === null)
          {
-            ui.notifications.error(game.i18n.format('ForienQuestLog.API.Utils.Notifications.NoDocument', { uuid }));
+            ui.notifications.error(game.i18n.format('QuestLog.API.Utils.Notifications.NoDocument', { uuid }));
             return null;
          }
 
@@ -352,7 +343,7 @@ export class Utils
 
          if (checkPerm && !doc.testUserPermission(game.user, CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER))
          {
-            ui.notifications.warn('ForienQuestLog.API.Utils.Notifications.NoPermission', { localize: true });
+            ui.notifications.warn('QuestLog.API.Utils.Notifications.NoPermission', { localize: true });
             return null;
          }
 
@@ -360,7 +351,7 @@ export class Utils
       }
       catch (err)
       {
-         ui.notifications.error(game.i18n.format('ForienQuestLog.API.Utils.Notifications.NoDocument', { uuid }));
+         ui.notifications.error(game.i18n.format('QuestLog.API.Utils.Notifications.NoDocument', { uuid }));
          console.error(err);
       }
 
@@ -375,8 +366,7 @@ export class Utils
     */
    static getQuestFolder()
    {
-      // The folder is identified by a flag so that it can be renamed (#156). It is never matched by name so that the
-      // data is kept separate from the original Forien's Quest Log (`_fql_quests`) when both modules are enabled.
+      // The folder is identified by a flag so that it can be renamed (#156). It is never matched by name.
       return game.journal.folders.find((f) => f.getFlag(constants.moduleName, 'questFolder') === true);
    }
 
@@ -527,13 +517,13 @@ export class Utils
 
          if (document === null)
          {
-            ui.notifications.error(game.i18n.format('ForienQuestLog.API.Utils.Notifications.NoDocument', { uuid }));
+            ui.notifications.error(game.i18n.format('QuestLog.API.Utils.Notifications.NoDocument', { uuid }));
             return null;
          }
 
          if (permissionCheck && !document.testUserPermission(game.user, CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER))
          {
-            ui.notifications.warn('ForienQuestLog.API.Utils.Notifications.NoPermission', { localize: true });
+            ui.notifications.warn('QuestLog.API.Utils.Notifications.NoPermission', { localize: true });
             return null;
          }
 
@@ -553,7 +543,7 @@ export class Utils
       }
       catch (err)
       {
-         ui.notifications.error(game.i18n.format('ForienQuestLog.API.Utils.Notifications.NoDocument', { uuid }));
+         ui.notifications.error(game.i18n.format('QuestLog.API.Utils.Notifications.NoDocument', { uuid }));
          console.error(err);
          return null;
       }

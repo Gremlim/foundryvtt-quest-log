@@ -1,20 +1,20 @@
 <header>
-  <h1 style="flex: 1;">{{fql_format 'ForienQuestLog.QuestLog.Labels.TableHeader' (localize (lookup questStatusI18n tab))}}</h1>
-  <label class="quest-search-label" title="{{localize 'ForienQuestLog.QuestLog.Tooltips.Search'}}">
+  <h1 style="flex: 1;">{{fql_format 'QuestLog.QuestLog.Labels.TableHeader' (localize (lookup questStatusI18n tab))}}</h1>
+  <label class="quest-search-label" title="{{localize 'QuestLog.QuestLog.Tooltips.Search'}}">
     <i class="fas fa-magnifying-glass"></i>
-    <input type="search" class="quest-search" value="{{@root.search}}" placeholder="{{localize 'ForienQuestLog.QuestLog.Labels.Search'}}" autocomplete="off">
+    <input type="search" class="quest-search" value="{{@root.search}}" placeholder="{{localize 'QuestLog.QuestLog.Labels.Search'}}" autocomplete="off">
   </label>
-  <label class="group-by-label" title="{{localize 'ForienQuestLog.QuestLog.Tooltips.GroupBy'}}">
+  <label class="group-by-label" title="{{localize 'QuestLog.QuestLog.Tooltips.GroupBy'}}">
     <i class="fas fa-layer-group"></i>
     <select class="quest-group-by" data-tab="{{tab}}">
-      <option value="none" {{#if (eq groupBy 'none')}}selected{{/if}}>{{localize 'ForienQuestLog.QuestLog.GroupBy.None'}}</option>
-      <option value="group" {{#if (eq groupBy 'group')}}selected{{/if}}>{{localize 'ForienQuestLog.QuestLog.GroupBy.Group'}}</option>
-      <option value="giver" {{#if (eq groupBy 'giver')}}selected{{/if}}>{{localize 'ForienQuestLog.QuestLog.GroupBy.Giver'}}</option>
-      <option value="location" {{#if (eq groupBy 'location')}}selected{{/if}}>{{localize 'ForienQuestLog.QuestLog.GroupBy.Location'}}</option>
+      <option value="none" {{#if (eq groupBy 'none')}}selected{{/if}}>{{localize 'QuestLog.QuestLog.GroupBy.None'}}</option>
+      <option value="group" {{#if (eq groupBy 'group')}}selected{{/if}}>{{localize 'QuestLog.QuestLog.GroupBy.Group'}}</option>
+      <option value="giver" {{#if (eq groupBy 'giver')}}selected{{/if}}>{{localize 'QuestLog.QuestLog.GroupBy.Giver'}}</option>
+      <option value="location" {{#if (eq groupBy 'location')}}selected{{/if}}>{{localize 'QuestLog.QuestLog.GroupBy.Location'}}</option>
     </select>
   </label>
   {{#if (or isGM canCreate)}}
-    <button class="new-quest-btn"><i class="fas fa-plus"></i> {{localize 'ForienQuestLog.QuestLog.Buttons.AddQuest'}}</button>
+    <button class="new-quest-btn"><i class="fas fa-plus"></i> {{localize 'QuestLog.QuestLog.Buttons.AddQuest'}}</button>
   {{/if}}
 </header>
 <div class="table">
@@ -40,10 +40,10 @@
       <div class="open-quest title" data-quest-id="{{id}}">
         <h2>{{name}}</h2>
         <div class="meta">
-          {{#if isSubquest}}<span class="chip subquest"><i class="fas fa-sitemap"></i>{{fql_format 'ForienQuestLog.QuestLog.Labels.SubTitle' data_parent.name}}</span>{{/if}}
+          {{#if isSubquest}}<span class="chip subquest"><i class="fas fa-sitemap"></i>{{fql_format 'QuestLog.QuestLog.Labels.SubTitle' data_parent.name}}</span>{{/if}}
           {{#if repeatLabel}}<span class="chip repeatable"><i class="fas fa-rotate"></i>{{repeatLabel}}</span>{{/if}}
-          {{#if isPersonal}}<span class="chip personal" title="{{{personalActors}}}"><i class="fas fa-user-shield"></i>{{localize 'ForienQuestLog.QuestLog.Labels.Personal'}}</span>{{/if}}
-          {{#if deadlineLabel}}<span class="chip deadline{{#if deadlineOverdue}} overdue{{/if}}" title="{{localize 'ForienQuestLog.QuestPreview.Labels.Deadline'}}"><i class="fas fa-hourglass-half"></i>{{deadlineLabel}}</span>{{/if}}
+          {{#if isPersonal}}<span class="chip personal" title="{{{personalActors}}}"><i class="fas fa-user-shield"></i>{{localize 'QuestLog.QuestLog.Labels.Personal'}}</span>{{/if}}
+          {{#if deadlineLabel}}<span class="chip deadline{{#if deadlineOverdue}} overdue{{/if}}" title="{{localize 'QuestLog.QuestPreview.Labels.Deadline'}}"><i class="fas fa-hourglass-half"></i>{{deadlineLabel}}</span>{{/if}}
           {{#if location}}<span class="chip location"><i class="fas fa-location-dot"></i>{{location}}</span>{{/if}}
           {{#if creatorLabel}}<span class="chip creator"><i class="fas fa-user-pen"></i>{{creatorLabel}}</span>{{/if}}
           {{#if acceptedNames}}<span class="chip accepted" title="{{acceptedTitle}}"><i class="fas fa-user-check"></i>{{acceptedNames}}</span>{{/if}}
@@ -51,12 +51,12 @@
       </div>
       <div class="open-quest quest-icons">
         {{#if canEdit}}
-          {{#if isHidden}}<i class="is-hidden fas fa-eye-slash" title="{{localize 'ForienQuestLog.Tooltips.HiddenQuestNoPlayers'}}"></i>{{/if}}
+          {{#if isHidden}}<i class="is-hidden fas fa-eye-slash" title="{{localize 'QuestLog.Tooltips.HiddenQuestNoPlayers'}}"></i>{{/if}}
         {{/if}}
-        {{#if isPrimary}}<i class="is-primary fas fa-star" title="{{localize 'ForienQuestLog.Tooltips.PrimaryQuest'}}"></i>{{/if}}
+        {{#if isPrimary}}<i class="is-primary fas fa-star" title="{{localize 'QuestLog.Tooltips.PrimaryQuest'}}"></i>{{/if}}
       </div>
       {{#unless (eq @root.showTasks 'no')}}
-        <div class="open-quest tasks" title="{{localize 'ForienQuestLog.QuestLog.Tooltips.Objectives'}}">{{checkedTasks}}{{#unless (eq @root.showTasks 'onlyCurrent')}}/{{totalTasks}}{{/unless}}</div>
+        <div class="open-quest tasks" title="{{localize 'QuestLog.QuestLog.Tooltips.Objectives'}}">{{checkedTasks}}{{#unless (eq @root.showTasks 'onlyCurrent')}}/{{totalTasks}}{{/unless}}</div>
       {{/unless}}
       {{#if statusActions.length}}
         {{{statusActions}}}

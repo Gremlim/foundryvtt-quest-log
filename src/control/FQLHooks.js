@@ -31,7 +31,7 @@ import {
  *
  * Foundry lifecycle:
  * - `init` - {@link FQLHooks.foundryInit}
- * - `ready` - {@link FQLHooks.foundryReady} - A hook `ForienQuestLog.Lifecycle.ready` is fired after FQL is ready.
+ * - `ready` - {@link FQLHooks.foundryReady} - A hook `QuestLog.Lifecycle.ready` is fired after FQL is ready.
  * - `setup` - {@link FQLHooks.foundrySetup}
  *
  * Foundry game hooks:
@@ -45,12 +45,12 @@ import {
  * journal sheet option items (ApplicationV2 / legacy ApplicationV1 sheets respectively).
  *
  * FQL hooks (response):
- * - `ForienQuestLog.Open.QuestLog` - {@link FQLHooks.openQuestLog} - Open the quest log.
- * - `ForienQuestLog.Open.QuestTracker` - {@link FQLHooks.openQuestTracker} - Open the quest tracker.
- * - `ForienQuestLog.Run.DBMigration` - {@link FQLHooks.runDBMigration} - Allow GMs to run the DBMigration manually.
+ * - `QuestLog.Open.QuestLog` - {@link FQLHooks.openQuestLog} - Open the quest log.
+ * - `QuestLog.Open.QuestTracker` - {@link FQLHooks.openQuestTracker} - Open the quest tracker.
+ * - `QuestLog.Run.DBMigration` - {@link FQLHooks.runDBMigration} - Allow GMs to run the DBMigration manually.
  *
  * FQL hooks (called):
- * - `ForienQuestLog.Lifecycle.ready` - {@link FQLHooks.foundryReady} - Called at the end of the `ready` hook when FQL
+ * - `QuestLog.Lifecycle.ready` - {@link FQLHooks.foundryReady} - Called at the end of the `ready` hook when FQL
  * is fully setup.
  */
 export class FQLHooks
@@ -82,14 +82,10 @@ export class FQLHooks
       Hooks.on('renderJournalEntrySheet', FQLHooks.renderJournalSheet);
       Hooks.on('renderJournalSheet', FQLHooks.renderJournalSheet); // Legacy ApplicationV1 sheets.
 
-      // FQL specific hooks. These names are shared with the original Forien's Quest Log, so they are only registered
-      // when that module is not enabled; otherwise a macro would open both quest logs.
-      if (!Utils.isForienActive())
-      {
-         Hooks.on('ForienQuestLog.Open.QuestLog', FQLHooks.openQuestLog);
-         Hooks.on('ForienQuestLog.Open.QuestTracker', FQLHooks.openQuestTracker);
-         Hooks.on('ForienQuestLog.Run.DBMigration', FQLHooks.runDBMigration);
-      }
+      // FQL specific hooks.
+      Hooks.on('QuestLog.Open.QuestLog', FQLHooks.openQuestLog);
+      Hooks.on('QuestLog.Open.QuestTracker', FQLHooks.openQuestTracker);
+      Hooks.on('QuestLog.Run.DBMigration', FQLHooks.runDBMigration);
    }
 
    /**
@@ -146,7 +142,7 @@ export class FQLHooks
    {
       const amount = await FQLDialog.promptAmount({
          title: data._fqlData.itemName,
-         label: game.i18n.localize('ForienQuestLog.QuestPreview.Labels.QuantityTake'),
+         label: game.i18n.localize('QuestLog.QuestPreview.Labels.QuantityTake'),
          value: quantity,
          min: 1,
          max: quantity
@@ -236,7 +232,7 @@ export class FQLHooks
       ViewManager.renderOrCloseQuestTracker();
 
       // Fire our own lifecycle event to inform any other modules that depend on FQL QuestDB.
-      if (!Utils.isForienActive()) { Hooks.callAll('ForienQuestLog.Lifecycle.ready'); }
+      Hooks.callAll('QuestLog.Lifecycle.ready');
    }
 
    /**
@@ -344,14 +340,14 @@ export class FQLHooks
       // Early out if Quest isn't in the QuestDB.
       if (!quest)
       {
-         throw new Error(game.i18n.localize('ForienQuestLog.API.Hooks.Notifications.NoQuest'));
+         throw new Error(game.i18n.localize('QuestLog.API.Hooks.Notifications.NoQuest'));
       }
 
       // The macro script data to open the quest via the public QuestAPI.
       const command = `game.modules.get('${constants.moduleName}').public.QuestAPI.open({ questId: '${questId}' });`;
 
       const macroData = {
-         name: game.i18n.format('ForienQuestLog.API.Hooks.Labels.OpenMacro', { name: quest.name }),
+         name: game.i18n.format('QuestLog.API.Hooks.Labels.OpenMacro', { name: quest.name }),
          type: 'script',
          command
       };
@@ -542,9 +538,7 @@ export class FQLHooks
             button.type = 'button';
             button.classList.add('ql-quest-log-btn');
 
-            // Distinguish this button from the original module's button when both are enabled.
-            const suffix = Utils.isForienActive() ? ` (${game.modules.get(constants.moduleName)?.title})` : '';
-            button.innerText = `${game.i18n.localize('ForienQuestLog.QuestLog.Title')}${suffix}`;
+            button.innerText = game.i18n.localize('QuestLog.QuestLog.Title');
 
             let footer = element.querySelector('.directory-footer');
             if (!footer)

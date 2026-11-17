@@ -74,7 +74,7 @@ export class Currency
          if (controlled.length === 1) { actor = controlled[0].actor ?? null; }
          else
          {
-            ui.notifications.warn(game.i18n.localize('ForienQuestLog.Currency.Notifications.SelectToken'));
+            ui.notifications.warn(game.i18n.localize('QuestLog.Currency.Notifications.SelectToken'));
             return null;
          }
       }
@@ -84,14 +84,14 @@ export class Currency
 
          if (!actor)
          {
-            ui.notifications.warn(game.i18n.localize('ForienQuestLog.Currency.Notifications.NoCharacter'));
+            ui.notifications.warn(game.i18n.localize('QuestLog.Currency.Notifications.NoCharacter'));
             return null;
          }
       }
 
       if (actor && !actor.isOwner)
       {
-         ui.notifications.warn(game.i18n.localize('ForienQuestLog.Currency.Notifications.NotOwner'));
+         ui.notifications.warn(game.i18n.localize('QuestLog.Currency.Notifications.NotOwner'));
          return null;
       }
 
@@ -115,7 +115,7 @@ export class Currency
 
       if (!this.get(id) || !foundry.utils.hasProperty(actor, path))
       {
-         ui.notifications.warn(game.i18n.localize('ForienQuestLog.Currency.Notifications.Unsupported'));
+         ui.notifications.warn(game.i18n.localize('QuestLog.Currency.Notifications.Unsupported'));
          return false;
       }
 
@@ -127,8 +127,8 @@ export class Currency
       }
       catch (err)
       {
-         console.error('ForienQuestLog - Failed to add currency to the actor:', err);
-         ui.notifications.error(game.i18n.localize('ForienQuestLog.Currency.Notifications.Failed'));
+         console.error('QuestLog - Failed to add currency to the actor:', err);
+         ui.notifications.error(game.i18n.localize('QuestLog.Currency.Notifications.Failed'));
          return false;
       }
    }

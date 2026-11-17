@@ -1,5 +1,5 @@
 {
-  "ForienQuestLog": {
+  "QuestLog": {
     "API": {
       "Hooks": {
         "Labels": {
@@ -71,16 +71,16 @@
     "Migration": {
       "ChatMessage": {
         "Footer": "You must manually update the above quests with valid document data from compendiums or your world.<br>",
-        "Header": "Forien's Quest Log (DB migration)<br>Removed unlinked quest giver or reward items from the quests below:<p>",
-        "Notification": "Forien's Quest Log - Removed unlinked quest giver or reward items from one or more quests. Please review the chat message for more info.",
+        "Header": "Quest Log (DB migration)<br>Removed unlinked quest giver or reward items from the quests below:<p>",
+        "Notification": "Quest Log - Removed unlinked quest giver or reward items from one or more quests. Please review the chat message for more info.",
         "QuestGiver": "Quest Giver",
         "QuestRewards": "Quest Rewards"
       },
       "Notifications": {
-        "Complete": "Forien's Quest Log - Migrating data complete.",
-        "CouldNotMigrate": "Forien's Quest Log - Could not migrate quest: '{name}'.",
-        "Schema": "Forien's Quest Log - Migrating data to schema version '{version}'.",
-        "Start": "Forien's Quest Log - Migrating data, please do not reload."
+        "Complete": "Quest Log - Migrating data complete.",
+        "CouldNotMigrate": "Quest Log - Could not migrate quest: '{name}'.",
+        "Schema": "Quest Log - Migrating data to schema version '{version}'.",
+        "Start": "Quest Log - Migrating data, please do not reload."
       }
     },
     "Notifications": {
@@ -206,8 +206,8 @@
       "Notifications": {
         "RewardAddFailed": "Could not add the reward item to the actor. Check that you can edit the actor.",
         "BadUUID": "Could not retrieve the document for UUID: '{uuid}'.",
-        "WrongDocType": "Forien's Quest Log only accepts world / compendium actors, items, and journal entries as quest givers.",
-        "WrongItemType": "Forien's Quest Log only accepts world and compendium items as rewards."
+        "WrongDocType": "Quest Log only accepts world / compendium actors, items, and journal entries as quest givers.",
+        "WrongItemType": "Quest Log only accepts world and compendium items as rewards."
       },
       "History": {
         "Accepted": "{user} accepted the quest.",

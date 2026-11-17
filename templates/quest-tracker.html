@@ -12,7 +12,7 @@
       <div class="quest{{#if (eq id ../primaryQuestId)}} is-primary{{/if}}{{#if isRemoved}} is-removed{{/if}}">
         <div class="title" {{#if (or isHidden isInactive)}}id="hidden"{{/if}}>
         {{#if hasObjectives}}
-        <i class="quest-tracker-toggle fas {{#if expanded}}fa-chevron-down{{else}}fa-chevron-right{{/if}}" data-quest-id="{{id}}" title="{{#if expanded}}{{localize 'ForienQuestLog.QuestTracker.Tooltips.CollapseObjectives'}}{{else}}{{localize 'ForienQuestLog.QuestTracker.Tooltips.ExpandObjectives'}}{{/if}}"></i>
+        <i class="quest-tracker-toggle fas {{#if expanded}}fa-chevron-down{{else}}fa-chevron-right{{/if}}" data-quest-id="{{id}}" title="{{#if expanded}}{{localize 'QuestLog.QuestTracker.Tooltips.CollapseObjectives'}}{{else}}{{localize 'QuestLog.QuestTracker.Tooltips.ExpandObjectives'}}{{/if}}"></i>
         {{else}}
         <span class="quest-tracker-toggle placeholder"></span>
         {{/if}}
@@ -21,29 +21,29 @@
         </div>
         <span class="quest-tracker-span"></span>
         <span class="quest-tracker-icons">
-        <i class="quest-tracker-remove fas {{#if isRemoved}}fa-eye{{else}}fa-xmark{{/if}}" data-quest-id="{{id}}" title="{{#if isRemoved}}{{localize 'ForienQuestLog.QuestTracker.Tooltips.RestoreQuest'}}{{else}}{{localize 'ForienQuestLog.QuestTracker.Tooltips.RemoveQuest'}}{{/if}}"></i>
-        {{#if (eq id ../primaryQuestId)}}<i class="is-primary fas fa-star" title="{{localize 'ForienQuestLog.Tooltips.PrimaryQuest'}}"></i>{{/if}}
+        <i class="quest-tracker-remove fas {{#if isRemoved}}fa-eye{{else}}fa-xmark{{/if}}" data-quest-id="{{id}}" title="{{#if isRemoved}}{{localize 'QuestLog.QuestTracker.Tooltips.RestoreQuest'}}{{else}}{{localize 'QuestLog.QuestTracker.Tooltips.RemoveQuest'}}{{/if}}"></i>
+        {{#if (eq id ../primaryQuestId)}}<i class="is-primary fas fa-star" title="{{localize 'QuestLog.Tooltips.PrimaryQuest'}}"></i>{{/if}}
         {{#if isGM}}
-          {{#if isHidden}}<i class="is-hidden fas fa-eye-slash" title="{{localize 'ForienQuestLog.Tooltips.HiddenQuestNoPlayers'}}"></i>{{/if}}
+          {{#if isHidden}}<i class="is-hidden fas fa-eye-slash" title="{{localize 'QuestLog.Tooltips.HiddenQuestNoPlayers'}}"></i>{{/if}}
         {{/if}}
         {{#if isPersonal}}<i class="is-personal fas fa-user-shield" title="{{{personalActors}}}"></i>{{/if}}
         </span>
         </div>
-        {{#if deadlineLabel}}<div class="quest-tracker-deadline{{#if deadlineOverdue}} overdue{{/if}}" title="{{localize 'ForienQuestLog.QuestPreview.Labels.Deadline'}}"><i class="fas fa-hourglass-half"></i> {{deadlineLabel}}</div>{{/if}}
+        {{#if deadlineLabel}}<div class="quest-tracker-deadline{{#if deadlineOverdue}} overdue{{/if}}" title="{{localize 'QuestLog.QuestPreview.Labels.Deadline'}}"><i class="fas fa-hourglass-half"></i> {{deadlineLabel}}</div>{{/if}}
 
         {{#if rows.length}}
         <ul class="tasks">
           {{#each rows}}
           {{#if (eq kind 'subquest')}}
           <li class="task {{state}} subquest" {{#if (or isHidden isInactive)}}id="hidden"{{/if}}>
-          <span class="task-label {{state}}" title="{{#if (eq state 'check-square')}}{{localize 'ForienQuestLog.QuestTracker.Tooltips.TaskCompleted'}}{{else if (eq state 'minus-square')}}{{localize 'ForienQuestLog.QuestTracker.Tooltips.TaskFailed'}}{{else}}{{localize 'ForienQuestLog.QuestTracker.Tooltips.TaskPending'}}{{/if}}">{{#if (eq state 'check-square')}}C{{else if (eq state 'minus-square')}}F{{else}}P{{/if}}</span>
-          <i class="task-subquest-icon fas fa-sitemap" title="{{localize 'ForienQuestLog.QuestTracker.Tooltips.Subquest'}}"></i>
-          <a class="quest-tracker-link {{state}}" data-quest-id="{{id}}" title="{{statusTooltip}}">{{name}}</a>{{#if optional}} <em class="task-optional-label">({{localize 'ForienQuestLog.QuestTracker.Optional'}})</em>{{/if}}
+          <span class="task-label {{state}}" title="{{#if (eq state 'check-square')}}{{localize 'QuestLog.QuestTracker.Tooltips.TaskCompleted'}}{{else if (eq state 'minus-square')}}{{localize 'QuestLog.QuestTracker.Tooltips.TaskFailed'}}{{else}}{{localize 'QuestLog.QuestTracker.Tooltips.TaskPending'}}{{/if}}">{{#if (eq state 'check-square')}}C{{else if (eq state 'minus-square')}}F{{else}}P{{/if}}</span>
+          <i class="task-subquest-icon fas fa-sitemap" title="{{localize 'QuestLog.QuestTracker.Tooltips.Subquest'}}"></i>
+          <a class="quest-tracker-link {{state}}" data-quest-id="{{id}}" title="{{statusTooltip}}">{{name}}</a>{{#if optional}} <em class="task-optional-label">({{localize 'QuestLog.QuestTracker.Optional'}})</em>{{/if}}
           <span class="quest-tracker-span"></span>
           <span class="quest-tracker-icons">
-          {{#if isPrimary}}<i class="is-primary fas fa-star" title="{{localize 'ForienQuestLog.Tooltips.PrimaryQuest'}}"></i>{{/if}}
+          {{#if isPrimary}}<i class="is-primary fas fa-star" title="{{localize 'QuestLog.Tooltips.PrimaryQuest'}}"></i>{{/if}}
           {{#if isGM}}
-            {{#if isHidden}}<i class="is-hidden fas fa-eye-slash" title="{{localize 'ForienQuestLog.Tooltips.HiddenQuestNoPlayers'}}"></i>{{/if}}
+            {{#if isHidden}}<i class="is-hidden fas fa-eye-slash" title="{{localize 'QuestLog.Tooltips.HiddenQuestNoPlayers'}}"></i>{{/if}}
           {{/if}}
           {{#if isPersonal}}<i class="is-personal fas fa-user-shield" title="{{{personalActors}}}"></i>{{/if}}
           </span>
@@ -51,10 +51,10 @@
           {{else}}
           {{#if (or canEdit playerEdit)}}
             <li class="quest-tracker-task" data-quest-id="{{questId}}" data-uuidv4="{{uuidv4}}">
-              <div class="task {{state}}" {{#if hidden}}id="hidden"{{/if}}><span class="task-label {{state}}" title="{{#if (eq state 'check-square')}}{{localize 'ForienQuestLog.QuestTracker.Tooltips.TaskCompleted'}}{{else if (eq state 'minus-square')}}{{localize 'ForienQuestLog.QuestTracker.Tooltips.TaskFailed'}}{{else}}{{localize 'ForienQuestLog.QuestTracker.Tooltips.TaskPending'}}{{/if}}">{{#if (eq state 'check-square')}}C{{else if (eq state 'minus-square')}}F{{else}}P{{/if}}</span><span class="{{state}}">{{{name}}}{{#if optional}} <em class="task-optional-label">({{localize 'ForienQuestLog.QuestTracker.Optional'}})</em>{{/if}}{{#if hasCounter}} <span class="task-counter-label">{{counterLabel}}</span>{{/if}}</span>{{#if hasCounter}}<span class="task-counter-btns"><i class="counter-btn fas fa-minus" data-delta="-1" title="{{localize 'ForienQuestLog.QuestPreview.Tooltips.CounterMinus'}}"></i><i class="counter-btn fas fa-plus" data-delta="1" title="{{localize 'ForienQuestLog.QuestPreview.Tooltips.CounterPlus'}}"></i></span>{{/if}}</div>
+              <div class="task {{state}}" {{#if hidden}}id="hidden"{{/if}}><span class="task-label {{state}}" title="{{#if (eq state 'check-square')}}{{localize 'QuestLog.QuestTracker.Tooltips.TaskCompleted'}}{{else if (eq state 'minus-square')}}{{localize 'QuestLog.QuestTracker.Tooltips.TaskFailed'}}{{else}}{{localize 'QuestLog.QuestTracker.Tooltips.TaskPending'}}{{/if}}">{{#if (eq state 'check-square')}}C{{else if (eq state 'minus-square')}}F{{else}}P{{/if}}</span><span class="{{state}}">{{{name}}}{{#if optional}} <em class="task-optional-label">({{localize 'QuestLog.QuestTracker.Optional'}})</em>{{/if}}{{#if hasCounter}} <span class="task-counter-label">{{counterLabel}}</span>{{/if}}</span>{{#if hasCounter}}<span class="task-counter-btns"><i class="counter-btn fas fa-minus" data-delta="-1" title="{{localize 'QuestLog.QuestPreview.Tooltips.CounterMinus'}}"></i><i class="counter-btn fas fa-plus" data-delta="1" title="{{localize 'QuestLog.QuestPreview.Tooltips.CounterPlus'}}"></i></span>{{/if}}</div>
             </li>
           {{else}}
-            <li class="task {{state}}" {{#if hidden}}id="hidden"{{/if}}><span class="task-label {{state}}" title="{{#if (eq state 'check-square')}}{{localize 'ForienQuestLog.QuestTracker.Tooltips.TaskCompleted'}}{{else if (eq state 'minus-square')}}{{localize 'ForienQuestLog.QuestTracker.Tooltips.TaskFailed'}}{{else}}{{localize 'ForienQuestLog.QuestTracker.Tooltips.TaskPending'}}{{/if}}">{{#if (eq state 'check-square')}}C{{else if (eq state 'minus-square')}}F{{else}}P{{/if}}</span><span class="{{state}}">{{{name}}}{{#if optional}} <em class="task-optional-label">({{localize 'ForienQuestLog.QuestTracker.Optional'}})</em>{{/if}}{{#if hasCounter}} <span class="task-counter-label">{{counterLabel}}</span>{{/if}}</span></li>
+            <li class="task {{state}}" {{#if hidden}}id="hidden"{{/if}}><span class="task-label {{state}}" title="{{#if (eq state 'check-square')}}{{localize 'QuestLog.QuestTracker.Tooltips.TaskCompleted'}}{{else if (eq state 'minus-square')}}{{localize 'QuestLog.QuestTracker.Tooltips.TaskFailed'}}{{else}}{{localize 'QuestLog.QuestTracker.Tooltips.TaskPending'}}{{/if}}">{{#if (eq state 'check-square')}}C{{else if (eq state 'minus-square')}}F{{else}}P{{/if}}</span><span class="{{state}}">{{{name}}}{{#if optional}} <em class="task-optional-label">({{localize 'QuestLog.QuestTracker.Optional'}})</em>{{/if}}{{#if hasCounter}} <span class="task-counter-label">{{counterLabel}}</span>{{/if}}</span></li>
           {{/if}}
           {{/if}}
           {{/each}}
@@ -66,6 +66,6 @@
     {{#if hasQuests}}
       </div>
     {{else}}
-      <div class="no-quests">{{#if showOnlyPrimary}}{{localize 'ForienQuestLog.QuestTracker.NoPrimary'}}{{else}}{{localize 'ForienQuestLog.QuestTracker.NoQuests'}}{{/if}}</div>
+      <div class="no-quests">{{#if showOnlyPrimary}}{{localize 'QuestLog.QuestTracker.NoPrimary'}}{{else}}{{localize 'QuestLog.QuestTracker.NoQuests'}}{{/if}}</div>
     {{/if}}
 </div>

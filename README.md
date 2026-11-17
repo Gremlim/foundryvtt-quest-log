@@ -6,9 +6,7 @@
 ![Zip Downloads](https://img.shields.io/github/downloads/Gremlim/foundryvtt-quest-log/latest/module.zip?style=for-the-badge)
 [![GitHub commits](https://img.shields.io/github/commits-since/Gremlim/foundryvtt-quest-log/latest?style=for-the-badge)](https://github.com/Gremlim/foundryvtt-quest-log/commits/)
 
-[![Translation status](https://hosted.weblate.org/widget/foriens-quest-log/287x66-black.png)](https://hosted.weblate.org/engage/foriens-quest-log/)
-
-Based on [Forien's Quest Log](https://github.com/Forien/foundryvtt-forien-quest-log)
+Based on [Forien's Quest Log](https://github.com/Forien/foundryvtt-forien-quest-log), originally created by Forien and maintained for years by Michael Leahy (TyphonJS). This fork is maintained by [Gremlim](https://github.com/Gremlim).
 
 This module provides comprehensive Quest Log system for players and Game Masters to use with [Foundry VTT](https://foundryvtt.com/).
 
@@ -16,6 +14,7 @@ This module provides comprehensive Quest Log system for players and Game Masters
 
 | Foundry Version | Module Version |
 |-----------------|----------------|
+| v14             | v0.25.*        |
 | v13             | v0.9.*         |
 | v12             | v0.8.*         |
 | v11             | v0.8.*         |
@@ -35,14 +34,26 @@ _any_
 
 ## Recent Updates
 
-The major `0.9.0` update to FQL:
+Main additions of this fork since `0.9.0`:
 
-- Foundry v13 support.
-- "Jump To Pin" Context Menu option.
-- Added Keybindings
-  - `openQuestLog` (default: `CTRL+Q`) — Opens Quest Log (if GM or not hidden)
-  - `openPrimaryQuest` (default: `CTRL+SHIFT+Q`) — Opens Primary Quest (if any)
-  - `toggleQuestTracker` (default: `CTRL+ALT+Q`) — Toggles the Quest Tracker
+- Foundry v14 support (`ApplicationV2`), without jQuery.
+- Quest Tracker redesign: collapsible objectives, groups, a menu with its options, objective counters and per quest removal from your own tracker.
+- Quest history (who completed objectives, took rewards or changed the status, with dates).
+- Rewards with quantities, currencies and choice groups (taking one closes the others).
+- Optional objectives and optional subquests, subquests intermixed with the objectives and objective counters (for example "Find the pumpkins [0/3]").
+- Quest giver, location, group and deadline; accepting a quest with a character and the characters that accepted it.
+- Rumors: loose texts that players see in their own tab of the Quest Log; hearing enough of them unlocks a quest.
+- Repeatable quests and objectives that the GM can reset (objectives, counters, rewards and subquests).
+- Personal quests for some players only, and a permission to let players edit the quests created by the GM.
+- Quest Log search, grouping of the lists, duplicate quests and an actions menu in quests, objectives and rewards.
+
+See the [changelog](https://github.com/Gremlim/foundryvtt-quest-log/blob/master/changelog.md) for all the details.
+
+Keybindings (since `0.9.0`):
+
+- `openQuestLog` (default: `CTRL+Q`) — Opens Quest Log (if GM or not hidden)
+- `openPrimaryQuest` (default: `CTRL+SHIFT+Q`) — Opens Primary Quest (if any)
+- `toggleQuestTracker` (default: `CTRL+ALT+Q`) — Toggles the Quest Tracker
 
 ## Usage
 
@@ -58,13 +69,15 @@ FQL is quite user-friendly with an intuitive UI, however you might want to [chec
 
 ## Features
 
-- Quest Log windows that lists all quests divided into `In Progress`, `Completed` and `Failed` tabs.
+- Quest Log windows that lists all quests divided into `Available`, `In Progress`, `Completed`, `Failed` and `Inactive` tabs, plus the `Rumors` tab.
 - Quest creator with WYSIWYG editors for description and GM notes.
-- Quest objectives.
-- Draggable Item rewards.
-- Fully editable Quest Details window.
+- Quest objectives (optional ones, with counters, repeatable).
+- Draggable Item rewards, currencies and choice groups.
+- Fully editable Quest Details window and quest history.
 - Personal Quests.
 - Quest Branching in the form of Sub Quests.
+- Quest Tracker with groups.
+- Rumors and repeatable quests.
 
 ## About
 
@@ -74,10 +87,10 @@ continue to be available now and into the future.
 
 ## Translations
 
-FQL uses Weblate to coordinate language translation from community translators. Through this interface you are able to
-provide language corrections and translations. I am more than willing to support even more language translations for
-FQL, so if your language isn't represented yet please visit the [FQL Weblate Portal](https://hosted.weblate.org/projects/foriens-quest-log/)
-and get in contact.
+The translations are the JSON files of the [lang folder](https://github.com/Gremlim/foundryvtt-quest-log/tree/master/lang).
+English and Spanish are kept up to date with each release; the other languages come from the original module and
+miss the strings added since then (the missing strings are shown in English). Translations are welcome, see
+[CONTRIBUTING](https://github.com/Gremlim/foundryvtt-quest-log/blob/master/CONTRIBUTING.md).
 
 The following Translations are available:
 
@@ -85,7 +98,7 @@ The following Translations are available:
 |------------------------------------|----------------------|
 | Chinese (simplified / traditional) | v0.8                 |
 | Dutch                              | v0.8                 |
-| English                            | v0.9                 |
+| English                            | v0.25                |
 | Finnish                            | v0.8                 |
 | French                             | v0.8                 |
 | German                             | v0.8                 |
@@ -95,20 +108,19 @@ The following Translations are available:
 | Polish                             | v0.8                 |
 | Portuguese (Brazil)                | v0.8                 |
 | Russian                            | v0.8                 |
-| Spanish                            | v0.8                 |
+| Spanish                            | v0.25                |
 | Swedish                            | v0.8                 |
 
 ## Future plans (current ideas)
 
-Rock solid stability through future releases of Foundry VTT and even more language / internationalization support.
-At this time a few quality of life features may be added in any given release as well.
+Stability through future releases of Foundry VTT and quality of life features in each release.
 
 _If you think you have found a bug or usability issue with FQL itself please file an issue in the 
 [FQL Issue Tracker](https://github.com/Gremlim/foundryvtt-quest-log/issues)_.
 
 ## Contact
 
-TBD
+Open an issue in the [issue tracker](https://github.com/Gremlim/foundryvtt-quest-log/issues).
 
 ## Acknowledgments
 
@@ -123,6 +135,6 @@ and maintained the package through a challenging series of Foundry core update `
 
 ## License
 
-Quest Log is a module for Foundry VTT by Gremlim and is licensed under a [MIT License](https://github.com/Gremlim/foundryvtt-quest-log/blob/master/LICENSE). 
+Quest Log is a module for Foundry VTT by Gremlim, based on Forien's Quest Log, and is licensed under a [MIT License](https://github.com/Gremlim/foundryvtt-quest-log/blob/master/LICENSE). 
 
 This work is licensed under Foundry Virtual Tabletop [EULA - Limited License Agreement for module development from February 17, 2021](https://foundryvtt.com/article/license/).

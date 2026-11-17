@@ -118,7 +118,7 @@ export class HandlerDetails
    static async questEditDeadline(quest, questPreview)
    {
       const result = await FQLDialog.promptDeadline({
-         title: game.i18n.localize('ForienQuestLog.QuestPreview.Tooltips.EditDeadline'),
+         title: game.i18n.localize('QuestLog.QuestPreview.Tooltips.EditDeadline'),
          deadline: quest.deadline
       });
 
@@ -283,7 +283,7 @@ export class HandlerDetails
          {
             quest.giver = 'abstract';
             quest.image = path;
-            quest.giverName = game.i18n.localize('ForienQuestLog.QuestPreview.Labels.CustomSource');
+            quest.giverName = game.i18n.localize('QuestLog.QuestPreview.Labels.CustomSource');
             quest.giverData = await Quest.giverFromQuest(quest);
             delete quest.giverData.uuid;
 
@@ -326,7 +326,7 @@ export class HandlerDetails
       }
       catch (err)
       {
-         console.warn(`ForienQuestLog HandlerDetails.questGiverDropDocument warning: failed to parse data transfer`);
+         console.warn(`QuestLog HandlerDetails.questGiverDropDocument warning: failed to parse data transfer`);
       }
 
       const uuid = Utils.getUUID(data, ['Actor', 'Item', 'JournalEntry']);
@@ -342,7 +342,7 @@ export class HandlerDetails
          }
          else
          {
-            ui.notifications.warn(game.i18n.format('ForienQuestLog.QuestPreview.Notifications.BadUUID', { uuid }));
+            ui.notifications.warn(game.i18n.format('QuestLog.QuestPreview.Notifications.BadUUID', { uuid }));
          }
       }
       else
@@ -351,7 +351,7 @@ export class HandlerDetails
          if (typeof data?.uuid === 'string' &&
           data.uuid.startsWith('Actor') && (data.uuid.match(/\./g) || []).length > 1)
          {
-            ui.notifications.warn(game.i18n.localize('ForienQuestLog.QuestPreview.Notifications.WrongDocType'));
+            ui.notifications.warn(game.i18n.localize('QuestLog.QuestPreview.Notifications.WrongDocType'));
          }
       }
    }
@@ -646,7 +646,7 @@ export class HandlerDetails
             }
             else
             {
-               ui.notifications.warn(game.i18n.format('ForienQuestLog.QuestPreview.Notifications.BadUUID', { uuid }));
+               ui.notifications.warn(game.i18n.format('QuestLog.QuestPreview.Notifications.BadUUID', { uuid }));
             }
          }
       }
@@ -664,7 +664,7 @@ export class HandlerDetails
             }
             else
             {
-               ui.notifications.warn(game.i18n.format('ForienQuestLog.QuestPreview.Notifications.BadUUID', { uuid }));
+               ui.notifications.warn(game.i18n.format('QuestLog.QuestPreview.Notifications.BadUUID', { uuid }));
             }
          }
          else
@@ -673,7 +673,7 @@ export class HandlerDetails
             if (typeof data?.uuid === 'string' &&
              data.uuid.startsWith('Actor') && (data.uuid.match(/\./g) || []).length > 1)
             {
-               ui.notifications.warn(game.i18n.localize('ForienQuestLog.QuestPreview.Notifications.WrongItemType'));
+               ui.notifications.warn(game.i18n.localize('QuestLog.QuestPreview.Notifications.WrongItemType'));
             }
          }
       }
@@ -833,9 +833,9 @@ export class HandlerDetails
 
       const choice = await FQLDialog.promptCurrency({
          currencies,
-         title: game.i18n.localize('ForienQuestLog.QuestPreview.Tooltips.AddCurrency'),
-         currencyLabel: game.i18n.localize('ForienQuestLog.QuestPreview.Labels.Currency'),
-         amountLabel: game.i18n.localize('ForienQuestLog.QuestPreview.Labels.Quantity')
+         title: game.i18n.localize('QuestLog.QuestPreview.Tooltips.AddCurrency'),
+         currencyLabel: game.i18n.localize('QuestLog.QuestPreview.Labels.Currency'),
+         amountLabel: game.i18n.localize('QuestLog.QuestPreview.Labels.Quantity')
       });
 
       if (!choice) { return; }
@@ -902,7 +902,7 @@ export class HandlerDetails
       {
          amount = await FQLDialog.promptAmount({
             title: name,
-            label: game.i18n.localize('ForienQuestLog.QuestPreview.Labels.QuantityTake'),
+            label: game.i18n.localize('QuestLog.QuestPreview.Labels.QuantityTake'),
             value: reward.quantity,
             min: 1,
             max: reward.quantity
@@ -953,7 +953,7 @@ export class HandlerDetails
 
       const amount = await FQLDialog.promptAmount({
          title: reward.name,
-         label: game.i18n.localize('ForienQuestLog.QuestPreview.Labels.Quantity'),
+         label: game.i18n.localize('QuestLog.QuestPreview.Labels.Quantity'),
          value: reward.quantity,
          min: 1
       });
@@ -1033,9 +1033,9 @@ export class HandlerDetails
       const groups = [...new Set(quest.rewards.map((r) => r.choice).filter((c) => c))].sort();
 
       const value = await FQLDialog.promptText({
-         title: game.i18n.localize('ForienQuestLog.QuestPreview.Tooltips.RewardSetChoice'),
-         label: game.i18n.localize('ForienQuestLog.QuestPreview.Labels.RewardChoiceGroup'),
-         hint: game.i18n.localize('ForienQuestLog.QuestPreview.Labels.RewardChoiceHint'),
+         title: game.i18n.localize('QuestLog.QuestPreview.Tooltips.RewardSetChoice'),
+         label: game.i18n.localize('QuestLog.QuestPreview.Labels.RewardChoiceGroup'),
+         hint: game.i18n.localize('QuestLog.QuestPreview.Labels.RewardChoiceHint'),
          value: reward.choice,
          suggestions: groups
       });
@@ -1294,7 +1294,7 @@ export class HandlerDetails
       const doc = await fromUuid(uuid);
       if (!doc)
       {
-         ui.notifications.warn(game.i18n.format('ForienQuestLog.QuestPreview.Notifications.BadUUID', { uuid }));
+         ui.notifications.warn(game.i18n.format('QuestLog.QuestPreview.Notifications.BadUUID', { uuid }));
          return;
       }
 
@@ -1404,7 +1404,7 @@ export class HandlerDetails
       const task = quest.getTask(uuidv4);
       if (!task) { return; }
 
-      const i18n = (key) => game.i18n.localize(`ForienQuestLog.QuestPreview.Counter.${key}`);
+      const i18n = (key) => game.i18n.localize(`QuestLog.QuestPreview.Counter.${key}`);
 
       const result = await foundry.applications.api.DialogV2.prompt({
          window: { title: i18n('Title') },
@@ -1414,7 +1414,7 @@ export class HandlerDetails
           `<div class="form-group"><label>${i18n('Current')}</label><div class="form-fields">` +
           `<input type="number" name="count" min="0" step="1" value="${task.count}"></div></div>`,
          ok: {
-            label: game.i18n.localize('ForienQuestLog.QuestPreview.Buttons.Accept'),
+            label: game.i18n.localize('QuestLog.QuestPreview.Buttons.Accept'),
             callback: (ev, button) => ({
                target: Number(button.form.elements.target.value),
                count: Number(button.form.elements.count.value)

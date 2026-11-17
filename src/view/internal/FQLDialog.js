@@ -70,8 +70,8 @@ export class FQLDialog
          result,
          questId,
          isQuestLog,
-         title: game.i18n.localize('ForienQuestLog.Labels.Quest'),
-         body: 'ForienQuestLog.DeleteDialog.BodyQuest'
+         title: game.i18n.localize('QuestLog.Labels.Quest'),
+         body: 'QuestLog.DeleteDialog.BodyQuest'
       });
    }
 
@@ -104,7 +104,7 @@ export class FQLDialog
          content: `<div class="form-group"><label>${escape(label)}</label><div class="form-fields">` +
           `<input type="number" name="amount" value="${value}" min="${min}"${maxAttr} step="1" autofocus></div></div>`,
          ok: {
-            label: game.i18n.localize('ForienQuestLog.QuestPreview.Buttons.Accept'),
+            label: game.i18n.localize('QuestLog.QuestPreview.Buttons.Accept'),
             callback: (event, button) => Math.floor(Number(button.form.elements.amount.value))
          },
          rejectClose: false,
@@ -148,7 +148,7 @@ export class FQLDialog
           `<div class="form-group"><label>${escape(amountLabel)}</label><div class="form-fields">` +
           `<input type="number" name="amount" value="1" min="1" step="1" autofocus></div></div>`,
          ok: {
-            label: game.i18n.localize('ForienQuestLog.QuestPreview.Buttons.Accept'),
+            label: game.i18n.localize('QuestLog.QuestPreview.Buttons.Accept'),
             callback: (event, button) => ({
                currency: button.form.elements.currency.value,
                amount: Math.floor(Number(button.form.elements.amount.value))
@@ -186,7 +186,7 @@ export class FQLDialog
          content: `<div class="form-group"><label>${escape(label)}</label><div class="form-fields">` +
           `<input type="checkbox" name="personal"></div><p class="hint">${escape(hint)}</p></div>`,
          ok: {
-            label: game.i18n.localize('ForienQuestLog.QuestPreview.Buttons.Accept'),
+            label: game.i18n.localize('QuestLog.QuestPreview.Buttons.Accept'),
             callback: (event, button) => button.form.elements.personal.checked === true
          },
          rejectClose: false,
@@ -213,7 +213,7 @@ export class FQLDialog
    {
       const escape = (text) => String(text ?? '').replace(/[&<>"']/g,
        (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
-      const loc = (key) => game.i18n.localize(`ForienQuestLog.QuestPreview.Labels.${key}`);
+      const loc = (key) => game.i18n.localize(`QuestLog.QuestPreview.Labels.${key}`);
 
       const calendar = game.time?.calendar;
       const months = calendar?.months?.values ?? [];
@@ -257,7 +257,7 @@ export class FQLDialog
 
       const buttons = [{
          action: 'ok',
-         label: game.i18n.localize('ForienQuestLog.QuestPreview.Buttons.Accept'),
+         label: game.i18n.localize('QuestLog.QuestPreview.Buttons.Accept'),
          default: true,
          callback: (event, button) =>
          {
@@ -290,7 +290,7 @@ export class FQLDialog
       {
          buttons.push({
             action: 'clear',
-            label: game.i18n.localize('ForienQuestLog.QuestPreview.Buttons.ClearDeadline'),
+            label: game.i18n.localize('QuestLog.QuestPreview.Buttons.ClearDeadline'),
             callback: () => ({ clear: true })
          });
       }
@@ -337,7 +337,7 @@ export class FQLDialog
           `<datalist id="fql-prompt-text-list">${options}</datalist></div>` +
           `${hint ? `<p class="hint">${escape(hint)}</p>` : ''}</div>`,
          ok: {
-            label: game.i18n.localize('ForienQuestLog.QuestPreview.Buttons.Accept'),
+            label: game.i18n.localize('QuestLog.QuestPreview.Buttons.Accept'),
             callback: (event, button) => String(button.form.elements.text.value ?? '').trim()
          },
          rejectClose: false,
@@ -369,8 +369,8 @@ export class FQLDialog
          result,
          questId,
          isQuestLog,
-         title: game.i18n.localize('ForienQuestLog.QuestPreview.Labels.Reward'),
-         body: 'ForienQuestLog.DeleteDialog.BodyReward'
+         title: game.i18n.localize('QuestLog.QuestPreview.Labels.Reward'),
+         body: 'QuestLog.DeleteDialog.BodyReward'
       });
    }
 
@@ -396,8 +396,8 @@ export class FQLDialog
          result,
          questId,
          isQuestLog,
-         title: game.i18n.localize('ForienQuestLog.QuestPreview.Labels.Objective'),
-         body: 'ForienQuestLog.DeleteDialog.BodyObjective'
+         title: game.i18n.localize('QuestLog.QuestPreview.Labels.Objective'),
+         body: 'QuestLog.DeleteDialog.BodyObjective'
       });
    }
 
@@ -446,23 +446,23 @@ class FQLDialogImpl extends foundry.applications.api.DialogV2
 
       super({
          window: {
-            title: game.i18n.format('ForienQuestLog.DeleteDialog.TitleDel', options),
+            title: game.i18n.format('QuestLog.DeleteDialog.TitleDel', options),
             icon: 'fa-solid fa-trash',
             minimizable: false
          },
-         content: `<h3>${game.i18n.format('ForienQuestLog.DeleteDialog.HeaderDel', options)}</h3>` +
+         content: `<h3>${game.i18n.format('QuestLog.DeleteDialog.HeaderDel', options)}</h3>` +
           `<p>${game.i18n.localize(options.body)}</p>`,
          buttons: [
             {
                action: 'yes',
                icon: 'fas fa-trash',
-               label: game.i18n.localize('ForienQuestLog.DeleteDialog.Delete'),
+               label: game.i18n.localize('QuestLog.DeleteDialog.Delete'),
                callback: () => settle(options.result)
             },
             {
                action: 'no',
                icon: 'fas fa-times',
-               label: game.i18n.localize('ForienQuestLog.DeleteDialog.Cancel'),
+               label: game.i18n.localize('QuestLog.DeleteDialog.Cancel'),
                default: true,
                callback: () => settle(void 0)
             }
