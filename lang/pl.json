@@ -371,6 +371,10 @@
       "QuestTooltip": "Misja plotki (widzi ją tylko MG)"
     },
     "Settings": {
+      "allowPlayerAutomation": {
+        "Enable": "Gracze mogą uruchamiać automatyzacje",
+        "EnableHint": "Zaznacz, aby makra i wyzwalacze kafelków uruchamiane przez graczy mogły zmieniać zadania przez API Quest Log (status zadania, cele, liczniki i plotki). Zmianę wykonuje połączony MG, więc musi być zalogowany co najmniej jeden MG."
+      },
       "allowPlayersAccept": {
         "Enable": "Gracze mogą przyjmować Zadania",
         "EnableHint": "Zaznacz, aby umożliwić graczom przyjmowanie Zadań z zakładki Dostępne."

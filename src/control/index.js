@@ -4,3 +4,4 @@ export * from './util/index.js';
 export * from './GQLHooks.js';
 export * from './ModuleSettings.js';
 export * from './Socket.js';
+export * from './Automation.js';

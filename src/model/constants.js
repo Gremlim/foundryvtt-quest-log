@@ -90,6 +90,7 @@ const sessionConstants = {
  * @type {GQLSettings} Defines all the module settings for world and client.
  */
 const settings = {
+   allowPlayerAutomation: 'allowPlayerAutomation',
    allowPlayersAccept: 'allowPlayersAccept',
    allowPlayersCreate: 'allowPlayersCreate',
    allowPlayersDrag: 'allowPlayersDrag',
@@ -152,6 +153,8 @@ export { constants, domEvents, questStatus, questStatusI18n, questTabIndex, sess
  * @property {string}   allowPlayersAccept - Allow players to accept quests.
  *
  * @property {string}   allowPlayersCreate - Allow players to create quests.
+ *
+ * @property {string}   allowPlayerAutomation - Players can run the automation API (executed by the GM).
  *
  * @property {string}   allowPlayersDrag - Allow players to drag reward items to actor sheet.
  *

@@ -371,6 +371,10 @@
       "QuestTooltip": "Missie van het gerucht (alleen de SL ziet het)"
     },
     "Settings": {
+      "allowPlayerAutomation": {
+        "Enable": "Spelers kunnen automatiseringen uitvoeren",
+        "EnableHint": "Vink aan om macro's en tile-triggers die door spelers worden uitgevoerd quests te laten wijzigen via de Quest Log-API (queststatus, doelen, tellers en geruchten). De wijziging wordt uitgevoerd door een verbonden GM, dus er moet minstens één GM ingelogd zijn."
+      },
       "allowPlayersAccept": {
         "Enable": "Spelers kunnen missies accepteren",
         "EnableHint": "Schakel deze optie in om spelers toe te staan missies uit het Beschikbaar-tabblad te accepteren."

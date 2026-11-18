@@ -116,6 +116,15 @@ export class ModuleSettings
          }
       });
 
+      game.settings.register(constants.moduleName, settings.allowPlayerAutomation, {
+         name: 'QuestLog.Settings.allowPlayerAutomation.Enable',
+         hint: 'QuestLog.Settings.allowPlayerAutomation.EnableHint',
+         scope: this.#scope.world,
+         config: true,
+         default: false,
+         type: Boolean
+      });
+
       game.settings.register(constants.moduleName, settings.trustedPlayerEdit, {
          name: 'QuestLog.Settings.trustedPlayerEdit.Enable',
          hint: 'QuestLog.Settings.trustedPlayerEdit.EnableHint',

@@ -371,6 +371,10 @@
       "QuestTooltip": "Missione della voce (solo il GM la vede)"
     },
     "Settings": {
+      "allowPlayerAutomation": {
+        "Enable": "I giocatori possono eseguire automazioni",
+        "EnableHint": "Seleziona per permettere a macro e trigger di tile eseguiti dai giocatori di modificare le missioni tramite l'API del Quest Log (stato della missione, obiettivi, contatori e dicerie). La modifica viene eseguita da un GM connesso, quindi deve esserci almeno un GM collegato."
+      },
       "allowPlayersAccept": {
         "Enable": "I giocatori possono accettare missioni",
         "EnableHint": "Abilita per consentire ai giocatori di accettare le missioni tra quelle disponibili."

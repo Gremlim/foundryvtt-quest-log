@@ -371,6 +371,10 @@
       "QuestTooltip": "傳聞所屬的任務（僅 GM 可見）"
     },
     "Settings": {
+      "allowPlayerAutomation": {
+        "Enable": "允許玩家執行自動化",
+        "EnableHint": "勾選後,玩家執行的巨集和圖塊觸發器可以透過 Quest Log API 修改任務(任務狀態、目標、計數器和傳聞)。修改由在線的 GM 執行,因此至少需要有一名 GM 登入。"
+      },
       "allowPlayersAccept": {
         "Enable": "玩家可以接受任務",
         "EnableHint": "勾選以允許玩家從可選任務中接受任務。"

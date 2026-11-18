@@ -371,6 +371,10 @@
       "QuestTooltip": "Missão do rumor (só o GM a vê)"
     },
     "Settings": {
+      "allowPlayerAutomation": {
+        "Enable": "Jogadores podem executar automações",
+        "EnableHint": "Marque para permitir que macros e gatilhos de tiles executados por jogadores alterem missões pela API do Quest Log (status da missão, objetivos, contadores e rumores). A alteração é executada por um GM conectado, então pelo menos um GM precisa estar logado."
+      },
       "allowPlayersAccept": {
         "Enable": "Os jogadores podem aceitar",
         "EnableHint": "Marque para permitir que os jogadores aceitem missões na guia Disponível."

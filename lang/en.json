@@ -371,6 +371,10 @@
       "QuestTooltip": "Quest of the rumor (only the GM sees it)"
     },
     "Settings": {
+      "allowPlayerAutomation": {
+        "Enable": "Players can run automations",
+        "EnableHint": "Check to allow macros and tile triggers run by players to change quests through the Quest Log API (quest status, objectives, counters and rumors). The change is executed by a connected GM, so at least one GM must be logged in."
+      },
       "allowPlayersAccept": {
         "Enable": "Players can accept Quests",
         "EnableHint": "Check to allow players to accept Quests from Available tab."

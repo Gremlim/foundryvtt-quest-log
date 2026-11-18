@@ -371,6 +371,10 @@
       "QuestTooltip": "Huhun tehtävä (vain pelinjohtaja näkee sen)"
     },
     "Settings": {
+      "allowPlayerAutomation": {
+        "Enable": "Pelaajat voivat suorittaa automaatioita",
+        "EnableHint": "Valitse, jotta pelaajien suorittamat makrot ja ruutujen laukaisimet voivat muuttaa tehtäviä Quest Log -rajapinnan kautta (tehtävän tila, tavoitteet, laskurit ja huhut). Muutoksen suorittaa yhdistetty pelinjohtaja, joten vähintään yhden pelinjohtajan on oltava kirjautuneena."
+      },
       "allowPlayersAccept": {
         "Enable": "Pelaajat voivat ottaa vastaan tehtäviä",
         "EnableHint": "Valitse salliaksesi pelaajien ottaa vastaan tehtäviä Saatavilla-välilehdeltä."

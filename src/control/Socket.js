@@ -1,6 +1,7 @@
 import { QuestAPI }  from './public/index.js';
 
 import {
+   Automation,
    QuestDB,
    Utils,
    ViewManager }     from './index.js';
@@ -43,6 +44,7 @@ export class Socket
     * Defines the different message types that GQL sends over `game.socket`.
     */
    static #messageTypes = {
+      automation: 'automation',
       deletedQuest: 'deletedQuest',
       questSetPrimary: 'questSetPrimary',
       questSetStatus: 'questSetStatus',
@@ -288,6 +290,36 @@ export class Socket
    }
 
    /**
+    * Asks the active GM to run an automation action (see {@link QuestAPI}). Players can't see or change the hidden
+    * quests, so the action is executed by the GM client. It does nothing when there is no GM connected or when the
+    * world setting {@link GQLSettings.allowPlayerAutomation} is disabled.
+    *
+    * Handled on the receiving side by `#handleAutomation`.
+    *
+    * @param {object}   options - Options.
+    *
+    * @param {string}   options.action - Name of the action.
+    *
+    * @param {object}   options.args - Arguments of the action.
+    *
+    * @returns {boolean} True when the request was sent.
+    */
+   static automation({ action, args })
+   {
+      if (!game.users.activeGM || !game.settings.get(constants.moduleName, settings.allowPlayerAutomation))
+      {
+         return false;
+      }
+
+      game.socket.emit(this.#eventName, {
+         type: this.#messageTypes.automation,
+         payload: { action, args, userName: game.user.name }
+      });
+
+      return true;
+   }
+
+   /**
     * Handles setting a new quest status then refreshes the appropriate views including parent and
     * subquests as applicable. On the invocation side if the user is a GM or trusted player with edit and ownership of
     * the quest being updated then the action is immediately taken and `handled` set to true which is part of the
@@ -457,6 +489,7 @@ export class Socket
          // Dispatch the incoming message data by the message type.
          switch (data.type)
          {
+            case this.#messageTypes.automation: await this.#handleAutomation(data); break;
             case this.#messageTypes.deletedQuest: await this.#handleDeletedQuest(data); break;
             case this.#messageTypes.questRewardDrop: await this.#handleQuestRewardDrop(data); break;
             case this.#messageTypes.questSetPrimary: await this.#handleQuestSetPrimary(data); break;
@@ -602,6 +635,27 @@ export class Socket
          // Set handled to true so no other GM level users act upon the action.
          data.payload.handled = true;
       }
+   }
+
+   /**
+    * Runs an automation action requested by a player. Only the active GM runs it and only when the world setting
+    * {@link GQLSettings.allowPlayerAutomation} is enabled.
+    *
+    * This message is sent from {@link Socket.automation}.
+    *
+    * @param {object} data - The data payload contains `action`, `args` and `userName`.
+    *
+    * @returns {Promise<void>}
+    */
+   static async #handleAutomation(data)
+   {
+      if (!game.user.isGM || game.users.activeGM !== game.user) { return; }
+      if (!game.settings.get(constants.moduleName, settings.allowPlayerAutomation)) { return; }
+
+      const { action, args, userName } = data.payload ?? {};
+      if (typeof action !== 'string' || typeof args !== 'object' || args === null) { return; }
+
+      await Automation.run({ action, args, userName });
    }
 
    /**

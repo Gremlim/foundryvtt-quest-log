@@ -371,6 +371,10 @@
       "QuestTooltip": "Quête de la rumeur (seul le MJ la voit)"
     },
     "Settings": {
+      "allowPlayerAutomation": {
+        "Enable": "Les joueurs peuvent lancer des automatisations",
+        "EnableHint": "Cochez pour autoriser les macros et déclencheurs de tuiles lancés par les joueurs à modifier les quêtes via l'API du Quest Log (statut de la quête, objectifs, compteurs et rumeurs). Le changement est exécuté par un MJ connecté ; au moins un MJ doit donc être présent."
+      },
       "allowPlayersAccept": {
         "Enable": "Joueurs peuvent accepter",
         "EnableHint": "Cocher pour permettre aux joueurs d'accepter les quêtes dans l'onglet Disponible."

@@ -371,6 +371,10 @@
       "QuestTooltip": "噂のクエスト（GMだけに表示）"
     },
     "Settings": {
+      "allowPlayerAutomation": {
+        "Enable": "プレイヤーによる自動化の実行を許可",
+        "EnableHint": "プレイヤーが実行するマクロやタイルトリガーが、Quest Log API を通じてクエスト(クエストの状態、目標、カウンター、噂)を変更できるようにします。変更は接続中の GM が実行するため、少なくとも 1 人の GM がログインしている必要があります。"
+      },
       "allowPlayersAccept": {
         "Enable": "プレイヤー受注可",
         "EnableHint": "プレイヤーたちは受注可能タブからクエストを受注することが可能になります。"

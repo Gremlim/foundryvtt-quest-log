@@ -1,5 +1,11 @@
 # Changelog
 
+## Release 0.29.0
+- Issue #131, automation: new methods in the public API `QuestAPI` to manage quests from macros, tile triggers (Monk's Active Tiles) and other modules: `setQuestStatus`, `setObjectiveState`, `setObjectiveVisible`, `setObjectiveCount`, `hearRumor`, `setRumorVisible` and `resetQuest`, plus the read only `getQuest`, `getQuests`, `getStatus` and `isStatus`. Quests and objectives can be referenced by ID / UUID, by name or by position.
+- Players can run those methods when the new world setting "Players can run automations" is enabled: the change is sent to the connected GM, whose client makes it (a GM must be connected). It is disabled by default.
+- New "Automation" section in the README documenting every way to automate the Quest Log (keybindings, hotbar macros, hooks, API, settings and recipes for the scenarios of the issue).
+- New setting texts translated in all the languages.
+
 ## Release 0.28.0
 - All the references to FQL (Forien's Quest Log) were replaced by GQL (Gremlim Quest Log): the classes `GQLHooks`, `GQLDialog`, `GQLContextMenu` and `GQLDocumentOwnershipConfig` (files renamed), the Handlebars helper `gql_format`, the CSS class `gql-action-menu` and the CSS variables `--palette-gql-qt-*`, the drag data `_gqlData`, the typedefs and the comments, README and CONTRIBUTING texts.
 - Breaking: the world setting `hideFQLFromPlayers` is now `hideGQLFromPlayers` (its value is not copied: check "Hide Quest Log from players" in the module settings again if you had it enabled). The icons of its macro are now `hideGQLFromPlayersOn.png` / `hideGQLFromPlayersOff.png` and the macro compendiums were regenerated.

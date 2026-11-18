@@ -371,6 +371,10 @@
       "QuestTooltip": "Ryktets uppdrag (bara spelledaren ser det)"
     },
     "Settings": {
+      "allowPlayerAutomation": {
+        "Enable": "Spelare kan köra automatiseringar",
+        "EnableHint": "Markera för att låta makron och tile-utlösare som körs av spelare ändra uppdrag via Quest Log-API:et (uppdragsstatus, mål, räknare och rykten). Ändringen utförs av en ansluten spelledare, så minst en spelledare måste vara inloggad."
+      },
       "allowPlayersAccept": {
         "Enable": "Spelare kan acceptera uppdrag",
         "EnableHint": "Markera för att tillåta spelare att acceptera uppdrag från fliken Tillgänglig."

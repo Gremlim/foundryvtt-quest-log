@@ -44,6 +44,20 @@
       "HeaderDel": "¿Estás seguro de que quieres eliminar? <p>'{name}'</p>",
       "TitleDel": "Eliminar {title}"
     },
+    "Keybindings": {
+      "openQuestLog": {
+        "Name": "Abrir el Quest Log",
+        "Hint": "Abre el Quest Log si lo usa el GM o si el Quest Log no está oculto."
+      },
+      "openPrimaryQuest": {
+        "Name": "Abrir la misión principal",
+        "Hint": "Abre la ficha de la misión principal, si hay alguna. Comprueba que el usuario sea GM o tenga permiso para ver la misión."
+      },
+      "toggleQuestTracker": {
+        "Name": "Mostrar u ocultar el Quest Tracker",
+        "Hint": "Muestra u oculta el Quest Tracker."
+      }
+    },
     "Labels": {
       "AppHeader": {
         "ShowPlayers": "Mostrar a jugadores"
@@ -129,11 +143,11 @@
         "RewardUnlock": "Desbloquear"
       },
       "Labels": {
-        "Currency": "Moneda",
-        "CustomSource": "Fuente Personalizada",
         "AcceptedBy": "Aceptada por:",
         "CreatedByGM": "Creada por el GM",
         "CreatedByPlayer": "Creada por {name}",
+        "CustomSource": "Fuente Personalizada",
+        "Currency": "Moneda",
         "Description": "Descripción:",
         "DragDropActor": "Arrastre y suelte al actor, elemento o entrada de diario o haga clic con el botón izquierdo para establecer una fuente personalizada.",
         "DragDropActorPlayer": "Arrastrar y Soltar actor, elemento o entrada de diario.",
@@ -357,6 +371,10 @@
       "QuestTooltip": "Misión del rumor (solo la ve el GM)"
     },
     "Settings": {
+      "allowPlayerAutomation": {
+        "Enable": "Los jugadores pueden ejecutar automatizaciones",
+        "EnableHint": "Marcar para permitir que las macros y disparadores de losetas ejecutados por jugadores cambien misiones mediante la API de Quest Log (estado de misión, objetivos, contadores y rumores). El cambio lo ejecuta un GM conectado, por lo que debe haber al menos un GM en la partida."
+      },
       "allowPlayersAccept": {
         "Enable": "Los jugadores pueden aceptar misiones",
         "EnableHint": "Marcar para permitir a los jugadores aceptar misiones desde la pestaña 'Disponibles'."
@@ -427,20 +445,6 @@
       "HiddenQuestNoPlayers": "Esta misión está oculta a todos los jugadores.",
       "PersonalQuest": "Misión personal",
       "PrimaryQuest": "Misión Principal"
-    },
-    "Keybindings": {
-      "openQuestLog": {
-        "Name": "Abrir el Quest Log",
-        "Hint": "Abre el Quest Log si lo usa el GM o si el Quest Log no está oculto."
-      },
-      "openPrimaryQuest": {
-        "Name": "Abrir la misión principal",
-        "Hint": "Abre la ficha de la misión principal, si hay alguna. Comprueba que el usuario sea GM o tenga permiso para ver la misión."
-      },
-      "toggleQuestTracker": {
-        "Name": "Mostrar u ocultar el Quest Tracker",
-        "Hint": "Muestra u oculta el Quest Tracker."
-      }
     }
   }
 }

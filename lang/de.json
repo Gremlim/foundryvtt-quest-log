@@ -371,6 +371,10 @@
       "QuestTooltip": "Quest des Gerüchts (nur der SL sieht sie)"
     },
     "Settings": {
+      "allowPlayerAutomation": {
+        "Enable": "Spieler können Automatisierungen ausführen",
+        "EnableHint": "Aktivieren, damit Makros und Tile-Trigger von Spielern Quests über die Quest-Log-API ändern dürfen (Questzustand, Ziele, Zähler und Gerüchte). Die Änderung führt ein verbundener GM aus, daher muss mindestens ein GM angemeldet sein."
+      },
       "allowPlayersAccept": {
         "Enable": "Spieler können Quests annehmen",
         "EnableHint": "Aktivieren, um Spielern zu erlauben, Quests aus dem Verfügbar-Reiter anzunehmen."

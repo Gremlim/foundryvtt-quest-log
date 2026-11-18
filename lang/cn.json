@@ -371,6 +371,10 @@
       "QuestTooltip": "传闻所属的任务（仅 GM 可见）"
     },
     "Settings": {
+      "allowPlayerAutomation": {
+        "Enable": "允许玩家运行自动化",
+        "EnableHint": "勾选后,玩家执行的宏和图块触发器可以通过 Quest Log API 修改任务(任务状态、目标、计数器和传闻)。修改由在线的 GM 执行,因此至少需要有一名 GM 登录。"
+      },
       "allowPlayersAccept": {
         "Enable": "玩家可以接受任务",
         "EnableHint": "勾选以允许玩家从可选任务中接受任务。"
