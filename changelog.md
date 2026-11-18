@@ -1,5 +1,9 @@
 # Changelog
 
+## Release 1.0.0
+- First stable release of Quest Log, with the changes since 0.9.0 (see the entries below) and installable from the manifest `https://github.com/Gremlim/foundryvtt-quest-log/releases/latest/download/module.json`.
+- The README has a new "Guide to the features" section that documents every feature added since 0.9.0, next to the "Automation" section; the translations table and the compatibility table were updated.
+
 ## Release 0.29.1
 - Cleanup of unused files: removed `forien-quest-log.lock`, the disabled workflow `release.yml.bak`, the source icons folder `assets-raw/` (including `icons-macros.xcf`), `src/typedefs.js` (JSDoc only), the source maps (`external/*.map`, `css/init.css.map`; the `sourceMappingURL` comments and the sourcemap options of the build scripts were removed too) and the `@types/jquery` dev dependency.
 - Config: removed the jQuery environment of `.eslintrc` and the references to the non existent `docs/` and `scripts/` folders in `.eslintignore`, `.gitignore` and the release workflow.

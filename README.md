@@ -14,7 +14,7 @@ This module provides comprehensive Quest Log system for players and Game Masters
 
 | Foundry Version | Module Version |
 |-----------------|----------------|
-| v14             | v0.29.*        |
+| v14             | v1.0.*         |
 | v13             | v0.9.*         |
 | v12             | v0.8.*         |
 | v11             | v0.8.*         |
@@ -66,6 +66,187 @@ There is a series of useful [in-depth video tutorials on YouTube](https://www.yo
 that cover the `0.7 - 0.8` releases.
 
 GQL is quite user-friendly with an intuitive UI, however you can read the [Automation](#automation) section for macros, hooks and the Quest API for integrations (for example tile triggers). 
+
+## Guide to the features
+
+A tour of everything the Quest Log does. Items marked _(GM)_ are only available to Game Masters; those marked
+_(editors)_ to the GM and to players who can edit the quest (see [Who can do what](#who-can-do-what)). Most buttons of
+quests, objectives and rewards are inside a **3 dots menu** that opens a dropdown with every action.
+
+- [Quest Log window](#quest-log-window)
+- [Quest window](#quest-window)
+- [Objectives](#objectives)
+- [Subquests](#subquests)
+- [Rewards](#rewards)
+- [Quest information](#quest-information)
+- [Accepting quests](#accepting-quests)
+- [Rumors](#rumors)
+- [Repeatable quests](#repeatable-quests)
+- [Personal quests](#personal-quests)
+- [Who can do what](#who-can-do-what)
+- [Quest history](#quest-history)
+- [Quest Tracker](#quest-tracker)
+- [Interface and quality of life](#interface-and-quality-of-life)
+
+### Quest Log window
+
+- Tabs for **Available**, **In Progress**, **Completed**, **Failed** and **Inactive** (the last one only for the GM and
+  trusted players that can edit) plus the **Rumors** tab. The tabs are a horizontal bar under the window header.
+- Every quest is a card with an accent line (in the accent color for the primary quest), its image (a placeholder when it
+  has none), labels for subquest / personal / location / creator, the hidden and primary icons and the objectives counter.
+- **Search**: every tab has a search box that filters while typing, ignoring case and accents. It looks in the name,
+  giver, location, group, labels and accepted characters; every word you type must match.
+- **Grouping**: each tab can group its quests by group, by giver or by location (alphabetical, with a quest count, a
+  click collapses the group, quests without value last). The choice and the collapsed groups are remembered.
+- The 3 dots menu of a quest has the status changes (complete, fail, set inactive, available, accept / join), delete,
+  **Duplicate quest** _(GM)_ and **Reset the quest to repeat it** _(GM)_.
+- The window menu has **Show to players** _(GM)_, which opens the Quest Log (on the selected tab) for the players.
+- Quests can be dragged to the hotbar to create a macro that opens them.
+
+### Quest window
+
+Opens by clicking a quest. Its tabs:
+
+| Tab               | Contents                                                                                           |
+|-------------------|----------------------------------------------------------------------------------------------------|
+| **Details**       | Description, objectives, rewards, giver, location, group, deadline and the characters that accepted it. |
+| **Manage Quest**  | Quest settings _(GM)_: permissions, personal quest, repeatable, "Allow players to edit", splash art, subquests. |
+| **Rumors**        | The rumors of the quest _(editors)_.                                                               |
+| **Player Notes**  | Notes that the players write; every player with access can edit them.                              |
+| **GM Notes**      | Private notes _(GM)_.                                                                              |
+| **History**       | Activity log of the quest (see [Quest history](#quest-history)).                                   |
+
+The 3 dots menu of the window has **Show in my Quest Tracker** (yes / no, available to everybody), show the splash and
+copy a link to the quest. A star in the tab bar marks the **primary quest**, a crossed eye a hidden quest and a person
+a personal quest. Descriptions and notes use a rich text editor.
+
+### Objectives
+
+- Add, edit, reorder (drag the arrows), hide / show and delete objectives _(editors)_. Click the checkbox to cycle
+  pending → completed → failed. The Quest Tracker shows them as **P** (pending), **C** (completed, green) and **F**
+  (failed, red).
+- **Optional objectives** (bonus): star entry of the menu. They show "(optional)" and do not count in the completed /
+  total of the quest.
+- **Hidden objectives**: not visible for the players. The setting _Count hidden objectives_ decides if they count in the
+  totals.
+- **Counters**: "Set the counter of the objective" gives a target ("Find the pumpkins [0/3]") with [-] / [+] buttons
+  (also in the tracker). Reaching the target completes the objective and going below it makes it pending again.
+- **Repeatable objectives**: shown with a repeat icon and the number of times completed; "Reset the objective" makes it
+  pending again with the counter at 0.
+- **Entity links**: drag an actor, item, journal, scene, roll table, macro... from the sidebar, a compendium or a sheet
+  onto an objective. Dropped on an objective being edited it becomes a link at the cursor; on another objective it is
+  appended; on the empty area it creates a new objective.
+
+### Subquests
+
+- A quest can have subquests (add them in **Manage Quest** or with the subquest button). A subquest is a quest of its own
+  and is listed under its parent in the Quest Log and in the Quest Tracker, with its own objectives.
+- Subquests are **intermixed with the objectives**: drag the sort handle to put them in any position (the order is used
+  in the Quest Tracker too).
+- A subquest can be marked as **optional** (star entry of its menu): it shows "(optional)" and does not count in the
+  objectives of its parent.
+
+### Rewards
+
+- Item rewards (drag any item onto the quest), custom rewards and, in game systems with supported currencies
+  (currently dnd5e), **currency rewards** with the "Currency" button _(GM)_. Edit the amount with the `#` button.
+- **Quantities**: an item reward can have several units ("x 3"). Dragging it onto an actor sheet asks how many to take and
+  the rest stays in the quest.
+- **Take all / Take an amount** buttons give the reward without dragging: to the character assigned to the player or, for
+  the GM, to the actor of the selected token.
+- **Choice groups** _(GM)_: rewards of the same group are alternatives; taking one closes (dims and locks) the others.
+- Rewards can be locked, hidden and reordered. The setting _Allow Player Reward Dragging_ lets players drag rewards to
+  their own actors, and _Show Reward Drop Notifications_ notifies the GM when a reward is dropped on an actor.
+
+### Quest information
+
+- **Quest giver**: drag an actor, or use a custom name and image.
+- **Location**: free text (city, region...), edited with the pencil under the giver.
+- **Group**: free text (chapter, category...) with suggestions of the groups already in use. Used to group the lists.
+- **Deadline**: optional date edited with the pencil under the group, in the world calendar or the real date depending on
+  the setting _Quest Dates_.
+- **Creator**: the GM sees who created every quest.
+- **Duplicate** a quest from its menu: it keeps the details and gets new IDs (subquests are not copied; counters,
+  characters, history and closed rewards start from scratch).
+
+### Accepting quests
+
+With the setting _Players can accept Quests_, a player moves an available quest to In Progress. The quest registers the
+**character** assigned to the player (or only the player when there is none); while it is in progress the other players
+get a button to **join it with their character**. The characters that accepted the quest are shown in the Details tab, in
+the Quest Log list and can be searched.
+
+### Rumors
+
+Rumors are loose texts about a quest that the characters can hear.
+
+- The **Rumors** tab of a quest _(editors)_ lets you add, edit and delete rumors, mark each as **heard** (struck through)
+  and show or hide it to the players. Rumors can be **optional** (star entry) and do not count to unlock.
+- When enough required rumors are heard (all of them, or the number set in "rumors needed") an **inactive quest becomes
+  available** and the connected players get a notification.
+- The **Rumors** tab of the Quest Log lists the visible rumors to the players. The GM sees all the rumors, can mark one as
+  heard by clicking its ear icon and has a search box (text or quest name).
+
+### Repeatable quests
+
+- Tick **Repeatable quest** in **Manage Quest** _(GM)_. A repeatable quest in progress, completed or failed has **Reset the
+  quest to repeat it** in its menu: it asks for confirmation, clears the objectives and counters, restores and reopens
+  the rewards that were taken (with their original locked state) and makes the quest available again, also resetting its
+  subquests. The history records every reset and the times completed.
+- Objectives can be repeatable on their own (see [Objectives](#objectives)).
+
+### Personal quests
+
+A personal quest is only seen by the players it belongs to and by the GMs. It is based on the Foundry permissions of the
+quest, so "Configure Permissions" works as usual.
+
+- In **Manage Quest** the GM can **Make personal** (choose one or more players; its subquests too), **Change players** or
+  **Make public**.
+- When a player adds a quest, a dialog asks if it is personal.
+- Everybody who sees a personal quest sees its "Personal" label; only the GM sees the names of the players.
+
+### Who can do what
+
+| Who                    | Can                                                                                                    |
+|------------------------|--------------------------------------------------------------------------------------------------------|
+| **GM**                 | Everything.                                                                                            |
+| **Player owner**       | Write player notes and accept quests (if the setting allows it); take the rewards they are allowed to take. |
+| **Player editor**      | Edit quests created by the player; quests created by the GM only if the GM ticks **Allow players to edit** in Manage Quest. |
+| **Trusted player**     | With the setting _Allow Trusted Player Quest Editing_, expanded editing and status control over the quests they own, and sees the Inactive tab. |
+
+Other related settings: _Players can create Quests_, _Default quest permission level_ and _Hide Quest Log from players_.
+
+### Quest history
+
+Each quest keeps an activity log (the newest 200 entries, with date and user) in its **History** tab: who created it,
+every change of status (accepting included), objectives completed, failed or reset, counter changes, rewards taken (with
+the amount and the actor) and resets. The setting _Quest History Visibility_ chooses between only the GM
+(default) and everybody who sees the quest; players never see entries about hidden objectives or the hidden status. The GM
+can **Clear** the history. The setting _Quest Dates_ shows the real date, and the world calendar date next to it when set
+to "world".
+
+### Quest Tracker
+
+A small floating window with the quests in progress (opened with the scene controls or `CTRL+ALT+Q`).
+
+- Each quest is a card with its objectives (collapsible with the chevron), subquests, counters and the P / C / F labels.
+  Click the title to fold it, double click to open the quest; the GM and editors toggle objectives and use the counters.
+- It opens even with no quests ("No quests available.").
+- **Per user**: remove a quest from your own tracker (button on hover) and show the removed ones again (dimmed, with a
+  restore button); this is also the "Show in my Quest Tracker" option of the quest window.
+- The **3 dots menu** of its header has: share with the players _(GM)_, primary quest only, **group by** (group / giver /
+  location / none, cycling), show removed quests and background (opaque / transparent).
+- Settings: _Quest Tracker enabled_ and _Quest Tracker Resizable_; it can be moved, pinned and resized, and the position
+  is kept.
+
+### Interface and quality of life
+
+- Built for Foundry **v14** with `ApplicationV2`, without jQuery; the Quest Log and quest windows can be minimized with a
+  double click on the title.
+- The state of the interface (collapsed groups and objectives, grouping, removed quests, tracker options) is saved per
+  user and per world in the browser and survives closing it.
+- Hooks, public API and ready-made macros for automations: see [Automation](#automation).
+- 15 languages (see [Translations](#translations)).
 
 ## Automation
 
@@ -297,28 +478,29 @@ continue to be available now and into the future.
 ## Translations
 
 The translations are the JSON files of the [lang folder](https://github.com/Gremlim/foundryvtt-quest-log/tree/master/lang).
-English and Spanish are kept up to date with each release; the other languages come from the original module and
-miss the strings added since then (the missing strings are shown in English). Translations are welcome, see
+English and Spanish are kept up to date with each release. The other 13 languages have every string of the English file; the
+strings added since the original module were translated with Claude and have not been reviewed by native speakers, so
+corrections are welcome, see
 [CONTRIBUTING](https://github.com/Gremlim/foundryvtt-quest-log/blob/master/CONTRIBUTING.md).
 
 The following Translations are available:
 
 | Language                           | Last updated version |
 |------------------------------------|----------------------|
-| Chinese (simplified / traditional) | v0.8                 |
-| Dutch                              | v0.8                 |
-| English                            | v0.25                |
-| Finnish                            | v0.8                 |
-| French                             | v0.8                 |
-| German                             | v0.8                 |
-| Italian                            | v0.8                 |
-| Japanese                           | v0.8                 |
-| Korean                             | v0.8                 |
-| Polish                             | v0.8                 |
-| Portuguese (Brazil)                | v0.8                 |
-| Russian                            | v0.8                 |
-| Spanish                            | v0.25                |
-| Swedish                            | v0.8                 |
+| Chinese (simplified / traditional) | v1.0                 |
+| Dutch                              | v1.0                 |
+| English                            | v1.0                 |
+| Finnish                            | v1.0                 |
+| French                             | v1.0                 |
+| German                             | v1.0                 |
+| Italian                            | v1.0                 |
+| Japanese                           | v1.0                 |
+| Korean                             | v1.0                 |
+| Polish                             | v1.0                 |
+| Portuguese (Brazil)                | v1.0                 |
+| Russian                            | v1.0                 |
+| Spanish                            | v1.0                 |
+| Swedish                            | v1.0                 |
 
 ## Future plans (current ideas)
 
