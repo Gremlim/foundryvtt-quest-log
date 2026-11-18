@@ -1,5 +1,9 @@
 # Changelog
 
+## Release 0.29.1
+- Cleanup of unused files: removed `forien-quest-log.lock`, the disabled workflow `release.yml.bak`, the source icons folder `assets-raw/` (including `icons-macros.xcf`), `src/typedefs.js` (JSDoc only), the source maps (`external/*.map`, `css/init.css.map`; the `sourceMappingURL` comments and the sourcemap options of the build scripts were removed too) and the `@types/jquery` dev dependency.
+- Config: removed the jQuery environment of `.eslintrc` and the references to the non existent `docs/` and `scripts/` folders in `.eslintignore`, `.gitignore` and the release workflow.
+
 ## Release 0.29.0
 - Issue #131, automation: new methods in the public API `QuestAPI` to manage quests from macros, tile triggers (Monk's Active Tiles) and other modules: `setQuestStatus`, `setObjectiveState`, `setObjectiveVisible`, `setObjectiveCount`, `hearRumor`, `setRumorVisible` and `resetQuest`, plus the read only `getQuest`, `getQuests`, `getStatus` and `isStatus`. Quests and objectives can be referenced by ID / UUID, by name or by position.
 - Players can run those methods when the new world setting "Players can run automations" is enabled: the change is sent to the connected GM, whose client makes it (a GM must be connected). It is disabled by default.

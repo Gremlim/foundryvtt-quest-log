@@ -19,7 +19,7 @@ const s_DEPLOY_PATH = './external';
 const s_DEPLOY_MINIFY = true;
 
 // Produce sourcemaps or not
-const s_SOURCEMAP = true;
+const s_SOURCEMAP = false;
 
 // Defines potential output plugins to use conditionally if the .env file indicates the bundles should be
 // minified / mangled.

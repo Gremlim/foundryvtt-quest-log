@@ -25,7 +25,6 @@
     "@rollup/plugin-node-resolve": "^15.2.0",
     "@rollup/plugin-virtual": "^3.0.0",
     "@rollup/plugin-terser": "^0.4.0",
-    "@types/jquery": "^3.5.29",
     "@typhonjs-config/eslint-config": "^0.6.0",
     "@typhonjs-fvtt/eslint-config-foundry.js": "^0.8.0",
     "autoprefixer": "^10.4.19",
@@ -42,7 +41,7 @@
     "not IE 11"
   ],
   "scripts": {
-    "build-css": "sass ./styles/init.scss ./css/init.css && postcss ./css/init.css -p sass -u autoprefixer postcss-preset-env cssnano -m -o ./css/init.css",
+    "build-css": "sass --no-source-map ./styles/init.scss ./css/init.css && postcss ./css/init.css -p sass -u autoprefixer postcss-preset-env cssnano --no-map -o ./css/init.css",
     "eslint": "eslint .",
     "rollup-external": "rollup --config"
   }
