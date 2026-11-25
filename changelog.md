@@ -1,5 +1,11 @@
 # Changelog
 
+## Release 1.0.1
+- Hidden things are for the GM only: the players (also the ones with edit permission) don't see hidden objectives, rewards, rumors or inactive quests, don't create them hidden and don't get the options to hide / show them (eye buttons, "hide all" / "show all" rewards, hide a quest, visibility of a rumor). The rumors created by a player are visible. The setting "Count Hidden Tasks" still counts the hidden objectives in the counter of the Quest Log for everyone, but the players cannot see them.
+- Objectives and rewards created by a player (for example a player with edit permission) are no longer created hidden: only the GM creates hidden objectives and rewards. Hidden objectives are not counted, so the quest of the player showed `0/0` in the Quest Log although the objectives were listed.
+- A quest created by a player is always created as "Available". The "Inactive" tab is only shown to the GM (before it was also shown to the players with edit permission).
+- The quest giver can now be written as text, without dragging an actor: new pen button next to the drag and drop area of the quest sheet. The name can be edited afterwards and the giver can still be set by dragging an actor, item or journal entry. New text translated in all the languages.
+
 ## Release 1.0.0
 - First stable release of Quest Log, with the changes since 0.9.0 (see the entries below) and installable from the manifest `https://github.com/Gremlim/foundryvtt-quest-log/releases/latest/download/module.json`.
 - The README has a new "Guide to the features" section that documents every feature added since 0.9.0, next to the "Automation" section; the translations table and the compatibility table were updated.

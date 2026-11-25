@@ -18,7 +18,7 @@
           <a class="icon-button"><i class="is-primary far fa-star pad-l-8" title="{{localize 'QuestLog.QuestPreview.Tooltips.PrimaryQuestSet'}}"></i></a>
         {{/if}}
       {{/if}}
-      {{#if isHidden}}
+      {{#if (and canHide isHidden)}}
         <a class="icon-button"><i class="is-hidden fas fa-eye-slash pad-l-8" title="{{localize 'QuestLog.Tooltips.HiddenQuestNoPlayers'}}"></i></a>
       {{/if}}
       {{#if isPersonal}}

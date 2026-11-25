@@ -278,6 +278,7 @@
         "SortObjective": "Trascina per riordinare",
         "ChangeSplashPos": "Modifica Allineamento Copertina.",
         "DeleteQuestGiver": "Elimina Assegnatario Missione.",
+        "SetGiverName": "Scrivi il nome di chi assegna la missione (senza attore).",
         "DeleteSplash": "Elimina copertina.",
         "HideAll": "Nascondi Tutto",
         "LockAll": "Blocca Tutto",

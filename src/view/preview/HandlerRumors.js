@@ -181,6 +181,8 @@ export class HandlerRumors
     */
    static async toggleVisible(event, quest, questPreview)
    {
+      if (!game.user.isGM) { return; }
+
       const rumor = quest.getRumor(event.currentTarget.dataset.rumorId);
       if (!rumor) { return; }
 

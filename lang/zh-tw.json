@@ -278,6 +278,7 @@
         "SortObjective": "拖曳以重新排序",
         "ChangeSplashPos": "改變插畫對齊方式。",
         "DeleteQuestGiver": "刪除任務給予者。",
+        "SetGiverName": "輸入任務發布者的名稱（無需角色）。",
         "DeleteSplash": "刪除插畫。",
         "HideAll": "隱藏所有",
         "LockAll": "鎖定所有",

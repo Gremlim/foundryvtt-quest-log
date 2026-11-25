@@ -394,7 +394,8 @@ export class QuestDB
 
       if (!game.user.isGM)
       {
-         data.status = Utils.isTrustedPlayerEdit() ? questStatus.inactive : questStatus.available;
+         // A quest created by a player is always available; the inactive tab is only for the GM.
+         data.status = questStatus.available;
          ownership[game.user.id] = CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER;
 
          // A personal quest (or a subquest of one) is only seen by its owner and the GM.
@@ -1388,16 +1389,8 @@ export class QuestDB
       {
          const isInactive = questStatus.inactive === content.status;
 
-         // Special handling for trusted player edit who can only see owned quests in the hidden / inactive category.
-         if (isTrustedPlayerEdit && isInactive)
-         {
-            isObservable = entry.isOwner;
-         }
-         else
-         {
-            // Otherwise no one can see hidden / inactive quests; perform user permission check for observer.
-            isObservable = !isInactive && entry.testUserPermission(game.user, CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER);
-         }
+         // Only the GM sees the hidden / inactive quests; players need observer permission for the others.
+         isObservable = !isInactive && entry.testUserPermission(game.user, CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER);
       }
 
       return isObservable;

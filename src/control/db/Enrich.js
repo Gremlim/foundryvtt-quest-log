@@ -91,7 +91,7 @@ export class Enrich
             addedAction = true;
          }
 
-         if ((canEdit && questStatus.inactive === quest.status) ||
+         if ((game.user.isGM && questStatus.inactive === quest.status) ||
           questStatus.available === quest.status)
          {
             items += `<i class="move fas fa-play" title="${game.i18n.localize(
@@ -100,7 +100,7 @@ export class Enrich
             addedAction = true;
          }
 
-         if (canEdit && questStatus.inactive !== quest.status)
+         if (game.user.isGM && questStatus.inactive !== quest.status)
          {
             items += `<i class="move fas fa-stop-circle" title="${game.i18n.localize(
              'QuestLog.QuestTypes.Tooltips.SetInactive')}" data-target="inactive" data-quest-id="${quest.id}"></i>\n`;
@@ -108,7 +108,7 @@ export class Enrich
             addedAction = true;
          }
 
-         if ((canEdit && questStatus.inactive === quest.status) ||
+         if ((game.user.isGM && questStatus.inactive === quest.status) ||
           questStatus.active === quest.status)
          {
             items += `<i class="move fas fa-clipboard" title="${game.i18n.localize(
@@ -281,9 +281,13 @@ export class Enrich
 
       const canPlayerAccept = game.settings.get(constants.moduleName, settings.allowPlayersAccept);
       const canPlayerDrag = game.settings.get(constants.moduleName, settings.allowPlayersDrag);
+      // With the setting enabled the hidden objectives are counted for everyone (the players only see the counter).
       const countHidden = game.settings.get(constants.moduleName, settings.countHidden);
 
       data.canEdit = canEdit;
+
+      // Only the GM sees and sets hidden objectives, rewards and rumors; the players never see them.
+      data.canHide = game.user.isGM;
 
       data.wrapNameLengthCSS = 'player';
       if (canPlayerAccept || playerEdit) { data.wrapNameLengthCSS = 'player-edit'; }
@@ -520,7 +524,7 @@ export class Enrich
          };
       }));
 
-      if (!canEdit)
+      if (!game.user.isGM)
       {
          data.data_tasks = data.data_tasks.filter((t) => t.hidden === false);
          data.data_rewards = data.data_rewards.filter((r) => r.hidden === false);
@@ -563,7 +567,7 @@ export class Enrich
       data.data_history = data.canViewHistory ? Enrich.#history(quest) : [];
 
       // The rumors of the quest (#82); managed in the rumors tab by those who can edit the quest.
-      data.data_rumors = quest.rumors.map((r) => ({ ...r }));
+      data.data_rumors = quest.rumors.filter((r) => game.user.isGM || r.visible).map((r) => ({ ...r }));
       data.rumorsRequired = quest.rumorsRequired;
       data.rumorProgress = quest.getRumorProgress();
       data.rumorProgressLabel = game.i18n.format('QuestLog.QuestPreview.Rumors.Counter',

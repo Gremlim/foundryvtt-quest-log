@@ -278,6 +278,7 @@
         "SortObjective": "Dra för att ändra ordning",
         "ChangeSplashPos": "Ändra blänkarbild-justering.",
         "DeleteQuestGiver": "Ta bort uppdragsgivare.",
+        "SetGiverName": "Skriv namnet på uppdragsgivaren (utan aktör).",
         "DeleteSplash": "Ta bort blänkar-bild.",
         "HideAll": "Dölj Alla",
         "LockAll": "Lås allt",

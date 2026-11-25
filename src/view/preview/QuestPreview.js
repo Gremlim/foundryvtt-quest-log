@@ -322,6 +322,9 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
       on(domEvents.click, '.quest-giver-gc .toggleImage', async () =>
        await HandlerDetails.questGiverToggleImage(this.#quest, this), editOrPlayerEdit);
 
+      on(domEvents.click, '.quest-giver-gc .setGiverText', async () =>
+       await HandlerDetails.questGiverSetText(this.#quest, this), editOrPlayerEdit);
+
       on(domEvents.click, '.quest-giver-gc .deleteQuestGiver', async () =>
        await HandlerDetails.questGiverDelete(this.#quest, this), editOrPlayerEdit);
 
@@ -360,7 +363,7 @@ export class QuestPreview extends HandlebarsApplicationMixin(ApplicationV2)
       // GM / trusted player w/ edit ----------------------------------------------------------------------------------
 
       on(domEvents.click, '.quest-giver-name .actions-single .editable', (event) =>
-       HandlerDetails.questGiverCustomEditName(event, this.#quest, this), edit);
+       HandlerDetails.questGiverCustomEditName(event, this.#quest, this), editOrPlayerEdit);
 
       on(domEvents.click, '.quest-giver-gc .drop-info', () =>
        HandlerDetails.questGiverCustomSelectImage(this.#quest, this), edit);

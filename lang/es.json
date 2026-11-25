@@ -278,6 +278,7 @@
         "SortObjective": "Arrastrar para reordenar",
         "ChangeSplashPos": "Cambiar la alineación de la imagen de misión.",
         "DeleteQuestGiver": "Eliminar dador de misiones.",
+        "SetGiverName": "Escribir el nombre del dador de la misión (sin actor).",
         "DeleteSplash": "Eliminar imagen de misión.",
         "HideAll": "Ocultar Todo",
         "LockAll": "Bloquear Todo",

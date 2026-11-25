@@ -293,6 +293,40 @@ export class HandlerDetails
    }
 
    /**
+    * Sets the quest giver as a text, without an actor or image.
+    *
+    * @param {Quest}          quest - The current quest being manipulated.
+    *
+    * @param {QuestPreview}   questPreview - The QuestPreview being manipulated.
+    *
+    * @returns {Promise<void>}
+    */
+   static async questGiverSetText(quest, questPreview)
+   {
+      const title = game.i18n.localize('QuestLog.QuestPreview.Tooltips.SetGiverName');
+
+      const result = await foundry.applications.api.DialogV2.prompt({
+         window: { title },
+         content: `<div class="form-group stacked"><input type="text" name="text" maxlength="36" autofocus></div>`,
+         ok: {
+            label: game.i18n.localize('QuestLog.QuestPreview.Buttons.Accept'),
+            callback: (event, button) => String(button.form.elements.text.value ?? '').trim()
+         },
+         rejectClose: false,
+         modal: true
+      });
+
+      if (typeof result !== 'string' || !result.length) { return; }
+
+      quest.giver = 'text';
+      quest.image = 'actor';
+      quest.giverName = result;
+      quest.giverData = await Quest.giverFromQuest(quest);
+
+      await questPreview.saveQuest();
+   }
+
+   /**
     * @param {Quest}          quest - The current quest being manipulated.
     *
     * @param {QuestPreview}   questPreview - The QuestPreview being manipulated.
@@ -338,6 +372,9 @@ export class HandlerDetails
          {
             quest.giver = uuid;
             quest.giverData = giverData;
+
+            // A custom image path or a text giver left a value that is not an image type.
+            if (quest.image !== 'actor' && quest.image !== 'token') { quest.image = 'actor'; }
             await questPreview.saveQuest();
          }
          else
@@ -507,7 +544,7 @@ export class HandlerDetails
                   name: value,
                   img: game.settings.get(constants.moduleName, settings.defaultAbstractRewardImage)
                },
-               hidden: true,
+               hidden: game.user.isGM,
                type: 'Abstract'
             });
          }
@@ -641,7 +678,7 @@ export class HandlerDetails
             const actor = await Quest.giverFromUUID(uuid);
             if (actor)
             {
-               quest.addReward({ type: 'Actor', data: actor, hidden: true });
+               quest.addReward({ type: 'Actor', data: actor, hidden: game.user.isGM });
                await questPreview.saveQuest();
             }
             else
@@ -659,7 +696,7 @@ export class HandlerDetails
             const item = await Quest.giverFromUUID(uuid);
             if (item)
             {
-               quest.addReward({ type: 'Item', data: item, hidden: true });
+               quest.addReward({ type: 'Item', data: item, hidden: game.user.isGM });
                await questPreview.saveQuest();
             }
             else
@@ -688,6 +725,8 @@ export class HandlerDetails
     */
    static async rewardsHideAll(quest, questPreview)
    {
+      if (!game.user.isGM) { return; }
+
       for (const reward of quest.rewards) {  reward.hidden = true; }
       if (quest.rewards.length) { await questPreview.saveQuest(); }
    }
@@ -746,6 +785,8 @@ export class HandlerDetails
     */
    static async rewardsShowAll(quest, questPreview)
    {
+      if (!game.user.isGM) { return; }
+
       for (const reward of quest.rewards) {  reward.hidden = false; }
       if (quest.rewards.length) { await questPreview.saveQuest(); }
    }
@@ -853,7 +894,7 @@ export class HandlerDetails
             type: 'Currency',
             data: { currency: currency.id, name: currency.label, img: Currency.IMAGE },
             quantity: choice.amount,
-            hidden: true
+            hidden: game.user.isGM
          });
       }
 
@@ -976,6 +1017,8 @@ export class HandlerDetails
     */
    static async rewardToggleHidden(event, quest, questPreview)
    {
+      if (!game.user.isGM) { return; }
+
       const uuidv4 = Utils.data(event.target, 'uuidv4');
       const reward = quest.getReward(uuidv4);
       if (reward)
@@ -1115,7 +1158,7 @@ export class HandlerDetails
          const value = event.target.value;
          if (value !== void 0 && value.length)
          {
-            quest.addTask({ name: value, hidden: questPreview.canEdit });
+            quest.addTask({ name: value, hidden: game.user.isGM && questPreview.canEdit });
          }
          await questPreview.saveQuest();
       });
@@ -1323,7 +1366,7 @@ export class HandlerDetails
       }
       else if (!li)
       {
-         quest.addTask({ name: link, hidden: questPreview.canEdit });
+         quest.addTask({ name: link, hidden: game.user.isGM && questPreview.canEdit });
       }
       else { return; }
 
@@ -1361,6 +1404,8 @@ export class HandlerDetails
     */
    static async taskToggleHidden(event, quest, questPreview)
    {
+      if (!game.user.isGM) { return; }
+
       const uuidv4 = Utils.data(event.target, 'uuidv4');
       const task = quest.getTask(uuidv4);
       if (task)

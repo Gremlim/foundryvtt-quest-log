@@ -278,6 +278,7 @@
         "SortObjective": "Glisser pour réorganiser",
         "ChangeSplashPos": "Modifier l'alignement de l'image d'illustration.",
         "DeleteQuestGiver": "Supprimer le commanditaire.",
+        "SetGiverName": "Saisir le nom du donneur de quête (sans acteur).",
         "DeleteSplash": "Supprimer l'illustration.",
         "HideAll": "Tout cacher",
         "LockAll": "Tout verrouiller",

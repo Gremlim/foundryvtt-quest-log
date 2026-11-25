@@ -278,6 +278,7 @@
         "SortObjective": "Drag to reorder",
         "ChangeSplashPos": "Change splash art alignment.",
         "DeleteQuestGiver": "Delete quest giver.",
+        "SetGiverName": "Write the name of the quest giver (without an actor).",
         "DeleteSplash": "Delete splash art.",
         "HideAll": "Hide All",
         "LockAll": "Lock All",

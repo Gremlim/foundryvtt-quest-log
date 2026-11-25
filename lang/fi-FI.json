@@ -278,6 +278,7 @@
         "SortObjective": "Järjestä vetämällä",
         "ChangeSplashPos": "Muuta kansikuvan tasausta.",
         "DeleteQuestGiver": "Poista tehtävänantaja.",
+        "SetGiverName": "Kirjoita tehtävänantajan nimi (ilman hahmoa).",
         "DeleteSplash": "Poista kansikuva.",
         "HideAll": "Piilota kaikki",
         "LockAll": "Lukitse kaikki",

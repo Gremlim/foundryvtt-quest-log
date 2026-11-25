@@ -5,7 +5,7 @@
     <a class="item" data-action="tab" data-group="primary" data-tab="active">{{localize 'QuestLog.QuestTypes.Labels.Active'}}</a>
     <a class="item" data-action="tab" data-group="primary" data-tab="completed">{{localize 'QuestLog.QuestTypes.Labels.Completed'}}</a>
     <a class="item" data-action="tab" data-group="primary" data-tab="failed">{{localize 'QuestLog.QuestTypes.Labels.Failed'}}</a>
-    {{#if (or isGM isTrustedPlayerEdit)}}
+    {{#if isGM}}
       <a class="item" data-action="tab" data-group="primary" data-tab="inactive">{{localize 'QuestLog.QuestTypes.Labels.InActive'}}</a>
     {{/if}}
   </nav>
@@ -25,7 +25,7 @@
     <div class="tab failed" data-group="primary" data-tab="failed">
       {{> "modules/quest-log/templates/partials/quest-log/tab.html" tab="failed" groups=groups.failed groupBy=groupBy.failed}}
     </div>
-    {{#if (or isGM isTrustedPlayerEdit)}}
+    {{#if isGM}}
       <div class="tab inactive" data-group="primary" data-tab="inactive">
         {{> "modules/quest-log/templates/partials/quest-log/tab.html" tab="inactive" groups=groups.inactive groupBy=groupBy.inactive}}
       </div>

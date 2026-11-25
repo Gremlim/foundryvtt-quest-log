@@ -278,6 +278,7 @@
         "SortObjective": "Zum Umsortieren ziehen",
         "ChangeSplashPos": "Splash-Bildausrichtung ändern.",
         "DeleteQuestGiver": "Questgeber löschen.",
+        "SetGiverName": "Namen des Questgebers eingeben (ohne Akteur).",
         "DeleteSplash": "Splash Art löschen.",
         "HideAll": "Alle verbergen",
         "LockAll": "Alle sperren",

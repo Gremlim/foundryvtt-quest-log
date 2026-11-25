@@ -18,10 +18,12 @@
           <div class="actions rumors has-menu">
             <span class="actions-menu"><i class="menu-toggle fas fa-ellipsis-vertical" title="{{localize 'QuestLog.Tooltips.Actions'}}"></i><span class="menu-items">
               <i class="{{#if optional}}fas{{else}}far{{/if}} fa-star rumor-optional" data-rumor-id="{{uuidv4}}" title="{{#if optional}}{{localize 'QuestLog.QuestPreview.Rumors.MakeOptional'}}{{else}}{{localize 'QuestLog.QuestPreview.Rumors.MakeRequired'}}{{/if}}"></i>
+              {{#if @root.canHide}}
               {{#if visible}}
                 <i class="fas fa-eye rumor-visible" data-rumor-id="{{uuidv4}}" title="{{localize 'QuestLog.QuestPreview.Rumors.Visible'}}"></i>
               {{else}}
                 <i class="fas fa-eye-slash rumor-visible" data-rumor-id="{{uuidv4}}" title="{{localize 'QuestLog.QuestPreview.Rumors.Hidden'}}"></i>
+              {{/if}}
               {{/if}}
               <i class="fas fa-pen rumor-edit" data-rumor-id="{{uuidv4}}" title="{{localize 'QuestLog.Tooltips.Edit'}}"></i>
               <i class="fas fa-trash rumor-delete" data-rumor-id="{{uuidv4}}" title="{{localize 'QuestLog.Tooltips.Delete'}}"></i>

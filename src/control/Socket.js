@@ -341,6 +341,9 @@ export class Socket
     */
    static async setQuestStatus({ quest, target })
    {
+      // Only the GM can make a quest hidden / inactive.
+      if (!game.user.isGM && target === questStatus.inactive) { return; }
+
       let handled = false;
 
       // If the current user is a GM or trusted player with edit capability and owner of the quest immediately perform

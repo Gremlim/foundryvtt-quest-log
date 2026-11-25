@@ -278,6 +278,7 @@
         "SortObjective": "Sleep om te herschikken",
         "ChangeSplashPos": "Omslagfoto-uitlijning wijzigen.",
         "DeleteQuestGiver": "Missiegever verwijderen.",
+        "SetGiverName": "Schrijf de naam van de opdrachtgever (zonder acteur).",
         "DeleteSplash": "Omslagfoto verwijderen.",
         "HideAll": "Alles verbergen",
         "LockAll": "Alles vergrendelen",

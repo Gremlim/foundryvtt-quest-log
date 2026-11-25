@@ -186,7 +186,7 @@ export class QuestLog extends HandlebarsApplicationMixin(ApplicationV2)
       ActionMenu.close();
 
       // Determine the tab to show. Only GMs or trusted players w/ edit may view the inactive tab.
-      const canViewInactive = game.user.isGM || Utils.isTrustedPlayerEdit();
+      const canViewInactive = game.user.isGM;
 
       let tabId = this.tabGroups.primary ?? 'active';
 

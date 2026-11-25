@@ -278,6 +278,7 @@
         "SortObjective": "Arraste para reordenar",
         "ChangeSplashPos": "Modificar o alinhamento da imagem de ilustração.",
         "DeleteQuestGiver": "Excluir entragor da missão.",
+        "SetGiverName": "Escreva o nome de quem dá a missão (sem ator).",
         "DeleteSplash": "Excluir a ilustração.",
         "HideAll": "Esconder Tudo",
         "LockAll": "Bloquear Tudo",

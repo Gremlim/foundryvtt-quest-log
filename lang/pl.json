@@ -278,6 +278,7 @@
         "SortObjective": "Przeciągnij, aby zmienić kolejność",
         "ChangeSplashPos": "Zmień pozycję obrazu powitalnego.",
         "DeleteQuestGiver": "Usuń zleceniodawcę misji.",
+        "SetGiverName": "Wpisz nazwę zleceniodawcy zadania (bez aktora).",
         "DeleteSplash": "Usuń grafikę pluśnięcie.",
         "HideAll": "Schowaj wszystko",
         "LockAll": "Zablokuj wszystko",

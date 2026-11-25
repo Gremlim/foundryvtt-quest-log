@@ -278,6 +278,7 @@
         "SortObjective": "ドラッグして並べ替え",
         "ChangeSplashPos": "画像の位置を調整。",
         "DeleteQuestGiver": "クエスト依頼主削除。",
+        "SetGiverName": "クエスト依頼者の名前を入力（アクターなし）。",
         "DeleteSplash": "カバー画像を削除します。",
         "HideAll": "全非表示",
         "LockAll": "全ロック",

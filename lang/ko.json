@@ -278,6 +278,7 @@
         "SortObjective": "끌어서 순서 변경",
         "ChangeSplashPos": "스플래시 아트 정렬 변경.",
         "DeleteQuestGiver": "퀘스트 제공자 제거.",
+        "SetGiverName": "퀘스트 의뢰인의 이름을 입력하세요 (액터 없이).",
         "DeleteSplash": "스플래시 아트 제거.",
         "HideAll": "모두 숨기기",
         "LockAll": "모두 잠그다",

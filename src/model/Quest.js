@@ -72,6 +72,15 @@ export class Quest
             hasTokenImg: false
          };
       }
+      else if (quest.giver === 'text')
+      {
+         // Only the name of the giver, without an actor.
+         data = {
+            name: quest.giverName,
+            img: '',
+            hasTokenImg: false
+         };
+      }
       else if (typeof quest.giver === 'string')
       {
          data = Quest.giverFromUUID(quest.giver, quest.image);
@@ -266,10 +275,7 @@ export class Quest
 
       const isInactive = this.isInactive;
 
-      // Special handling for trusted player edit who can only see owned quests in the hidden / inactive category.
-      if (Utils.isTrustedPlayerEdit() && isInactive) { return this.isOwner; }
-
-      // Otherwise no one can see hidden / inactive quests; perform user permission check for observer.
+      // Only the GM sees the hidden / inactive quests; players need observer permission for the others.
       return !isInactive && this.entry.testUserPermission(game.user, CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER);
    }
 
@@ -1047,7 +1053,7 @@ export class Quest
       const value = String(text ?? '').trim();
       if (!value) { return null; }
 
-      const rumor = { uuidv4: foundry.utils.randomID(), text: value, heard: false, visible: false, optional: false };
+      const rumor = { uuidv4: foundry.utils.randomID(), text: value, heard: false, visible: !game.user.isGM, optional: false };
       this.rumors.push(rumor);
       return rumor;
    }
@@ -1756,7 +1762,7 @@ export class Task
  *
  * @property {string}            status - The quest status; one of {@link questStatus}.
  *
- * @property {string|null}       giver - The Foundry UUID or 'abstract' for a custom source.
+ * @property {string|null}       giver - The Foundry UUID or 'abstract' for a custom source or 'text' for a name without actor.
  *
  * @property {QuestImgNameData}  giverData - The Foundry image / name data looked up by UUID.
  *

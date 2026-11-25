@@ -278,6 +278,7 @@
         "SortObjective": "拖动以重新排序",
         "ChangeSplashPos": "更改插画对齐。",
         "DeleteQuestGiver": "删除发布者。",
+        "SetGiverName": "输入任务发布者的名称（无需角色）。",
         "DeleteSplash": "删除插画。",
         "HideAll": "全部藏起来",
         "LockAll": "锁定所有",
